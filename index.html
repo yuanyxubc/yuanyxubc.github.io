@@ -744,9 +744,89 @@ a:hover { color: var(--accent-light); }
   font-size: 14.5px;
   line-height: 1.5;
 }
+
+/* Password Modal */
+.pw-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(6px);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+.pw-overlay.active { display: flex; }
+.pw-box {
+  background: var(--bg);
+  border-radius: 16px;
+  padding: 36px 40px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  text-align: center;
+  max-width: 380px;
+  width: 90%;
+}
+.pw-box h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: var(--accent);
+}
+.pw-box p {
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+.pw-box input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  box-sizing: border-box;
+  margin-bottom: 14px;
+  transition: border-color 0.2s;
+}
+.pw-box input:focus { border-color: var(--accent); }
+.pw-box .pw-error {
+  color: #c0392b;
+  font-size: 13px;
+  margin-bottom: 10px;
+  display: none;
+}
+.pw-box button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 10px 28px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.pw-box button:hover { opacity: 0.85; }
+.pw-box .pw-cancel {
+  background: transparent;
+  color: var(--text-secondary);
+  margin-left: 10px;
+}
 </style>
 </head>
 <body>
+
+<!-- Password Modal -->
+<div class="pw-overlay" id="pwOverlay">
+  <div class="pw-box">
+    <h3>🔒 Access Protected Content</h3>
+    <p id="pwDesc">Please enter the password to continue.</p>
+    <div class="pw-error" id="pwError">Incorrect password. Please try again.</div>
+    <input type="password" id="pwInput" placeholder="Enter password..." onkeydown="if(event.key==='Enter')checkPw()">
+    <div>
+      <button onclick="checkPw()">Confirm</button>
+      <button class="pw-cancel" onclick="closePw()">Cancel</button>
+    </div>
+  </div>
+</div>
 
 <div class="wrapper">
 
@@ -756,7 +836,7 @@ a:hover { color: var(--accent-light); }
   <h1>Yuanyuan Xu</h1>
   <div class="cn-name">徐园园</div>
   <div class="tagline" data-i18n="tagline">
-    Interactive Media · Game-Based Learning · Sustainability · Cross-Cultural HCI
+    Playful Interactive Media · Game-Based Learning · Sustainability · Cross-Cultural HCI
   </div>
   <div class="affiliation" data-i18n="affiliation">
     <strong>Ph.D. Student</strong><br>
@@ -774,12 +854,12 @@ a:hover { color: var(--accent-light); }
     <a onclick="showPage('research')" data-i18n="nav_research"><span class="nav-num">02</span>Research</a>
     <a onclick="showPage('publications')" data-i18n="nav_pub"><span class="nav-num">03</span>Publications</a>
     <a onclick="showPage('experience')" data-i18n="nav_exp"><span class="nav-num">04</span>Experience</a>
-    <a onclick="showPage('creative')" data-i18n="nav_creative"><span class="nav-num">05</span>Creative Works</a>
+    <a onclick="protectedAction('creative')" data-i18n="nav_creative"><span class="nav-num">05</span>Creative Works</a>
     <a onclick="showPage('service')" data-i18n="nav_service"><span class="nav-num">06</span>Service &amp; Awards</a>
   </nav>
 
   <div class="sidebar-links">
-    <a href="mailto:yuanyxu@student.ubc.ca">
+    <a href="#" onclick="protectedAction('email'); return false;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 4 10 8 10-8"/></svg>
       Email
     </a>
@@ -791,11 +871,11 @@ a:hover { color: var(--accent-light); }
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947s-.422.947-.947.947a.95.95 0 0 1-.947-.947c0-.525.422-.947.947-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.025-5.325 5.025h-3.919V7.416zm1.444 1.303v7.444h2.297c3.272 0 4.022-2.484 4.022-3.722 0-1.547-.834-3.722-3.806-3.722h-2.513z"/></svg>
       ORCID
     </a>
-    <a href="https://www.linkedin.com/in/xuyuanyuan/" target="_blank">
+    <a href="#" onclick="protectedAction('linkedin'); return false;">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.47 2H3.53A1.45 1.45 0 0 0 2 3.47v17.06A1.45 1.45 0 0 0 3.47 22h17.06A1.45 1.45 0 0 0 22 20.53V3.47A1.45 1.45 0 0 0 20.47 2zM8.09 18.74H5.13V9.64h2.96zM6.6 8.48a1.56 1.56 0 1 1 0-3.12 1.56 1.56 0 1 1 0 3.12zm12.32 10.26h-2.95v-4.76c0-1.12-.04-2.57-1.56-2.57-1.56 0-1.8 1.22-1.8 2.49v4.84H9.66V9.64h2.84v1.3h.04a3.11 3.11 0 0 1 2.8-1.54c3 0 3.55 1.97 3.55 4.54v4.8z"/></svg>
       LinkedIn
     </a>
-    <a href="YuanyuanXu_CV.pdf" target="_blank" id="cv-link">
+    <a href="#" onclick="protectedAction('cv'); return false;" id="cv-link">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
       CV
     </a>
@@ -834,7 +914,7 @@ a:hover { color: var(--accent-light); }
     </li>
     <li>
       <span class="news-date">Jun 2026</span>
-      <span class="news-text">Three papers accepted at the <strong>Digital Games Research Association Conference (DiGRA) 2026</strong> (two first-authored, one co-authored) — on eco-game teacher integration and designing for environmental resilience in the Okanagan <span class="badge green">Upcoming</span></span>
+      <span class="news-text">Three papers accepted at the <strong>Digital Games Research Association Conference (DiGRA) 2026</strong>: <em>The Absent Teacher in Eco-Games</em>, <em>From Resource to Kin</em> (first-authored), and <em>Re-evaluating Hyper-Realism in VR Game Design</em> (co-authored) <span class="badge green">Upcoming</span></span>
     </li>
     <li>
       <span class="news-date">Mar 2026</span>
@@ -842,7 +922,7 @@ a:hover { color: var(--accent-light); }
     </li>
     <li>
       <span class="news-date">Jun 2026</span>
-      <span class="news-text">Presenting three papers at <strong>HCI International Conference (HCII) 2026</strong> in Montréal (Springer LNCS/CCIS) — ecological empathy in 3D games, animation design philosophy, and Soulslike game experience <span class="badge green">Upcoming</span></span>
+      <span class="news-text">Presenting three papers at <strong>HCI International Conference (HCII) 2026</strong> in Montréal (Springer LNCS/CCIS): <em>Mapping Ecological Empathy</em>, <em>Animation Design Philosophy in 3D Educational Games</em>, and <em>Struggle as Flow</em> <span class="badge green">Upcoming</span></span>
     </li>
     <li>
       <span class="news-date">Aug 2025</span>
@@ -1065,7 +1145,7 @@ a:hover { color: var(--accent-light); }
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">Re-evaluating the Pursuit of Hyper-Realism in VR Game Design Through Ludo-Proprioceptive Dissonance</div>
+    <div class="pub-title"><span class="cn-pub-title">重新审视 VR 游戏设计中对超写实主义的追求：游戏-本体感觉失调</span>Re-evaluating the Pursuit of Hyper-Realism in VR Game Design Through Ludo-Proprioceptive Dissonance</div>
     <div class="pub-authors">Z. Sun, <span class="me">Y. Xu</span>, Y.-S. Lin, P. Lasserre, A. Dulic, M. Smith</div>
     <div class="pub-venue">DiGRA 2026</div>
     <div class="pub-tags"><span class="pub-tag conf">Conference</span><span class="pub-tag inpress">In Press</span></div>
@@ -1073,29 +1153,29 @@ a:hover { color: var(--accent-light); }
 
   <h4 data-i18n="h_patents">Patents</h4>
   <div class="pub-item">
-    <div class="pub-title">FPGA-Based Vision Method for Blind Navigation (CN110070514B)</div>
+    <div class="pub-title"><span class="cn-pub-title">基于 FPGA 的视觉盲人导航方法 (CN110070514B)</span>FPGA-Based Vision Method for Blind Navigation (CN110070514B)</div>
     <div class="pub-authors">X. Sun, H. Chu, S. Chen, T. Yang, L. Hong, <span class="me">Y. Xu</span></div>
-    <div class="pub-venue">Chinese Patent Office <span class="pub-year">· 2023</span></div>
+    <div class="pub-venue"><span class="cn-pub-title">中国国家知识产权局</span>Chinese Patent Office <span class="pub-year">· 2023</span></div>
   </div>
 
   <h4 data-i18n="h_pres">Presentations</h4>
   <div class="pub-item">
-    <div class="pub-title">Situated Bodies, Wandering Minds: Games, Growth, and Wayfinding Across Cultures</div>
+    <div class="pub-title"><span class="cn-pub-title">身处此地，神游彼方：游戏、成长与跨文化寻路</span>Situated Bodies, Wandering Minds: Games, Growth, and Wayfinding Across Cultures</div>
     <div class="pub-authors"><span class="me">Y. Xu</span>, Y.-S. Lin</div>
     <div class="pub-venue">ACM SIGGRAPH Conference on Computer Graphics and Interactive Techniques (SIGGRAPH) 2025, Vancouver — Birds of a Feather (BOF) Session <span class="pub-year">· 2025</span></div>
   </div>
   <div class="pub-item">
-    <div class="pub-title">Creativity for Sensational Perception</div>
+    <div class="pub-title"><span class="cn-pub-title">感官知觉的创造力</span>Creativity for Sensational Perception</div>
     <div class="pub-authors"><span class="me">Y. Xu</span></div>
     <div class="pub-venue">HCI International Conference (HCII) 2024, Washington DC <span class="pub-year">· 2024</span></div>
   </div>
   <div class="pub-item">
-    <div class="pub-title">Graduate Commencement Speech</div>
+    <div class="pub-title"><span class="cn-pub-title">毕业典礼致辞</span>Graduate Commencement Speech</div>
     <div class="pub-authors"><span class="me">Y. Xu</span></div>
     <div class="pub-venue">Tongji University Graduation Ceremony <span class="pub-year">· Jul 2023</span></div>
   </div>
   <div class="pub-item">
-    <div class="pub-title">Graduate Commencement Speech</div>
+    <div class="pub-title"><span class="cn-pub-title">毕业典礼致辞</span>Graduate Commencement Speech</div>
     <div class="pub-authors"><span class="me">Y. Xu</span></div>
     <div class="pub-venue">East China University of Science and Technology Graduation Ceremony <span class="pub-year">· Jul 2020</span></div>
   </div>
@@ -1130,14 +1210,6 @@ a:hover { color: var(--accent-light); }
     <div class="details">GPA: 3.7/4.0, Rank first in major for 4 consecutive years. National Scholarship (Top 0.2%, ¥8,000). Cheng Si-wei Honorary Principal's Scholarship (Top 1%). Grand Prize Academic Scholarship (5 consecutive semesters). Person of the Year Nominee. Role Model Ambassador. Shanghai Outstanding Graduate (Top 2%). Graduate Commencement Speaker (2020). TA for Shanghai Municipal Premium Course in Design Graphics.</div>
   </div>
 
-  <h4 data-i18n="h_training">Professional Training</h4>
-  <div class="timeline-item">
-    <div class="period">2023 – 2025</div>
-    <div class="role">Diploma in Game Design, Animation, and VFX</div>
-    <div class="org">Think Tank Training Centre, Vancouver</div>
-    <div class="details">Full-cycle game production pipeline — concept art through release. 3D animation, VFX, and game design.</div>
-  </div>
-
   <h4 data-i18n="h_research_roles">Current Research Roles</h4>
   <div class="timeline-item">
     <div class="period">Sep 2025 – present</div>
@@ -1164,6 +1236,14 @@ a:hover { color: var(--accent-light); }
     <div class="role">Teaching Assistant — Design Graphics (Shanghai Municipal Premium Course)</div>
     <div class="org">East China University of Science and Technology, Shanghai</div>
     <div class="details">Assisted in delivering a provincially recognised design graphics course. Supported students in technical drawing, digital illustration, and design fundamentals.</div>
+  </div>
+
+  <h4 data-i18n="h_training">Professional Training</h4>
+  <div class="timeline-item">
+    <div class="period">2023 – 2025</div>
+    <div class="role">Diploma in Game Design, Animation, and VFX</div>
+    <div class="org">Think Tank Training Centre, Vancouver</div>
+    <div class="details">Full-cycle game production pipeline — concept art through release. 3D animation, VFX, and game design.</div>
   </div>
 
   <h4 data-i18n="h_industry">Industry</h4>
@@ -1362,7 +1442,7 @@ function showPage(id) {
 const i18n = {
   cn: {
     // Sidebar
-    tagline: '交互媒体 · 游戏化学习 · 可持续发展 · 跨文化人机交互',
+    tagline: '趣味交互媒体 · 游戏化学习 · 可持续发展 · 跨文化人机交互',
     affiliation: '<strong>博士研究生</strong><br>跨学科研究<br>创意与批判研究学院<br>不列颠哥伦比亚大学 (UBC)',
     // Nav
     nav_about: '<span class="nav-num">01</span>关于',
@@ -1377,7 +1457,7 @@ const i18n = {
     about_intro: '<strong>我的研究关注交互媒体与游戏如何连接不同文化的知识体系、唤起生态意识，并促进参与式学习</strong> — 研究领域横跨人机交互、游戏设计与可持续发展。<br><br>我在上海出生长大，现为不列颠哥伦比亚大学（UBC）博士研究生，联合导师为<a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank"><strong>Aleksandra Dulic 教授</strong></a>（创意与批判研究学院教授）和<a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank"><strong>Patricia Lasserre 教授</strong></a>（计算机科学副教授），与 Syilx（Okanagan）原住民社区协作共创教育游戏，汇聚多元水知识，增强青年的环境适应力。这项研究融合了原住民对话协议、参与式设计与游戏化学习方法，同时汲取了我个人的江南文化背景及长三角地区逐渐消逝的水乡记忆。<br><br>攻读博士前，我在用户体验与跨文化交互设计领域积累了扎实的基础，曾在 SAP Labs 和西门子担任产品经理，并在加拿大接受了系统的游戏行业专业培训。我的研究-创作（Research-Creation）作品涵盖 3D 动画、AR 游戏设计和沉浸式装置，曾在国际范围内展出。早年关于无障碍包容性设计的作品曾获<a href="https://www.shine.cn/news/metro/1905305710/" target="_blank"><em>上海日报</em>专题报道</a> (2019)。',
     about_keywords: '<span>参与式设计</span><span>游戏化学习</span><span>环境韧性</span><span>跨文化人机交互</span><span>严肃游戏</span><span>交互叙事</span><span>可持续发展</span>',
     h_news: '最新动态',
-    news_list: '<li><span class="news-date">2026年6月</span><span class="news-text">将在爱尔兰<strong>数字游戏研究协会年会 (DiGRA) 2026</strong> 进行博士联盟与教育分会报告 <span class="badge green">预告</span></span></li><li><span class="news-date">2026年6月</span><span class="news-text">三篇论文被<strong>数字游戏研究协会年会 (DiGRA) 2026</strong>录用（两篇第一作者，一篇合著）— 生态游戏教师整合与奥肯纳根环境韧性设计 <span class="badge green">预告</span></span></li><li><span class="news-date">2026年3月</span><span class="news-text">论文发表于 <strong>Sustainability</strong>：<a href="https://doi.org/10.3390/su18052305" target="_blank">游戏化学习促进环境韧性的系统综述</a></span></li><li><span class="news-date">2026年6月</span><span class="news-text">将在蒙特利尔<strong>国际人机交互大会 (HCII) 2026</strong> 发表三篇论文（Springer LNCS/CCIS）— 3D游戏中的生态共情、动画设计哲学、类魂游戏体验 <span class="badge green">预告</span></span></li><li><span class="news-date">2025年8月</span><span class="news-text">在温哥华 <strong>ACM 计算机图形与交互技术会议 (SIGGRAPH) 2025</strong> 发表 —「身体在场，思绪漫游」（Birds of a Feather 分会）</span></li><li><span class="news-date">2025年4月</span><span class="news-text">获 <strong>国际计算机学会人因与计算系统会议 (ACM CHI) 2025</strong> 两项<strong>杰出审稿人</strong>荣誉</span></li><li><span class="news-date">2025年9月</span><span class="news-text">入读 <strong>UBC</strong> 跨学科研究博士项目</span></li>',
+    news_list: '<li><span class="news-date">2026年6月</span><span class="news-text">将在爱尔兰<strong>数字游戏研究协会年会 (DiGRA) 2026</strong> 进行博士联盟与教育分会报告 <span class="badge green">预告</span></span></li><li><span class="news-date">2026年6月</span><span class="news-text">三篇论文被<strong>数字游戏研究协会年会 (DiGRA) 2026</strong>录用：<em>生态游戏中缺席的教师</em>、<em>从资源到亲属</em>（第一作者），<em>VR 游戏设计中的超写实追求</em>（合著） <span class="badge green">预告</span></span></li><li><span class="news-date">2026年3月</span><span class="news-text">论文发表于 <strong>Sustainability</strong>：<a href="https://doi.org/10.3390/su18052305" target="_blank">游戏化学习促进环境韧性的系统综述</a></span></li><li><span class="news-date">2026年6月</span><span class="news-text">将在蒙特利尔<strong>国际人机交互大会 (HCII) 2026</strong> 发表三篇论文（Springer LNCS/CCIS）— <em>生态共情图谱</em>、<em>3D 教育游戏中的动画设计哲学</em>、<em>挣扎即心流</em> <span class="badge green">预告</span></span></li><li><span class="news-date">2025年8月</span><span class="news-text">在温哥华 <strong>ACM 计算机图形与交互技术会议 (SIGGRAPH) 2025</strong> 发表 —「身体在场，思绪漫游」（Birds of a Feather 分会）</span></li><li><span class="news-date">2025年4月</span><span class="news-text">获 <strong>国际计算机学会人因与计算系统会议 (ACM CHI) 2025</strong> 两项<strong>杰出审稿人</strong>荣誉</span></li><li><span class="news-date">2025年9月</span><span class="news-text">入读 <strong>UBC</strong> 跨学科研究博士项目</span></li>',
     // Research
     h_research: '研究',
     sub_research: '探索交互媒体与游戏如何汇聚多元知识体系，增强环境适应力',
@@ -1405,7 +1485,7 @@ const i18n = {
     h_research_roles: '当前研究岗位',
     h_teaching: '教学经历',
     h_industry: '行业经历',
-    exp_content: '<h4>教育背景</h4><div class="timeline-item"><div class="period">2025 – 2029（预计）</div><div class="role">跨学科研究博士</div><div class="org">不列颠哥伦比亚大学 (UBC)</div><div class="details">创意与批判研究学院。联合导师：<a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank">Aleksandra Dulic 教授</a>（创意与批判研究学院教授）、<a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank">Patricia Lasserre 教授</a>（计算机科学副教授）。研究方向：协作共创教育游戏以汇聚奥肯纳根水知识。全额资助：OGRS (CAD $25,000/年) 及 IDPT 学费减免。</div></div><div class="timeline-item"><div class="period">2020 – 2023</div><div class="role">工学硕士（设计学）</div><div class="org">同济大学设计创意学院，上海</div><div class="details">全额学业奖学金（¥32,000）。2023年毕业典礼学生代表致辞。课程：批判性思维、设计研究中的数据分析、协同设计项目、信息设计与可视化、参数化设计、用户体验设计。</div></div><div class="timeline-item"><div class="period">2016 – 2020</div><div class="role">文学学士（产品设计）</div><div class="org">华东理工大学，上海</div><div class="details">GPA：3.7/4.0，连续四年专业排名第一。国家奖学金（前0.2%，¥8,000）。成思危名誉校长奖学金（前1%）。特等学业奖学金（连续5学期）。年度人物提名。「榜样力量」代言人。上海市优秀毕业生（前2%）。2020年毕业典礼学生代表致辞。上海市精品课程「设计图学」助教。</div></div><h4>专业培训</h4><div class="timeline-item"><div class="period">2023 – 2025</div><div class="role">游戏设计、动画与视觉特效文凭</div><div class="org">Think Tank Training Centre，温哥华</div><div class="details">系统学习全流程游戏制作管线（从概念设计到产品上线），专攻 3D 动画、视觉特效与游戏设计。</div></div><h4>当前研究岗位</h4><div class="timeline-item"><div class="period">2025年9月 – 至今</div><div class="role">研究助理 — 文化与技术中心</div><div class="org">不列颠哥伦比亚大学</div><div class="details">参与 Beaver Worlds 研究项目，聚焦奥肯纳根水治理与原住民知识动员，工作涵盖参与式游戏设计、社区协作以及生态数据可视化。</div></div><h4>教学经历</h4><div class="timeline-item"><div class="period">2026年1月 – 至今</div><div class="role">助教 — CCS 325：人工智能与创意</div><div class="org">不列颠哥伦比亚大学</div><div class="details">协助人工智能创意实践课程的教学工作，职责包括作业评分、主持辅导课、撰写学生反馈，以及组织课堂实践活动（涵盖生成式 AI、提示工程与创意编程）。</div></div><div class="timeline-item"><div class="period">2025年12月 – 2026年2月</div><div class="role">评分员 — CCS 330：游戏设计</div><div class="org">不列颠哥伦比亚大学</div><div class="details">负责游戏设计课程的作业评分与书面反馈。</div></div><div class="timeline-item"><div class="period">2018 – 2020</div><div class="role">助教 — 设计图学（上海市精品课程）</div><div class="org">华东理工大学，上海</div><div class="details">协助讲授省级精品课程「设计图学」，辅导学生学习工程制图、数字插画与设计基础。</div></div><h4>行业经历</h4><div class="timeline-item"><div class="period">2022 – 2023</div><div class="role">产品经理 — iXp 项目</div><div class="org">SAP Labs — SAP Analytics Cloud</div><div class="details">主导用户体验与数据分析项目，策划组织企业用户工作坊，协调利益相关方产品演示与用户测试。</div></div><div class="timeline-item"><div class="period">2020（6个月）</div><div class="role">产品经理实习生</div><div class="org">西门子 — 智能基础设施</div><div class="details">负责西门子 8PT 配电盘产品的更新迭代、销售支持和客户培训，实地走访客户开展现场培训，制作培训视频与教材。</div></div><div class="timeline-item"><div class="period">2020（3个月）</div><div class="role">用户体验设计实习生</div><div class="org">上海家化 — 消费品</div><div class="details">开展用户研究，为消费品数字化平台输出 UX 设计交付物，参与用户旅程地图绘制与界面原型设计。</div></div><div class="timeline-item"><div class="period">2017 – 2019</div><div class="role">联合创始人</div><div class="org">享玩 SharePlay — 娱乐设备共享平台，上海</div><div class="details">负责大学生创业项目的日常运营与品牌合作，项目获"创青春"全国大学生创新创业大赛金奖。</div></div>',
+    exp_content: '<h4>教育背景</h4><div class="timeline-item"><div class="period">2025 – 2029（预计）</div><div class="role">跨学科研究博士</div><div class="org">不列颠哥伦比亚大学 (UBC)</div><div class="details">创意与批判研究学院。联合导师：<a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank">Aleksandra Dulic 教授</a>（创意与批判研究学院教授）、<a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank">Patricia Lasserre 教授</a>（计算机科学副教授）。研究方向：协作共创教育游戏以汇聚奥肯纳根水知识。全额资助：OGRS (CAD $25,000/年) 及 IDPT 学费减免。</div></div><div class="timeline-item"><div class="period">2020 – 2023</div><div class="role">工学硕士（设计学）</div><div class="org">同济大学设计创意学院，上海</div><div class="details">全额学业奖学金（¥32,000）。2023年毕业典礼学生代表致辞。课程：批判性思维、设计研究中的数据分析、协同设计项目、信息设计与可视化、参数化设计、用户体验设计。</div></div><div class="timeline-item"><div class="period">2016 – 2020</div><div class="role">文学学士（产品设计）</div><div class="org">华东理工大学，上海</div><div class="details">GPA：3.7/4.0，连续四年专业排名第一。国家奖学金（前0.2%，¥8,000）。成思危名誉校长奖学金（前1%）。特等学业奖学金（连续5学期）。年度人物提名。「榜样力量」代言人。上海市优秀毕业生（前2%）。2020年毕业典礼学生代表致辞。上海市精品课程「设计图学」教学助理。</div></div><h4>当前研究岗位</h4><div class="timeline-item"><div class="period">2025年9月 – 至今</div><div class="role">研究助理 — 文化与技术中心</div><div class="org">不列颠哥伦比亚大学</div><div class="details">参与 Beaver Worlds 研究项目，聚焦奥肯纳根水治理与原住民知识动员，工作涵盖参与式游戏设计、社区协作以及生态数据可视化。</div></div><h4>教学经历</h4><div class="timeline-item"><div class="period">2026年1月 – 至今</div><div class="role">教学助理 — CCS 325：人工智能与创意</div><div class="org">不列颠哥伦比亚大学</div><div class="details">协助人工智能创意实践课程的教学工作，职责包括作业评分、主持辅导课、撰写学生反馈，以及组织课堂实践活动（涵盖生成式 AI、提示工程与创意编程）。</div></div><div class="timeline-item"><div class="period">2025年12月 – 2026年2月</div><div class="role">评分员 — CCS 330：游戏设计</div><div class="org">不列颠哥伦比亚大学</div><div class="details">负责游戏设计课程的作业评分与书面反馈。</div></div><div class="timeline-item"><div class="period">2018 – 2020</div><div class="role">教学助理 — 设计图学（上海市精品课程）</div><div class="org">华东理工大学，上海</div><div class="details">协助讲授省级精品课程「设计图学」，辅导学生学习工程制图、数字插画与设计基础。</div></div><h4>专业培训</h4><div class="timeline-item"><div class="period">2023 – 2025</div><div class="role">游戏设计、动画与视觉特效文凭</div><div class="org">Think Tank Training Centre，温哥华</div><div class="details">系统学习全流程游戏制作管线（从概念设计到产品上线），专攻 3D 动画、视觉特效与游戏设计。</div></div><h4>行业经历</h4><div class="timeline-item"><div class="period">2022 – 2023</div><div class="role">产品经理 — iXp 项目</div><div class="org">SAP Labs — SAP Analytics Cloud</div><div class="details">主导用户体验与数据分析项目，策划组织企业用户工作坊，协调利益相关方产品演示与用户测试。</div></div><div class="timeline-item"><div class="period">2020（6个月）</div><div class="role">产品经理实习生</div><div class="org">西门子 — 智能基础设施</div><div class="details">负责西门子 8PT 配电盘产品的更新迭代、销售支持和客户培训，实地走访客户开展现场培训，制作培训视频与教材。</div></div><div class="timeline-item"><div class="period">2020（3个月）</div><div class="role">用户体验设计实习生</div><div class="org">上海家化 — 消费品</div><div class="details">开展用户研究，为消费品数字化平台输出 UX 设计交付物，参与用户旅程地图绘制与界面原型设计。</div></div><div class="timeline-item"><div class="period">2017 – 2019</div><div class="role">联合创始人</div><div class="org">享玩 SharePlay — 娱乐设备共享平台，上海</div><div class="details">负责大学生创业项目的日常运营与品牌合作，项目获"创青春"全国大学生创新创业大赛金奖。</div></div>',
     // Creative Works
     h_creative: '创意作品',
     sub_creative: '游戏设计、动画、增强现实与装置艺术方向的研究-创意项目',
@@ -1491,6 +1571,71 @@ function setLang(lang) {
   document.querySelectorAll('h1,h2,h3,h4,.pub-title,.timeline-item .role,.page-subtitle,.about-intro,.about-intro em,.news-text,.creative-card .title,.creative-card .desc,.service-list li,.award-item,.footer').forEach(el => {
     el.style.fontFamily = lang === 'cn' ? 'var(--font-cn)' : '';
   });
+}
+
+// ──── PASSWORD PROTECTION ────
+let _unlocked = false;
+let _pendingAction = null;
+const _pwHash = 'yuanyuan1998';
+const _currentLang = () => document.querySelector('.lang-toggle button.active')?.textContent === '中' ? 'cn' : 'en';
+
+function protectedAction(action) {
+  if (_unlocked) {
+    executeAction(action);
+    return;
+  }
+  _pendingAction = action;
+  const lang = _currentLang();
+  document.getElementById('pwDesc').textContent = lang === 'cn' 
+    ? '请输入密码以访问受保护内容。' 
+    : 'Please enter the password to continue.';
+  document.getElementById('pwError').style.display = 'none';
+  document.getElementById('pwInput').value = '';
+  document.getElementById('pwOverlay').classList.add('active');
+  setTimeout(() => document.getElementById('pwInput').focus(), 100);
+}
+
+function checkPw() {
+  const input = document.getElementById('pwInput').value;
+  if (input === _pwHash) {
+    _unlocked = true;
+    closePw();
+    if (_pendingAction) {
+      executeAction(_pendingAction);
+      _pendingAction = null;
+    }
+  } else {
+    const errEl = document.getElementById('pwError');
+    const lang = _currentLang();
+    errEl.textContent = lang === 'cn' ? '密码错误，请重试。' : 'Incorrect password. Please try again.';
+    errEl.style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+
+function closePw() {
+  document.getElementById('pwOverlay').classList.remove('active');
+  _pendingAction = null;
+}
+
+function executeAction(action) {
+  const lang = _currentLang();
+  switch (action) {
+    case 'creative':
+      showPage('creative');
+      break;
+    case 'email':
+      window.location.href = 'mailto:yuanyxu@student.ubc.ca';
+      break;
+    case 'linkedin':
+      window.open('https://www.linkedin.com/in/xuyuanyuan/', '_blank');
+      break;
+    case 'cv':
+      const cvFile = lang === 'cn' ? 'YuanyuanXu_CV_CN.pdf' : 'YuanyuanXu_CV.pdf';
+      window.open(cvFile, '_blank');
+      break;
+  }
 }
 </script>
 
