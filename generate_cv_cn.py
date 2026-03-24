@@ -182,7 +182,7 @@ def build_cv():
         ("<b>Y. Xu*</b>, X. Shan, Y.-S. Lin, J. Wang","\u8de8\u6587\u5316\u6e38\u620f\u8bbe\u8ba1\u7684AI\u589e\u5f3a\u5de5\u5177","HCII 2024, LNCS 15377, Springer, 2025","doi.org/10.1007/978-3-031-76812-5_29"),
         ("X. Shan, <b>Y. Xu*</b>, Y. Wang, Y.-S. Lin, Y. Bao","\u5927\u8bed\u8a00\u6a21\u578b\u7684\u8de8\u6587\u5316\u542b\u4e49","HCII 2024, LNCS 15375, Springer, 2025","doi.org/10.1007/978-3-031-76806-4_8"),
         ("T. Xia*, <b>Y. Xu</b>, X. Shan","KOA-Monitor: \u6570\u5b57\u5e72\u9884\u4e0e\u529f\u80fd\u8bc4\u4f30\u7cfb\u7edf","HCII 2025, LNCS 15810, Springer, 2025","doi.org/10.1007/978-3-031-92710-2_26"),
-        ("X. Shan, <b>Y. Xu*</b>, T. Xia, Y.-S. Lin","\u4e3a\u6240\u6709\u4eba\u8bbe\u8ba1\u8461\u8404\u9152\u54c1\u5c1d\u4f53\u9a8c","HCII 2025, Springer, 2025",None),
+        ("X. Shan, <b>Y. Xu*</b>, Y. Wang, T. Xia, Y.-S. Lin","\u4e3a\u6240\u6709\u4eba\u8bbe\u8ba1\u8461\u8404\u9152\u54c1\u5c1d\u4f53\u9a8c","HCII 2025, CCIS 2772, Springer, 2026","doi.org/10.1007/978-3-032-12767-9_42"),
         ("X. Shan, <b>Y. Xu</b>, T. Xia, Y.-S. Lin","\u91cd\u65b0\u601d\u8003\u4e2d\u56fd\u6d88\u8d39\u8005\u7684\u8461\u8404\u9152\u54c1\u5c1d","2025 IEEE International Conference on Content-Based Multimedia Indexing (CBMI), 2025",None),
         ("<b>Y. Xu*</b>, Y.-S. Lin","\u7528\u6237\u611f\u77e5\u4ef7\u503c\u5bf9\u65b0\u80fd\u6e90\u6c7d\u8f66\u4f01\u4e1a\u7684\u5f71\u54cd\u63a2\u7a76","FFIT 2024, Atlantis Press, 2024","doi.org/10.2991/978-94-6463-572-0_2"),
         ("G. Tian, <b>Y. Xu*</b>","\u4eff\u897f\u590f\u6587\u6c49\u5b57\u5b57\u4f53\u8bbe\u8ba1\u65b9\u6cd5\u7814\u7a76","AEHSSR, 2022","doi.org/10.56028/aehssr.2.1.270"),

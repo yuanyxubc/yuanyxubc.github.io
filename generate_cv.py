@@ -184,7 +184,7 @@ def build_cv():
         ("<b>Y. Xu*</b>, X. Shan, Y.-S. Lin, J. Wang","AI-Enhanced Tools for Cross-Cultural Game Design","HCII 2024, LNCS 15377, Springer, 2025","doi.org/10.1007/978-3-031-76812-5_29"),
         ("X. Shan, <b>Y. Xu*</b>, Y. Wang, Y.-S. Lin, Y. Bao","Cross-Cultural Implications of Large Language Models","HCII 2024, LNCS 15375, Springer, 2025","doi.org/10.1007/978-3-031-76806-4_8"),
         ("T. Xia*, <b>Y. Xu</b>, X. Shan","KOA-Monitor: A Digital Intervention and Functional Assessment System","HCII 2025, LNCS 15810, Springer, 2025","doi.org/10.1007/978-3-031-92710-2_26"),
-        ("X. Shan, <b>Y. Xu*</b>, T. Xia, Y.-S. Lin","Designing Wine Tasting Experiences for All","HCII 2025, Springer, 2025",None),
+        ("X. Shan, <b>Y. Xu*</b>, Y. Wang, T. Xia, Y.-S. Lin","Designing Wine Tasting Experiences for All","HCII 2025, CCIS 2772, Springer, 2026","doi.org/10.1007/978-3-032-12767-9_42"),
         ("X. Shan, <b>Y. Xu</b>, T. Xia, Y.-S. Lin","Rethinking Wine Tasting for Chinese Consumers","2025 IEEE International Conference on Content-Based Multimedia Indexing (CBMI), 2025",None),
         ("<b>Y. Xu*</b>, Y.-S. Lin","Exploring the Influence of User-Perceived Value on NEV-Enterprises","FFIT 2024, Atlantis Press, 2024","doi.org/10.2991/978-94-6463-572-0_2"),
         ("G. Tian, <b>Y. Xu*</b>","A Study on the Typeface Design Method of Han Characters Imitated Tangut","AEHSSR, 2022","doi.org/10.56028/aehssr.2.1.270"),
