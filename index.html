@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Yuanyuan Xu — Design Researcher</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #FAFAF8;
@@ -23,6 +23,7 @@
   --font-display: 'DM Serif Display', Georgia, serif;
   --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --font-cn: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -266,9 +267,9 @@ a:hover { color: var(--accent-light); }
 
 .about-intro em {
   color: var(--accent);
-  font-style: italic;
-  font-family: var(--font-display);
-  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: inherit;
 }
 
 .research-keywords {
@@ -417,6 +418,9 @@ a:hover { color: var(--accent-light); }
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
 }
 
 .creative-card:hover {
@@ -426,14 +430,20 @@ a:hover { color: var(--accent-light); }
 
 .creative-image {
   width: 100%;
-  height: 160px;
+  height: 180px;
+  overflow: hidden;
   background: #f4f4f4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 13px;
-  color: #999;
-  font-family: var(--font-mono);
+}
+
+.creative-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.creative-card:hover .creative-image img {
+  transform: scale(1.05);
 }
 
 .creative-content {
@@ -719,6 +729,21 @@ a:hover { color: var(--accent-light); }
 .lang-toggle button:hover:not(.active) {
   color: var(--accent);
 }
+
+.cn-pub-title {
+  display: none;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  margin-bottom: 3px;
+  font-family: var(--font-cn);
+  line-height: 1.5;
+}
+
+.en-pub-title {
+  font-weight: 600;
+  font-size: 14.5px;
+  line-height: 1.5;
+}
 </style>
 </head>
 <body>
@@ -748,8 +773,8 @@ a:hover { color: var(--accent-light); }
     <a class="active" onclick="showPage('about')" data-i18n="nav_about"><span class="nav-num">01</span>About</a>
     <a onclick="showPage('research')" data-i18n="nav_research"><span class="nav-num">02</span>Research</a>
     <a onclick="showPage('publications')" data-i18n="nav_pub"><span class="nav-num">03</span>Publications</a>
-    <a onclick="showPage('creative')" data-i18n="nav_creative"><span class="nav-num">04</span>Creative Works</a>
-    <a onclick="showPage('experience')" data-i18n="nav_exp"><span class="nav-num">05</span>Experience</a>
+    <a onclick="showPage('experience')" data-i18n="nav_exp"><span class="nav-num">04</span>Experience</a>
+    <a onclick="showPage('creative')" data-i18n="nav_creative"><span class="nav-num">05</span>Creative Works</a>
     <a onclick="showPage('service')" data-i18n="nav_service"><span class="nav-num">06</span>Service &amp; Awards</a>
   </nav>
 
@@ -770,7 +795,7 @@ a:hover { color: var(--accent-light); }
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.47 2H3.53A1.45 1.45 0 0 0 2 3.47v17.06A1.45 1.45 0 0 0 3.47 22h17.06A1.45 1.45 0 0 0 22 20.53V3.47A1.45 1.45 0 0 0 20.47 2zM8.09 18.74H5.13V9.64h2.96zM6.6 8.48a1.56 1.56 0 1 1 0-3.12 1.56 1.56 0 1 1 0 3.12zm12.32 10.26h-2.95v-4.76c0-1.12-.04-2.57-1.56-2.57-1.56 0-1.8 1.22-1.8 2.49v4.84H9.66V9.64h2.84v1.3h.04a3.11 3.11 0 0 1 2.8-1.54c3 0 3.55 1.97 3.55 4.54v4.8z"/></svg>
       LinkedIn
     </a>
-    <a href="YuanyuanXu_CV.pdf" target="_blank">
+    <a href="YuanyuanXu_CV.pdf" target="_blank" id="cv-link">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3 3 3-3"/></svg>
       CV
     </a>
@@ -787,11 +812,11 @@ a:hover { color: var(--accent-light); }
 
   <p class="about-intro" data-i18n="about_intro">
     <strong>I study how interactive media and games can bridge cultural knowledge systems, foster ecological awareness, and support participatory learning</strong> — working at the intersection of Human-Computer Interaction, game design, and sustainability.<br><br>
-    Born and raised in Shanghai, I am now a doctoral researcher at UBC, co-creating educational games with Syilx (Okanagan) communities to mobilise diverse water knowledge and cultivate environmental resilience among youth. This work weaves together Indigenous protocols of dialogue, participatory design methods, and game-based learning, informed by my own Wu-Yue heritage from the Yangtze Delta and its eroding water memories.<br><br>
+    Born and raised in Shanghai, I am now a doctoral researcher at UBC, co-supervised by <a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank"><strong>Prof. Aleksandra Dulic</strong></a> (Professor, Faculty of Creative &amp; Critical Studies) and <a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank"><strong>Prof. Patricia Lasserre</strong></a> (Associate Professor, Computer Science). We co-create educational games with Syilx (Okanagan) communities to mobilise diverse water knowledge and cultivate environmental resilience among youth. This work weaves together Indigenous protocols of dialogue, participatory design methods, and game-based learning, informed by my own Wu-Yue heritage from the Yangtze Delta and its eroding water memories.<br><br>
     Before the PhD, I trained in UX and cross-cultural interaction design, worked as a Product Manager at SAP Labs and Siemens, and completed professional training in the Canadian game industry. My research-creation portfolio includes 3D animation, AR game design, and immersive installations exhibited internationally. Earlier design work on inclusive technology was featured as a <a href="https://www.shine.cn/news/metro/1905305710/" target="_blank">front-page headline in <em>Shanghai Daily</em></a> (2019).
   </p>
 
-  <div class="research-keywords">
+  <div class="research-keywords" data-i18n="about_keywords">
     <span>Participatory Design</span>
     <span>Game-Based Learning</span>
     <span>Environmental Resilience</span>
@@ -802,30 +827,30 @@ a:hover { color: var(--accent-light); }
   </div>
 
   <h3 data-i18n="h_news">News</h3>
-  <ul class="news-list">
+  <ul class="news-list" data-i18n="news_list">
     <li>
       <span class="news-date">Jun 2026</span>
-      <span class="news-text">Presenting at <strong>DiGRA 2026</strong> in Ireland — Doctoral Consortium and Education Session <span class="badge green">Upcoming</span></span>
+      <span class="news-text">Presenting at the <strong>Digital Games Research Association Conference (DiGRA) 2026</strong> in Ireland — Doctoral Consortium and Education Session <span class="badge green">Upcoming</span></span>
     </li>
     <li>
       <span class="news-date">Jun 2026</span>
-      <span class="news-text">Two papers accepted at <strong>DiGRA 2026</strong> (+ 1 co-authored) — on eco-game teacher integration and designing for environmental resilience in the Okanagan <span class="badge green">Upcoming</span></span>
+      <span class="news-text">Three papers accepted at the <strong>Digital Games Research Association Conference (DiGRA) 2026</strong> (two first-authored, one co-authored) — on eco-game teacher integration and designing for environmental resilience in the Okanagan <span class="badge green">Upcoming</span></span>
     </li>
     <li>
       <span class="news-date">Mar 2026</span>
-      <span class="news-text">Paper published in <strong>Sustainability</strong>: systematic review on game-based learning for environmental resilience</span>
+      <span class="news-text">Paper published in <strong>Sustainability</strong>: <a href="https://doi.org/10.3390/su18052305" target="_blank">systematic review on game-based learning for environmental resilience</a></span>
     </li>
     <li>
       <span class="news-date">Jun 2026</span>
-      <span class="news-text">Presenting three papers at <strong>HCII 2026</strong> in Montréal (Springer LNCS/CCIS) — ecological empathy in 3D games, animation design philosophy, and Soulslike game experience <span class="badge green">Upcoming</span></span>
+      <span class="news-text">Presenting three papers at <strong>HCI International Conference (HCII) 2026</strong> in Montréal (Springer LNCS/CCIS) — ecological empathy in 3D games, animation design philosophy, and Soulslike game experience <span class="badge green">Upcoming</span></span>
     </li>
     <li>
-      <span class="news-date">2025</span>
-      <span class="news-text">Presented at <strong>SIGGRAPH 2025</strong>, Vancouver — "Situated Bodies, Wandering Minds" (Birds of a Feather Session)</span>
+      <span class="news-date">Aug 2025</span>
+      <span class="news-text">Presented at <strong>ACM SIGGRAPH Conference on Computer Graphics and Interactive Techniques (SIGGRAPH) 2025</strong>, Vancouver — "Situated Bodies, Wandering Minds" (Birds of a Feather Session)</span>
     </li>
     <li>
-      <span class="news-date">2025</span>
-      <span class="news-text">Two special recognitions for <strong>Outstanding Reviews</strong> at <strong>ACM CHI 2025</strong></span>
+      <span class="news-date">Apr 2025</span>
+      <span class="news-text">Received two <strong>Special Recognitions for Outstanding Reviewing</strong> at <strong>ACM Conference on Human Factors in Computing Systems (CHI) 2025</strong></span>
     </li>
     <li>
       <span class="news-date">Sep 2025</span>
@@ -840,15 +865,15 @@ a:hover { color: var(--accent-light); }
   <p class="page-subtitle" data-i18n="sub_research">Investigating how interactive media and games can mobilise diverse knowledge systems for environmental resilience</p>
 
   <h3 data-i18n="h_doctoral">Doctoral Research</h3>
-  <div class="about-intro" style="font-size:15.5px; margin-bottom:28px;">
+  <div class="about-intro" style="font-size:15.5px; margin-bottom:28px;" data-i18n="doctoral_content">
     <strong>Co-Designing Educational Games for Okanagan Water Knowledge</strong><br>
     <span style="color:var(--accent); font-family:var(--font-mono); font-size:12px;">Ph.D. in Interdisciplinary Studies · UBC · 2025–2029</span><br><br>
     My doctoral project investigates how educational games can serve as platforms for mobilising <em>diverse water knowledge</em> — bridging Western scientific understanding with Indigenous (Syilx/Okanagan) ecological wisdom. Through participatory co-design with community members, educators, and youth, I am developing game-based learning tools that cultivate <em>environmental resilience</em> and cross-cultural dialogue around water governance in the Okanagan Valley.<br><br>
-    This research is situated within the broader <a href="#" style="font-weight:600;">Beaver Worlds Project</a> at UBC, which examines Okanagan water governance and Indigenous knowledge mobilisation. I am co-supervised by Prof. Aleksandra Dulic and Prof. Patricia Lasserre.
+    This research is situated within the broader <a href="#" style="font-weight:600;">Beaver Worlds Project</a> at UBC, which examines Okanagan water governance and Indigenous knowledge mobilisation. I am co-supervised by <a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank" style="font-weight:600;">Prof. Aleksandra Dulic</a> (Professor, FCCS) and <a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank" style="font-weight:600;">Prof. Patricia Lasserre</a> (Associate Professor, Computer Science).
   </div>
 
   <h3 data-i18n="h_themes">Research Themes</h3>
-  <div class="creative-grid" style="margin-bottom:28px;">
+  <div class="creative-grid" style="margin-bottom:28px;" data-i18n="themes_content">
     <div class="creative-card">
       <div class="title">Game-Based Learning &amp; Environmental Resilience</div>
       <div class="desc">How can serious games foster ecological empathy, systems thinking, and pro-environmental behaviour? My systematic review (Sustainability, 2026) maps the state of the field and identifies design principles for effective eco-games.</div>
@@ -865,7 +890,7 @@ a:hover { color: var(--accent-light); }
   </div>
 
   <h3 data-i18n="h_method">Methodological Expertise</h3>
-  <div class="research-keywords" style="margin-bottom:28px;">
+  <div class="research-keywords" style="margin-bottom:28px;" data-i18n="method_tags">
     <span>Participatory Design</span>
     <span>Co-Design</span>
     <span>Game-Based Research</span>
@@ -878,7 +903,7 @@ a:hover { color: var(--accent-light); }
   </div>
 
   <h3 data-i18n="h_future">Future Directions</h3>
-  <div class="about-intro" style="font-size:15px;">
+  <div class="about-intro" style="font-size:15px;" data-i18n="future_content">
     My long-term research agenda centres on building a framework for <em>culturally responsive game design</em> that can be adapted across diverse ecological and cultural contexts — from the Okanagan Valley's water systems to the Yangtze Delta's eroding water memories. I aim to develop design methodologies, tools, and curricula that equip educators, designers, and communities to co-create games that honour local knowledge while fostering environmental stewardship.<br><br>
     I am particularly interested in how AI-enhanced design tools can support cross-cultural collaboration in game development, and how interactive media can bridge the gap between scientific data and lived ecological experience.
   </div>
@@ -889,10 +914,10 @@ a:hover { color: var(--accent-light); }
   <h2 data-i18n="h_pub">Publications</h2>
   <p class="page-subtitle" data-i18n="sub_pub">Refereed journal articles, conference papers, and book chapters</p>
 
-  <h4>Journal Articles</h4>
+  <h4 data-i18n="h_journal">Journal Articles</h4>
 
   <div class="pub-item">
-    <div class="pub-title">From Engagement to Resilience: A Systematic Review of Game-Based Learning for Environmental Resilience</div>
+    <div class="pub-title"><span class="cn-pub-title">从参与到韧性：游戏化学习促进环境韧性的系统综述</span>From Engagement to Resilience: A Systematic Review of Game-Based Learning for Environmental Resilience</div>
     <div class="pub-authors"><span class="me">Y. Xu</span>, Z. Sun, C. Zhen, Y.-S. Lin, T.H. Sarker, M. Thorogood, P. Lasserre, A. Dulic</div>
     <div class="pub-venue">Sustainability, 18(5), 2305 <span class="pub-year">· 2026</span></div>
     <div class="pub-doi"><a href="https://doi.org/10.3390/su18052305" target="_blank">doi.org/10.3390/su18052305</a></div>
@@ -900,7 +925,7 @@ a:hover { color: var(--accent-light); }
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">Design and Application of Experience Management Tools from the Perspective of Customer Perceived Value: A Study on the Electric Vehicle Market</div>
+    <div class="pub-title"><span class="cn-pub-title">基于客户感知价值的体验管理工具设计与应用：电动汽车市场研究</span>Design and Application of Experience Management Tools from the Perspective of Customer Perceived Value: A Study on the Electric Vehicle Market</div>
     <div class="pub-authors"><span class="me">Y. Xu*</span>, X. Shan, M. Guo, W. Gao, Y.-S. Lin</div>
     <div class="pub-venue">World Electric Vehicle Journal, 15(8), 378 <span class="pub-year">· 2024</span></div>
     <div class="pub-doi"><a href="https://doi.org/10.3390/wevj15080378" target="_blank">doi.org/10.3390/wevj15080378</a></div>
@@ -908,7 +933,7 @@ a:hover { color: var(--accent-light); }
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">Enhancing User Experience and Trust in Advanced LLM-Based Conversational Agents</div>
+    <div class="pub-title"><span class="cn-pub-title">提升基于大语言模型的高级对话代理的用户体验与信任</span>Enhancing User Experience and Trust in Advanced LLM-Based Conversational Agents</div>
     <div class="pub-authors"><span class="me">Y. Xu*</span>, W. Gao, Y. Wang, X. Shan, Y.-S. Lin</div>
     <div class="pub-venue">Computing and Artificial Intelligence, 2(2), 1467 <span class="pub-year">· 2024</span></div>
     <div class="pub-doi"><a href="https://doi.org/10.59400/cai.v2i2.1467" target="_blank">doi.org/10.59400/cai.v2i2.1467</a></div>
@@ -916,7 +941,7 @@ a:hover { color: var(--accent-light); }
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">Utilizing Emotion Recognition Technology to Enhance User Experience in Real-Time</div>
+    <div class="pub-title"><span class="cn-pub-title">利用情感识别技术实时提升用户体验</span>Utilizing Emotion Recognition Technology to Enhance User Experience in Real-Time</div>
     <div class="pub-authors"><span class="me">Y. Xu*</span>, Y.-S. Lin, X. Zhou, X. Shan</div>
     <div class="pub-venue">Computing and Artificial Intelligence, 2(1), 1388 <span class="pub-year">· 2024</span></div>
     <div class="pub-doi"><a href="https://doi.org/10.59400/cai.v2i1.1388" target="_blank">doi.org/10.59400/cai.v2i1.1388</a></div>
@@ -924,32 +949,32 @@ a:hover { color: var(--accent-light); }
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">基于感性工学的产品形态设计研究 [Kansei Engineering–Based Product Form Design: Eye-Tracking on Drinkware]</div>
+    <div class="pub-title"><span class="cn-pub-title">基于感性工学的产品形态设计研究</span><span class="en-pub-title">Kansei Engineering–Based Product Form Design: Eye-Tracking on Drinkware</span></div>
     <div class="pub-authors">M. Liu*, M. Guo, L. Jiang, <span class="me">Y. Xu</span></div>
-    <div class="pub-venue">Journal of the University of Shanghai, 42(5) <span class="pub-year">· 2020</span></div>
+    <div class="pub-venue">上海理工大学学报 [Journal of USST], 42(5) <span class="pub-year">· 2020</span></div>
     <div class="pub-doi"><a href="https://doi.org/10.13255/j.cnki.jusst.20191122008" target="_blank">doi.org/10.13255/j.cnki.jusst.20191122008</a></div>
     <div class="pub-tags"><span class="pub-tag journal">Journal</span></div>
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">自闭症儿童辅助治疗玩具的设计分析 [Design Analysis of Therapeutic Toys for Children with Autism]</div>
+    <div class="pub-title"><span class="cn-pub-title">自闭症儿童辅助治疗玩具的设计分析</span><span class="en-pub-title">Design Analysis of Therapeutic Toys for Children with Autism</span></div>
     <div class="pub-authors"><span class="me">Y. Xu*</span>, Y. Bao, B. Yang</div>
-    <div class="pub-venue">Art and Technology <span class="pub-year">· 2018</span></div>
+    <div class="pub-venue">艺术科技 [Art and Technology] <span class="pub-year">· 2018</span></div>
     <div class="pub-tags"><span class="pub-tag journal">Journal</span></div>
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">眼动实验与产品形态设计的关系研究 [Exploring the Relationship Between Eye-Tracking Data and Product Form Design: Drinking Containers]</div>
+    <div class="pub-title"><span class="cn-pub-title">眼动实验与产品形态设计的关系研究</span><span class="en-pub-title">Exploring the Relationship Between Eye-Tracking Data and Product Form Design: Drinking Containers</span></div>
     <div class="pub-authors">M. Liu*, M. Guo, L. Jiang, <span class="me">Y. Xu</span></div>
-    <div class="pub-venue">Literature Life <span class="pub-year">· 2019</span></div>
+    <div class="pub-venue">文学生活 [Literature Life] <span class="pub-year">· 2019</span></div>
     <div class="pub-doi"><a href="https://doi.org/10.3969/j.issn.1005-5312.2019.10.029" target="_blank">doi.org/10.3969/j.issn.1005-5312.2019.10.029</a></div>
     <div class="pub-tags"><span class="pub-tag journal">Journal</span></div>
   </div>
 
-  <h4>Conference Papers &amp; Book Chapters</h4>
+  <h4 data-i18n="h_conf">Conference Papers &amp; Book Chapters</h4>
 
   <div class="pub-item">
-    <div class="pub-title">AI-Enhanced Tools for Cross-Cultural Game Design: Supporting Online Character Conceptualization and Collaborative Sketching</div>
+    <div class="pub-title"><span class="cn-pub-title">AI增强的跨文化游戏设计工具：支持在线角色概念设计与协作草图</span>AI-Enhanced Tools for Cross-Cultural Game Design: Supporting Online Character Conceptualization and Collaborative Sketching</div>
     <div class="pub-authors"><span class="me">Y. Xu*</span>, X. Shan, Y.-S. Lin, J. Wang</div>
     <div class="pub-venue">HCII 2024, LNCS 15377, Springer <span class="pub-year">· 2025</span></div>
     <div class="pub-doi"><a href="https://doi.org/10.1007/978-3-031-76812-5_29" target="_blank">doi.org/10.1007/978-3-031-76812-5_29</a></div>
@@ -957,7 +982,7 @@ a:hover { color: var(--accent-light); }
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">Cross-Cultural Implications of Large Language Models: An Extended Comparative Analysis</div>
+    <div class="pub-title"><span class="cn-pub-title">大语言模型的跨文化启示：扩展比较分析</span>Cross-Cultural Implications of Large Language Models: An Extended Comparative Analysis</div>
     <div class="pub-authors">X. Shan, <span class="me">Y. Xu*</span>, Y. Wang, Y.-S. Lin, Y. Bao</div>
     <div class="pub-venue">HCII 2024, LNCS 15375, Springer <span class="pub-year">· 2025</span></div>
     <div class="pub-doi"><a href="https://doi.org/10.1007/978-3-031-76806-4_8" target="_blank">doi.org/10.1007/978-3-031-76806-4_8</a></div>
@@ -965,7 +990,7 @@ a:hover { color: var(--accent-light); }
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">KOA-Monitor: A Digital Intervention and Functional Assessment System for Knee Osteoarthritis Patients</div>
+    <div class="pub-title"><span class="cn-pub-title">KOA-Monitor：膝关节骨关节炎患者的数字干预与功能评估系统</span>KOA-Monitor: A Digital Intervention and Functional Assessment System for Knee Osteoarthritis Patients</div>
     <div class="pub-authors">T. Xia*, <span class="me">Y. Xu</span>, X. Shan</div>
     <div class="pub-venue">HCII 2025, LNCS 15810, Springer <span class="pub-year">· 2025</span></div>
     <div class="pub-doi"><a href="https://doi.org/10.1007/978-3-031-92710-2_26" target="_blank">doi.org/10.1007/978-3-031-92710-2_26</a></div>
@@ -973,21 +998,21 @@ a:hover { color: var(--accent-light); }
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">Designing Wine Tasting Experiences for All: The Role of Human Diversity and Personal Food Memory</div>
+    <div class="pub-title"><span class="cn-pub-title">为所有人设计品酒体验：人类多样性与个人食物记忆的角色</span>Designing Wine Tasting Experiences for All: The Role of Human Diversity and Personal Food Memory</div>
     <div class="pub-authors">X. Shan, <span class="me">Y. Xu*</span>, T. Xia, Y.-S. Lin</div>
     <div class="pub-venue">HCII 2025, Springer <span class="pub-year">· 2025 (Accepted)</span></div>
     <div class="pub-tags"><span class="pub-tag chapter">Book Chapter</span><span class="pub-tag inpress">Accepted</span></div>
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">Rethinking Wine Tasting for Chinese Consumers: A Service Design Approach Enhanced by Multimodal Personalization</div>
-    <div class="pub-authors">X. Shan, <span class="me">Y. Xu*</span>, Y.-S. Lin</div>
-    <div class="pub-venue">HCII 2025, Springer <span class="pub-year">· 2025</span></div>
-    <div class="pub-tags"><span class="pub-tag chapter">Book Chapter</span></div>
+    <div class="pub-title"><span class="cn-pub-title">重新思考中国消费者的品酒体验：多模态个性化增强的服务设计方法</span>Rethinking Wine Tasting for Chinese Consumers: A Service Design Approach Enhanced by Multimodal Personalization</div>
+    <div class="pub-authors">X. Shan, <span class="me">Y. Xu</span>, T. Xia, Y.-S. Lin</div>
+    <div class="pub-venue">2025 IEEE International Conference on Content-Based Multimedia Indexing (CBMI) <span class="pub-year">· 2025</span></div>
+    <div class="pub-tags"><span class="pub-tag conference">Conference</span></div>
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">Exploring the Influence of User-Perceived Value on NEV-Enterprises Using an Empirical Computer Model</div>
+    <div class="pub-title"><span class="cn-pub-title">基于计算机实证模型探究用户感知价值对新能源汽车企业的影响</span>Exploring the Influence of User-Perceived Value on NEV-Enterprises Using an Empirical Computer Model</div>
     <div class="pub-authors"><span class="me">Y. Xu*</span>, Y.-S. Lin</div>
     <div class="pub-venue">FFIT 2024, Atlantis Press <span class="pub-year">· 2024</span></div>
     <div class="pub-doi"><a href="https://doi.org/10.2991/978-94-6463-572-0_2" target="_blank">doi.org/10.2991/978-94-6463-572-0_2</a></div>
@@ -995,45 +1020,45 @@ a:hover { color: var(--accent-light); }
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">A Study on the Typeface Design Method of Han Characters Imitated Tangut</div>
+    <div class="pub-title"><span class="cn-pub-title">仿西夏文汉字字体设计方法研究</span>A Study on the Typeface Design Method of Han Characters Imitated Tangut</div>
     <div class="pub-authors">G. Tian, <span class="me">Y. Xu*</span></div>
     <div class="pub-venue">4th Int'l Conf. on Education, Art, Sports (AEHSSR) <span class="pub-year">· 2022</span></div>
     <div class="pub-doi"><a href="https://doi.org/10.56028/aehssr.2.1.270" target="_blank">doi.org/10.56028/aehssr.2.1.270</a></div>
     <div class="pub-tags"><span class="pub-tag conf">Conference</span></div>
   </div>
 
-  <h4>Forthcoming (In Press)</h4>
+  <h4 data-i18n="h_forthcoming">Forthcoming (In Press)</h4>
 
   <div class="pub-item">
-    <div class="pub-title">Mapping Ecological Empathy: A Semantic Network Analysis of Player Perceptions in 3D Environmental Education Games</div>
+    <div class="pub-title"><span class="cn-pub-title">生态共情图谱：3D环境教育游戏中玩家感知的语义网络分析</span>Mapping Ecological Empathy: A Semantic Network Analysis of Player Perceptions in 3D Environmental Education Games</div>
     <div class="pub-authors"><span class="me">Y. Xu</span>, Z. Sun, C. Zhen, Y.-S. Lin, M. Thorogood, M. Smith, P. Lasserre, A. Dulic</div>
     <div class="pub-venue">HCII 2026, LNCS, Springer</div>
     <div class="pub-tags"><span class="pub-tag chapter">Book Chapter</span><span class="pub-tag inpress">In Press</span></div>
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">Animation Design Philosophy in 3D Educational Games: The Development of Beaver Worlds</div>
+    <div class="pub-title"><span class="cn-pub-title">3D教育游戏中的动画设计哲学：Beaver Worlds 的开发</span>Animation Design Philosophy in 3D Educational Games: The Development of Beaver Worlds</div>
     <div class="pub-authors">C. Zhen, <span class="me">Y. Xu</span>, C.S. Souto, Z. Sun, P. Lasserre, A. Dulic, M. Thorogood</div>
     <div class="pub-venue">HCII 2026, CCIS, Springer</div>
     <div class="pub-tags"><span class="pub-tag chapter">Book Chapter</span><span class="pub-tag inpress">In Press</span></div>
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">Struggle as Flow: Challenge, Design, and Experience in Soulslike Games</div>
+    <div class="pub-title"><span class="cn-pub-title">挥扎即心流：类魂游戏中的挑战、设计与体验</span>Struggle as Flow: Challenge, Design, and Experience in Soulslike Games</div>
     <div class="pub-authors">Z. Sun, <span class="me">Y. Xu</span>, C. Zhen, Y.-S. Lin, M. Thorogood, P. Lasserre, A. Dulic, M. Smith</div>
     <div class="pub-venue">HCII 2026, LNCS, Springer</div>
     <div class="pub-tags"><span class="pub-tag chapter">Book Chapter</span><span class="pub-tag inpress">In Press</span></div>
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">The Absent Teacher in Eco-Games: A Theoretical Framework for Teacher Integration in Eco-Games</div>
+    <div class="pub-title"><span class="cn-pub-title">生态游戏中缺席的教师：教师融入生态游戏的理论框架</span>The Absent Teacher in Eco-Games: A Theoretical Framework for Teacher Integration in Eco-Games</div>
     <div class="pub-authors"><span class="me">Y. Xu</span>, Z. Sun, Y.-S. Lin, P. Lasserre, A. Dulic</div>
     <div class="pub-venue">DiGRA 2026</div>
     <div class="pub-tags"><span class="pub-tag conf">Conference</span><span class="pub-tag inpress">In Press</span></div>
   </div>
 
   <div class="pub-item">
-    <div class="pub-title">From Resource to Kin: Designing for Environmental Resilience in the Okanagan</div>
+    <div class="pub-title"><span class="cn-pub-title">从资源到亲属：为奥肯纳根环境韧性而设计</span>From Resource to Kin: Designing for Environmental Resilience in the Okanagan</div>
     <div class="pub-authors"><span class="me">Y. Xu</span>, P. Lasserre, A. Dulic</div>
     <div class="pub-venue">DiGRA 2026</div>
     <div class="pub-tags"><span class="pub-tag conf">Conference</span><span class="pub-tag inpress">In Press</span></div>
@@ -1046,123 +1071,23 @@ a:hover { color: var(--accent-light); }
     <div class="pub-tags"><span class="pub-tag conf">Conference</span><span class="pub-tag inpress">In Press</span></div>
   </div>
 
-  <h4>Patents</h4>
+  <h4 data-i18n="h_patents">Patents</h4>
   <div class="pub-item">
     <div class="pub-title">FPGA-Based Vision Method for Blind Navigation (CN110070514B)</div>
     <div class="pub-authors">X. Sun, H. Chu, S. Chen, T. Yang, L. Hong, <span class="me">Y. Xu</span></div>
     <div class="pub-venue">Chinese Patent Office <span class="pub-year">· 2023</span></div>
   </div>
 
-
-</section>
-
-<!-- ──── CREATIVE WORKS ──── -->
-<section class="page" id="creative">
-  <h2 data-i18n="h_creative">Creative Works</h2>
-  <p class="page-subtitle" data-i18n="sub_creative">Research-creation projects in game design, animation, AR, and installation</p>
-
-  <div class="creative-grid">
-    
-    <div class="creative-card">
-      <div class="creative-image" style="background: linear-gradient(135deg, #2b303a 0%, #1a1c23 100%); color: #fff;">[Image: Roller Knight]</div>
-      <div class="creative-content">
-        <div class="title">🛼 Roller-Skating Knight</div>
-        <div class="desc">Game project — 3D character design and interactive experience.<br><span style="color:#888; font-size:12px; margin-top:6px; display:inline-block;">Rookie Awards · A Ranking</span></div>
-        <div class="tags">
-          <span class="tag zbrush">Zbrush</span>
-          <span class="tag maya">Maya</span>
-          <span class="tag substance">Substance Painter</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="creative-card">
-      <div class="creative-image" style="background: linear-gradient(135deg, #111 0%, #333 100%); color: #fff;">[Image: Maison Margiela]</div>
-      <div class="creative-content">
-        <div class="title">🖼️ AR game for Maison Margiela</div>
-        <div class="desc">Augmented reality mobile game for the Replica Perfume Series.</div>
-        <div class="tags">
-          <span class="tag figma">Figma</span>
-          <span class="tag uiux">UI/UX</span>
-          <span class="tag graphic">Graphic design</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="creative-card">
-      <div class="creative-image" style="background: linear-gradient(135deg, #e4ded6 0%, #b8af9f 100%); color: #333;">[Image: Ganesha]</div>
-      <div class="creative-content">
-        <div class="title">🐘 Ganesha</div>
-        <div class="desc">Visual effects project exploring mythological forms.<br><span style="color:#888; font-size:12px; margin-top:6px; display:inline-block;">Rookie Awards · A Ranking</span></div>
-        <div class="tags">
-          <span class="tag maya">Maya</span>
-          <span class="tag vray">V-ray</span>
-          <span class="tag mari">Mari</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="creative-card">
-      <div class="creative-image" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">[Image: The Struggle]</div>
-      <div class="creative-content">
-        <div class="title">🎬 The struggle</div>
-        <div class="desc">3D animation — character-driven narrative piece.<br><span style="color:#888; font-size:12px; margin-top:6px; display:inline-block;">Rookie Awards · A Ranking</span></div>
-        <div class="tags">
-          <span class="tag maya">Maya</span>
-          <span class="tag vray">V-ray</span>
-          <span class="tag mari">Mari</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="creative-card">
-      <div class="creative-image">[Image: Feather Columns]</div>
-      <div class="creative-content">
-        <div class="title">🪶 Feather Columns</div>
-        <div class="desc">Contemporary art installation at Parallel Time and Space Exhibition, Tongji University.</div>
-        <div class="tags">
-          <span class="tag installation">Installation</span>
-          <span class="tag graphic">Contemporary Art</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="creative-card">
-      <div class="creative-image" style="background: linear-gradient(135deg, #09203f 0%, #537895 100%); color: #fff;">[Image: Immersive Auto Space]</div>
-      <div class="creative-content">
-        <div class="title">🚙 Immersive Automotive Space</div>
-        <div class="desc">Digital media installation for the Volkswagen Touareg Launch Event, Dalian.</div>
-        <div class="tags">
-          <span class="tag uiux">Digital Media</span>
-          <span class="tag installation">Immersive Experience</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="creative-card">
-      <div class="creative-image" style="background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%); color: #fff;">[Image: The Story of the Ocean]</div>
-      <div class="creative-content">
-        <div class="title">🌊 The Story of the Ocean</div>
-        <div class="desc">3D animation exploring marine ecology and memory.<br><span style="color:#888; font-size:12px; margin-top:6px; display:inline-block;">IOAF · Bronze Award</span></div>
-        <div class="tags">
-          <span class="tag anim">3D Animation</span>
-          <span class="tag vray">Rendering</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <h3 data-i18n="h_pres">Presentations</h3>
+  <h4 data-i18n="h_pres">Presentations</h4>
   <div class="pub-item">
     <div class="pub-title">Situated Bodies, Wandering Minds: Games, Growth, and Wayfinding Across Cultures</div>
     <div class="pub-authors"><span class="me">Y. Xu</span>, Y.-S. Lin</div>
-    <div class="pub-venue">ACM SIGGRAPH 2025, Vancouver — Birds of a Feather (BOF) Session <span class="pub-year">· 2025</span></div>
+    <div class="pub-venue">ACM SIGGRAPH Conference on Computer Graphics and Interactive Techniques (SIGGRAPH) 2025, Vancouver — Birds of a Feather (BOF) Session <span class="pub-year">· 2025</span></div>
   </div>
   <div class="pub-item">
     <div class="pub-title">Creativity for Sensational Perception</div>
     <div class="pub-authors"><span class="me">Y. Xu</span></div>
-    <div class="pub-venue">HCI International 2024, Washington DC <span class="pub-year">· 2024</span></div>
+    <div class="pub-venue">HCI International Conference (HCII) 2024, Washington DC <span class="pub-year">· 2024</span></div>
   </div>
   <div class="pub-item">
     <div class="pub-title">Graduate Commencement Speech</div>
@@ -1174,37 +1099,41 @@ a:hover { color: var(--accent-light); }
     <div class="pub-authors"><span class="me">Y. Xu</span></div>
     <div class="pub-venue">East China University of Science and Technology Graduation Ceremony <span class="pub-year">· Jul 2020</span></div>
   </div>
+
 </section>
+
+
 
 <!-- ──── EXPERIENCE ──── -->
 <section class="page" id="experience">
   <h2 data-i18n="h_exp">Experience</h2>
   <p class="page-subtitle" data-i18n="sub_exp">Education, teaching, research, and industry positions</p>
 
+  <div data-i18n="exp_content">
   <h4 data-i18n="h_edu">Education</h4>
   <div class="timeline-item">
     <div class="period">2025 – 2029 (expected)</div>
     <div class="role">Ph.D. in Interdisciplinary Studies</div>
     <div class="org">University of British Columbia</div>
-    <div class="details">Faculty of Creative & Critical Studies. Co-supervised by Prof. Aleksandra Dulic and Prof. Patricia Lasserre. Research: educational game co-design for Okanagan water knowledge. Funded by Okanagan Graduate Research Scholarship (OGRS) and International Doctoral Partial Tuition Award (IDPT).</div>
+    <div class="details">Faculty of Creative &amp; Critical Studies. Co-supervised by <a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank">Prof. Aleksandra Dulic</a> (Professor, FCCS) and <a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank">Prof. Patricia Lasserre</a> (Associate Professor, Computer Science). Research: educational game co-design for Okanagan water knowledge. Fully funded: OGRS (CAD $25,000/year) and IDPT tuition award.</div>
   </div>
   <div class="timeline-item">
     <div class="period">2020 – 2023</div>
-    <div class="role">M.Des. in Design Engineering</div>
-    <div class="org">Tongji University, Shanghai</div>
-    <div class="details">Interdisciplinary Studies. GPA: 89.9/100. Full scholarship recipient. Graduate Commencement Speaker (2023). Coursework: Critical Thinking, Data Analysis in Design Research, Co-design Project, Information Design and Visualization, Parametric Design, UX Design.</div>
+    <div class="role">M.Eng. in Design</div>
+    <div class="org">Tongji University, Shanghai — College of Design and Innovation</div>
+    <div class="details">Full scholarship recipient (¥32,000). Graduate Commencement Speaker (2023). Coursework: Critical Thinking, Data Analysis in Design Research, Co-design Project, Information Design and Visualization, Parametric Design, UX Design.</div>
   </div>
   <div class="timeline-item">
     <div class="period">2016 – 2020</div>
-    <div class="role">B.F.A. (Honours)</div>
+    <div class="role">B.A. in Product Design</div>
     <div class="org">East China University of Science and Technology, Shanghai</div>
-    <div class="details">Multidisciplinary and Interdisciplinary Arts. GPA: 3.7/4.0, Rank: Top 1%. National Scholarship (Top 0.2%). Shanghai Outstanding Graduate (Top 2%). Graduate Commencement Speaker (2020). TA for Shanghai Municipal Premium Course in Design Graphics. Coursework: Ergonomics, Interaction Design, UX Design, Computer-aided Design, Psychology of Design, Design Research.</div>
+    <div class="details">GPA: 3.7/4.0, Rank first in major for 4 consecutive years. National Scholarship (Top 0.2%, ¥8,000). Cheng Si-wei Honorary Principal's Scholarship (Top 1%). Grand Prize Academic Scholarship (5 consecutive semesters). Person of the Year Nominee. Role Model Ambassador. Shanghai Outstanding Graduate (Top 2%). Graduate Commencement Speaker (2020). TA for Shanghai Municipal Premium Course in Design Graphics.</div>
   </div>
 
   <h4 data-i18n="h_training">Professional Training</h4>
   <div class="timeline-item">
     <div class="period">2023 – 2025</div>
-    <div class="role">Game Industry Training (48 weeks + 16-week mentorship)</div>
+    <div class="role">Diploma in Game Design, Animation, and VFX</div>
     <div class="org">Think Tank Training Centre, Vancouver</div>
     <div class="details">Full-cycle game production pipeline — concept art through release. 3D animation, VFX, and game design.</div>
   </div>
@@ -1225,6 +1154,12 @@ a:hover { color: var(--accent-light); }
     <div class="details">Supporting instruction in AI applications for creative practice. Responsibilities include grading, leading tutorial sessions, providing student feedback, and facilitating in-class activities on generative AI, prompt engineering, and creative coding.</div>
   </div>
   <div class="timeline-item">
+    <div class="period">Dec 2025 – Feb 2026</div>
+    <div class="role">Marker — CCS 330: Game Design</div>
+    <div class="org">University of British Columbia</div>
+    <div class="details">Grading assignments and providing written feedback for a game design course.</div>
+  </div>
+  <div class="timeline-item">
     <div class="period">2018 – 2020</div>
     <div class="role">Teaching Assistant — Design Graphics (Shanghai Municipal Premium Course)</div>
     <div class="org">East China University of Science and Technology, Shanghai</div>
@@ -1234,7 +1169,7 @@ a:hover { color: var(--accent-light); }
   <h4 data-i18n="h_industry">Industry</h4>
   <div class="timeline-item">
     <div class="period">2022 – 2023</div>
-    <div class="role">Product Manager</div>
+    <div class="role">Product Manager — iXp Program</div>
     <div class="org">SAP Labs — SAP Analytics Cloud</div>
     <div class="details">Led UX and analytics initiatives; organised workshops for enterprise users; facilitated stakeholder demos and user testing.</div>
   </div>
@@ -1256,6 +1191,105 @@ a:hover { color: var(--accent-light); }
     <div class="org">SharePlay 享玩 — Recreational Equipment Sharing Platform, Shanghai</div>
     <div class="details">Led operations and brand partnerships for a university startup. National Gold Award, China Youth Innovation and Entrepreneurship Competition.</div>
   </div>
+  </div>
+</section>
+
+<!-- ──── CREATIVE WORKS ──── -->
+<section class="page" id="creative">
+  <h2 data-i18n="h_creative">Creative Works</h2>
+  <p class="page-subtitle" data-i18n="sub_creative">Research-creation projects in game design, animation, AR, and installation</p>
+
+  <div class="creative-grid">
+    
+    <a class="creative-card" href="https://yoana.notion.site/huntress-wip?pvs=25" target="_blank">
+      <div class="creative-image"><div style="width:100%;height:100%;min-height:180px;background:linear-gradient(135deg,#D4E6DA,#E8F0EB);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:13px;font-family:var(--font-mono);text-align:center;padding:16px;border:1px dashed var(--border);">Roller-Skating Knight</div></div>
+      <div class="creative-content">
+        <div class="title">🛼 Roller-Skating Knight</div>
+        <div class="desc" data-i18n="cw_roller">Game project — 3D character design and interactive experience.<br><span style="color:#888; font-size:12px; margin-top:6px; display:inline-block;">Rookie Awards · A Ranking</span></div>
+        <div class="tags">
+          <span class="tag zbrush">Zbrush</span>
+          <span class="tag maya">Maya</span>
+          <span class="tag substance">Substance Painter</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="creative-card" href="https://yoana.notion.site/AR-game-for-Maison-Margiela-492868cf96ad47dc8eb54246135744f1?pvs=25" target="_blank">
+      <div class="creative-image"><div style="width:100%;height:100%;min-height:180px;background:linear-gradient(135deg,#E8DCF0,#F0EAF6);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:13px;font-family:var(--font-mono);text-align:center;padding:16px;border:1px dashed var(--border);">AR game for Maison Margiela</div></div>
+      <div class="creative-content">
+        <div class="title" data-i18n="cw_margiela_title">🖼️ AR game for Maison Margiela</div>
+        <div class="desc" data-i18n="cw_margiela">Augmented reality mobile game for the Replica Perfume Series.</div>
+        <div class="tags">
+          <span class="tag figma">Figma</span>
+          <span class="tag uiux">UI/UX</span>
+          <span class="tag graphic">Graphic design</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="creative-card" href="https://yoana.notion.site/Ganesha-1362f5f10da740e1ab4afac39adf16bb?pvs=25" target="_blank">
+      <div class="creative-image"><div style="width:100%;height:100%;min-height:180px;background:linear-gradient(135deg,#F0E8DC,#F6F0EA);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:13px;font-family:var(--font-mono);text-align:center;padding:16px;border:1px dashed var(--border);">Ganesha</div></div>
+      <div class="creative-content">
+        <div class="title">🐘 Ganesha</div>
+        <div class="desc" data-i18n="cw_ganesha">Visual effects project exploring mythological forms.<br><span style="color:#888; font-size:12px; margin-top:6px; display:inline-block;">Rookie Awards · A Ranking</span></div>
+        <div class="tags">
+          <span class="tag maya">Maya</span>
+          <span class="tag vray">V-ray</span>
+          <span class="tag mari">Mari</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="creative-card" href="https://yoana.notion.site/The-struggle-5eb42bf0cb30496992ceaa72edbd4079?pvs=25" target="_blank">
+      <div class="creative-image"><div style="width:100%;height:100%;min-height:180px;background:linear-gradient(135deg,#DCE8F0,#EAF0F6);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:13px;font-family:var(--font-mono);text-align:center;padding:16px;border:1px dashed var(--border);">The Struggle</div></div>
+      <div class="creative-content">
+        <div class="title" data-i18n="cw_struggle_title">🎬 The struggle</div>
+        <div class="desc" data-i18n="cw_struggle">3D animation — character-driven narrative piece.<br><span style="color:#888; font-size:12px; margin-top:6px; display:inline-block;">Rookie Awards · A Ranking</span></div>
+        <div class="tags">
+          <span class="tag maya">Maya</span>
+          <span class="tag vray">V-ray</span>
+          <span class="tag mari">Mari</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="creative-card" href="https://yoana.notion.site/Minimal-Surface-digital-media-4962b5fd8e5f417aa905dee472b9d637?pvs=25" target="_blank">
+      <div class="creative-image"><div style="width:100%;height:100%;min-height:180px;background:linear-gradient(135deg,#E8E8DC,#F0F0EA);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:13px;font-family:var(--font-mono);text-align:center;padding:16px;border:1px dashed var(--border);">Feather Columns</div></div>
+      <div class="creative-content">
+        <div class="title" data-i18n="cw_feather_title">🪶 Feather Columns</div>
+        <div class="desc" data-i18n="cw_feather">Contemporary art installation at Parallel Time and Space Exhibition, Tongji University.</div>
+        <div class="tags">
+          <span class="tag installation">Installation</span>
+          <span class="tag graphic">Contemporary Art</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="creative-card" href="https://yoana.notion.site/Digital-media-for-Volkswagen-Touareg-Launch-Event-d9746be5b6a741bfaacafca513b42391?pvs=25" target="_blank">
+      <div class="creative-image"><div style="width:100%;height:100%;min-height:180px;background:linear-gradient(135deg,#F0DCDC,#F6EAEA);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:13px;font-family:var(--font-mono);text-align:center;padding:16px;border:1px dashed var(--border);">Immersive Automotive Space</div></div>
+      <div class="creative-content">
+        <div class="title" data-i18n="cw_auto_title">🚙 Immersive Automotive Space</div>
+        <div class="desc" data-i18n="cw_auto">Digital media installation for the Volkswagen Touareg Launch Event, Dalian.</div>
+        <div class="tags">
+          <span class="tag uiux">Digital Media</span>
+          <span class="tag installation">Immersive Experience</span>
+        </div>
+      </div>
+    </a>
+
+    <a class="creative-card" href="https://yoana.notion.site/" target="_blank">
+      <div class="creative-image"><div style="width:100%;height:100%;min-height:180px;background:linear-gradient(135deg,#DCF0E8,#EAF6F0);display:flex;align-items:center;justify-content:center;color:var(--accent);font-size:13px;font-family:var(--font-mono);text-align:center;padding:16px;border:1px dashed var(--border);">The Story of the Ocean</div></div>
+      <div class="creative-content">
+        <div class="title" data-i18n="cw_ocean_title">🌊 The Story of the Ocean</div>
+        <div class="desc" data-i18n="cw_ocean">3D animation exploring marine ecology and memory.<br><span style="color:#888; font-size:12px; margin-top:6px; display:inline-block;">IOAF · Bronze Award</span></div>
+        <div class="tags">
+          <span class="tag anim">3D Animation</span>
+          <span class="tag vray">Rendering</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
 </section>
 
 <!-- ──── SERVICE & AWARDS ──── -->
@@ -1263,29 +1297,31 @@ a:hover { color: var(--accent-light); }
   <h2 data-i18n="h_service">Service &amp; Awards</h2>
   <p class="page-subtitle" data-i18n="sub_service">Academic reviewing, awards, and grants</p>
 
+  <div data-i18n="service_content">
   <h4 data-i18n="h_reviewing">Academic Reviewing</h4>
   <ul class="service-list">
-    <li><strong>ACM CHI</strong> — 2× Outstanding Review Recognition (2025)</li>
-    <li><strong>ACM DIS</strong> — Designing Interactive Systems</li>
-    <li><strong>ACM C&amp;C</strong> — Creativity and Cognition</li>
-    <li><strong>ACM UIST</strong> — User Interface Software and Technology</li>
-    <li><strong>ACM ETRA</strong> — Eye Tracking Research and Applications</li>
-    <li><strong>ACM IMX</strong> — Interactive Media Experiences</li>
-    <li><strong>ACM CUI</strong> — Conversational User Interfaces</li>
-    <li><strong>ACM Auto UI</strong> — Automotive User Interfaces</li>
-    <li><strong>IEEE ISMAR</strong> — International Symposium on Mixed and Augmented Reality</li>
-    <li><strong>IEEE VR</strong> — IEEE Conference on Virtual Reality and 3D User Interfaces</li>
-    <li><strong>EuroVis</strong> — Eurographics Conference on Visualization</li>
-    <li><strong>CAADRIA</strong> — Computer-Aided Architectural Design Research in Asia (International Review Committee Member)</li>
-    <li><strong>IJHCI</strong> — International Journal of Human-Computer Interaction</li>
-    <li><strong>ITA</strong> — Innovation Technology Advances</li>
+    <li><strong>ACM Conference on Human Factors in Computing Systems (CHI)</strong> — Special Recognition for Outstanding Reviewing, twice (2025)</li>
+    <li><strong>ACM Conference on Designing Interactive Systems (DIS)</strong></li>
+    <li><strong>ACM Creativity and Cognition (C&amp;C)</strong></li>
+    <li><strong>ACM Symposium on User Interface Software and Technology (UIST)</strong></li>
+    <li><strong>ACM Symposium on Eye Tracking Research and Applications (ETRA)</strong></li>
+    <li><strong>ACM International Conference on Interactive Media Experiences (IMX)</strong></li>
+    <li><strong>ACM Conference on Conversational User Interfaces (CUI)</strong></li>
+    <li><strong>ACM Conference on Automotive User Interfaces and Interactive Vehicular Applications (AutoUI)</strong></li>
+    <li><strong>IEEE International Symposium on Mixed and Augmented Reality (ISMAR)</strong></li>
+    <li><strong>IEEE Conference on Virtual Reality and 3D User Interfaces (IEEE VR)</strong></li>
+    <li><strong>Eurographics/IEEE Conference on Visualization (EuroVis)</strong></li>
+    <li><strong>Computer-Aided Architectural Design Research in Asia (CAADRIA)</strong> — International Review Committee Member</li>
+    <li><strong>International Journal of Human-Computer Interaction (IJHCI)</strong></li>
+    <li><strong>Innovation Technology Advances (ITA)</strong></li>
   </ul>
 
   <h4 data-i18n="h_awards">Selected Awards</h4>
-  <div class="award-item"><span class="year">2025</span><span class="name">Okanagan Graduate Research Scholarship (OGRS) + International Doctoral Partial Tuition Award (IDPT)</span><span class="source"> — University of British Columbia · 4-year doctoral funding</span></div>
-  <div class="award-item"><span class="year">2025</span><span class="name">Outstanding Review × 2</span><span class="source"> — ACM CHI (Conference on Human Factors in Computing Systems)</span></div>
+  <div class="award-item"><span class="year">2025</span><span class="name">Okanagan Graduate Research Scholarship (OGRS)</span><span class="source"> — University of British Columbia · CAD $25,000/year · 4-year doctoral funding</span></div>
+  <div class="award-item"><span class="year">2025</span><span class="name">International Doctoral Partial Tuition Award (IDPT)</span><span class="source"> — University of British Columbia · tuition offset for international doctoral students</span></div>
+  <div class="award-item"><span class="year">2025</span><span class="name">Special Recognition for Outstanding Reviewing, twice</span><span class="source"> — ACM Conference on Human Factors in Computing Systems (CHI)</span></div>
   <div class="award-item"><span class="year">2025</span><span class="name">Rookie of the Year – A Ranking (Game)</span><span class="source"> — The Rookies Awards (Exceptional, Industry-Ready Skills)</span></div>
-  <div class="award-item"><span class="year">2024</span><span class="name">Rookie of the Year – A Ranking (VFX + 3D Animation)</span><span class="source"> — The Rookies Awards (Exceptional, Industry-Ready Skills)</span></div>
+  <div class="award-item"><span class="year">2024</span><span class="name">Rookie of the Year – A Ranking (VFX and 3D Animation)</span><span class="source"> — The Rookies Awards (Exceptional, Industry-Ready Skills)</span></div>
   <div class="award-item"><span class="year">2023</span><span class="name">Graduate Commencement Speaker</span><span class="source"> — Tongji University</span></div>
   <div class="award-item"><span class="year">2021</span><span class="name">Full Scholarship (¥32,000)</span><span class="source"> — Tongji University</span></div>
   <div class="award-item"><span class="year">2021</span><span class="name">Bronze Award</span><span class="source"> — International Ocean Art Festival (IOAF) Starfish International Young Artists Exhibition</span></div>
@@ -1293,8 +1329,9 @@ a:hover { color: var(--accent-light); }
   <div class="award-item"><span class="year">2020</span><span class="name">Graduate Commencement Speaker</span><span class="source"> — East China University of Science &amp; Technology</span></div>
   <div class="award-item"><span class="year">2019</span><span class="name">National First Prize — FPGA Blind Navigation</span><span class="source"> — “Challenge Cup” National College Students’ Extracurricular Academic Science and Technology Works Competition (全国一等奖)</span></div>
   <div class="award-item"><span class="year">2018</span><span class="name">National Gold Award — SharePlay</span><span class="source"> — “Chuang Qingchun” China Youth Innovation and Entrepreneurship Competition (全国金奖)</span></div>
-  <div class="award-item"><span class="year">2017</span><span class="name">National Scholarship (Top 0.2%)</span><span class="source"> — Ministry of Education, People’s Republic of China</span></div>
-  <div class="award-item"><span class="year">2016–2019</span><span class="name">Cheng Si-wei Honorary Principal’s Scholarship (Top 1%) + Grand Prize Academic Scholarship — Rank #1 in Major</span><span class="source"> — ECUST · 5 consecutive semesters, 24 required courses with full marks</span></div>
+  <div class="award-item"><span class="year">2017</span><span class="name">National Scholarship (Top 0.2%, ¥8,000)</span><span class="source"> — Ministry of Education, People’s Republic of China</span></div>
+  <div class="award-item"><span class="year">2016–2019</span><span class="name">Cheng Si-wei Honorary Principal’s Scholarship (Top 1%)</span><span class="source"> — East China University of Science and Technology</span></div>
+  <div class="award-item"><span class="year">2016–2019</span><span class="name">Grand Prize Academic Scholarship — First in Major</span><span class="source"> — East China University of Science and Technology · 5 consecutive semesters, 24 required courses with full marks</span></div>
 
   <h4 data-i18n="h_funding">Research Funding</h4>
   <div class="award-item"><span class="year">2022</span><span class="name">Shanghai Technology Entrepreneurship Foundation (EFG) — ¥500,000</span><span class="source"> — PI · "Designing Childhood: Play, Emotion, and Soft Toys"</span></div>
@@ -1303,6 +1340,7 @@ a:hover { color: var(--accent-light); }
   <div class="award-item"><span class="year">2017</span><span class="name">Shanghai College Student Innovation Program (No. X18223)</span><span class="source"> — Team Leader</span></div>
   <div class="award-item"><span class="year">2017</span><span class="name">Shanghai Student Innovation &amp; Entrepreneurship Training (EFG)</span><span class="source"> — Applicant · ¥2,000</span></div>
 
+  </div>
   <div class="footer">
     © 2026 Yuanyuan Xu
   </div>
@@ -1330,28 +1368,35 @@ const i18n = {
     nav_about: '<span class="nav-num">01</span>关于',
     nav_research: '<span class="nav-num">02</span>研究',
     nav_pub: '<span class="nav-num">03</span>论文发表',
-    nav_creative: '<span class="nav-num">04</span>创作作品',
-    nav_exp: '<span class="nav-num">05</span>经历',
+    nav_exp: '<span class="nav-num">04</span>经历',
+    nav_creative: '<span class="nav-num">05</span>创意作品',
     nav_service: '<span class="nav-num">06</span>服务与荣誉',
     // About
     h_about: '关于',
     sub_about: '交互媒体、游戏化学习与跨文化人机交互研究者',
-    about_intro: '<strong>我研究交互媒体和游戏如何连接不同文化的知识体系、培育生态意识并支持参与式学习</strong> — 工作于人机交互、游戏设计与可持续发展的交叉领域。<br><br>我在上海出生长大，现为UBC博士研究员，与Syilx (Okanagan) 原住民社区共同创作教育游戏，动员多元水知识，培养青年的环境韧性。这项工作将原住民对话协议、参与式设计方法和游戏化学习编织在一起，同时受到我自身吴越文化背景和长三角正在流逝的水记忆的启发。<br><br>在攻读博士之前，我接受了用户体验与跨文化交互设计的训练，曾在SAP Labs和西门子担任产品经理，并在加拿大游戏行业完成了专业培训。我的研究-创作作品集包括3D动画、AR游戏设计和沉浸式装置，作品在国际上展出。早期关于包容性技术的设计作品曾被<a href="https://www.shine.cn/news/metro/1905305710/" target="_blank"><em>上海日报</em>头版报道</a> (2019)。',
+    about_intro: '<strong>我的研究关注交互媒体与游戏如何连接不同文化的知识体系、唤起生态意识，并促进参与式学习</strong> — 研究领域横跨人机交互、游戏设计与可持续发展。<br><br>我在上海出生长大，现为不列颠哥伦比亚大学（UBC）博士研究生，联合导师为<a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank"><strong>Aleksandra Dulic 教授</strong></a>（创意与批判研究学院教授）和<a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank"><strong>Patricia Lasserre 教授</strong></a>（计算机科学副教授），与 Syilx（Okanagan）原住民社区协作共创教育游戏，汇聚多元水知识，增强青年的环境适应力。这项研究融合了原住民对话协议、参与式设计与游戏化学习方法，同时汲取了我个人的江南文化背景及长三角地区逐渐消逝的水乡记忆。<br><br>攻读博士前，我在用户体验与跨文化交互设计领域积累了扎实的基础，曾在 SAP Labs 和西门子担任产品经理，并在加拿大接受了系统的游戏行业专业培训。我的研究-创作（Research-Creation）作品涵盖 3D 动画、AR 游戏设计和沉浸式装置，曾在国际范围内展出。早年关于无障碍包容性设计的作品曾获<a href="https://www.shine.cn/news/metro/1905305710/" target="_blank"><em>上海日报</em>专题报道</a> (2019)。',
+    about_keywords: '<span>参与式设计</span><span>游戏化学习</span><span>环境韧性</span><span>跨文化人机交互</span><span>严肃游戏</span><span>交互叙事</span><span>可持续发展</span>',
     h_news: '最新动态',
+    news_list: '<li><span class="news-date">2026年6月</span><span class="news-text">将在爱尔兰<strong>数字游戏研究协会年会 (DiGRA) 2026</strong> 进行博士联盟与教育分会报告 <span class="badge green">预告</span></span></li><li><span class="news-date">2026年6月</span><span class="news-text">三篇论文被<strong>数字游戏研究协会年会 (DiGRA) 2026</strong>录用（两篇第一作者，一篇合著）— 生态游戏教师整合与奥肯纳根环境韧性设计 <span class="badge green">预告</span></span></li><li><span class="news-date">2026年3月</span><span class="news-text">论文发表于 <strong>Sustainability</strong>：<a href="https://doi.org/10.3390/su18052305" target="_blank">游戏化学习促进环境韧性的系统综述</a></span></li><li><span class="news-date">2026年6月</span><span class="news-text">将在蒙特利尔<strong>国际人机交互大会 (HCII) 2026</strong> 发表三篇论文（Springer LNCS/CCIS）— 3D游戏中的生态共情、动画设计哲学、类魂游戏体验 <span class="badge green">预告</span></span></li><li><span class="news-date">2025年8月</span><span class="news-text">在温哥华 <strong>ACM 计算机图形与交互技术会议 (SIGGRAPH) 2025</strong> 发表 —「身体在场，思绪漫游」（Birds of a Feather 分会）</span></li><li><span class="news-date">2025年4月</span><span class="news-text">获 <strong>国际计算机学会人因与计算系统会议 (ACM CHI) 2025</strong> 两项<strong>杰出审稿人</strong>荣誉</span></li><li><span class="news-date">2025年9月</span><span class="news-text">入读 <strong>UBC</strong> 跨学科研究博士项目</span></li>',
     // Research
     h_research: '研究',
-    sub_research: '探索交互媒体和游戏如何动员多元知识体系以增强环境韧性',
+    sub_research: '探索交互媒体与游戏如何汇聚多元知识体系，增强环境适应力',
     h_doctoral: '博士研究',
+    doctoral_content: '<strong>协作共创教育游戏，汇聚奥肯纳根水知识</strong><br><span style="color:var(--accent); font-family:var(--font-mono); font-size:12px;">跨学科研究博士 · UBC · 2025–2029</span><br><br>我的博士课题探究教育游戏如何成为汇聚<em>多元水知识</em>的媒介——在西方科学认知与原住民（Syilx/Okanagan）生态智慧之间架起桥梁。通过与社区成员、教育工作者和青年的参与式协作设计，我致力于开发游戏化学习工具，以提升奥肯纳根山谷水治理中的<em>环境韧性</em>，并推动跨文化对话。<br><br>本研究隶属于UBC的 <a href="#" style="font-weight:600;">Beaver Worlds 项目</a>，该项目聚焦奥肯纳根水治理与原住民知识的传播动员。我的联合导师为<a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank" style="font-weight:600;">Aleksandra Dulic 教授</a>（创意与批判研究学院教授）和<a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank" style="font-weight:600;">Patricia Lasserre 教授</a>（计算机科学副教授）。',
     h_themes: '研究主题',
+    themes_content: '<div class="creative-card"><div class="title">游戏化学习与环境韧性</div><div class="desc">严肃游戏如何培养生态共情、系统思维和可持续行为？我的系统综述（Sustainability, 2026）系统梳理了该领域的研究进展，并归纳了有效生态游戏的关键设计原则。</div></div><div class="creative-card"><div class="title">原住民社区参与式设计</div><div class="desc">以文化扎根的对话方式和互惠协议为基础，与 Syilx（Okanagan）社区协作共创交互媒体——尊重原住民数据主权，保障数字空间中知识表达的自主权。</div></div><div class="creative-card"><div class="title">跨文化人机交互</div><div class="desc">研究文化语境如何影响和塑造人机交互体验——从跨文化大语言模型对话代理到跨文化游戏角色设计，立足于个人双语、双文化（中加）的成长背景。</div></div>',
     h_method: '方法论专长',
+    method_tags: '<span>参与式设计</span><span>共同设计</span><span>游戏化研究</span><span>系统综述</span><span>语义网络分析</span><span>眼动追踪研究</span><span>感性工学</span><span>用户体验研究</span><span>研究-创作</span>',
     h_future: '未来方向',
+    future_content: '我的长期学术目标是建构一套<em>文化回应性游戏设计</em>理论框架，使之能适用于多元生态与文化场景——从奥肯纳根山谷的水系统到长三角逐渐消逝的水乡记忆。我致力于发展设计方法论、工具与课程体系，支持教育者、设计师和社区协作共创尊重在地知识、促进环境治理的游戏。<br><br>我尤其关注 AI 增强的设计工具如何促进游戏开发中的跨文化协作，以及交互媒体如何弥合科学数据与日常生态体验之间的认知鸿沟。',
     // Publications
     h_pub: '论文发表',
+    h_journal: '期刊论文',
+    h_conf: '会议论文与书籍章节',
+    h_forthcoming: '即将发表（已录用）',
+    h_patents: '专利',
     sub_pub: '经同行评审的期刊论文、会议论文和书籍章节',
-    // Creative Works
-    h_creative: '创作作品',
-    sub_creative: '游戏设计、动画、AR和装置方向的研究-创作项目',
-    h_pres: '学术报告',
+    h_pres: '学术报告与演讲',
     // Experience
     h_exp: '经历',
     sub_exp: '教育背景、教学、科研和行业经历',
@@ -1360,12 +1405,29 @@ const i18n = {
     h_research_roles: '当前研究岗位',
     h_teaching: '教学经历',
     h_industry: '行业经历',
+    exp_content: '<h4>教育背景</h4><div class="timeline-item"><div class="period">2025 – 2029（预计）</div><div class="role">跨学科研究博士</div><div class="org">不列颠哥伦比亚大学 (UBC)</div><div class="details">创意与批判研究学院。联合导师：<a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank">Aleksandra Dulic 教授</a>（创意与批判研究学院教授）、<a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank">Patricia Lasserre 教授</a>（计算机科学副教授）。研究方向：协作共创教育游戏以汇聚奥肯纳根水知识。全额资助：OGRS (CAD $25,000/年) 及 IDPT 学费减免。</div></div><div class="timeline-item"><div class="period">2020 – 2023</div><div class="role">工学硕士（设计学）</div><div class="org">同济大学设计创意学院，上海</div><div class="details">全额学业奖学金（¥32,000）。2023年毕业典礼学生代表致辞。课程：批判性思维、设计研究中的数据分析、协同设计项目、信息设计与可视化、参数化设计、用户体验设计。</div></div><div class="timeline-item"><div class="period">2016 – 2020</div><div class="role">文学学士（产品设计）</div><div class="org">华东理工大学，上海</div><div class="details">GPA：3.7/4.0，连续四年专业排名第一。国家奖学金（前0.2%，¥8,000）。成思危名誉校长奖学金（前1%）。特等学业奖学金（连续5学期）。年度人物提名。「榜样力量」代言人。上海市优秀毕业生（前2%）。2020年毕业典礼学生代表致辞。上海市精品课程「设计图学」助教。</div></div><h4>专业培训</h4><div class="timeline-item"><div class="period">2023 – 2025</div><div class="role">游戏设计、动画与视觉特效文凭</div><div class="org">Think Tank Training Centre，温哥华</div><div class="details">系统学习全流程游戏制作管线（从概念设计到产品上线），专攻 3D 动画、视觉特效与游戏设计。</div></div><h4>当前研究岗位</h4><div class="timeline-item"><div class="period">2025年9月 – 至今</div><div class="role">研究助理 — 文化与技术中心</div><div class="org">不列颠哥伦比亚大学</div><div class="details">参与 Beaver Worlds 研究项目，聚焦奥肯纳根水治理与原住民知识动员，工作涵盖参与式游戏设计、社区协作以及生态数据可视化。</div></div><h4>教学经历</h4><div class="timeline-item"><div class="period">2026年1月 – 至今</div><div class="role">助教 — CCS 325：人工智能与创意</div><div class="org">不列颠哥伦比亚大学</div><div class="details">协助人工智能创意实践课程的教学工作，职责包括作业评分、主持辅导课、撰写学生反馈，以及组织课堂实践活动（涵盖生成式 AI、提示工程与创意编程）。</div></div><div class="timeline-item"><div class="period">2025年12月 – 2026年2月</div><div class="role">评分员 — CCS 330：游戏设计</div><div class="org">不列颠哥伦比亚大学</div><div class="details">负责游戏设计课程的作业评分与书面反馈。</div></div><div class="timeline-item"><div class="period">2018 – 2020</div><div class="role">助教 — 设计图学（上海市精品课程）</div><div class="org">华东理工大学，上海</div><div class="details">协助讲授省级精品课程「设计图学」，辅导学生学习工程制图、数字插画与设计基础。</div></div><h4>行业经历</h4><div class="timeline-item"><div class="period">2022 – 2023</div><div class="role">产品经理 — iXp 项目</div><div class="org">SAP Labs — SAP Analytics Cloud</div><div class="details">主导用户体验与数据分析项目，策划组织企业用户工作坊，协调利益相关方产品演示与用户测试。</div></div><div class="timeline-item"><div class="period">2020（6个月）</div><div class="role">产品经理实习生</div><div class="org">西门子 — 智能基础设施</div><div class="details">负责西门子 8PT 配电盘产品的更新迭代、销售支持和客户培训，实地走访客户开展现场培训，制作培训视频与教材。</div></div><div class="timeline-item"><div class="period">2020（3个月）</div><div class="role">用户体验设计实习生</div><div class="org">上海家化 — 消费品</div><div class="details">开展用户研究，为消费品数字化平台输出 UX 设计交付物，参与用户旅程地图绘制与界面原型设计。</div></div><div class="timeline-item"><div class="period">2017 – 2019</div><div class="role">联合创始人</div><div class="org">享玩 SharePlay — 娱乐设备共享平台，上海</div><div class="details">负责大学生创业项目的日常运营与品牌合作，项目获"创青春"全国大学生创新创业大赛金奖。</div></div>',
+    // Creative Works
+    h_creative: '创意作品',
+    sub_creative: '游戏设计、动画、增强现实与装置艺术方向的研究-创意项目',
+    cw_roller: '游戏项目 — 3D角色设计与交互体验。<br><span style="color:#888; font-size:12px; margin-top:6px; display:inline-block;">Rookie Awards · A级评定</span>',
+    cw_margiela_title: '🖼️ Maison Margiela AR 游戏',
+    cw_margiela: 'Replica 香水系列增强现实手机游戏。',
+    cw_ganesha: '探索神话形态的视觉特效项目。<br><span style="color:#888; font-size:12px; margin-top:6px; display:inline-block;">Rookie Awards · A级评定</span>',
+    cw_struggle_title: '🎬 挣扎',
+    cw_struggle: '3D动画 — 角色驱动的叙事作品。<br><span style="color:#888; font-size:12px; margin-top:6px; display:inline-block;">Rookie Awards · A级评定</span>',
+    cw_feather_title: '🪶 羽柱',
+    cw_feather: '当代艺术装置，同济大学「平行时空」展览。',
+    cw_auto_title: '🚙 沉浸式汽车空间',
+    cw_auto: '大众途锐新车发布活动数字媒体装置（大连）。',
+    cw_ocean_title: '🌊 海洋的故事',
+    cw_ocean: '3D动画，探索海洋生态与记忆。<br><span style="color:#888; font-size:12px; margin-top:6px; display:inline-block;">IOAF · 铜奖</span>',
     // Service & Awards
     h_service: '服务与荣誉',
     sub_service: '学术审稿、获奖和研究资助',
     h_reviewing: '学术审稿',
     h_awards: '获奖精选',
     h_funding: '研究资助',
+    service_content: '<h4>学术审稿</h4><ul class="service-list"><li><strong>国际计算机学会人因与计算系统会议 (ACM CHI)</strong> — 两次杰出审稿人荣誉 (2025)</li><li><strong>国际计算机学会交互系统设计会议 (ACM DIS)</strong></li><li><strong>国际计算机学会创造力与认知会议 (ACM C&amp;C)</strong></li><li><strong>国际计算机学会用户界面软件与技术研讨会 (ACM UIST)</strong></li><li><strong>国际计算机学会眼动追踪研究与应用研讨会 (ACM ETRA)</strong></li><li><strong>国际计算机学会交互媒体体验国际会议 (ACM IMX)</strong></li><li><strong>国际计算机学会对话用户界面会议 (ACM CUI)</strong></li><li><strong>国际计算机学会汽车用户界面与交互式车载应用会议 (ACM AutoUI)</strong></li><li><strong>IEEE 混合与增强现实国际研讨会 (ISMAR)</strong></li><li><strong>IEEE 虚拟现实与3D用户界面会议 (IEEE VR)</strong></li><li><strong>欧洲图形学/IEEE 可视化会议 (EuroVis)</strong></li><li><strong>亚洲计算机辅助建筑设计研究协会 (CAADRIA)</strong> — 国际评审委员会成员</li><li><strong>国际人机交互期刊 (IJHCI)</strong></li><li><strong>创新技术进展 (ITA)</strong></li></ul><h4>获奖精选</h4><div class="award-item"><span class="year">2025</span><span class="name">奥肯纳根研究生奖学金 (OGRS)</span><span class="source"> — 不列颠哥伦比亚大学 · CAD $25,000/年 · 四年博士资助</span></div><div class="award-item"><span class="year">2025</span><span class="name">国际博士部分学费奖 (IDPT)</span><span class="source"> — 不列颠哥伦比亚大学 · 国际博士学费减免</span></div><div class="award-item"><span class="year">2025</span><span class="name">杰出审稿人特别认可（两次）</span><span class="source"> — 国际计算机学会人因与计算系统会议 (ACM CHI)</span></div><div class="award-item"><span class="year">2025</span><span class="name">Rookie of the Year – A 级评定（游戏）</span><span class="source"> — The Rookies Awards（作品优异、具备行业就绪技能）</span></div><div class="award-item"><span class="year">2024</span><span class="name">Rookie of the Year – A 级评定（VFX 及 3D动画）</span><span class="source"> — The Rookies Awards（作品优异、具备行业就绪技能）</span></div><div class="award-item"><span class="year">2023</span><span class="name">毕业典礼学生代表致辞</span><span class="source"> — 同济大学</span></div><div class="award-item"><span class="year">2021</span><span class="name">全额奖学金（¥32,000）</span><span class="source"> — 同济大学</span></div><div class="award-item"><span class="year">2021</span><span class="name">铜奖</span><span class="source"> — 国际海洋艺术节 (IOAF) 海星国际青年艺术家展</span></div><div class="award-item"><span class="year">2020</span><span class="name">上海市优秀毕业生（前2%）</span><span class="source"> — 上海市教育委员会</span></div><div class="award-item"><span class="year">2020</span><span class="name">毕业典礼学生代表致辞</span><span class="source"> — 华东理工大学</span></div><div class="award-item"><span class="year">2019</span><span class="name">全国一等奖 — FPGA盲人导航</span><span class="source"> — "挑战杯"全国大学生课外学术科技作品竞赛</span></div><div class="award-item"><span class="year">2018</span><span class="name">全国金奖 — 享玩</span><span class="source"> — "创青春"全国大学生创新创业大赛</span></div><div class="award-item"><span class="year">2017</span><span class="name">国家奖学金（前0.2%，¥8,000）</span><span class="source"> — 中华人民共和国教育部</span></div><div class="award-item"><span class="year">2016–2019</span><span class="name">成思危名誉校长奖学金（前1%）</span><span class="source"> — 华东理工大学</span></div><div class="award-item"><span class="year">2016–2019</span><span class="name">特等学业奖学金 — 专业排名第一</span><span class="source"> — 华东理工大学 · 连续5学期，24门必修课满分</span></div><h4>研究资助</h4><div class="award-item"><span class="year">2022</span><span class="name">上海科技创业基金会 (EFG) — ¥500,000</span><span class="source"> — 课题负责人 ·「设计童年：游戏、情感与毛绒玩具」</span></div><div class="award-item"><span class="year">2017</span><span class="name">上海高校一流学科建设基金（IV类 — 设计学）</span><span class="source"> — 学生研究员 ·「基于感性工学的用户感知分析」</span></div><div class="award-item"><span class="year">2017</span><span class="name">国家自然科学基金项目（No. 51905175）</span><span class="source"> — 学生研究员 ·「感性工学产品形态设计」</span></div><div class="award-item"><span class="year">2017</span><span class="name">上海大学生创新计划项目（No. X18223）</span><span class="source"> — 团队负责人</span></div><div class="award-item"><span class="year">2017</span><span class="name">上海大学生创新创业培训 (EFG)</span><span class="source"> — 申请人 · ¥2,000</span></div>',
   }
 };
 
@@ -1392,8 +1454,43 @@ function setLang(lang) {
       if (enCache[key]) el.innerHTML = enCache[key];
     }
   });
+  // Switch CV link
+  const cvLink = document.getElementById('cv-link');
+  if (cvLink) {
+    cvLink.href = lang === 'cn' ? 'YuanyuanXu_CV_CN.pdf' : 'YuanyuanXu_CV.pdf';
+  }
   // Update page title
   document.title = lang === 'cn' ? '徐园园 — 设计研究者' : 'Yuanyuan Xu — Design Researcher';
+  // Switch to sans-serif for Chinese
+  document.body.style.fontFamily = lang === 'cn' 
+    ? "var(--font-cn)" 
+    : "";
+  document.querySelectorAll('h1,h2,.pub-title,.timeline-item .role').forEach(el => {
+    el.style.fontFamily = lang === 'cn' ? 'var(--font-cn)' : '';
+  });
+  // Toggle Chinese/English publication titles for bilingual papers
+  document.querySelectorAll('.cn-pub-title').forEach(el => {
+    el.style.display = lang === 'cn' ? 'block' : 'none';
+  });
+  document.querySelectorAll('.en-pub-title').forEach(el => {
+    // In EN mode: en-pub-title is the main visible title
+    // In CN mode: en-pub-title becomes a subtitle below cn-pub-title
+    if (lang === 'cn') {
+      el.style.display = 'block';
+      el.style.fontSize = '13.5px';
+      el.style.color = 'var(--text-secondary)';
+      el.style.fontWeight = '400';
+    } else {
+      el.style.display = 'block';
+      el.style.fontSize = '14.5px';
+      el.style.color = '';
+      el.style.fontWeight = '600';
+    }
+  });
+  // Apply sans-serif font to ALL elements in Chinese mode
+  document.querySelectorAll('h1,h2,h3,h4,.pub-title,.timeline-item .role,.page-subtitle,.about-intro,.about-intro em,.news-text,.creative-card .title,.creative-card .desc,.service-list li,.award-item,.footer').forEach(el => {
+    el.style.fontFamily = lang === 'cn' ? 'var(--font-cn)' : '';
+  });
 }
 </script>
 

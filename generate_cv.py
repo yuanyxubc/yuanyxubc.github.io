@@ -139,20 +139,20 @@ def build_cv():
     entry("2025 \u2013 2029", [
         P("<b>Ph.D. in Interdisciplinary Studies</b>",'entry_title'),
         P("<i>University of British Columbia</i>",'entry_italic'),
-        P("Faculty of Creative &amp; Critical Studies. Co-supervised by Prof. Aleksandra Dulic and Prof. Patricia Lasserre. Research: co-designing educational games with Indigenous communities for environmental resilience. Funded by Okanagan Graduate Research Scholarship (OGRS) and International Doctoral Partial Tuition Award (IDPT).")
+        P("Faculty of Creative &amp; Critical Studies. Co-supervised by Prof. Aleksandra Dulic (Professor, FCCS) and Prof. Patricia Lasserre (Associate Professor, Computer Science). Research: co-designing educational games with Indigenous communities for environmental resilience. Fully funded: OGRS (CAD $25,000/year) and IDPT tuition award.")
     ])
     entry("2020 \u2013 2023", [
-        P("<b>M.Des. in Design Engineering</b>",'entry_title'),
-        P("<i>Tongji University, Shanghai</i>",'entry_italic'),
-        P("GPA: 89.9/100. Full Scholarship. Graduate Commencement Speaker (2023).")
+        P("<b>M.Eng. in Design</b>",'entry_title'),
+        P("<i>Tongji University, Shanghai \u2014 College of Design and Innovation</i>",'entry_italic'),
+        P("Full Scholarship (\u00a532,000). Graduate Commencement Speaker (2023).")
     ])
     entry("2016 \u2013 2020", [
-        P("<b>B.F.A. (Honours) in Multidisciplinary and Interdisciplinary Arts</b>",'entry_title'),
+        P("<b>B.A. in Product Design</b>",'entry_title'),
         P("<i>East China University of Science and Technology, Shanghai</i>",'entry_italic'),
-        P("GPA: 3.7/4.0, Rank: Top 1%. National Scholarship (Top 0.2%). Shanghai Outstanding Graduate (Top 2%). Graduate Commencement Speaker (2020).")
+        P("GPA: 3.7/4.0, Rank first in major for 4 consecutive years. National Scholarship (Top 0.2%, \u00a58,000). Cheng Si-wei Honorary Principal's Scholarship (Top 1%). Grand Prize Academic Scholarship (5 consecutive semesters). Person of the Year Nominee. Role Model Ambassador. Shanghai Outstanding Graduate (Top 2%). Graduate Commencement Speaker (2020).")
     ])
     entry("2023 \u2013 2025", [
-        P("<b>Professional Training \u2014 Game Industry (48 wk + 16-wk mentorship)</b>",'entry_title'),
+        P("<b>Diploma in Game Design, Animation, and VFX</b>",'entry_title'),
         P("<i>Think Tank Training Centre, Vancouver</i>",'entry_italic'),
         P("Full-cycle game production pipeline: 3D animation, VFX, and game design.")
     ])
@@ -185,7 +185,7 @@ def build_cv():
         ("X. Shan, <b>Y. Xu*</b>, Y. Wang, Y.-S. Lin, Y. Bao","Cross-Cultural Implications of Large Language Models","HCII 2024, LNCS 15375, Springer, 2025","doi.org/10.1007/978-3-031-76806-4_8"),
         ("T. Xia*, <b>Y. Xu</b>, X. Shan","KOA-Monitor: A Digital Intervention and Functional Assessment System","HCII 2025, LNCS 15810, Springer, 2025","doi.org/10.1007/978-3-031-92710-2_26"),
         ("X. Shan, <b>Y. Xu*</b>, T. Xia, Y.-S. Lin","Designing Wine Tasting Experiences for All","HCII 2025, Springer, 2025",None),
-        ("X. Shan, <b>Y. Xu*</b>, Y.-S. Lin","Rethinking Wine Tasting for Chinese Consumers","HCII 2025, Springer, 2025",None),
+        ("X. Shan, <b>Y. Xu</b>, T. Xia, Y.-S. Lin","Rethinking Wine Tasting for Chinese Consumers","2025 IEEE International Conference on Content-Based Multimedia Indexing (CBMI), 2025",None),
         ("<b>Y. Xu*</b>, Y.-S. Lin","Exploring the Influence of User-Perceived Value on NEV-Enterprises","FFIT 2024, Atlantis Press, 2024","doi.org/10.2991/978-94-6463-572-0_2"),
         ("G. Tian, <b>Y. Xu*</b>","A Study on the Typeface Design Method of Han Characters Imitated Tangut","AEHSSR, 2022","doi.org/10.56028/aehssr.2.1.270"),
     ]: entry("", [pub(a,t,v,d)], sp=3)
@@ -205,12 +205,12 @@ def build_cv():
 
     # ---- PRESENTATIONS ----
     section("Presentations")
-    entry("Jun 2026", [P('<b>Y. Xu</b> et al. Three papers. <i>HCII 2026, Montreal.</i>')])
-    entry("Jun 2026", [P('<b>Y. Xu</b> et al. Doctoral Consortium and Education Session. <i>DiGRA 2026, Ireland.</i>')])
-    entry("2025", [P('<b>Y. Xu</b>, Y.-S. Lin. "Situated Bodies, Wandering Minds." <i>ACM SIGGRAPH 2025, Vancouver \u2014 Birds of a Feather (BOF) Session.</i>')])
-    entry("2024", [P('<b>Y. Xu</b>. "Creativity for Sensational Perception." <i>HCI International 2024, Washington DC.</i>')])
+    entry("Jun 2026", [P('<b>Y. Xu</b> et al. Three papers. <i>HCI International Conference (HCII) 2026, Montreal.</i>')])
+    entry("Jun 2026", [P('<b>Y. Xu</b> et al. Doctoral Consortium and Education Session. <i>Digital Games Research Association Conference (DiGRA) 2026, Ireland.</i>')])
+    entry("2025", [P('<b>Y. Xu</b>, Y.-S. Lin. "Situated Bodies, Wandering Minds." <i>ACM SIGGRAPH Conference on Computer Graphics and Interactive Techniques (SIGGRAPH) 2025, Vancouver \u2014 Birds of a Feather (BOF) Session.</i>')])
+    entry("2024", [P('<b>Y. Xu</b>. "Creativity for Sensational Perception." <i>HCI International Conference (HCII) 2024, Washington DC.</i>')])
     entry("2023", [P('<b>Y. Xu</b>. Graduate Commencement Speech. <i>Tongji University.</i>')])
-    entry("2020", [P('<b>Y. Xu</b>. Graduate Commencement Speech. <i>ECUST.</i>')])
+    entry("2020", [P('<b>Y. Xu</b>. Graduate Commencement Speech. <i>East China University of Science and Technology.</i>')])
 
     # ---- GRANTS ----
     section("Research Grants &amp; Fellowships")
@@ -234,6 +234,11 @@ def build_cv():
         P("<i>University of British Columbia</i>",'entry_italic'),
         P("Grading, tutorial sessions, student feedback, facilitating activities on generative AI and creative coding.")
     ])
+    entry("Dec 2025 \u2013 Feb 2026", [
+        P("<b>Marker \u2014 CCS 330: Game Design</b>",'entry_title'),
+        P("<i>University of British Columbia</i>",'entry_italic'),
+        P("Grading assignments and providing written feedback for a game design course.")
+    ])
     entry("2018 \u2013 2020", [
         P("<b>Teaching Assistant \u2014 Design Graphics (Shanghai Municipal Premium Course)</b>",'entry_title'),
         P("<i>East China University of Science and Technology</i>",'entry_italic'),
@@ -242,7 +247,7 @@ def build_cv():
 
     # ---- INDUSTRY ----
     section("Industry Experience")
-    entry("2022 \u2013 2023", [P("<b>Product Manager</b> \u2014 <i>SAP Labs, SAP Analytics Cloud, Shanghai</i>",'entry_title'), P("Led UX and analytics initiatives; organised workshops; facilitated demos and user testing.")])
+    entry("2022 \u2013 2023", [P("<b>Product Manager \u2014 iXp Program</b> \u2014 <i>SAP Labs, SAP Analytics Cloud, Shanghai</i>",'entry_title'), P("Led UX and analytics initiatives; organised workshops; facilitated demos and user testing.")])
     entry("2020", [P("<b>Product Manager Intern</b> \u2014 <i>Siemens, Intelligent Infrastructure, Shanghai</i>",'entry_title'), P("Customer training for Siemens Distribution Panel Model 8PT.")])
     entry("2020", [P("<b>UX Designer Intern</b> \u2014 <i>Shanghai Jahwa, Consumer Products</i>",'entry_title'), P("User research and UX design for consumer product digital platforms.")])
     entry("2017 \u2013 2019", [P("<b>Co-founder</b> \u2014 <i>SharePlay, Shanghai</i>",'entry_title'), P("Recreational equipment sharing platform. National Gold Award, China Youth Innovation and Entrepreneurship Competition.")])
@@ -250,28 +255,36 @@ def build_cv():
     # ---- ACADEMIC SERVICE ----
     section("Academic Service")
     story.append(P(
-        "<b>ACM CHI</b> \u2014 2\u00d7 Outstanding Review (2025) &nbsp;&nbsp; <b>ACM DIS</b> &nbsp;&nbsp; <b>ACM C&amp;C</b> &nbsp;&nbsp; <b>ACM UIST</b> &nbsp;&nbsp; <b>ACM ETRA</b><br/>"
-        "<b>ACM IMX</b> &nbsp;&nbsp; <b>ACM CUI</b> &nbsp;&nbsp; <b>ACM Auto UI</b> &nbsp;&nbsp; <b>IEEE ISMAR</b> &nbsp;&nbsp; <b>IEEE VR</b> &nbsp;&nbsp; <b>EuroVis</b><br/>"
-        "<b>CAADRIA</b> (International Review Committee Member) &nbsp;&nbsp; <b>IJHCI</b> &nbsp;&nbsp; <b>ITA</b>"
+        "<b>ACM Conference on Human Factors in Computing Systems (CHI)</b> \u2014 Special Recognition for Outstanding Reviewing, twice (2025)<br/>"
+        "<b>ACM Conference on Designing Interactive Systems (DIS)</b> &nbsp;&nbsp; <b>ACM Creativity and Cognition (C&amp;C)</b><br/>"
+        "<b>ACM Symposium on User Interface Software and Technology (UIST)</b> &nbsp;&nbsp; <b>ACM Symposium on Eye Tracking Research and Applications (ETRA)</b><br/>"
+        "<b>ACM International Conference on Interactive Media Experiences (IMX)</b> &nbsp;&nbsp; <b>ACM Conference on Conversational User Interfaces (CUI)</b><br/>"
+        "<b>ACM Conference on Automotive User Interfaces and Interactive Vehicular Applications (AutoUI)</b><br/>"
+        "<b>IEEE International Symposium on Mixed and Augmented Reality (ISMAR)</b> &nbsp;&nbsp; <b>IEEE Conference on Virtual Reality and 3D User Interfaces (IEEE VR)</b><br/>"
+        "<b>Eurographics/IEEE Conference on Visualization (EuroVis)</b><br/>"
+        "<b>Computer-Aided Architectural Design Research in Asia (CAADRIA)</b> \u2014 International Review Committee Member<br/>"
+        "<b>International Journal of Human-Computer Interaction (IJHCI)</b> &nbsp;&nbsp; <b>Innovation Technology Advances (ITA)</b>"
     ))
     story.append(Spacer(1, 8))
 
     # ---- AWARDS ----
     section("Selected Awards &amp; Honours")
     for y,d in [
-        ("2025","OGRS + IDPT \u2014 University of British Columbia, 4-year doctoral funding"),
-        ("2025","Outstanding Review \u00d7 2 \u2014 ACM CHI (Conference on Human Factors in Computing Systems)"),
+        ("2025","Okanagan Graduate Research Scholarship (OGRS) \u2014 University of British Columbia, CAD $25,000/year, 4-year doctoral funding"),
+        ("2025","International Doctoral Partial Tuition Award (IDPT) \u2014 University of British Columbia"),
+        ("2025","Special Recognition for Outstanding Reviewing, twice \u2014 ACM Conference on Human Factors in Computing Systems (CHI)"),
         ("2025","Rookie of the Year \u2014 A Ranking (Game) \u2014 The Rookies Awards (Exceptional, Industry-Ready Skills)"),
-        ("2024","Rookie of the Year \u2014 A Ranking (VFX + 3D Animation) \u2014 The Rookies Awards (Exceptional, Industry-Ready Skills)"),
+        ("2024","Rookie of the Year \u2014 A Ranking (VFX and 3D Animation) \u2014 The Rookies Awards (Exceptional, Industry-Ready Skills)"),
         ("2023","Graduate Commencement Speaker \u2014 Tongji University"),
-        ("2021","Full Scholarship \u2014 Tongji University"),
+        ("2021","Full Scholarship (\u00a532,000) \u2014 Tongji University"),
         ("2021","Bronze Award \u2014 International Ocean Art Festival (IOAF) Starfish International Young Artists Exhibition"),
         ("2020","Shanghai Outstanding Graduate (Top 2%) \u2014 Shanghai Municipal Education Commission"),
-        ("2020","Graduate Commencement Speaker \u2014 ECUST"),
+        ("2020","Graduate Commencement Speaker \u2014 East China University of Science and Technology"),
         ("2019","National First Prize \u2014 FPGA Blind Navigation \u2014 \"Challenge Cup\" National College Students' Extracurricular Academic Science and Technology Works Competition"),
         ("2018","National Gold Award \u2014 SharePlay \u2014 \"Chuang Qingchun\" China Youth Innovation and Entrepreneurship Competition"),
-        ("2017","National Scholarship (Top 0.2%) \u2014 Ministry of Education, People's Republic of China"),
-        ("2016\u20132019","Cheng Si-wei Honorary Principal's Scholarship (Top 1%) + Grand Prize Academic Scholarship \u2014 #1/Major, 5 semesters \u2014 ECUST"),
+        ("2017","National Scholarship (Top 0.2%, \u00a58,000) \u2014 Ministry of Education, People's Republic of China"),
+        ("2016\u20132019","Cheng Si-wei Honorary Principal's Scholarship (Top 1%) \u2014 East China University of Science and Technology"),
+        ("2016\u20132019","Grand Prize Academic Scholarship \u2014 First in Major, 5 semesters \u2014 East China University of Science and Technology"),
     ]: entry(y, [P(d)], sp=2)
 
     # ---- CREATIVE WORKS ----
