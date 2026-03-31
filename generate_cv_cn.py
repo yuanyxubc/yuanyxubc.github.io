@@ -155,14 +155,6 @@ def build_cv():
         P('\u5168\u6d41\u7a0b\u6e38\u620f\u5236\u4f5c\uff1a3D\u52a8\u753b\u3001\u89c6\u89c9\u7279\u6548\u3001\u6e38\u620f\u8bbe\u8ba1\u3002')
     ])
 
-    # ---- \u7814\u7a76\u5c97\u4f4d ----
-    section("\u7814\u7a76\u5c97\u4f4d")
-    entry("2025\u5e749\u6708 \u2013 \u81f3\u4eca", [
-        P(f'<font name="{B}">\u7814\u7a76\u52a9\u7406 \u2014 \u6587\u5316\u4e0e\u6280\u672f\u4e2d\u5fc3</font>','entry_title'),
-        P('\u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66'),
-        P('Beaver Worlds\u9879\u76ee\uff1a\u53c2\u4e0e\u5f0f\u6e38\u620f\u8bbe\u8ba1\uff0c\u7528\u4e8eOkanagan\u6c34\u8d44\u6e90\u6cbb\u7406\u4e0e\u539f\u4f4f\u6c11\u77e5\u8bc6\u4f20\u64ad\u3002')
-    ])
-
     # ---- \u8bba\u6587\u53d1\u8868 ----
     section("\u8bba\u6587\u53d1\u8868")
 
@@ -210,22 +202,13 @@ def build_cv():
     entry("2023", [P(f'<font name="{B}">Y. Xu</font>. 毕业典礼代表发言。同济大学。')])
     entry("2020", [P(f'<font name="{B}">Y. Xu</font>. 毕业典礼代表发言。华东理工大学。')])
 
-    # ---- \u7814\u7a76\u8d44\u52a9 ----
-    section("\u7814\u7a76\u8d44\u52a9\u4e0e\u5956\u5b66\u91d1")
-    entry("2025", [
-        P(f'<font name="{B}">Okanagan\u7814\u7a76\u751f\u5956\u5b66\u91d1 (OGRS) + \u56fd\u9645\u535a\u58eb\u90e8\u5206\u5b66\u8d39\u51cf\u514d (IDPT)</font>','entry_title'),
-        P('\u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66\u30024\u5e74\u535a\u58eb\u8d44\u52a9\u3002')
+    # ---- \u7814\u7a76\u4e0e\u6559\u5b66 ----
+    section("\u7814\u7a76\u4e0e\u6559\u5b66")
+    entry("2025\u5e749\u6708 \u2013 \u81f3\u4eca", [
+        P(f'<font name="{B}">\u7814\u7a76\u52a9\u7406 \u2014 \u6587\u5316\u4e0e\u6280\u672f\u4e2d\u5fc3</font>','entry_title'),
+        P('\u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66'),
+        P('Beaver Worlds\u9879\u76ee\uff1a\u53c2\u4e0e\u5f0f\u6e38\u620f\u8bbe\u8ba1\uff0c\u7528\u4e8eOkanagan\u6c34\u8d44\u6e90\u6cbb\u7406\u4e0e\u539f\u4f4f\u6c11\u77e5\u8bc6\u4f20\u64ad\u3002')
     ])
-    entry("2022", [
-        P(f'<font name="{B}">\u4e0a\u6d77\u79d1\u6280\u521b\u4e1a\u57fa\u91d1\u4f1a (EFG) \u2014 50\u4e07\u5143</font>','entry_title'),
-        P('\u8d1f\u8d23\u4eba\u3002\u300c\u8bbe\u8ba1\u7ae5\u5e74\uff1a\u6e38\u620f\u3001\u60c5\u611f\u4e0e\u6bdb\u7ed2\u73a9\u5177\u300d\u3002')
-    ])
-    entry("2017", [P(f'<font name="{B}">\u4e0a\u6d77\u9ad8\u6821\u4e00\u6d41\u5b66\u79d1\u5efa\u8bbe\u57fa\u91d1</font>','entry_title'), P('\u5b66\u751f\u7814\u7a76\u5458\u3002\u300c\u57fa\u4e8e\u611f\u6027\u5de5\u5b66\u7684\u7528\u6237\u611f\u77e5\u5206\u6790\u300d\u3002')])
-    entry("2017", [P(f'<font name="{B}">\u56fd\u5bb6\u81ea\u7136\u79d1\u5b66\u57fa\u91d1 (No. 51905175)</font>','entry_title'), P('\u5b66\u751f\u7814\u7a76\u5458\u3002\u300c\u611f\u6027\u5de5\u5b66\u4ea7\u54c1\u9020\u578b\u8bbe\u8ba1\u300d\u3002')])
-    entry("2017", [P(f'<font name="{B}">\u4e0a\u6d77\u5927\u5b66\u751f\u521b\u65b0\u521b\u4e1a\u8bad\u7ec3\u9879\u76ee (No. X18223)</font>','entry_title'), P('\u9879\u76ee\u8d1f\u8d23\u4eba\u3002')])
-
-    # ---- \u6559\u5b66\u7ecf\u5386 ----
-    section("\u6559\u5b66\u7ecf\u5386")
     entry("2026\u5e741\u6708 \u2013 \u81f3\u4eca", [
         P(f'<font name="{B}">\u52a9\u6559 \u2014 CCS 325: \u4eba\u5de5\u667a\u80fd\u4e0e\u521b\u610f</font>','entry_title'),
         P('\u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66'),
@@ -284,19 +267,21 @@ def build_cv():
         ("2016\u20132019","\u7279\u7b49\u5b66\u4e1a\u5956\u5b66\u91d1 \u2014 \u4e13\u4e1a\u7b2c\u4e00\uff0c\u8fde\u7eed5\u5b66\u671f \u2014 \u534e\u4e1c\u7406\u5de5\u5927\u5b66"),
     ]: entry(y, [P(d)], sp=2)
 
-    # ---- \u4ee3\u8868\u6027\u521b\u4f5c ----
-    section("\u4ee3\u8868\u6027\u521b\u4f5c\u4f5c\u54c1")
-    for y, d in [
-        ("2025",f'<font name="{B}">Roller-Skating Knight</font> \u2014 3D\u6e38\u620f\u9879\u76ee\u3002Rookie Awards A\u7ea7\u3002'),
-        ("2025",f'<font name="{B}">Situated Bodies, Wandering Minds</font> \u2014 ACM SIGGRAPH 2025\uff0c\u6e29\u54e5\u534e BOF\u4e13\u573a\u3002'),
-        ("2024",f'<font name="{B}">AR Game for Maison Margiela</font> \u2014 AR\u624b\u673a\u6e38\u620f\uff0cReplica\u9999\u6c34\u7cfb\u5217\u3002'),
-        ("2024",f'<font name="{B}">The Struggle</font> \u2014 3D\u52a8\u753b\u3002Rookie Awards A\u7ea7\u3002'),
-        ("2024",f'<font name="{B}">Ganesha</font> \u2014 \u89c6\u89c9\u7279\u6548\u9879\u76ee\u3002Rookie Awards A\u7ea7\u3002'),
-        ("2023",f'<font name="{B}">\u7fbd\u67f1</font> \u2014 \u827a\u672f\u88c5\u7f6e\uff0c\u540c\u6d4e\u5927\u5b66\u3002'),
-        ("2022",f'<font name="{B}">\u6c89\u6d78\u5f0f\u6c7d\u8f66\u7a7a\u95f4</font> \u2014 \u6570\u5b57\u5a92\u4f53\u88c5\u7f6e\uff0c\u5927\u4f17\u9014\u9510\u4e0a\u5e02\u53d1\u5e03\u4f1a\u3002'),
-        ("2021",f'<font name="{B}">\u6d77\u6d0b\u7684\u6545\u4e8b</font> \u2014 3D\u52a8\u753b\u3002IOAF\u94dc\u5956\u3002'),
-    ]: entry(y, [P(d)], sp=2)
+    # ---- \u7814\u7a76\u8d44\u52a9 ----
+    section("\u7814\u7a76\u8d44\u52a9\u4e0e\u5956\u5b66\u91d1")
+    entry("2025", [
+        P(f'<font name="{B}">Okanagan\u7814\u7a76\u751f\u5956\u5b66\u91d1 (OGRS) + \u56fd\u9645\u535a\u58eb\u90e8\u5206\u5b66\u8d39\u51cf\u514d (IDPT)</font>','entry_title'),
+        P('\u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66\u30024\u5e74\u535a\u58eb\u8d44\u52a9\u3002')
+    ])
+    entry("2022", [
+        P(f'<font name="{B}">\u4e0a\u6d77\u79d1\u6280\u521b\u4e1a\u57fa\u91d1\u4f1a (EFG) \u2014 50\u4e07\u5143</font>','entry_title'),
+        P('\u8d1f\u8d23\u4eba\u3002\u300c\u8bbe\u8ba1\u7ae5\u5e74\uff1a\u6e38\u620f\u3001\u60c5\u611f\u4e0e\u6bdb\u7ed2\u73a9\u5177\u300d\u3002')
+    ])
+    entry("2017", [P(f'<font name="{B}">\u4e0a\u6d77\u9ad8\u6821\u4e00\u6d41\u5b66\u79d1\u5efa\u8bbe\u57fa\u91d1</font>','entry_title'), P('\u5b66\u751f\u7814\u7a76\u5458\u3002\u300c\u57fa\u4e8e\u611f\u6027\u5de5\u5b66\u7684\u7528\u6237\u611f\u77e5\u5206\u6790\u300d\u3002')])
+    entry("2017", [P(f'<font name="{B}">\u56fd\u5bb6\u81ea\u7136\u79d1\u5b66\u57fa\u91d1 (No. 51905175)</font>','entry_title'), P('\u5b66\u751f\u7814\u7a76\u5458\u3002\u300c\u611f\u6027\u5de5\u5b66\u4ea7\u54c1\u9020\u578b\u8bbe\u8ba1\u300d\u3002')])
+    entry("2017", [P(f'<font name="{B}">\u4e0a\u6d77\u5927\u5b66\u751f\u521b\u65b0\u521b\u4e1a\u8bad\u7ec3\u9879\u76ee (No. X18223)</font>','entry_title'), P('\u9879\u76ee\u8d1f\u8d23\u4eba\u3002')])
 
+    
     # ---- BUILD ----
     def on_first(canvas, doc): pass
     def on_later(canvas, doc):

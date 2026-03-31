@@ -157,14 +157,6 @@ def build_cv():
         P("Full-cycle game production pipeline: 3D animation, VFX, and game design.")
     ])
 
-    # ---- RESEARCH POSITIONS ----
-    section("Research Positions")
-    entry("Sep 2025 \u2013 present", [
-        P("<b>Research Assistant \u2014 Center for Culture and Technology</b>",'entry_title'),
-        P("<i>University of British Columbia</i>",'entry_italic'),
-        P("Beaver Worlds Project: participatory game design for Okanagan water governance and Indigenous knowledge mobilisation.")
-    ])
-
     # ---- PUBLICATIONS ----
     section("Publications")
 
@@ -212,23 +204,13 @@ def build_cv():
     entry("2023", [P('<b>Y. Xu</b>. Graduate Commencement Speech. <i>Tongji University.</i>')])
     entry("2020", [P('<b>Y. Xu</b>. Graduate Commencement Speech. <i>East China University of Science and Technology.</i>')])
 
-    # ---- GRANTS ----
-    section("Research Grants &amp; Fellowships")
-    entry("2025", [
-        P("<b>Okanagan Graduate Research Scholarship (OGRS) + International Doctoral Partial Tuition Award (IDPT)</b>",'entry_title'),
-        P('University of British Columbia. 4-year doctoral funding.')
+    # ---- RESEARCH AND TEACHING ----
+    section("Research and Teaching")
+    entry("Sep 2025 \u2013 present", [
+        P("<b>Research Assistant \u2014 Center for Culture and Technology</b>",'entry_title'),
+        P("<i>University of British Columbia</i>",'entry_italic'),
+        P("Beaver Worlds Project: participatory game design for Okanagan water governance and Indigenous knowledge mobilisation.")
     ])
-    entry("2022", [
-        P("<b>Shanghai Technology Entrepreneurship Foundation (EFG) \u2014 RMB 500,000</b>",'entry_title'),
-        P('PI. "Designing Childhood: Play, Emotion, and Soft Toys."')
-    ])
-    entry("2017", [P("<b>Shanghai First-Class Discipline Construction Fund</b>",'entry_title'), P('Student Researcher. "Kansei-Based User Perception Analysis."')])
-    entry("2017", [P("<b>NSFC (Project No. 51905175)</b>",'entry_title'), P('Student Researcher. "Kansei Engineering Product Form Design."')])
-    entry("2017", [P("<b>Shanghai College Student Innovation Program (No. X18223)</b>",'entry_title'), P('Team Leader.')])
-    entry("2017", [P("<b>Shanghai Student Innovation &amp; Entrepreneurship Training (EFG)</b>",'entry_title'), P('Applicant.')])
-
-    # ---- TEACHING ----
-    section("Teaching Experience")
     entry("Jan 2026 \u2013 present", [
         P("<b>Teaching Assistant \u2014 CCS 325: AI &amp; Creativity</b>",'entry_title'),
         P("<i>University of British Columbia</i>",'entry_italic'),
@@ -267,7 +249,7 @@ def build_cv():
     ))
     story.append(Spacer(1, 8))
 
-    # ---- AWARDS ----
+    # ---- SELECTED AWARDS ----
     section("Selected Awards &amp; Honours")
     for y,d in [
         ("2025","Okanagan Graduate Research Scholarship (OGRS) \u2014 University of British Columbia, CAD $25,000/year, 4-year doctoral funding"),
@@ -287,18 +269,21 @@ def build_cv():
         ("2016\u20132019","Grand Prize Academic Scholarship \u2014 First in Major, 5 semesters \u2014 East China University of Science and Technology"),
     ]: entry(y, [P(d)], sp=2)
 
-    # ---- CREATIVE WORKS ----
-    section("Selected Creative Works")
-    for y,d in [
-        ("2025","<b>Roller-Skating Knight</b> \u2014 3D game project. <i>Rookie Awards A Ranking.</i>"),
-        ("2025","<b>Situated Bodies, Wandering Minds</b> \u2014 <i>ACM SIGGRAPH 2025, Vancouver, BOF Session.</i>"),
-        ("2024","<b>AR Game for Maison Margiela</b> \u2014 AR mobile game for Replica Perfume Series."),
-        ("2024","<b>The Struggle</b> \u2014 3D animation. <i>Rookie Awards A Ranking.</i>"),
-        ("2024","<b>Ganesha</b> \u2014 VFX project. <i>Rookie Awards A Ranking.</i>"),
-        ("2023","<b>Feather Columns</b> \u2014 Art installation, Tongji University."),
-        ("2022","<b>Immersive Automotive Space</b> \u2014 Digital media installation, VW Touareg Launch."),
-        ("2021","<b>The Story of the Ocean</b> \u2014 3D animation. <i>IOAF Bronze Award.</i>"),
-    ]: entry(y, [P(d)], sp=2)
+    # ---- RESEARCH FUNDING ----
+    section("Research Grants &amp; Fellowships")
+    entry("2025", [
+        P("<b>Okanagan Graduate Research Scholarship (OGRS) + International Doctoral Partial Tuition Award (IDPT)</b>",'entry_title'),
+        P('University of British Columbia. 4-year doctoral funding.')
+    ])
+    entry("2022", [
+        P("<b>Shanghai Technology Entrepreneurship Foundation (EFG) \u2014 RMB 500,000</b>",'entry_title'),
+        P('PI. "Designing Childhood: Play, Emotion, and Soft Toys."')
+    ])
+    entry("2017", [P("<b>Shanghai First-Class Discipline Construction Fund</b>",'entry_title'), P('Student Researcher. "Kansei-Based User Perception Analysis."')])
+    entry("2017", [P("<b>NSFC (Project No. 51905175)</b>",'entry_title'), P('Student Researcher. "Kansei Engineering Product Form Design."')])
+    entry("2017", [P("<b>Shanghai College Student Innovation Program (No. X18223)</b>",'entry_title'), P('Team Leader.')])
+    entry("2017", [P("<b>Shanghai Student Innovation &amp; Entrepreneurship Training (EFG)</b>",'entry_title'), P('Applicant.')])
+
 
     # ---- BUILD ----
     def on_first(canvas, doc): pass
