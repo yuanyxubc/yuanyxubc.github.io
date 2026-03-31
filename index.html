@@ -1565,5 +1565,158 @@ function executeAction(action) {
 }
 </script>
 
+<!-- ── CURSOR BLOB EFFECT ── -->
+<style>
+/* Hide default cursor site-wide */
+* { cursor: none !important; }
+
+/* Tiny dot — exact cursor position */
+#cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 6px; height: 6px;
+  background: #2D5A3D;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.15s, height 0.15s, background 0.3s;
+  mix-blend-mode: multiply;
+}
+
+/* Lagging holographic blob */
+#cursor-blob {
+  position: fixed;
+  top: 0; left: 0;
+  width: 420px; height: 420px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99990;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle at 40% 40%,
+    rgba(120,200,150,0.18) 0%,
+    rgba(45,90,61,0.10) 30%,
+    rgba(180,220,180,0.08) 55%,
+    transparent 70%
+  );
+  filter: blur(32px);
+  transition: width 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+              height 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+              opacity 0.3s;
+  opacity: 0;
+  will-change: transform;
+}
+
+/* Iridescent inner shimmer */
+#cursor-blob::after {
+  content: '';
+  position: absolute;
+  inset: 15%;
+  border-radius: 50%;
+  background: conic-gradient(
+    from var(--blob-angle, 0deg),
+    rgba(140,210,160,0.25),
+    rgba(200,180,140,0.15),
+    rgba(100,180,200,0.12),
+    rgba(180,140,200,0.10),
+    rgba(140,210,160,0.25)
+  );
+  filter: blur(20px);
+  animation: blob-rotate 8s linear infinite;
+}
+
+@keyframes blob-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Hover states */
+body.cursor-hover #cursor-dot {
+  width: 10px; height: 10px;
+  background: #3A7A52;
+}
+body.cursor-hover #cursor-blob {
+  width: 560px; height: 560px;
+  opacity: 1;
+}
+body.cursor-active #cursor-dot {
+  width: 4px; height: 4px;
+}
+body.cursor-active #cursor-blob {
+  width: 320px; height: 320px;
+}
+</style>
+
+<div id="cursor-dot"></div>
+<div id="cursor-blob"></div>
+
+<script>
+(function() {
+  const dot  = document.getElementById('cursor-dot');
+  const blob = document.getElementById('cursor-blob');
+
+  // Mouse position (instant)
+  let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+  // Blob position (lagged)
+  let bx = mx, by = my;
+  let visible = false;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    // Snap dot immediately
+    dot.style.left  = mx + 'px';
+    dot.style.top   = my + 'px';
+    if (!visible) {
+      visible = true;
+      blob.style.opacity = '0.85';
+      dot.style.opacity  = '1';
+    }
+  });
+
+  document.addEventListener('mouseleave', () => {
+    blob.style.opacity = '0';
+    dot.style.opacity  = '0';
+    visible = false;
+  });
+
+  document.addEventListener('mouseenter', () => {
+    blob.style.opacity = '0.85';
+    dot.style.opacity  = '1';
+    visible = true;
+  });
+
+  document.addEventListener('mousedown', () => document.body.classList.add('cursor-active'));
+  document.addEventListener('mouseup',   () => document.body.classList.remove('cursor-active'));
+
+  // Hover detection on interactive elements
+  const hoverTargets = 'a, button, [data-i18n], .nav-item, .pub-item, .creative-card, .award-item, .timeline-item';
+  document.addEventListener('mouseover', e => {
+    if (e.target.closest(hoverTargets)) document.body.classList.add('cursor-hover');
+  });
+  document.addEventListener('mouseout', e => {
+    if (e.target.closest(hoverTargets)) document.body.classList.remove('cursor-hover');
+  });
+
+  // Smooth blob lag — lerp toward mouse
+  const LERP = 0.07; // lower = more lag
+  function tick() {
+    bx += (mx - bx) * LERP;
+    by += (my - by) * LERP;
+    blob.style.left = bx + 'px';
+    blob.style.top  = by + 'px';
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // Hide on touch devices
+  if ('ontouchstart' in window) {
+    dot.style.display  = 'none';
+    blob.style.display = 'none';
+    document.body.style.cursor = '';
+    document.querySelectorAll('*').forEach(el => el.style.cursor = '');
+  }
+})();
+</script>
+
 </body>
 </html>
