@@ -190,6 +190,7 @@ def build_cv():
         ("<b>Y. Xu</b>, Z. Sun, Y.-S. Lin, P. Lasserre, A. Dulic","The Absent Teacher in Eco-Games: A Theoretical Framework for Teacher Integration","DiGRA 2026"),
         ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","From Resource to Kin: Designing for Environmental Resilience in the Okanagan","DiGRA 2026"),
         ("Z. Sun, <b>Y. Xu</b>, Y.-S. Lin, P. Lasserre, A. Dulic, M. Smith","Re-evaluating the Pursuit of Hyper-Realism in VR Game Design","DiGRA 2026"),
+        ("<b>Y. Xu</b>, C. Zhen, O. Nwosisi, A. Rahsaz, T.H. Sarker, M. Thorogood, P. Lasserre, A. Dulic","Beaver World: Decolonizing Climate Education through Place-Based Interactive Simulation","Proceedings of SIGGRAPH 2026 Educator's Forum, ACM"),
     ]: entry("", [pub(a,t,v)], sp=3)
 
     subsec("Patents")
@@ -199,6 +200,7 @@ def build_cv():
     section("Presentations")
     entry("Jun 2026", [P('<b>Y. Xu</b> et al. Three papers. <i>HCI International Conference (HCII) 2026, Montreal.</i>')])
     entry("Jun 2026", [P('<b>Y. Xu</b> et al. Doctoral Consortium and Education Session. <i>Digital Games Research Association Conference (DiGRA) 2026, Ireland.</i>')])
+    entry("Jul 2026", [P('<b>Y. Xu</b> et al. "Beaver World: Decolonizing Climate Education through Place-Based Interactive Simulation." <i>ACM SIGGRAPH 2026 Educator\'s Forum, Los Angeles Convention Center \u2014 20-minute invited talk.</i>')])
     entry("2025", [P('<b>Y. Xu</b>, Y.-S. Lin. "Situated Bodies, Wandering Minds." <i>ACM SIGGRAPH Conference on Computer Graphics and Interactive Techniques (SIGGRAPH) 2025, Vancouver \u2014 Birds of a Feather (BOF) Session.</i>')])
     entry("2024", [P('<b>Y. Xu</b>. "Creativity for Sensational Perception." <i>HCI International Conference (HCII) 2024, Washington DC.</i>')])
     entry("2023", [P('<b>Y. Xu</b>. Graduate Commencement Speech. <i>Tongji University.</i>')])
@@ -245,7 +247,7 @@ def build_cv():
         "<b>IEEE International Symposium on Mixed and Augmented Reality (ISMAR)</b> &nbsp;&nbsp; <b>IEEE Conference on Virtual Reality and 3D User Interfaces (IEEE VR)</b><br/>"
         "<b>Eurographics/IEEE Conference on Visualization (EuroVis)</b><br/>"
         "<b>Computer-Aided Architectural Design Research in Asia (CAADRIA)</b> \u2014 International Review Committee Member<br/>"
-        "<b>International Journal of Human-Computer Interaction (IJHCI)</b> &nbsp;&nbsp; <b>Innovation Technology Advances (ITA)</b>"
+        "<b>International Journal of Human-Computer Interaction (IJHCI)</b> (2026) &nbsp;&nbsp; <b>Innovation Technology Advances (ITA)</b>"
     ))
     story.append(Spacer(1, 8))
 

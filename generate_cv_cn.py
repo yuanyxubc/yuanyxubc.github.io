@@ -185,9 +185,10 @@ def build_cv():
         ("<b>Y. Xu</b> et al.","\u751f\u6001\u5171\u60c5\u6620\u5c04\uff1a3D\u73af\u5883\u6559\u80b2\u6e38\u620f\u4e2d\u73a9\u5bb6\u611f\u77e5\u7684\u8bed\u4e49\u7f51\u7edc\u5206\u6790","HCII 2026, LNCS, Springer"),
         ("C. Zhen, <b>Y. Xu</b> et al.","\u52a8\u753b\u8bbe\u8ba1\u54f2\u5b66\u5728 3D \u6559\u80b2\u6e38\u620f\u4e2d\u7684\u5e94\u7528\uff1aBeaver Worlds\u7684\u5f00\u53d1","HCII 2026, CCIS, Springer"),
         ("Z. Sun, <b>Y. Xu</b> et al.","\u6311\u6218\u5373\u5fc3\u6d41\uff1a\u9b42\u7c7b\u6e38\u620f\u7684\u8bbe\u8ba1\u4e0e\u4f53\u9a8c","HCII 2026, LNCS, Springer"),
-        ("<b>Y. Xu</b> et al.","\u751f\u6001\u6e38\u620f\u4e2d\u7f3a\u5e2d\u7684\u6559\u5e08\uff1a\u6559\u5e08\u6574\u5408\u7684\u7406\u8bba\u6846\u67b6","DiGRA 2026"),
-        ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","\u4ece\u8d44\u6e90\u5230\u4eb2\u5c5e\uff1aOkanagan\u5730\u533a\u73af\u5883\u97e7\u6027\u8bbe\u8ba1","DiGRA 2026"),
-        ("Z. Sun, <b>Y. Xu</b> et al.","\u91cd\u65b0\u5ba1\u89c6VR\u6e38\u620f\u8bbe\u8ba1\u4e2d\u7684\u8d85\u5199\u5b9e\u8ffd\u6c42","DiGRA 2026"),
+        ("<b>Y. Xu</b> et al.","生态游戏中缺席的教师：教师整合的理论框架","DiGRA 2026"),
+        ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","从资源到亲属：Okanagan地区环境韧性设计","DiGRA 2026"),
+        ("Z. Sun, <b>Y. Xu</b> et al.","重新审视VR游戏设计中的超写实追求","DiGRA 2026"),
+        ("<b>Y. Xu</b>, C. Zhen, O. Nwosisi, A. Rahsaz, T.H. Sarker, M. Thorogood, P. Lasserre, A. Dulic","Beaver World: 以地方性互动仿真推动气候教育的去殖民化","SIGGRAPH 2026 Educator's Forum, ACM"),
     ]: entry("", [pub(a,t,v)], sp=3)
 
     subsec("\u4e13\u5229")
@@ -197,6 +198,7 @@ def build_cv():
     section("\u5b66\u672f\u62a5\u544a\u4e0e\u53d1\u8868")
     entry("2026年6月", [P(f'<font name="{B}">Y. Xu</font> 等。三篇论文。国际人机交互大会 (HCII) 2026，蒙特利尔。')])
     entry("2026年6月", [P(f'<font name="{B}">Y. Xu</font> 等。博士生研讨会及教育专题。数字游戏研究协会年会 (DiGRA) 2026，爱尔兰。')])
+    entry("2026年7月", [P(f'<font name="{B}">Y. Xu</font> 等。「Beaver World：以地方性互动仿真推动气候教育的去殖民化」 ACM SIGGRAPH 2026 教育者论坛，洛杉矶会议中心 \u2014 20分钟演讲。')])
     entry("2025", [P(f'<font name="{B}">Y. Xu</font>, Y.-S. Lin. 「Situated Bodies, Wandering Minds」 ACM 计算机图形与交互技术会议 (SIGGRAPH) 2025，温哥华 — BOF 专场。')])
     entry("2024", [P(f'<font name="{B}">Y. Xu</font>. 「Creativity for Sensational Perception」 国际人机交互大会 (HCII) 2024，华盛顿 DC。')])
     entry("2023", [P(f'<font name="{B}">Y. Xu</font>. 毕业典礼代表发言。同济大学。')])
@@ -243,7 +245,7 @@ def build_cv():
         f'<font name="{B}">IEEE 混合与增强现实国际研讨会 (ISMAR)</font> &nbsp;&nbsp; <font name="{B}">IEEE 虚拟现实与3D用户界面会议 (IEEE VR)</font><br/>'
         f'<font name="{B}">Eurographics/IEEE 可视化会议 (EuroVis)</font><br/>'
         f'<font name="{B}">亚洲计算机辅助建筑设计研究协会 (CAADRIA)</font> \u2014 国际审委会委员<br/>'
-        f'<font name="{B}">国际人机交互期刊 (IJHCI)</font> &nbsp;&nbsp; <font name="{B}">创新技术进展 (ITA)</font>'
+        f'<font name="{B}">国际人机交互期刊 (IJHCI)</font> (2026) &nbsp;&nbsp; <font name="{B}">创新技术进展 (ITA)</font>'
     ))
     story.append(Spacer(1, 8))
 
