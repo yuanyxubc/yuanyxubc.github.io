@@ -137,7 +137,7 @@ def build_cv():
     entry("2025 \u2013 2029", [
         P(f'<font name="{B}">\u8de8\u5b66\u79d1\u7814\u7a76\u535a\u58eb (Ph.D.)</font>','entry_title'),
         P(f'\u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66 (University of British Columbia)'),
-        P(f'创意与批判研究学院。导师：Prof. Aleksandra Dulic（教授，FCCS）和 Prof. Patricia Lasserre（副教授，计算机科学）。研究方向：与原住民社区共同设计教育游戏以促进环境韧性。全额资助：OGRS (CAD $25,000/年) 及 IDPT 学费减免。')
+        P(f'创意与批判研究学院。导师：Prof. Aleksandra Dulic（教授，FCCS）和 Prof. Patricia Lasserre（副教授，计算机科学）。研究方向：与原住民社区共同设计教育游戏以促进环境韧性。全额资助：OGRS (CAD $40,000/年) 及 IDPT 学费减免。')
     ])
     entry("2020 \u2013 2023", [
         P(f'<font name="{B}">工学硕士 (M.Eng.)</font>','entry_title'),
@@ -252,7 +252,7 @@ def build_cv():
     # ---- \u83b7\u5956\u4e0e\u8363\u8a89 ----
     section("\u83b7\u5956\u4e0e\u8363\u8a89")
     for y, d in [
-        ("2025","Okanagan\u7814\u7a76\u751f\u5956\u5b66\u91d1 (OGRS) \u2014 \u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66\uff0cCAD $25,000/\u5e74\uff0c4\u5e74\u535a\u58eb\u8d44\u52a9"),
+        ("2025","Okanagan\u7814\u7a76\u751f\u5956\u5b66\u91d1 (OGRS) \u2014 \u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66\uff0cCAD $40,000/\u5e74\uff0c4\u5e74\u535a\u58eb\u8d44\u52a9"),
         ("2025","\u56fd\u9645\u535a\u58eb\u90e8\u5206\u5b66\u8d39\u51cf\u514d (IDPT) \u2014 \u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66"),
         ("2025","杰出审稿人特别认可，两次 \u2014 ACM 人因与计算系统会议 (CHI)"),
         ("2025","Rookie of the Year \u2014 A Ranking (\u6e38\u620f\u7c7b) \u2014 The Rookies Awards"),

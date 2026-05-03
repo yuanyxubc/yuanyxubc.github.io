@@ -139,7 +139,7 @@ def build_cv():
     entry("2025 \u2013 2029", [
         P("<b>Ph.D. in Interdisciplinary Studies</b>",'entry_title'),
         P("<i>University of British Columbia</i>",'entry_italic'),
-        P("Faculty of Creative &amp; Critical Studies. Co-supervised by Prof. Aleksandra Dulic (Professor, FCCS) and Prof. Patricia Lasserre (Associate Professor, Computer Science). Research: co-designing educational games with Indigenous communities for environmental resilience. Fully funded: OGRS (CAD $25,000/year) and IDPT tuition award.")
+        P("Faculty of Creative &amp; Critical Studies. Co-supervised by Prof. Aleksandra Dulic (Professor, FCCS) and Prof. Patricia Lasserre (Associate Professor, Computer Science). Research: co-designing educational games with Indigenous communities for environmental resilience. Fully funded: OGRS (CAD $40,000/year) and IDPT tuition award.")
     ])
     entry("2020 \u2013 2023", [
         P("<b>M.Eng. in Design</b>",'entry_title'),
@@ -254,7 +254,7 @@ def build_cv():
     # ---- SELECTED AWARDS ----
     section("Selected Awards &amp; Honours")
     for y,d in [
-        ("2025","Okanagan Graduate Research Scholarship (OGRS) \u2014 University of British Columbia, CAD $25,000/year, 4-year doctoral funding"),
+        ("2025","Okanagan Graduate Research Scholarship (OGRS) — University of British Columbia, CAD $40,000/year, 4-year doctoral funding"),
         ("2025","International Doctoral Partial Tuition Award (IDPT) \u2014 University of British Columbia"),
         ("2025","Special Recognition for Outstanding Reviewing, twice \u2014 ACM Conference on Human Factors in Computing Systems (CHI)"),
         ("2025","Rookie of the Year \u2014 A Ranking (Game) \u2014 The Rookies Awards (Exceptional, Industry-Ready Skills)"),
