@@ -44,38 +44,40 @@ a:hover { color: var(--accent-light); }
 
 /* ── LAYOUT ── */
 .wrapper {
+  max-width: 1080px;
+  margin: 0 auto;
   display: flex;
   min-height: 100vh;
+  padding: 0 40px;
 }
 
-/* ── SIDEBAR ── */
+/* ── SIDEBAR – sticky left column ── */
 .sidebar {
-  width: var(--sidebar-w);
-  min-width: var(--sidebar-w);
-  background: var(--sidebar-bg);
-  border-right: 1px solid var(--border);
-  padding: 48px 32px 40px;
-  position: fixed;
+  width: 240px;
+  min-width: 240px;
+  padding: 52px 36px 40px 0;
+  position: sticky;
   top: 0;
-  left: 0;
   height: 100vh;
-  overflow-y: auto;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  z-index: 100;
+  align-items: center;
+  background: transparent;
+  z-index: 10;
 }
 
 .sidebar::-webkit-scrollbar { width: 0; }
 
 .profile-photo {
-  width: 140px;
-  height: 140px;
-  min-width: 140px;
-  min-height: 140px;
+  width: 130px;
+  height: 130px;
+  min-width: 130px;
+  min-height: 130px;
   border-radius: 50%;
-  margin: 0 auto 20px;
+  margin: 0 auto 14px;
   overflow: hidden;
-  box-shadow: 0 4px 20px rgba(45,90,61,0.15);
+  box-shadow: 0 4px 20px rgba(45,90,61,0.18);
   border: 3px solid #fff;
   align-self: center;
   flex-shrink: 0;
@@ -92,27 +94,60 @@ a:hover { color: var(--accent-light); }
 
 .sidebar h1 {
   font-family: var(--font-display);
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 400;
   text-align: center;
   margin-bottom: 2px;
   letter-spacing: -0.3px;
+  transition: font-size 0.2s, color 0.2s;
 }
 
 .sidebar .cn-name {
   text-align: center;
-  font-size: 14px;
+  font-size: 20px;
+  color: var(--accent);
+  margin-bottom: 12px;
+  font-weight: 400;
+  font-family: var(--font-cn), var(--font-display);
+  letter-spacing: 2px;
+  transition: font-size 0.2s, color 0.2s;
+}
+
+/* Name block: wraps h1 + cn-name for controlled order swap */
+.name-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.name-block h1 { order: 0; }
+.name-block .cn-name { order: 1; }
+
+/* CN mode: swap order within name-block + keep accent color */
+body.lang-cn .name-block h1 {
+  order: 1;
+  font-size: 13px;
+  font-family: var(--font-cn);
   color: var(--text-secondary);
-  margin-bottom: 14px;
   font-weight: 300;
+  letter-spacing: 0;
+  margin-bottom: 12px;
+}
+body.lang-cn .name-block .cn-name {
+  order: 0;
+  font-size: 26px;
+  color: var(--accent);
+  font-weight: 500;
+  letter-spacing: 3px;
+  margin-bottom: 2px;
 }
 
 .sidebar .tagline {
   text-align: center;
-  font-size: 13.5px;
+  font-size: 12px;
   color: var(--text-secondary);
   line-height: 1.55;
-  margin-bottom: 24px;
+  margin-bottom: 12px;
   padding: 0 4px;
 }
 
@@ -120,7 +155,7 @@ a:hover { color: var(--accent-light); }
   text-align: center;
   font-size: 13px;
   color: var(--text-secondary);
-  margin-bottom: 28px;
+  margin-bottom: 18px;
   line-height: 1.5;
 }
 
@@ -129,23 +164,25 @@ a:hover { color: var(--accent-light); }
   font-weight: 600;
 }
 
-/* NAV */
+/* NAV — vertical in sidebar */
 .sidebar nav {
-  margin-bottom: 28px;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 .sidebar nav a {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 9px 14px;
-  margin: 2px 0;
-  border-radius: 8px;
-  font-size: 14px;
+  gap: 8px;
+  padding: 8px 10px;
+  margin: 1px 0;
+  border-radius: 7px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--text-secondary);
   transition: all 0.2s;
   cursor: pointer;
+  width: 100%;
 }
 
 .sidebar nav a:hover {
@@ -162,18 +199,19 @@ a:hover { color: var(--accent-light); }
   font-family: var(--font-mono);
   font-size: 11px;
   opacity: 0.5;
-  min-width: 22px;
+  min-width: 18px;
 }
 
-/* SIDEBAR LINKS */
+/* SOCIAL LINKS */
 .sidebar-links {
   margin-top: auto;
   padding-top: 20px;
   border-top: 1px solid var(--border);
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
   justify-content: center;
+  width: 100%;
 }
 
 .sidebar-links a {
@@ -202,16 +240,17 @@ a:hover { color: var(--accent-light); }
 
 /* ── MAIN CONTENT ── */
 .main {
-  margin-left: var(--sidebar-w);
   flex: 1;
+  border-left: 1px solid var(--border);
+  padding-left: 48px;
   min-height: 100vh;
 }
 
 .page {
   display: none;
-  padding: 52px 56px 80px;
-  max-width: 820px;
-  margin: 0 auto;
+  padding: 52px 0 80px;
+  max-width: 100%;
+  margin: 0;
   animation: fadeIn 0.3s ease;
 }
 
@@ -222,47 +261,48 @@ a:hover { color: var(--accent-light); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── TYPOGRAPHY ── */
+/* ── TYPOGRAPHY ─ UNIFIED SCALE ── */
 .page h2 {
   font-family: var(--font-display);
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 400;
-  margin-bottom: 8px;
-  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+  letter-spacing: -0.4px;
 }
 
 .page .page-subtitle {
   color: var(--text-secondary);
-  font-size: 15px;
-  margin-bottom: 36px;
-  font-weight: 300;
+  font-size: 13.5px;
+  margin-bottom: 32px;
+  font-weight: 400;
 }
 
 .page h3 {
-  font-family: var(--font-display);
-  font-size: 20px;
-  font-weight: 400;
-  margin: 32px 0 14px;
+  font-family: var(--font-body);
+  font-size: 17px;
+  font-weight: 600;
+  margin: 32px 0 12px;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--border);
   color: var(--text);
+  letter-spacing: -0.1px;
 }
 
 .page h4 {
-  font-size: 14px;
+  font-size: 11.5px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   color: var(--accent);
-  margin: 28px 0 12px;
+  margin: 28px 0 10px;
 }
 
 /* ── ABOUT PAGE ── */
 .about-intro {
-  font-size: 17px;
+  font-size: 15px;
   line-height: 1.75;
   color: var(--text);
-  margin-bottom: 32px;
+  margin-bottom: 28px;
 }
 
 .about-intro em {
@@ -282,9 +322,9 @@ a:hover { color: var(--accent-light); }
 .research-keywords span {
   background: var(--accent-bg);
   color: var(--accent);
-  padding: 5px 14px;
+  padding: 4px 12px;
   border-radius: 20px;
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 500;
   border: 1px solid rgba(45,90,61,0.15);
 }
@@ -295,7 +335,7 @@ a:hover { color: var(--accent-light); }
 }
 
 .news-list li {
-  padding: 12px 0;
+  padding: 10px 0;
   border-bottom: 1px solid rgba(0,0,0,0.05);
   display: flex;
   gap: 14px;
@@ -361,7 +401,7 @@ a:hover { color: var(--accent-light); }
 .pub-authors .me { font-weight: 600; color: var(--text); }
 
 .pub-venue {
-  font-size: 13px;
+  font-size: 12.5px;
   color: var(--accent);
   font-weight: 500;
 }
@@ -379,7 +419,7 @@ a:hover { color: var(--accent-light); }
 
 .pub-tag {
   font-size: 11px;
-  padding: 2px 8px;
+  padding: 2px 7px;
   border-radius: 3px;
   font-weight: 500;
 }
@@ -611,83 +651,47 @@ a:hover { color: var(--accent-light); }
 }
 
 /* ── RESPONSIVE ── */
-@media (max-width: 1024px) {
-  .wrapper { flex-direction: column; }
+@media (max-width: 860px) {
+  .wrapper { flex-direction: column; padding: 0; }
   .sidebar {
-    position: relative;
     width: 100%;
     min-width: unset;
     height: auto;
     padding: 32px 24px 20px;
-    border-right: none;
+    position: relative;
     border-bottom: 1px solid var(--border);
     overflow-y: visible;
+    align-items: center;
   }
-  .sidebar nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-    justify-content: center;
-    margin-bottom: 16px;
-  }
-  .sidebar nav a {
-    padding: 7px 14px;
-    font-size: 13.5px;
-    border-radius: 20px;
-  }
+  .sidebar nav { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 4px; }
+  .sidebar nav a { width: auto; border-radius: 20px; padding: 6px 14px; }
   .sidebar nav a .nav-num { display: none; }
-  .sidebar nav a.active {
-    background: var(--accent);
-    color: #fff;
-  }
-  .main { margin-left: 0; }
-  .main::before { left: 0; }
-  .page { padding: 32px 24px 60px; max-width: 100%; }
-  .creative-grid { grid-template-columns: 1fr; }
+  .sidebar-links { margin-top: 0; padding-top: 12px; border-top: 1px solid var(--border); }
+  .main { border-left: none; padding-left: 0; min-height: unset; }
+  .page { padding: 32px 24px 60px; }
+  .sidebar h1 { font-size: 24px; }
   .profile-photo { width: 100px; height: 100px; }
-  .sidebar h1 { font-size: 22px; }
-  .sidebar .tagline { margin-bottom: 16px; }
-  .sidebar .affiliation { margin-bottom: 16px; }
-  .sidebar-links { padding-top: 12px; margin-top: 12px; }
-  .page h2 { font-size: 26px; }
-  .about-intro { font-size: 15.5px; }
-  .research-keywords { gap: 6px; }
-  .research-keywords span { font-size: 12px; padding: 4px 10px; }
-  .news-list li { flex-direction: column; gap: 4px; }
-  .news-date { min-width: unset; }
-  .pub-title { font-size: 14px; }
-  .pub-authors { font-size: 13px; }
-  .award-item { flex-direction: column; gap: 2px; }
-  .award-item .year { min-width: unset; }
 }
 
 @media (max-width: 480px) {
   .sidebar { padding: 24px 16px 16px; }
-  .sidebar .cn-name { margin-bottom: 10px; }
-  .sidebar .tagline { font-size: 12.5px; }
-  .sidebar .affiliation { font-size: 12px; }
-  .sidebar nav a { padding: 5px 10px; font-size: 12.5px; }
-  .sidebar-links { gap: 6px; }
-  .sidebar-links a { font-size: 11.5px; padding: 4px 8px; }
+  .sidebar .tagline { font-size: 11.5px; }
+  .sidebar nav a { padding: 5px 10px; font-size: 12px; }
   .page { padding: 24px 16px 48px; }
   .page h2 { font-size: 22px; }
-  .page .page-subtitle { font-size: 13.5px; margin-bottom: 24px; }
-  .page h3 { font-size: 18px; }
-  .page h4 { font-size: 12px; }
-  .about-intro { font-size: 14.5px; }
-  .about-intro em { font-size: 15.5px; }
   .profile-photo { width: 80px; height: 80px; }
-  .sidebar h1 { font-size: 20px; }
-  .creative-card { padding: 16px; }
-  .timeline-item { padding-left: 18px; }
-  .pub-doi a { font-size: 11px; }
+  .creative-grid { grid-template-columns: 1fr; }
+  .news-list li { flex-direction: column; gap: 4px; }
+  .news-date { min-width: unset; }
+  .award-item { flex-direction: column; gap: 2px; }
+  .award-item .year { min-width: unset; }
 }
 
 /* ── SUBTLE GRAIN ── */
 .main::before {
   content: '';
   position: fixed;
-  top: 0; left: var(--sidebar-w); right: 0; bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.015'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 0;
@@ -833,15 +837,16 @@ a:hover { color: var(--accent-light); }
 <!-- ════ SIDEBAR ════ -->
 <aside class="sidebar">
   <div class="profile-photo"><img src="photo.jpg" alt="Yuanyuan Xu"></div>
-  <h1>Yuanyuan Xu</h1>
-  <div class="cn-name">徐园园</div>
+  <div class="name-block">
+    <h1>Yuanyuan Xu</h1>
+    <div class="cn-name">徐园园</div>
+  </div>
   <div class="tagline" data-i18n="tagline">
     Playful Interactive Media · Game-Based Learning · Sustainability · Cross-Cultural HCI
   </div>
   <div class="affiliation" data-i18n="affiliation">
     <strong>Ph.D. Student</strong><br>
     Interdisciplinary Studies<br>
-    Faculty of Creative &amp; Critical Studies<br>
     University of British Columbia
   </div>
   <div class="lang-toggle">
@@ -891,9 +896,7 @@ a:hover { color: var(--accent-light); }
   <p class="page-subtitle" data-i18n="sub_about">Researcher in interactive media, game-based learning, and cross-cultural HCI</p>
 
   <p class="about-intro" data-i18n="about_intro">
-    <strong>I study how interactive media and games can bridge cultural knowledge systems, foster ecological awareness, and support participatory learning</strong> — working at the intersection of Human-Computer Interaction, game design, and sustainability.<br><br>
-    Born and raised in Shanghai, I am now a doctoral researcher at UBC, co-supervised by <a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank"><strong>Prof. Aleksandra Dulic</strong></a> (Professor, Faculty of Creative &amp; Critical Studies) and <a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank"><strong>Prof. Patricia Lasserre</strong></a> (Associate Professor, Computer Science). We co-create educational games with Syilx (Okanagan) communities to mobilise diverse water knowledge and cultivate environmental resilience among youth. This work weaves together Indigenous protocols of dialogue, participatory design methods, and game-based learning, informed by my own Wu-Yue heritage from the Yangtze Delta and its eroding water memories.<br><br>
-    Before the PhD, I trained in UX and cross-cultural interaction design, worked as a Product Manager at SAP Labs and Siemens, and completed professional training in the Canadian game industry. My research-creation portfolio includes 3D animation, AR game design, and immersive installations exhibited internationally. Earlier design work on inclusive technology was featured as a <a href="https://www.shine.cn/news/metro/1905305710/" target="_blank">front-page headline in <em>Shanghai Daily</em></a> (2019).
+    I am a doctoral researcher at UBC working at the intersection of Human-Computer Interaction, game design, and sustainability. Co-supervised by <a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank"><strong>Dr. Aleksandra Dulic</strong></a> (Faculty of Creative and Critical Studies) and <a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank"><strong>Dr. Patricia Lasserre</strong></a> (Department of Computer Science, Irving K. Barber Faculty of Science), I co-create educational games with Syilx (Okanagan) communities to mobilise diverse water knowledge and cultivate environmental resilience among youth.
   </p>
 
   <div class="research-keywords" data-i18n="about_keywords">
@@ -904,6 +907,16 @@ a:hover { color: var(--accent-light); }
     <span>Serious Games</span>
     <span>Interactive Storytelling</span>
     <span>Sustainability</span>
+  </div>
+
+  <h3 data-i18n="h_supervisors">Supervisory Committee</h3>
+  <div class="about-intro" style="font-size:14.5px; margin-bottom:28px;" data-i18n="supervisors_content">
+    <strong>Co-supervisors</strong><br>
+    <a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank">Dr. Aleksandra Dulic</a> · Professor, Faculty of Creative and Critical Studies, UBC<br>
+    <a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank">Dr. Patricia Lasserre</a> · Associate Professor, Department of Computer Science, Irving K. Barber Faculty of Science, UBC<br><br>
+    <strong>Committee Members</strong><br>
+    <a href="https://cmps.ok.ubc.ca/about/contact/pourang-irani/" target="_blank">Dr. Pourang Irani</a> · Professor, Department of Computer Science, Irving K. Barber Faculty of Science, UBC<br>
+    <a href="https://cmps.ok.ubc.ca/about/contact/khalad-hasan/" target="_blank">Dr. Mohammad Khalad Hasan</a> · Associate Professor, Department of Computer Science, Irving K. Barber Faculty of Science, UBC
   </div>
 
   <h3 data-i18n="h_news">News</h3>
@@ -953,7 +966,7 @@ a:hover { color: var(--accent-light); }
     <strong>Co-Designing Educational Games for Okanagan Water Knowledge</strong><br>
     <span style="color:var(--accent); font-family:var(--font-mono); font-size:12px;">Ph.D. in Interdisciplinary Studies · UBC · 2025–2029</span><br><br>
     My doctoral project investigates how educational games can serve as platforms for mobilising <em>diverse water knowledge</em> — bridging Western scientific understanding with Indigenous (Syilx/Okanagan) ecological wisdom. Through participatory co-design with community members, educators, and youth, I am developing game-based learning tools that cultivate <em>environmental resilience</em> and cross-cultural dialogue around water governance in the Okanagan Valley.<br><br>
-    This research is situated within the broader <a href="#" style="font-weight:600;">Beaver Worlds Project</a> at UBC, which examines Okanagan water governance and Indigenous knowledge mobilisation. I am co-supervised by <a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank" style="font-weight:600;">Prof. Aleksandra Dulic</a> (Professor, FCCS) and <a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank" style="font-weight:600;">Prof. Patricia Lasserre</a> (Associate Professor, Computer Science).
+    This research is situated within the broader <a href="#" style="font-weight:600;">Beaver Worlds Project</a> at UBC, which examines Okanagan water governance and Indigenous knowledge mobilisation. I am co-supervised by <a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank" style="font-weight:600;">Dr. Aleksandra Dulic</a> (Professor, Faculty of Creative and Critical Studies) and <a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank" style="font-weight:600;">Dr. Patricia Lasserre</a> (Associate Professor, Department of Computer Science, Irving K. Barber Faculty of Science).
   </div>
 
   <h3 data-i18n="h_themes">Research Themes</h3>
@@ -1372,7 +1385,7 @@ const i18n = {
   cn: {
     // Sidebar
     tagline: '趣味交互媒体 · 游戏化学习 · 可持续发展 · 跨文化人机交互',
-    affiliation: '<strong>博士研究生</strong><br>跨学科研究<br>创意与批判研究学院<br>不列颠哥伦比亚大学 (UBC)',
+    affiliation: '<strong>博士研究生</strong><br>跨学科研究<br>不列颠哥伦比亚大学 (UBC)',
     // Nav
     nav_about: '<span class="nav-num">01</span>关于',
     nav_research: '<span class="nav-num">02</span>研究',
@@ -1383,15 +1396,17 @@ const i18n = {
     // About
     h_about: '关于',
     sub_about: '交互媒体、游戏化学习与跨文化人机交互研究者',
-    about_intro: '<strong>我的研究关注交互媒体与游戏如何连接不同文化的知识体系、唤起生态意识，并促进参与式学习</strong> — 研究领域横跨人机交互、游戏设计与可持续发展。<br><br>我在上海出生长大，现为不列颠哥伦比亚大学（UBC）博士研究生，联合导师为<a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank"><strong>Aleksandra Dulic 教授</strong></a>（创意与批判研究学院教授）和<a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank"><strong>Patricia Lasserre 教授</strong></a>（计算机科学副教授），与 Syilx（Okanagan）原住民社区协作共创教育游戏，汇聚多元水知识，增强青年的环境适应力。这项研究融合了原住民对话协议、参与式设计与游戏化学习方法，同时汲取了我个人的江南文化背景及长三角地区逐渐消逝的水乡记忆。<br><br>攻读博士前，我在用户体验与跨文化交互设计领域积累了扎实的基础，曾在 SAP Labs 和西门子担任产品经理，并在加拿大接受了系统的游戏行业专业培训。我的研究-创作（Research-Creation）作品涵盖 3D 动画、AR 游戏设计和沉浸式装置，曾在国际范围内展出。早年关于无障碍包容性设计的作品曾获<a href="https://www.shine.cn/news/metro/1905305710/" target="_blank"><em>上海日报</em>专题报道</a> (2019)。',
+    about_intro: '我是不列颠哥伦比亚大学（UBC）博士研究生，研究领域横跨人机交互、游戏设计与可持续发展。联合导师为<a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank"><strong>Aleksandra Dulic 博士</strong></a>（创意与批判研究学院）和<a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank"><strong>Patricia Lasserre 博士</strong></a>（计算机科学系，欧文·K·巴伯理学院），与 Syilx（Okanagan）原住民社区协作共创教育游戏，汇聚多元水知识，增强青年的环境适应力。',
     about_keywords: '<span>参与式设计</span><span>游戏化学习</span><span>环境韧性</span><span>跨文化人机交互</span><span>严肃游戏</span><span>交互叙事</span><span>可持续发展</span>',
+    h_supervisors: '导师委员会',
+    supervisors_content: '<strong>联合导师</strong><br><a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank">Aleksandra Dulic 博士</a> · 教授，创意与批判研究学院，UBC<br><a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank">Patricia Lasserre 博士</a> · 副教授，计算机科学系，欧文·K·巴伯理学院，UBC<br><br><strong>委员会成员</strong><br><a href="https://cmps.ok.ubc.ca/about/contact/pourang-irani/" target="_blank">Pourang Irani 博士</a> · 教授，计算机科学系，欧文·K·巴伯理学院，UBC<br><a href="https://cmps.ok.ubc.ca/about/contact/khalad-hasan/" target="_blank">Mohammad Khalad Hasan 博士</a> · 副教授，计算机科学系，欧文·K·巴伯理学院，UBC',
     h_news: '最新动态',
     news_list: '<li><span class="news-date">2026年7月</span><span class="news-text">将在<strong>洛杉矶会议中心 ACM SIGGRAPH 2026 教育者论坛</strong>（7月17–23日）发表 <strong><em>Beaver World：以地方性互动仿真推动气候教育的去殖民化</em></strong>，20分钟演讲 <span class="badge green">预告</span></span></li><li><span class="news-date">2026年6月</span><span class="news-text">将在爱尔兰<strong>数字游戏研究协会年会 (DiGRA) 2026</strong> 进行博士联盟与教育分会报告 <span class="badge green">预告</span></span></li><li><span class="news-date">2026年6月</span><span class="news-text">三篇论文被<strong>数字游戏研究协会年会 (DiGRA) 2026</strong>录用：<em>生态游戏中缺席的教师</em>、<em>从资源到亲属</em>（第一作者），<em>VR 游戏设计中的超写实追求</em>（合著） <span class="badge green">预告</span></span></li><li><span class="news-date">2026年3月</span><span class="news-text">论文发表于 <strong>Sustainability</strong>：<a href="https://doi.org/10.3390/su18052305" target="_blank">游戏化学习促进环境韧性的系统综述</a></span></li><li><span class="news-date">2026年6月</span><span class="news-text">将在蒙特利尔<strong>国际人机交互大会 (HCII) 2026</strong> 发表三篇论文（Springer LNCS/CCIS）— <em>生态共情图谱</em>、<em>3D 教育游戏中的动画设计哲学</em>、<em>挣扎即心流</em> <span class="badge green">预告</span></span></li><li><span class="news-date">2025年8月</span><span class="news-text">在温哥华 <strong>ACM 计算机图形与交互技术会议 (SIGGRAPH) 2025</strong> 发表 —「身体在场，思绪漫游」（Birds of a Feather 分会）</span></li><li><span class="news-date">2025年4月</span><span class="news-text">获 <strong>国际计算机学会人因与计算系统会议 (ACM CHI) 2025</strong> 两项<strong>杰出审稿人</strong>荣誉</span></li><li><span class="news-date">2025年9月</span><span class="news-text">入读 <strong>UBC</strong> 跨学科研究博士项目</span></li>',
     // Research
     h_research: '研究',
     sub_research: '探索交互媒体与游戏如何汇聚多元知识体系，增强环境适应力',
     h_doctoral: '博士研究',
-    doctoral_content: '<strong>协作共创教育游戏，汇聚奥肯纳根水知识</strong><br><span style="color:var(--accent); font-family:var(--font-mono); font-size:12px;">跨学科研究博士 · UBC · 2025–2029</span><br><br>我的博士课题探究教育游戏如何成为汇聚<em>多元水知识</em>的媒介——在西方科学认知与原住民（Syilx/Okanagan）生态智慧之间架起桥梁。通过与社区成员、教育工作者和青年的参与式协作设计，我致力于开发游戏化学习工具，以提升奥肯纳根山谷水治理中的<em>环境韧性</em>，并推动跨文化对话。<br><br>本研究隶属于UBC的 <a href="#" style="font-weight:600;">Beaver Worlds 项目</a>，该项目聚焦奥肯纳根水治理与原住民知识的传播动员。我的联合导师为<a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank" style="font-weight:600;">Aleksandra Dulic 教授</a>（创意与批判研究学院教授）和<a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank" style="font-weight:600;">Patricia Lasserre 教授</a>（计算机科学副教授）。',
+    doctoral_content: '<strong>协作共创教育游戏，汇聚奥肯纳根水知识</strong><br><span style="color:var(--accent); font-family:var(--font-mono); font-size:12px;">跨学科研究博士 · UBC · 2025–2029</span><br><br>我的博士课题探究教育游戏如何成为汇聚<em>多元水知识</em>的媒介——在西方科学认知与原住民（Syilx/Okanagan）生态智慧之间架起桥梁。通过与社区成员、教育工作者和青年的参与式协作设计，我致力于开发游戏化学习工具，以提升奥肯纳根山谷水治理中的<em>环境韧性</em>，并推动跨文化对话。<br><br>本研究隶属于UBC的 <a href="#" style="font-weight:600;">Beaver Worlds 项目</a>，该项目聚焦奥肯纳根水治理与原住民知识的传播动员。我的联合导师为<a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank" style="font-weight:600;">Aleksandra Dulic 博士</a>（创意与批判研究学院教授）和<a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank" style="font-weight:600;">Patricia Lasserre 博士</a>（计算机科学系，欧文·K·巴伯理学院副教授）。',
     h_themes: '研究主题',
     themes_content: '<div class="creative-card"><div class="title">游戏化学习与环境韧性</div><div class="desc">严肃游戏如何培养生态共情、系统思维和可持续行为？我的系统综述（Sustainability, 2026）系统梳理了该领域的研究进展，并归纳了有效生态游戏的关键设计原则。</div></div><div class="creative-card"><div class="title">原住民社区参与式设计</div><div class="desc">以文化扎根的对话方式和互惠协议为基础，与 Syilx（Okanagan）社区协作共创交互媒体——尊重原住民数据主权，保障数字空间中知识表达的自主权。</div></div><div class="creative-card"><div class="title">跨文化人机交互</div><div class="desc">研究文化语境如何影响和塑造人机交互体验——从跨文化大语言模型对话代理到跨文化游戏角色设计，立足于个人双语、双文化（中加）的成长背景。</div></div>',
     h_method: '方法论专长',
@@ -1502,6 +1517,8 @@ function setLang(lang) {
   document.querySelectorAll('h1,h2,h3,h4,.pub-title,.timeline-item .role,.page-subtitle,.about-intro,.about-intro em,.news-text,.creative-card .title,.creative-card .desc,.service-list li,.award-item,.footer').forEach(el => {
     el.style.fontFamily = lang === 'cn' ? 'var(--font-cn)' : '';
   });
+  // Swap name display prominence based on language
+  document.body.classList.toggle('lang-cn', lang === 'cn');
 }
 
 // ──── PASSWORD PROTECTION ────
