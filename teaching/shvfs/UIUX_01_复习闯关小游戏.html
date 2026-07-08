@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>复习闯关 · Review Dungeon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+@font-face{ font-family:"Zpix"; src:url("zpix.woff2") format("woff2"); font-display:swap; }
+
+:root{
+  --bg:#0e0e23; --bg2:#15163a; --panel:#1c1d44; --panel2:#24255a;
+  --ink:#f4f4ff; --dim:#a9abe0; --line:#3a3c7a; --black:#07071a;
+  --red:#e03a3a; --orange:#ff9f1c; --blue:#3a86ff; --green:#43d35a;
+  --magenta:#ff5db1; --cyan:#21d4d4; --gold:#ffd23f; --purple:#b15dff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:#000;color:var(--ink);
+  font-family:"Zpix","Press Start 2P","PingFang SC","Microsoft YaHei",monospace;
+  overflow:hidden;display:flex;align-items:center;justify-content:center;image-rendering:pixelated;
+}
+.en{font-family:"Press Start 2P","Zpix",monospace}
+button{font-family:inherit;cursor:pointer}
+
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#stage{
+  width:1280px;height:720px;position:relative;
+  background:radial-gradient(circle at 50% 0%, #1b1c4a 0%, var(--bg) 70%);
+  transform-origin:center center;overflow:hidden;border:6px solid #2c2e6e;
+}
+#stage::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:16px 16px;z-index:0;
+}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;padding:40px 54px;z-index:1}
+.screen.active{display:flex;animation:pop .18s steps(3)}
+@keyframes pop{from{opacity:.2;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ---- top HUD (shown during levels) ---- */
+.hud{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.hud .lv{font-family:"Press Start 2P","Zpix",monospace;font-size:12px;background:var(--purple);color:#fff;
+  padding:9px 12px;border:3px solid #fff;box-shadow:5px 5px 0 var(--black)}
+.hud .score{font-family:"Press Start 2P","Zpix",monospace;font-size:12px;background:var(--panel);
+  border:3px solid var(--line);padding:8px 11px;box-shadow:4px 4px 0 var(--black)}
+.hud .score b{color:var(--gold)}
+.hearts{display:flex;gap:6px}
+.heart{position:relative;width:16px;height:16px}
+.heart::before{content:"";position:absolute;left:2px;top:3px;width:2px;height:2px;background:var(--red);
+  box-shadow:2px 0 var(--red),6px 0 var(--red),8px 0 var(--red),
+    0 2px var(--red),2px 2px var(--red),4px 2px var(--red),6px 2px var(--red),8px 2px var(--red),10px 2px var(--red),
+    0 4px var(--red),2px 4px var(--red),4px 4px var(--red),6px 4px var(--red),8px 4px var(--red),10px 4px var(--red),
+    2px 6px var(--red),4px 6px var(--red),6px 6px var(--red),8px 6px var(--red),
+    4px 8px var(--red),6px 8px var(--red);}
+.heart.off::before{opacity:.15}
+
+/* ---- slime mascot (original pixel art, css box-shadow blocks) ---- */
+.slime{width:64px;height:56px;position:relative;margin:0 auto}
+.slime i{position:absolute;background:var(--green)}
+.slime .body{left:8px;top:16px;width:48px;height:32px;border-radius:0}
+.slime .top{left:16px;top:8px;width:32px;height:12px}
+.slime .l1{left:0;top:24px;width:8px;height:16px}
+.slime .l2{left:56px;top:24px;width:8px;height:16px}
+.slime .eye{background:var(--black);width:6px;height:8px;top:26px}
+.slime .eye.left{left:20px}
+.slime .eye.right{left:38px}
+.slime .shine{background:#bdf2c8;width:8px;height:6px;left:16px;top:18px}
+.slime.bounce{animation:sbounce 1.1s ease-in-out infinite}
+@keyframes sbounce{0%,100%{transform:translateY(0) scaleY(1)}45%{transform:translateY(-10px) scaleY(1.06)}55%{transform:translateY(-10px) scaleY(1.06)}70%{transform:translateY(2px) scaleY(.9)}}
+
+/* ---- cover / start ---- */
+.cover{align-items:center;justify-content:center;text-align:center;gap:0}
+.cover .badge-top{font-family:"Press Start 2P","Zpix",monospace;font-size:11px;color:var(--gold);margin-bottom:22px;letter-spacing:2px}
+.cover h1{font-family:"Press Start 2P","Zpix",monospace;font-size:36px;line-height:1.4;color:#fff;
+  text-shadow:5px 5px 0 var(--purple),10px 10px 0 var(--black)}
+.cover .sub{font-size:20px;color:var(--cyan);margin-top:22px;letter-spacing:2px;font-weight:bold}
+.cover .desc{font-family:"Press Start 2P","Zpix",monospace;font-size:11px;color:var(--dim);margin-top:28px;line-height:2}
+.bigbtn{margin-top:36px;font-family:"Press Start 2P","Zpix",monospace;font-size:14px;color:var(--black);
+  background:var(--gold);border:4px solid #fff;padding:16px 26px;box-shadow:7px 7px 0 var(--black)}
+.bigbtn:hover{background:#fff}
+.bigbtn:active{transform:translate(3px,3px);box-shadow:4px 4px 0 var(--black)}
+
+/* ---- dungeon map ---- */
+.mapwrap{flex:1;position:relative;display:flex;align-items:center;justify-content:center}
+.path{position:absolute;left:120px;right:120px;top:50%;height:6px;background:var(--line);z-index:0}
+.path i{position:absolute;top:0;height:100%;background:var(--gold);left:0}
+.nodes{position:relative;z-index:1;display:flex;justify-content:space-between;width:100%}
+.node{display:flex;flex-direction:column;align-items:center;gap:10px}
+.node .dot{width:64px;height:64px;border:4px solid #fff;background:var(--panel2);
+  display:flex;align-items:center;justify-content:center;font-family:"Press Start 2P","Zpix",monospace;
+  font-size:18px;box-shadow:6px 6px 0 var(--black);cursor:pointer;color:#fff}
+.node.locked .dot{background:#26273f;color:#4a4c73;cursor:not-allowed;box-shadow:6px 6px 0 #050510}
+.node.cleared .dot{background:var(--green);color:var(--black)}
+.node.current .dot{background:var(--gold);color:var(--black);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.node .name{font-family:"Press Start 2P","Zpix",monospace;font-size:9px;color:var(--dim);text-align:center;width:90px;line-height:1.6}
+.node.cleared .name,.node.current .name{color:var(--ink)}
+
+/* ---- question screen ---- */
+.qwrap{flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px}
+.qpanel{background:var(--panel);border:4px solid var(--gold);padding:26px 30px;box-shadow:8px 8px 0 var(--black)}
+.qpanel .qn{font-family:"Press Start 2P","Zpix",monospace;font-size:11px;color:var(--gold);margin-bottom:12px}
+.qpanel .qt{font-size:22px;line-height:1.6}
+.opts{display:flex;flex-direction:column;gap:12px}
+.opt{background:var(--panel2);border:3px solid var(--line);padding:14px 18px;font-size:18px;
+  display:flex;gap:14px;align-items:center;text-align:left;color:var(--ink);box-shadow:4px 4px 0 var(--black)}
+.opt:hover{border-color:var(--cyan)}
+.opt .k{font-family:"Press Start 2P","Zpix",monospace;font-size:12px;color:var(--black);background:var(--cyan);
+  border:2px solid #fff;padding:5px 8px;flex:0 0 auto}
+.opt.correct{background:var(--green);border-color:#fff;color:var(--black)}
+.opt.correct .k{background:#fff}
+.opt.wrong{background:var(--red);border-color:#fff;color:#fff}
+.opt.wrong .k{background:#fff;color:var(--black)}
+.opt[disabled]{cursor:default}
+.hintrow{display:flex;align-items:flex-start;gap:14px}
+.hintbtn{flex:0 0 auto;font-family:"Press Start 2P","Zpix",monospace;font-size:10px;color:var(--black);
+  background:var(--cyan);border:3px solid #fff;padding:9px 11px;box-shadow:3px 3px 0 var(--black)}
+.hintbtn:hover{background:#fff}
+.hintbtn[disabled]{opacity:.4;cursor:default}
+.explain{flex:1;font-size:15px;color:var(--dim);line-height:1.6;min-height:24px}
+.explain b{color:var(--gold)}
+.nextbtn{align-self:flex-end;font-family:"Press Start 2P","Zpix",monospace;font-size:11px;color:var(--black);
+  background:var(--gold);border:3px solid #fff;padding:10px 16px;box-shadow:4px 4px 0 var(--black);
+  opacity:0;pointer-events:none;transition:opacity .15s}
+.nextbtn.show{opacity:1;pointer-events:auto}
+
+/* ---- level clear / boss / final ---- */
+.midscreen{align-items:center;justify-content:center;text-align:center;gap:18px}
+.midscreen .big{font-family:"Press Start 2P","Zpix",monospace;font-size:30px;color:#fff;
+  text-shadow:4px 4px 0 var(--green),8px 8px 0 var(--black)}
+.midscreen .score-line{font-family:"Press Start 2P","Zpix",monospace;font-size:16px;color:var(--gold);margin-top:10px}
+.rank{font-family:"Press Start 2P","Zpix",monospace;font-size:64px;margin:14px 0;
+  text-shadow:6px 6px 0 var(--black)}
+.rank.S{color:var(--gold)} .rank.A{color:var(--cyan)} .rank.B{color:var(--green)} .rank.C{color:var(--dim)}
+
+.toolbar{position:fixed;left:10px;bottom:10px;z-index:45;display:flex;gap:6px}
+.toolbar button{font-family:"Press Start 2P","Zpix",monospace;font-size:9px;color:#fff;background:var(--panel);
+  border:3px solid var(--line);padding:8px 9px;box-shadow:3px 3px 0 #000}
+.toolbar button.on{background:var(--green);color:#07071a;border-color:#fff}
+#hint{position:fixed;right:10px;bottom:14px;z-index:40;font-family:"Press Start 2P","Zpix",monospace;font-size:8px;color:#5658a0}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage"></div></div>
+<div id="hint">点击作答 · H 键看提示 · 通关解锁下一关</div>
+
+<script>
+/* ===== Sound (chiptune bgm + sfx, same approach as the lecture deck) ===== */
+const Sound = (function(){
+  let ctx, master, bgmGain, sfxGain, bgmOn=true, schedTimer, nextT=0, step=0;
+  const BASS=[147,0,0,0, 175,0,0,0, 196,0,0,0, 165,0,0,0];
+  const LEAD=[587,0,698,0, 622,0,587,0, 523,0,587,0, 494,0,523,0];
+  const STEP=0.15;
+  function ready(){
+    if(ctx) return true;
+    try{
+      ctx=new (window.AudioContext||window.webkitAudioContext)();
+      master=ctx.createGain(); master.gain.value=0.9; master.connect(ctx.destination);
+      bgmGain=ctx.createGain(); bgmGain.gain.value=0.045; bgmGain.connect(master);
+      sfxGain=ctx.createGain(); sfxGain.gain.value=0.28; sfxGain.connect(master);
+      return true;
+    }catch(e){ return false; }
+  }
+  function tone(freq,dur,type,gain,at,target){
+    const t=at||ctx.currentTime, o=ctx.createOscillator(), g=ctx.createGain();
+    o.type=type||"square"; o.frequency.setValueAtTime(freq,t);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(gain||0.3,t+0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g); g.connect(target||sfxGain);
+    o.start(t); o.stop(t+dur+0.02);
+  }
+  function scheduler(){
+    while(nextT < ctx.currentTime+0.12){
+      const i=step%16;
+      if(LEAD[i]) tone(LEAD[i],STEP*1.1,"square",0.20,nextT,bgmGain);
+      if(BASS[i]) tone(BASS[i],STEP*3.2,"triangle",0.35,nextT,bgmGain);
+      nextT+=STEP; step++;
+    }
+  }
+  function startBGM(){ if(!ready())return; if(ctx.state==="suspended")ctx.resume(); if(schedTimer)return; nextT=ctx.currentTime+0.05; schedTimer=setInterval(scheduler,25); }
+  function stopBGM(){ if(schedTimer){clearInterval(schedTimer);schedTimer=null;} }
+  return {
+    nav(){ if(!ready())return; if(ctx.state==="suspended")ctx.resume(); tone(880,0.05,"square",0.28); },
+    correct(){ if(!ready())return; if(ctx.state==="suspended")ctx.resume();
+      [523,659,784,1047].forEach((f,i)=>tone(f,0.12,"square",0.28,ctx.currentTime+i*0.06))+0; },
+    wrong(){ if(!ready())return; if(ctx.state==="suspended")ctx.resume();
+      tone(180,0.18,"sawtooth",0.22); tone(140,0.22,"sawtooth",0.2,ctx.currentTime+0.08); },
+    clear(){ if(!ready())return; if(ctx.state==="suspended")ctx.resume();
+      [523,659,784,1047,1319].forEach((f,i)=>tone(f,0.16,"square",0.3,ctx.currentTime+i*0.09)); },
+    toggle(){ bgmOn=!bgmOn; if(bgmOn)startBGM(); else stopBGM(); return bgmOn; },
+    kick(){ if(bgmOn) startBGM(); }
+  };
+})();
+
+/* ===== Quiz content: Lesson 01 review, 5 levels x 3 questions ===== */
+const LEVELS = [
+  { name:"五要素", color:"var(--blue)", questions:[
+    { q:"「这个游戏承诺给玩家什么体验」，这句话对应五要素的哪一层？", opts:["Strategy 策略层","Scope 范围层","Skeleton 框架层","Surface 表现层"], a:0,
+      hint:"想一想：这句话讲的是「为什么」，不是「长什么样」——五要素里最底层管的就是「为什么」。",
+      ex:"<b>Strategy</b> 回答的正是「游戏承诺」这件事——先想清楚这个，才谈得上其它层。" },
+    { q:"决定「血条该多大、放在哪个位置」，是五要素的哪一层在管？", opts:["Structure 结构层","Skeleton 框架层","Scope 范围层","Strategy 策略层"], a:1,
+      hint:"想一想：这是在决定「大小和优先级」，还没上色，对应五要素偏上但还没到表现层的那一层。",
+      ex:"<b>Skeleton</b> 管的是优先级和布局——什么最大、什么离手最近。" },
+    { q:"表现层（Surface）真正的作用是什么？", opts:["单纯让界面好看","传递情绪和反馈","决定按钮的功能","减少代码量"], a:1,
+      hint:"想一想：这层不是在讲「好不好看」，而是在讲「让玩家感觉到什么」。",
+      ex:"表现层不是装饰，它负责让玩家感到科幻、紧张、稀有、危险……<b>传递情绪和反馈</b>。" },
+  ]},
+  { name:"可用性", color:"var(--green)", questions:[
+    { q:"「预防错误」这条尼尔森原则在游戏里最合适的例子是？", opts:["把「卖装备」按钮放在离「穿装备」远的位置","加更多特效","把字体调大","增加背景音乐"], a:0,
+      hint:"想一想：预防错误的关键是「把容易搞混、后果不同的按钮分开摆放」。",
+      ex:"把容易搞混、后果不同的按钮拉开距离，就是<b>预防错误</b>的典型做法。" },
+    { q:"手游容易误触的核心原因是什么？", opts:["屏幕分辨率太低","手指比鼠标粗，操作时手还在动","网络延迟","电池不够"], a:1,
+      hint:"想一想：对比一下鼠标和手指，谁更精准、谁更容易抖动。",
+      ex:"手指精度天然不如鼠标，加上操作时手在晃动，所以按钮要留够热区和间距。" },
+    { q:"同一张信息密集的界面，MMO老玩家觉得刚好、新手却看不懂——这说明判断「是否信息过载」要先看什么？", opts:["界面元素的数量","面向的玩家是谁、当前处在什么阶段","颜色种类多不多","文件大小"], a:1,
+      hint:"想一想：同一张图，对老玩家和新玩家的感受可能完全不同。",
+      ex:"没有绝对的「乱」，只有「对错了人」的乱——先问<b>给谁用、什么阶段</b>。" },
+  ]},
+  { name:"吸引力", color:"var(--magenta)", questions:[
+    { q:"抽卡时「停顿半秒再揭晓结果」，主要是在利用哪个机制？", opts:["心流 Game Flow","动机中的期待感","可用性 Usability","安全区 Safe Area"], a:1,
+      hint:"想一想：这不是「操作」层面的事，而是在利用「等待」制造心理上的期待。",
+      ex:"故意的停顿制造悬念，强化了<b>动机</b>里「稀有度带来的期待感」。" },
+    { q:"《旷野之息》低UI设计的关键，是把原本靠界面完成的反馈交给了什么？", opts:["更多的弹窗提示","环境、声音和动画","更大的字体","更复杂的菜单"], a:1,
+      hint:"想一想：UI 少了，那些原本该由 UI 传达的信息，去哪了？",
+      ex:"UI 减少是因为<b>环境、声音、动画</b>接过了反馈的工作，不是偷懒。" },
+    { q:"「教程提示一条接一条、根本停不下来」，最容易打断的是什么？", opts:["心流 Game Flow","表现层 Surface","组织 Organism","范围层 Scope"], a:0,
+      hint:"想一想：这跟「打断了一种很顺的状态」有关。",
+      ex:"错误时机、过密的提示，正是打断<b>心流</b>最常见的原因。" },
+  ]},
+  { name:"原子设计", color:"var(--gold)", questions:[
+    { q:"血条、技能槽、物品卡，分别属于 Atomic Design 的哪一层？", opts:["Atoms 原子","Molecules 分子","Organisms 组织","Templates 模板"], a:1,
+      hint:"想一想：这些是「有功能的小组件」，不是最小单位，也不是完整区块。",
+      ex:"这些是「有功能的小组件」，正是<b>Molecules</b> 分子层。" },
+    { q:"一个按钮组件，除了 normal 状态，至少还要设计哪些状态？", opts:["hover / disabled / selected / danger","只需要点击状态","不需要考虑状态","只需要换颜色"], a:0,
+      hint:"想一想：一个按钮除了「没人碰它」的样子，真实使用中还会遇到哪些情况？",
+      ex:"新手最容易漏的就是状态——五种状态都要想到，组件才算考虑周全。" },
+    { q:"整个战斗 HUD（血条+技能槽+小地图组合在一起）属于哪一层？", opts:["Atoms 原子","Molecules 分子","Organisms 组织","Pages 页面"], a:2,
+      hint:"想一想：这是好几个分子拼在一起、能独立完成一件事的区块。",
+      ex:"能独立支撑玩家完成一个任务的完整区块，就是 <b>Organisms</b>。" },
+  ]},
+  { name:"预告 BOSS", color:"var(--red)", preview:true,
+    note:"下面 2 题是<b>这节课要教的新内容</b>——你还没学过，凭直觉猜猜看，猜错完全没关系，纯粹好玩。",
+    questions:[
+      { q:"为什么设计时要先做 low-fi（黑白线框），而不是直接跳到高保真？", opts:["因为低保真更好看","低保真只测试结构对不对，改起来成本低","因为低保真不用花时间","两者没有区别"], a:1,
+        hint:"想一想：先做黑白线框，是为了先确认「结构对不对」，还是先追求「好看」？",
+        ex:"<b>Low-fi</b> 的价值就是便宜、改得快——先把结构确认对了，再花力气做好看。这节课会细讲。" },
+      { q:"界面设计里的「安全区 Safe Area」，指的是什么？", opts:["游戏里最安全的关卡","无论设备、手指怎么挡，都不会被切掉/遮住的区域","存档文件的位置","反作弊系统"], a:1,
+        hint:"想一想：这跟「不管什么手机、哪根手指，都不会挡住重要内容」有关。",
+        ex:"<b>安全区</b>保证关键信息不会被刘海屏、手指或系统手势区挡住——这节课会细讲。" },
+    ]
+  },
+];
+
+/* ===== State ===== */
+let curLevel=0, curQ=0, score=0, bonusScore=0, cleared=[false,false,false,false,false], levelScore=0;
+
+/* ===== Slime mascot ===== */
+function slimeHTML(bounce){
+  return `<div class="slime${bounce?' bounce':''}">
+    <i class="body"></i><i class="top"></i><i class="l1"></i><i class="l2"></i>
+    <i class="eye left"></i><i class="eye right"></i><i class="shine"></i>
+  </div>`;
+}
+
+/* ===== Screens ===== */
+const stage=document.getElementById("stage");
+function setScreen(html){
+  stage.innerHTML = `<section class="screen active">${html}</section>`;
+}
+
+function showCover(){
+  setScreen(`
+    <div class="cover">
+      <div class="badge-top">★ REVIEW DUNGEON · 复习闯关 ★</div>
+      <h1>UIUX LESSON 01<br>REVIEW</h1>
+      <div class="sub">五要素 · 可用性 · 吸引力 · 原子设计 · 综合</div>
+      ${slimeHTML(true)}
+      <div class="desc">带上史莱姆，闯 5 关，答对加分<br>不确定就按 H 键看提示——这是复习，不是考试<br>通关后揭晓你的复习等级</div>
+      <button class="bigbtn" id="btnStart">▶ 开始闯关</button>
+    </div>`);
+  document.getElementById("btnStart").onclick=()=>{ Sound.nav(); showMap(); };
+}
+
+function showMap(){
+  const nodes = LEVELS.map((lv,i)=>{
+    let cls="locked";
+    const unlocked = i===0 || cleared[i-1];
+    if(cleared[i]) cls="cleared";
+    else if(unlocked) cls="current";
+    const icon = cleared[i] ? "✓" : (i+1);
+    return `<div class="node ${cls}" data-i="${i}">
+      <div class="dot">${icon}</div>
+      <div class="name">LV${i+1}<br>${lv.name}</div>
+    </div>`;
+  }).join("");
+  const clearedCount = cleared.filter(Boolean).length;
+  setScreen(`
+    <div class="hud">
+      <div class="lv">DUNGEON MAP</div>
+      <div class="score">SCORE <b>${score}</b></div>
+    </div>
+    <div class="mapwrap">
+      <div class="path"><i style="width:${clearedCount/(LEVELS.length-1)*100}%"></i></div>
+      <div class="nodes">${nodes}</div>
+    </div>
+    <div style="text-align:center">${slimeHTML(false)}</div>
+  `);
+  stage.querySelectorAll(".node").forEach(n=>{
+    const i=+n.dataset.i;
+    const unlocked = i===0 || cleared[i-1];
+    if(unlocked){
+      n.style.cursor="pointer";
+      n.onclick=()=>{ Sound.nav(); enterLevel(i); };
+    }
+  });
+  if(clearedCount===LEVELS.length) showFinal();
+}
+
+function enterLevel(i){
+  curLevel=i; curQ=0; levelScore=0;
+  const lv=LEVELS[i];
+  if(lv.preview){ showPreviewIntro(); } else { showQuestion(); }
+}
+
+function showPreviewIntro(){
+  const lv=LEVELS[curLevel];
+  setScreen(`
+    <div class="midscreen">
+      <div class="lv" style="background:${lv.color}">LV${curLevel+1} · ${lv.name}</div>
+      <div class="big" style="font-size:24px;margin-top:16px">🔮 内容预告</div>
+      <div style="font-size:17px;line-height:1.9;max-width:840px;margin-top:6px">${lv.note}</div>
+      ${slimeHTML(true)}
+      <button class="bigbtn" id="btnBossGo">▶ 试试预告题</button>
+    </div>
+  `);
+  document.getElementById("btnBossGo").onclick=()=>{ Sound.nav(); showQuestion(); };
+}
+
+function showQuestion(){
+  const lv=LEVELS[curLevel];
+  const q=lv.questions[curQ];
+  const heartsHTML = Array.from({length:lv.questions.length},(_,k)=>`<span class="heart${k<=curQ?'':' off'}"></span>`).join("");
+  setScreen(`
+    <div class="hud">
+      <div class="lv" style="background:${lv.color}">LV${curLevel+1} · ${lv.name}</div>
+      <div class="hearts">${heartsHTML}</div>
+      <div class="score">SCORE <b>${score}</b>${lv.preview?` <span style="color:var(--cyan)">+彩蛋 ${bonusScore}</span>`:''}</div>
+    </div>
+    <div class="qwrap">
+      <div class="qpanel">
+        <div class="qn">Q${curQ+1} / ${lv.questions.length}${lv.preview?'　<span style="color:var(--orange)">· 新内容预告，不会就猜</span>':''}</div>
+        <div class="qt">${q.q}</div>
+      </div>
+      <div class="opts">
+        ${q.opts.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${String.fromCharCode(65+k)}</span><span>${o}</span></button>`).join("")}
+      </div>
+      <div class="hintrow">
+        <button class="hintbtn" id="hintBtn">💡 提示 (H)</button>
+        <div class="explain" id="explain"></div>
+      </div>
+      <button class="nextbtn" id="nextBtn">下一步 ▶</button>
+    </div>
+  `);
+  let answered=false, hintShown=false;
+  const explainEl=document.getElementById("explain");
+  document.getElementById("hintBtn").onclick=()=>{
+    if(answered || hintShown) return;
+    hintShown=true; Sound.nav();
+    explainEl.innerHTML = "💡 " + q.hint;
+  };
+  stage.querySelectorAll(".opt").forEach(btn=>{
+    btn.onclick=()=>{
+      if(answered) return; answered=true;
+      const k=+btn.dataset.k;
+      const correct = k===q.a;
+      stage.querySelectorAll(".opt").forEach(b=>b.setAttribute("disabled","true"));
+      if(correct){
+        btn.classList.add("correct"); Sound.correct();
+        if(lv.preview){ bonusScore+=10; } else { score+=10; }
+        levelScore+=10;
+      }else{
+        btn.classList.add("wrong"); Sound.wrong();
+        stage.querySelector(`.opt[data-k="${q.a}"]`).classList.add("correct");
+      }
+      explainEl.innerHTML = (correct?"✔ 答对了！ ":"✘ 差一点。 ") + q.ex;
+      const nb=document.getElementById("nextBtn"); nb.classList.add("show");
+      nb.onclick=()=>{ Sound.nav(); nextStep(); };
+    };
+  });
+}
+
+function nextStep(){
+  const lv=LEVELS[curLevel];
+  curQ++;
+  if(curQ < lv.questions.length){ showQuestion(); }
+  else{ showLevelClear(); }
+}
+
+function showLevelClear(){
+  cleared[curLevel]=true;
+  Sound.clear();
+  setScreen(`
+    <div class="midscreen">
+      <div class="big">LEVEL CLEAR!</div>
+      ${slimeHTML(true)}
+      <div class="score-line">+${levelScore} PTS　总分 ${score}</div>
+      <button class="bigbtn" id="btnBack">▶ 返回地图</button>
+    </div>
+  `);
+  document.getElementById("btnBack").onclick=()=>{ Sound.nav(); showMap(); };
+}
+
+function showFinal(){
+  const reviewLevels = LEVELS.filter(l=>!l.preview);
+  const max = reviewLevels.reduce((s,l)=>s+l.questions.length,0)*10;
+  const pct = score/max;
+  let rank="C";
+  if(pct>=0.93) rank="S"; else if(pct>=0.73) rank="A"; else if(pct>=0.5) rank="B";
+  setScreen(`
+    <div class="midscreen">
+      <div class="big">DUNGEON CLEAR!</div>
+      <div class="rank ${rank}">${rank}</div>
+      ${slimeHTML(true)}
+      <div class="score-line">复习分数 ${score} / ${max}</div>
+      ${bonusScore>0?`<div class="score-line" style="color:var(--cyan);font-size:13px">预告彩蛋 +${bonusScore}</div>`:''}
+      <button class="bigbtn" id="btnRetry">↺ 重新挑战</button>
+    </div>
+  `);
+  document.getElementById("btnRetry").onclick=()=>{
+    Sound.nav(); curLevel=0; curQ=0; score=0; bonusScore=0; cleared=cleared.map(()=>false); showMap();
+  };
+}
+
+/* ===== toolbar + boot ===== */
+const bar=document.createElement("div");
+bar.className="toolbar";
+bar.innerHTML=`<button id="btnMusic" class="on">♪ 音乐</button>`;
+document.body.appendChild(bar);
+const bm=document.getElementById("btnMusic");
+bm.onclick=()=>{ Sound.nav(); const on=Sound.toggle(); bm.classList.toggle("on",on); bm.textContent=on?"♪ 音乐":"♪ 静音"; };
+["pointerdown","keydown"].forEach(ev=>document.addEventListener(ev,()=>Sound.kick()));
+document.addEventListener("keydown",e=>{
+  if(e.key==="h"||e.key==="H"){ const hb=document.getElementById("hintBtn"); if(hb) hb.click(); }
+});
+
+function fit(){
+  const s=Math.min(window.innerWidth/1280, window.innerHeight/720);
+  stage.style.transform=`scale(${s})`;
+}
+window.addEventListener("resize",fit);
+fit();
+showCover();
+</script>
+</body>
+</html>

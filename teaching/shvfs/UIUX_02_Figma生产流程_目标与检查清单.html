@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figma 生产流程 · 母版（时间/目标/检查清单自己填）</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#ffffff; --ink:#1f2430; --dim:#6b7280; --line:#e6e8f0;
+  --accent:#4f46e5; --accent-soft:#eef1ff; --good:#16a34a; --good-soft:#eafaf0;
+  --warn:#b45309; --warn-soft:#fff4e5; --radius:10px;
+  --shadow:0 1px 2px rgba(20,20,50,.04), 0 6px 16px rgba(20,20,50,.05);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px; line-height:1.75;
+}
+a{color:var(--accent)}
+
+#layout{display:flex; max-width:1280px; margin:0 auto; align-items:flex-start}
+#toc{position:sticky; top:0; height:100vh; width:250px; flex:0 0 250px; padding:28px 14px 28px 20px; overflow-y:auto}
+#toc h1{font-size:16px; margin:0 0 4px}
+#toc .sub{font-size:12px; color:var(--dim); margin-bottom:16px}
+#toc .overall{background:var(--card); border:1px solid var(--line); border-radius:8px; padding:12px; margin-bottom:18px}
+#toc .overall .pct{font-size:22px; font-weight:700; color:var(--accent)}
+#toc .overall .lbl{font-size:11px; color:var(--dim)}
+#toc .bar{height:6px; background:var(--line); border-radius:4px; margin-top:8px; overflow:hidden}
+#toc .bar i{display:block; height:100%; background:var(--accent); width:0%; transition:width .25s}
+#toc nav a{display:flex; justify-content:space-between; gap:8px; padding:7px 10px; margin-bottom:2px; border-radius:8px;
+  font-size:12.5px; color:var(--dim); text-decoration:none; border-left:3px solid transparent}
+#toc nav a:hover{background:var(--accent-soft); color:var(--accent)}
+#toc nav a.active{background:var(--accent-soft); color:var(--accent); border-left-color:var(--accent); font-weight:600}
+#toc nav a .n{font-size:10.5px; color:var(--dim)}
+#toc nav a.done .n{color:var(--good)}
+#toc .savehint{margin-top:16px; font-size:11px; color:var(--dim)}
+
+main{flex:1; min-width:0; padding:28px 32px 120px}
+.intro{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:22px 26px; margin-bottom:22px}
+.intro h1{font-size:21px; margin:0 0 10px}
+.intro p{margin:0 0 8px}
+.intro p:last-child{margin-bottom:0}
+.intro .badge{display:inline-block; font-size:11px; font-weight:700; color:var(--accent); background:var(--accent-soft);
+  border-radius:6px; padding:3px 8px; margin-bottom:10px}
+
+.step{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:22px 26px; margin-bottom:18px; scroll-margin-top:16px}
+.step-head{display:flex; align-items:flex-start; gap:12px; margin-bottom:6px}
+.step-num{flex:0 0 auto; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+  border-radius:7px; padding:5px 10px; margin-top:2px}
+.step-titles h2{font-size:18px; margin:0}
+.step-titles .ref{font-size:11.5px; color:var(--dim); margin-top:2px}
+
+.hintbtn{font-size:11.5px; color:var(--accent); background:none; border:none; cursor:pointer; padding:4px 0; margin:6px 0}
+.hintbox{display:none; background:var(--accent-soft); border-radius:7px; padding:8px 12px; font-size:12.5px; color:var(--accent);
+  margin-bottom:10px}
+.hintbox.show{display:block}
+
+.field-row{display:flex; gap:18px; margin:12px 0}
+.field{flex:1; min-width:0}
+.field label{display:block; font-size:11.5px; font-weight:700; color:var(--dim); margin-bottom:5px; text-transform:uppercase; letter-spacing:.03em}
+.field input[type=text]{width:100%; font:inherit; font-size:14px; padding:9px 11px; border:1px solid var(--line);
+  border-radius:7px; background:#fbfbfe; outline:none}
+.field input[type=text]:focus{border-color:var(--accent); background:#fff}
+.field textarea{width:100%; font:inherit; font-size:14px; padding:9px 11px; border:1px solid var(--line);
+  border-radius:7px; background:#fbfbfe; outline:none; min-height:52px; resize:vertical}
+.field textarea:focus{border-color:var(--accent); background:#fff}
+
+.checklist-lbl{font-size:11.5px; font-weight:700; color:var(--dim); text-transform:uppercase; letter-spacing:.03em; margin:14px 0 6px}
+.checklist{display:flex; flex-direction:column; gap:4px}
+.citem{display:flex; align-items:center; gap:8px}
+.citem input[type=checkbox]{flex:0 0 auto; width:17px; height:17px; accent-color:var(--good); cursor:pointer}
+.citem input[type=text]{flex:1; font:inherit; font-size:14px; padding:7px 9px; border:1px solid transparent;
+  border-radius:6px; background:transparent; outline:none}
+.citem input[type=text]:hover{background:#fafafe}
+.citem input[type=text]:focus{background:#fff; border-color:var(--line)}
+.citem.done input[type=text]{color:var(--dim); text-decoration:line-through}
+.citem .del{flex:0 0 auto; width:22px; height:22px; border:none; background:none; color:var(--line); cursor:pointer; font-size:15px; line-height:1}
+.citem .del:hover{color:var(--warn)}
+.addbtn{font-size:13px; color:var(--accent); background:var(--accent-soft); border:none; border-radius:7px;
+  padding:7px 12px; cursor:pointer; margin-top:6px}
+.addbtn:hover{opacity:.85}
+
+.step-progress{font-size:12px; color:var(--dim); margin-top:14px; padding-top:10px; border-top:1px solid var(--line)}
+.step-progress b{color:var(--good)}
+
+#toolbar{position:fixed; right:18px; bottom:18px; z-index:50; display:flex; gap:8px}
+#toolbar button{font-size:13px; padding:10px 14px; border-radius:9px; border:1px solid var(--line);
+  background:#fff; color:var(--ink); cursor:pointer; box-shadow:var(--shadow)}
+#toolbar button:hover{border-color:var(--accent); color:var(--accent)}
+#toolbar #btnExport{background:var(--ink); color:#fff; border-color:var(--ink)}
+#toolbar #btnCopy{background:var(--good); color:#fff; border-color:var(--good)}
+#hint{position:fixed; left:18px; bottom:18px; z-index:50; font-size:12.5px; color:var(--dim);
+  background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 12px; box-shadow:var(--shadow); max-width:340px}
+
+#modalMask{position:fixed;inset:0;background:rgba(20,25,40,.45);display:none;align-items:center;justify-content:center;z-index:200}
+#modalMask.show{display:flex}
+#modalBox{background:#fff;border-radius:10px;width:min(600px,90vw);max-height:80vh;display:flex;flex-direction:column;padding:20px}
+#modalBox h3{margin:0 0 10px;font-size:15px}
+#modalBox textarea{flex:1;min-height:300px;font-family:"SFMono-Regular",Consolas,monospace;font-size:12.5px;
+  border:1px solid var(--line);border-radius:6px;padding:12px;resize:vertical}
+#modalBox .row{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+#modalBox button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:8px 14px;cursor:pointer;font-size:13px}
+#modalBox button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+@media (max-width:920px){ #toc{display:none} main{padding:20px 16px 120px} .field-row{flex-direction:column;gap:10px} }
+</style>
+</head>
+<body>
+<div id="layout">
+  <aside id="toc">
+    <h1>Figma 生产流程 · 母版</h1>
+    <div class="sub">即刻设计 → Figma · 史莱姆人格研究所</div>
+    <div class="overall">
+      <div class="pct" id="ovPct">0%</div>
+      <div class="lbl" id="ovLbl">0 / 0 项已完成</div>
+      <div class="bar"><i id="ovBar"></i></div>
+    </div>
+    <nav id="tocnav"></nav>
+    <div class="savehint" id="saveHint">未修改</div>
+  </aside>
+  <main id="main"></main>
+</div>
+
+<div id="toolbar">
+  <button id="btnCopy">📋 复制进度摘要</button>
+  <button id="btnExport">⬇ 导出</button>
+  <button id="btnReset">↺ 恢复示范内容</button>
+  <button id="btnClear">🗑 清空重新开始</button>
+</div>
+<div id="hint">打开时看到的是一个示范团队做到一半的进度——直接参考，或者点「编辑」把内容改成/清空成你们自己的真实情况都可以。改动自动保存，随时可以导出。</div>
+
+<div id="modalMask">
+  <div id="modalBox">
+    <h3>进度摘要（已尝试复制到剪贴板，也可以手动全选复制）</h3>
+    <textarea id="modalText" readonly></textarea>
+    <div class="row">
+      <button id="modalCopyAgain">再次复制</button>
+      <button id="modalClose" class="primary">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   STEPS — 只给"步骤框架"和对应大纲章节，以及少量关键词提示。
+   时间、目标、检查清单条目全部由学生自己填写（见下方 fills 状态）。
+   ============================================================ */
+const STEPS = [
+  { title:"从即刻设计迁移到 Figma", ref:"迁移准备", hints:["导出旧素材","团队共用同一个 Figma 文件","文件命名规范"] },
+  { title:"建立文件结构", ref:"对应大纲 5.1 文件结构（Page 命名）", hints:["Page 顺序","Page 命名规则"] },
+  { title:"定义 Design Tokens", ref:"对应大纲 4.1/4.2 色彩理论与字体排版", hints:["日间模式","夜间模式","语义命名","字号阶梯","间距阶梯"] },
+  { title:"组件命名规则", ref:"对应大纲 5.2 组件命名规则", hints:["Atom/Molecule/Organism 分层","禁止随手命名（按钮1/按钮2）"] },
+  { title:"组件状态做成 Variants", ref:"对应大纲 5.3 组件状态要用 Variants", hints:["史莱姆状态","对话框状态","按钮状态"] },
+  { title:"Auto Layout 用对地方", ref:"对应大纲 5.4 Auto Layout 用在哪、不用在哪", hints:["内容会变长的地方用","像素精灵图不用"] },
+  { title:"尺寸阶梯与像素风处理", ref:"对应大纲 5.5/5.6 最小元素尺寸与像素风格特殊处理", hints:["32px 基础单位","整数倍缩放","最近邻导出"] },
+  { title:"鼠标交互惯例", ref:"对应大纲 5.7 鼠标点击场景的排版惯例", hints:["Hover 悬停状态","点击间距","弹窗跟随位置"] },
+  { title:"Figma ⇄ Unreal Engine 控件对照与 Handoff 标注", ref:"对应大纲 5.8 Figma⇄UE(UMG) 控件标准对照", hints:["容器类型","Anchor/Constraints","9-Slice","命名对齐"] },
+  { title:"撰写 5 页设计规范文档（个人作业）", ref:"对应大纲 5.9 怎么写一份别人能快速上手的 UI 设计规范文档", hints:["封面基调","Tokens","组件总览","状态说明","金句"] }
+];
+
+/* ============================================================
+   State — fills[si] = { timeline, goal, items:[{text,done}] }
+   这份工具现在合并了"母版"和"示范案例"两个角色：默认状态不是空白，
+   而是一个虚构团队做到里程碑中途的真实进度快照——直接当参照看，
+   或者点开编辑，把内容改成/清空成你们自己团队的真实情况都可以。
+   ============================================================ */
+const PRISTINE = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+const STORE_KEY = "uiux02_figma_master_v1";
+
+const DEFAULT_FILLS = {
+  0:{ timeline:"7/8 - 7/9（第一天就搬完）",
+      goal:"把即刻设计里已经画的史莱姆待机动画草稿和背包按钮草图搬到 Figma，5 个人从今天起只在一个文件里改。",
+      items:[
+        {text:"导出即刻设计里的史莱姆草稿图（3 张待机动画帧）",done:true},
+        {text:"新建 Figma 文件，命名 UIUX02_史莱姆人格研究所",done:true},
+        {text:"5 人全部加入，权限都设成 can edit",done:true},
+        {text:"旧素材放进 Cover & Brief 页当参考，不当最终稿",done:true}
+      ]},
+  1:{ timeline:"7/9（半小时内搞定）",
+      goal:"把 7 个 Page 都建好，谁负责哪块一眼就能找到。",
+      items:[
+        {text:"建好 7 个 Page，按顺序：Cover&Brief / Design Tokens / Components / Wireframes / Hi-Fi Screens / Prototype / Handoff-Export",done:true},
+        {text:"每个 Page 给了一个识别色，方便左侧列表分辨",done:true}
+      ]},
+  2:{ timeline:"7/9 - 7/10",
+      goal:"定好日间 + 夜间两套色板、字号阶梯、间距阶梯，全项目共用。",
+      items:[
+        {text:"主色定为暖橙色系（#FFB088 日间 / #FF9466 夜间），走类似色方案",done:true},
+        {text:"日间模式 6 个语义色全部定义",done:true},
+        {text:"夜间模式 6 个语义色全部定义",done:true},
+        {text:"用对比度工具查过，正文文字都 ≥4.5:1",done:true},
+        {text:"4 级字号阶梯定完（标题32/副标题24/正文18/说明14）",done:true},
+        {text:"间距阶梯还差最后确认——8/16/32/64，队长说要再核对一下按钮内边距是不是都对齐了",done:false}
+      ]},
+  3:{ timeline:"7/10",
+      goal:"按 Atom/Molecule/Organism 分层命名，避免「按钮1」「按钮2」这种。",
+      items:[
+        {text:"命名规则写进了 Handoff 页，供团队查阅",done:true},
+        {text:"已有组件按新规则重命名了一遍",done:true}
+      ]},
+  4:{ timeline:"7/10 - 7/12",
+      goal:"史莱姆 7 状态、对话框 5 状态、按钮 4 状态，全部做成 Variants，不是复制图层。",
+      items:[
+        {text:"史莱姆 7 个状态全部做完，合并成 Variants",done:true},
+        {text:"按钮 4 个状态做完",done:true},
+        {text:"对话框 5 个状态——目前只做了「提问」和「结果展示」两个，「毕业后回忆」还没画，先卡在这里",done:false}
+      ]},
+  5:{ timeline:"7/11",
+      goal:"对话气泡和按钮加 Auto Layout，史莱姆精灵图不加。",
+      items:[
+        {text:"对话气泡加了 Auto Layout，测试过换长文字会自动撑开",done:true},
+        {text:"确认过史莱姆精灵图没有被误加 Auto Layout",done:true}
+      ]},
+  6:{ timeline:"7/11 - 7/12",
+      goal:"全项目卡在 32px 阶梯和整数倍缩放上，画面不能糊。",
+      items:[
+        {text:"画布用 320×180 原生尺寸绘制",done:true},
+        {text:"缩放倍数统一用 3x",done:true},
+        {text:"导出设置的最近邻选项还没统一检查，有两张图看着有点糊，待排查",done:false}
+      ]},
+  7:{ timeline:"7/12",
+      goal:"每个可点击元素做出悬停状态，弹窗跟着史莱姆当前位置走。",
+      items:[
+        {text:"悬停状态目前只做了按钮，问题选项卡还没加，下一步先补这个",done:false},
+        {text:"弹窗跟随位置这个逻辑还在讨论怎么在 Figma 原型里模拟出来",done:false}
+      ]},
+  8:{ timeline:"计划 7/13 开始",
+      goal:"每个组件标出容器类型、Anchor、是否需要 9-Slice。",
+      items:[
+        {text:"还没开始标注，打算等组件基本定型再统一做，怕现在标了后面又要改",done:false}
+      ]},
+  9:{ timeline:"7/13 起，持续到里程碑截止",
+      goal:"每人各自开始写自己负责部分的规范文档。",
+      items:[
+        {text:"封面基调页——组里一个人先起了草稿，其他人还没看",done:true},
+        {text:"Design Tokens、组件总览、状态说明、金句这 4 页，每个人都还没正式动笔",done:false}
+      ]}
+};
+function cloneDefaults(){ return JSON.parse(JSON.stringify(DEFAULT_FILLS)); }
+
+let fills = {};
+
+function blankFill(){ return { timeline:"", goal:"", items:[] }; }
+function fillOf(si){ if(!fills[si]) fills[si]=blankFill(); return fills[si]; }
+
+function loadSaved(){
+  try{ const ls=JSON.parse(localStorage.getItem(STORE_KEY)); if(ls&&ls.fills) return ls.fills; }catch(e){}
+  const emb=document.getElementById("embedded-data");
+  if(emb && emb.textContent.trim()){
+    try{ const o=JSON.parse(emb.textContent); if(o&&o.fills){ saveRaw(o.fills); return o.fills; } }catch(e){}
+  }
+  // first time opening, no saved state anywhere — start from the worked example
+  // instead of blank, since this file merges "master template" + "example".
+  return cloneDefaults();
+}
+function saveRaw(f){ try{ localStorage.setItem(STORE_KEY, JSON.stringify({fills:f,_savedAt:Date.now()})); return true; }catch(e){ return false; } }
+let _saveT;
+function persist(){
+  clearTimeout(_saveT);
+  _saveT=setTimeout(()=>{
+    const ok=saveRaw(fills);
+    document.getElementById("saveHint").textContent = ok ? ("已自动保存 · "+new Date().toLocaleTimeString()) : "⚠ 本地存储已满，请点导出";
+  },250);
+}
+
+/* ============================================================
+   Render
+   ============================================================ */
+const main=document.getElementById("main");
+const tocnav=document.getElementById("tocnav");
+
+function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function totalCounts(){
+  let total=0, done=0;
+  STEPS.forEach((s,si)=>{ const f=fillOf(si); f.items.forEach(it=>{ total++; if(it.done) done++; }); });
+  return {total,done};
+}
+function stepCounts(si){
+  const f=fillOf(si); const total=f.items.length; const done=f.items.filter(it=>it.done).length;
+  return {total,done};
+}
+
+function checklistHTML(si){
+  const f=fillOf(si);
+  const rows = f.items.map((it,ii)=>`
+    <div class="citem${it.done?' done':''}" data-si="${si}" data-ii="${ii}">
+      <input type="checkbox" class="cb" ${it.done?"checked":""}>
+      <input type="text" class="txt" value="${esc(it.text)}" placeholder="写一条检查项……">
+      <button class="del" title="删除">✕</button>
+    </div>`).join("");
+  return rows;
+}
+
+function render(){
+  main.innerHTML = `
+    <div class="intro">
+      <div class="badge">示范 + 可编辑 · 点「编辑」改成你们自己的内容</div>
+      <h1>Figma 生产流程</h1>
+      <p>这是史莱姆人格研究所项目从「即刻设计迁移到 Figma」的完整生产流程骨架，共 10 步，对应 Lesson 02 大纲的具体章节。</p>
+      <p>页面里现在填的是一个示范团队做到里程碑中途的真实状态——有的步骤全部打勾，有的还卡着一半。这不是标准答案，是给你们看"填成什么样算正常"的参照。点右下角「编辑」，把每一步的<b>计划时间、目标、检查项</b>改成/清空成你们小组自己的真实情况；想不出来的时候，点「💡 提示」看几个关键词。</p>
+    </div>
+  ` + STEPS.map((s,si)=>{
+    const f = fillOf(si);
+    return `<section class="step" id="step-${si}">
+      <div class="step-head">
+        <div class="step-num">${si+1}</div>
+        <div class="step-titles">
+          <h2>${esc(s.title)}</h2>
+          <div class="ref">${esc(s.ref)}</div>
+        </div>
+      </div>
+      <button class="hintbtn" data-si="${si}">💡 提示（想不出来再点开看）</button>
+      <div class="hintbox" id="hintbox-${si}">${s.hints.map(esc).join(" · ")}</div>
+      <div class="field-row">
+        <div class="field" style="flex:0 0 220px">
+          <label>计划时间</label>
+          <input type="text" class="f-timeline" data-si="${si}" value="${esc(f.timeline)}" placeholder="例如：7/10 - 7/12">
+        </div>
+        <div class="field">
+          <label>这一步的目标（自己写）</label>
+          <textarea class="f-goal" data-si="${si}" placeholder="这一步你们具体要达成什么？为什么现在做这步？">${esc(f.goal)}</textarea>
+        </div>
+      </div>
+      <div class="checklist-lbl">检查清单</div>
+      <div class="checklist" id="checklist-${si}">${checklistHTML(si)}</div>
+      <button class="addbtn" data-si="${si}">+ 添加检查项</button>
+      <div class="step-progress" id="progress-${si}"></div>
+    </section>`;
+  }).join("");
+  renderTOC();
+  updateOverall();
+  updateAllStepProgress();
+}
+
+function updateAllStepProgress(){
+  STEPS.forEach((s,si)=>{
+    const c=stepCounts(si);
+    document.getElementById("progress-"+si).innerHTML = c.total
+      ? `已完成 <b>${c.done} / ${c.total}</b> 项`
+      : `还没有检查项——点上面「+ 添加检查项」开始填`;
+  });
+}
+
+function renderTOC(){
+  tocnav.innerHTML = STEPS.map((s,si)=>{
+    const c=stepCounts(si);
+    const done = c.total>0 && c.done===c.total;
+    return `<a href="#step-${si}" data-si="${si}" class="${done?'done':''}">
+      <span>${si+1}. ${esc(s.title)}</span><span class="n">${c.done}/${c.total}</span>
+    </a>`;
+  }).join("");
+  tocnav.querySelectorAll("a").forEach(a=>{
+    a.addEventListener("click",e=>{
+      e.preventDefault();
+      document.getElementById("step-"+a.dataset.si).scrollIntoView({behavior:"smooth",block:"start"});
+    });
+  });
+}
+
+function updateOverall(){
+  const {total,done}=totalCounts();
+  const pct = total? Math.round(done/total*100) : 0;
+  document.getElementById("ovPct").textContent = pct+"%";
+  document.getElementById("ovLbl").textContent = done+" / "+total+" 项已完成";
+  document.getElementById("ovBar").style.width = pct+"%";
+}
+
+/* ============================================================
+   Interaction: hint toggle, timeline/goal edits, checklist add/edit/delete
+   ============================================================ */
+main.addEventListener("click", e=>{
+  const hintBtn = e.target.closest(".hintbtn");
+  if(hintBtn){
+    document.getElementById("hintbox-"+hintBtn.dataset.si).classList.toggle("show");
+    return;
+  }
+  const addBtn = e.target.closest(".addbtn");
+  if(addBtn){
+    const si=+addBtn.dataset.si;
+    fillOf(si).items.push({text:"", done:false});
+    document.getElementById("checklist-"+si).innerHTML = checklistHTML(si);
+    // focus the newly added row's text input
+    const rows = document.querySelectorAll(`#checklist-${si} .txt`);
+    if(rows.length) rows[rows.length-1].focus();
+    persist(); renderTOC(); updateOverall(); updateAllStepProgress();
+    return;
+  }
+  const delBtn = e.target.closest(".del");
+  if(delBtn){
+    const item = delBtn.closest(".citem");
+    const si=+item.dataset.si, ii=+item.dataset.ii;
+    fillOf(si).items.splice(ii,1);
+    document.getElementById("checklist-"+si).innerHTML = checklistHTML(si);
+    persist(); renderTOC(); updateOverall(); updateAllStepProgress();
+    return;
+  }
+});
+
+main.addEventListener("change", e=>{
+  if(e.target.classList.contains("cb")){
+    const item = e.target.closest(".citem");
+    const si=+item.dataset.si, ii=+item.dataset.ii;
+    fillOf(si).items[ii].done = e.target.checked;
+    item.classList.toggle("done", e.target.checked);
+    persist(); renderTOC(); updateOverall(); updateAllStepProgress();
+  }
+});
+
+main.addEventListener("input", e=>{
+  if(e.target.classList.contains("f-timeline")){
+    fillOf(+e.target.dataset.si).timeline = e.target.value;
+    persist();
+  }else if(e.target.classList.contains("f-goal")){
+    fillOf(+e.target.dataset.si).goal = e.target.value;
+    persist();
+  }else if(e.target.classList.contains("txt")){
+    const item = e.target.closest(".citem");
+    fillOf(+item.dataset.si).items[+item.dataset.ii].text = e.target.value;
+    persist();
+  }
+});
+
+/* ============================================================
+   Scroll-spy
+   ============================================================ */
+function wireScrollSpy(){
+  const links=[...tocnav.querySelectorAll("a")];
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      if(en.isIntersecting){
+        links.forEach(a=>a.classList.toggle("active", a.dataset.si===en.target.id.replace("step-","")));
+      }
+    });
+  },{rootMargin:"-15% 0px -70% 0px"});
+  document.querySelectorAll(".step").forEach(sec=>io.observe(sec));
+}
+
+/* ============================================================
+   Copy summary / export / reset
+   ============================================================ */
+function buildSummaryText(){
+  const {total,done}=totalCounts();
+  let out = "Figma 生产流程 · 进度摘要\n生成时间：" + new Date().toLocaleString("zh-CN",{hour12:false}) + "\n总进度：" + done + " / " + total + "\n";
+  STEPS.forEach((s,si)=>{
+    const f=fillOf(si), c=stepCounts(si);
+    out += "\n【"+(si+1)+". "+s.title+"】"+c.done+"/"+c.total;
+    if(f.timeline) out += "  ·  时间："+f.timeline;
+    out += "\n";
+    if(f.goal) out += "  目标："+f.goal+"\n";
+    f.items.forEach(it=>{ out += (it.done ? "  [x] " : "  [ ] ") + (it.text||"（未命名检查项）") + "\n"; });
+    if(!f.items.length) out += "  （还没有检查项）\n";
+  });
+  return out;
+}
+function copySummary(){
+  const text=buildSummaryText();
+  document.getElementById("modalText").value=text;
+  document.getElementById("modalMask").classList.add("show");
+  tryClipboard(text);
+}
+function tryClipboard(text){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>flashHint("摘要已复制到剪贴板 ✔")).catch(()=>fallbackCopy(text));
+  }else fallbackCopy(text);
+}
+function fallbackCopy(text){
+  const ta=document.getElementById("modalText");
+  ta.focus(); ta.select();
+  try{ document.execCommand("copy"); flashHint("摘要已复制到剪贴板 ✔"); }
+  catch(e){ flashHint("自动复制失败，请手动全选复制"); }
+}
+function flashHint(msg){
+  const h=document.getElementById("hint");
+  const old=h.textContent; h.textContent=msg; h.style.color="var(--good)";
+  clearTimeout(flashHint._t);
+  flashHint._t=setTimeout(()=>{ h.textContent=old; h.style.color=""; },2200);
+}
+
+function download(name, content, mime){
+  const blob=new Blob([content],{type:mime||"text/html;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=name;
+  document.body.appendChild(a); a.click();
+  let done=false;
+  const cleanup=()=>{ if(done)return; done=true; URL.revokeObjectURL(a.href); a.remove(); window.removeEventListener("focus",onFocus); };
+  const onFocus=()=>setTimeout(cleanup,3000);
+  window.addEventListener("focus",onFocus);
+  setTimeout(cleanup,60000);
+}
+function replaceEmbeddedDataTag(html, jsonPayload){
+  const openNeedle = '<script id="embedded-data"';
+  const closeNeedle = "<" + "/script>";
+  const openIdx = html.indexOf(openNeedle);
+  if(openIdx<0) return html;
+  const gtIdx = html.indexOf(">", openIdx);
+  const closeIdx = html.indexOf(closeNeedle, gtIdx);
+  if(gtIdx<0 || closeIdx<0) return html;
+  return html.slice(0, gtIdx+1) + jsonPayload + html.slice(closeIdx);
+}
+function exportHTML(){
+  try{
+    const payload=JSON.stringify({fills}).replace(/<\/script/gi,"<\\/script");
+    const html = replaceEmbeddedDataTag(PRISTINE, payload);
+    download("UIUX_02_Figma生产流程_已填写_"+new Date().toISOString().slice(0,10)+".html", html);
+    flashHint("已导出带填写内容的 HTML ✔");
+  }catch(err){ alert("导出失败："+(err&&err.message||err)); }
+}
+function resetAll(){
+  if(!confirm("放弃当前修改，恢复成示范团队的进度快照？（已导出的文件不受影响）")) return;
+  fills=cloneDefaults();
+  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+  render();
+  wireScrollSpy();
+  flashHint("已恢复成示范内容");
+}
+function clearAll(){
+  if(!confirm("清空全部内容，从空白开始填你们自己的？（已导出的文件不受影响）")) return;
+  fills={};
+  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+  render();
+  wireScrollSpy();
+  flashHint("已清空，开始填你们自己的进度吧");
+}
+
+/* ============================================================
+   Init
+   ============================================================ */
+function init(){
+  fills=loadSaved();
+  render();
+  wireScrollSpy();
+  document.getElementById("btnCopy").addEventListener("click", copySummary);
+  document.getElementById("btnExport").addEventListener("click", exportHTML);
+  document.getElementById("btnReset").addEventListener("click", resetAll);
+  document.getElementById("btnClear").addEventListener("click", clearAll);
+  document.getElementById("modalClose").addEventListener("click", ()=>document.getElementById("modalMask").classList.remove("show"));
+  document.getElementById("modalCopyAgain").addEventListener("click", ()=>tryClipboard(document.getElementById("modalText").value));
+  document.getElementById("modalMask").addEventListener("click", e=>{ if(e.target.id==="modalMask") document.getElementById("modalMask").classList.remove("show"); });
+  if(Object.keys(fills).length) document.getElementById("saveHint").textContent="已载入此前填写的内容";
+}
+init();
+</script>
+</body>
+</html>

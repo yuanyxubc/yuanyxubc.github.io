@@ -1,0 +1,4 @@
+about_intro: '我是不列颠哥伦比亚大学（UBC）博士研究生，研究领域横跨人机交互、游戏设计与可持续发展。联合导师为<a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank"><strong>Aleksandra Dulic 博士</strong></a>（创意与批判研究学院）和<a href="https://cmps.ok.ubc.ca/about/contact/patricia-lasserre/" target="_blank"><strong>Patricia Lasserre 博士</strong></a>（计算机科学系，欧文·K·巴伯理学院），与 Syilx（Okanagan）原住民社区协作共创教育游戏，汇聚多元水知识，增强青年的环境适应力。',
+    about_keywords: '<span>参与式设计</span><span>游戏化学习</span><span>环境韧性</span><span>跨文化人机交互</span><span>严肃游戏</span><span>交互叙事</span><span>可持续发展</span>',
+    h_supervisors: '导师委员会',
+    supervisors_content: '<strong>联合导师</strong><br><a href="https://fccs.ok.ubc.ca/about/contact/aleksandra-dulic/" target="_blank">Aleksandra Dulic 博士</a> · 教授，创意与批判研究学院，UBC<br><a href="https://cmps.ok.ubc.ca/about/contact/patrici

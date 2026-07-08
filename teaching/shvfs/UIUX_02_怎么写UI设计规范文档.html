@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>怎么写一份桌宠游戏的 UI 设计规范文档</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#ffffff; --ink:#1f2430; --dim:#6b7280; --line:#e6e8f0;
+  --accent:#4f46e5; --accent-soft:#eef1ff; --good:#16a34a; --good-soft:#eafaf0;
+  --warn:#b45309; --warn-soft:#fff4e5; --radius:10px;
+  --shadow:0 1px 2px rgba(20,20,50,.04), 0 6px 16px rgba(20,20,50,.05);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px; line-height:1.75;
+}
+a{color:var(--accent)}
+
+#layout{display:flex; max-width:1280px; margin:0 auto; align-items:flex-start}
+#toc{position:sticky; top:0; height:100vh; width:230px; flex:0 0 230px; padding:28px 14px 28px 20px; overflow-y:auto}
+#toc h1{font-size:16px; margin:0 0 4px}
+#toc .sub{font-size:12px; color:var(--dim); margin-bottom:20px}
+#toc nav a{display:block; padding:7px 10px; margin-bottom:2px; border-radius:8px; font-size:13px; color:var(--dim);
+  text-decoration:none; border-left:3px solid transparent}
+#toc nav a.lvl3{padding-left:22px; font-size:12px}
+#toc nav a:hover{background:var(--accent-soft); color:var(--accent)}
+#toc nav a.active{background:var(--accent-soft); color:var(--accent); border-left-color:var(--accent); font-weight:600}
+#toc .savehint{margin-top:18px; font-size:11px; color:var(--dim)}
+
+main{flex:1; min-width:0; padding:28px 32px 120px}
+.card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:22px 26px; margin-bottom:22px}
+.card h2{font-size:19px; display:flex; align-items:center; gap:10px}
+.card h2 .idx{font-size:12px; color:#fff; background:var(--accent); border-radius:6px; padding:3px 8px; font-weight:700}
+.card h3{font-size:15.5px; margin:20px 0 8px; color:var(--accent)}
+.card h3:first-of-type{margin-top:16px}
+.card .hint{font-size:12.5px; color:var(--dim); margin:6px 0 16px}
+
+[data-t]{border-radius:5px; padding:1px 3px; margin:-1px -3px}
+.editing [data-t]{outline:1px dashed #c7ccdb; cursor:text}
+.editing [data-t]:hover{outline-color:var(--accent)}
+.editing [data-t]:focus{outline:2px solid var(--accent); background:var(--accent-soft)}
+
+.para{margin-bottom:10px}
+.para:last-child{margin-bottom:0}
+
+ul.plain{list-style:none; padding:0; margin:0 0 10px; display:flex; flex-direction:column; gap:9px}
+ul.plain li{display:flex; gap:10px; align-items:flex-start}
+ul.plain li::before{content:"";flex:0 0 auto;width:7px;height:7px;margin-top:8px;border-radius:2px;background:var(--accent)}
+ul.plain li b{color:var(--ink)}
+
+.reflist{display:flex; flex-direction:column; gap:12px}
+.refitem{background:var(--accent-soft); border-radius:8px; padding:12px 14px}
+.refitem .name{font-weight:700; font-size:14.5px}
+.refitem .desc{font-size:13.5px; color:var(--ink); margin:4px 0}
+.refitem .link{font-size:13px}
+
+.convgrid{display:flex; flex-direction:column; gap:10px}
+.convitem{display:flex; gap:12px; align-items:flex-start; background:#fafbff; border:1px solid var(--line);
+  border-radius:8px; padding:10px 14px}
+.convitem .n{flex:0 0 auto; font-size:11px; font-weight:700; color:#fff; background:var(--purple,#8b5cf6);
+  background:var(--accent); border-radius:50%; width:22px; height:22px; display:flex; align-items:center; justify-content:center}
+.convitem .txt b{color:var(--ink)}
+
+.callout{background:var(--warn-soft); border-left:4px solid var(--warn); border-radius:0 8px 8px 0; padding:12px 16px; font-size:14px}
+.callout b{color:var(--warn)}
+
+.example{background:#f4f6ff; border:1px dashed var(--accent); border-radius:8px; padding:12px 14px; font-size:13.5px; color:var(--dim)}
+.example b{color:var(--ink)}
+
+#toolbar{position:fixed; right:18px; bottom:18px; z-index:50; display:flex; gap:8px}
+#toolbar button{font-size:13px; padding:10px 14px; border-radius:9px; border:1px solid var(--line);
+  background:#fff; color:var(--ink); cursor:pointer; box-shadow:var(--shadow)}
+#toolbar button:hover{border-color:var(--accent); color:var(--accent)}
+#toolbar button.on{background:var(--accent); color:#fff; border-color:var(--accent)}
+#toolbar #btnExport{background:var(--ink); color:#fff; border-color:var(--ink)}
+#hint{position:fixed; left:18px; bottom:18px; z-index:50; font-size:12.5px; color:var(--dim);
+  background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 12px; box-shadow:var(--shadow); max-width:340px}
+
+@media (max-width:920px){ #toc{display:none} main{padding:20px 16px 120px} }
+@media print{ #toc,#toolbar,#hint{display:none !important} main{padding:0} .card{box-shadow:none;border:1px solid #ddd;break-inside:avoid} }
+</style>
+</head>
+<body>
+<div id="layout">
+  <aside id="toc">
+    <h1>UI 设计规范怎么写</h1>
+    <div class="sub">桌宠游戏 · 参考资料</div>
+    <nav id="tocnav"></nav>
+    <div class="savehint" id="saveHint">未修改</div>
+  </aside>
+  <main id="main"></main>
+</div>
+
+<div id="toolbar">
+  <button id="btnEdit">✎ 编辑</button>
+  <button id="btnExport">⬇ 导出</button>
+  <button id="btnReset" style="display:none">↺ 重置</button>
+</div>
+<div id="hint">这份文档回答你们自己提出的问题：设计规范要定义什么、去哪找参考、桌宠这个品类有什么通用惯例。可以直接点「编辑」在上面做笔记。</div>
+<script id="embedded-data" type="application/json"></script>
+
+<script>
+/* ============================================================
+   DATA
+   ============================================================ */
+const INTRO = "你们在项目里提出过三个问题：UI 流程乱、没有规范文档、不知道怎么定最小元素尺寸。最后一个已经在 Figma 生产流程母版第 6-7 步里给了具体方法（32px 阶梯 + 鼠标交互惯例）。这份文档专门回答前两个：一份设计规范到底要写什么内容、去哪找参考、桌宠这个品类有没有通用的惯例可以直接用。";
+
+const CONTENT_GROUPS = [
+  { title:"视觉基础 / Design Tokens", items:[
+    "色彩系统：语义命名（Primary / Secondary / Background / Surface / Text / Accent-Danger-Success），并且至少定义两套模式——日间和夜间",
+    "字体系统：一套字号阶梯（通常 3-5 级：标题/副标题/正文/说明小字），以及什么时候用什么字重",
+    "间距系统：一套间距阶梯（一组有倍数关系的数字，比如 8/16/32/64px），间距、留白、图标尺寸只能用这几个数字",
+    "圆角、描边、阴影规则——如果项目里用到，也要定成统一的一套数值，不要每个组件手感不一样"
+  ]},
+  { title:"图标规范", items:[
+    "图标的网格尺寸（一般和间距阶梯对齐，比如 16px 或 24px 网格）",
+    "线条粗细、是描边风格还是填充风格——全项目图标要看起来像一家人，不是从不同地方拼凑来的"
+  ]},
+  { title:"组件规范", items:[
+    "命名规则：按 Atom / Molecule / Organism 分层命名，比如 Organism/MbtiShiftPanel",
+    "每个组件要列出它<b>全部的状态（Variants）</b>，不是只画了默认状态就算完",
+    "哪些组件是要复用的、哪些是一次性的画面专属元素——写清楚，别人才知道能不能拿去用在别的地方"
+  ]},
+  { title:"布局与网格", items:[
+    "目标分辨率/画布尺寸是多少，是否要兼容多种屏幕",
+    "安全区规则：哪块区域保证不会被裁切、不会被遮挡",
+    "对齐网格：元素摆放是否统一按某个网格对齐"
+  ]},
+  { title:"动效规范（如果项目里有动效）", items:[
+    "关键动效的时长和缓动方式（比如「弹出用 200ms ease-out」）",
+    "动效在什么条件下触发，触发一次还是循环"
+  ]},
+  { title:"平台专属行为规范", items:[
+    "这是桌宠这个品类<b>特有</b>的一块——普通游戏界面规范不会覆盖到，具体内容见下面 C 节"
+  ]},
+  { title:"文件与命名规范", items:[
+    "Figma 里 Page 的顺序和命名（对应 Figma 生产流程母版第 2 步）",
+    "图层、组件的命名规则要写下来，不能只是「大家心里都知道」，新队友或几周后的自己都要能看懂"
+  ]},
+  { title:"Handoff 标注规范", items:[
+    "每个组件至少标出 5 件事：容器类型（Canvas/Auto Layout/Size Box/Scale Box）、Anchor/Constraints、是否需要 9-Slice、固定大小还是自适应、各状态分别对应哪张图"
+  ]}
+];
+
+const REFS = [
+  { name:"Material Design（material.io）", desc:"Google 的公开设计系统文档，色彩、字体、间距、组件规范写得非常系统，方法论通用，不是游戏但值得学怎么把一套规范讲清楚。", url:"https://m3.material.io/" },
+  { name:"Apple Human Interface Guidelines", desc:"苹果的官方设计规范，同样是「如何把规范写清楚」的范例，尤其是它怎么描述控件的各种状态。", url:"https://developer.apple.com/design/human-interface-guidelines" },
+  { name:"Design Systems Repo", desc:"一个收录了大量公开设计系统的目录网站，可以搜到很多真实项目公开的规范文档结构，照着学排版和内容组织方式。", url:"https://designsystemsrepo.com/" },
+  { name:"Figma Community", desc:"在 Figma 里直接搜「design system template」或「style guide template」，能看到很多免费的规范文档模板，可以借用它们的页面结构。", url:"https://www.figma.com/community" },
+  { name:"Game UI Database / Interface In Game", desc:"Lesson 01 介绍过的两个游戏界面截图库——不是规范文档本身，但能看到「一套规范落地之后长什么样」，找同类游戏的组件截图时还会用到。", url:"https://gameuidatabase.com/" },
+  { name:"【学生案例】Sarah Liriano · Genshin Impact UX Redesign", desc:"一份真实的训练营学员作品（ELVTR 游戏 UI/UX 进阶课程），针对《原神》这款风格化游戏重新设计了背包系统和角色自定义功能，完整走了一遍「发现问题→定范围→设计方案→线框→效果说明」的流程。适合当作「一个人从零做出一份完整案例研究长什么样」的参照——文档结构、论证方式都值得借鉴，不是让你们照搬内容。", url:"https://www.sarahlirianoportfolio.com/hybrid/genshin-impact-ux-redesign" },
+  { name:"【行业案例】David Candland · Destiny UI/UX Case Study", desc:"Bungie 的 UI/UX Director 展示《命运》这款风格化科幻游戏界面系统的专业作品集页面，拿过 AIGA、Graphis 设计奖。讲清楚了背包系统、手柄光标导航、跨平台/多语言适配、极简 HUD 这些系统背后的设计理由，是「专业级案例研究该有多完整」的参照系——尤其看它怎么把每个设计决定的「为什么」讲清楚。", url:"https://www.cand.land/destiny" }
+];
+
+const CONVENTIONS = [
+  "<b>窗口行为</b>：无边框、背景透明（PNG alpha 通道），主窗口通常没有标题栏也不占任务栏——这也是为什么右键菜单会变成主要的功能入口。",
+  "<b>点击穿透 vs 交互区域</b>：桌宠本体（史莱姆）是可交互的，但它周围的透明区域必须「点击穿透」，不能挡住玩家操作桌面上其他窗口——这是桌宠软件最基本的一条要求，不是可选项。",
+  "<b>拖拽移动</b>：按住桌宠拖动来重新定位，是这个品类的标配交互，玩家会默认这个操作是存在的。",
+  "<b>右键菜单</b>：设置、退出、查看结果这些功能都收进右键菜单——大纲第 3.2 节已经提过这一条，这里是把它列进规范文档的「平台专属」部分。",
+  "<b>待机随机动画</b>：为了让桌宠感觉「活着」，通常会有不是玩家触发的、周期性的随机小动作（挠头、打哈欠、看向鼠标方向），这个项目对应的是史莱姆的「待机/好奇」状态。",
+  "<b>屏幕边缘感知</b>：桌宠不应该走出屏幕可见范围，也要避免长时间挡住任务栏或系统关键区域。",
+  "<b>系统托盘图标</b>：因为主界面极简、没有标题栏，托盘图标常常是重要的「存在感」和控制入口，规范里要写清楚托盘图标点击后弹出什么。",
+  "<b>性能与资源占用</b>：桌宠要长期在后台运行，设计上要考虑低资源消耗——比如待机时可以降低动画更新频率，不需要一直全速播放。",
+  "<b>通知/对话气泡定位</b>：气泡跟随桌宠角色本体的位置出现，不固定在屏幕某个角落——大纲 5.7 节已经提过这条，这里再次强调它属于「平台惯例」，不是这个项目自创的。",
+  "<b>开机自启动 + 最小化到托盘</b>：作为常驻应用，这是用户对这个品类的默认期待，规范文档里可以提一句是否支持。"
+];
+
+const CONVENTIONS_NOTE = "桌宠这个品类比较小众，网上很难直接找到一份公开的「桌宠设计规范文档」可以照抄。上面这些惯例，是从长期存在的桌宠类软件（比如 Shimeji 这类经典的桌面角色软件）的通用做法里总结出来的——建议直接把这些惯例写进你们自己的规范文档「平台专属行为」这一节，不用再另外去找桌宠专属的参考资料。";
+
+/* ============================================================
+   Render helpers
+   ============================================================ */
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function linkify(s){ return s.replace(/(https?:\/\/[^\s<]+)/g, u=>`<a href="${u}" target="_blank" rel="noopener">${u}</a>`); }
+function escL(s){ return linkify(esc(s)); }
+// allow a very small whitelist of inline tags (b) already embedded in the source strings above,
+// since these are pre-authored teaching copy, not third-party user input
+function richText(s){ return esc(s).replace(/&lt;b&gt;/g,"<b>").replace(/&lt;\/b&gt;/g,"</b>"); }
+
+const PRISTINE = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+const STORE_KEY = "uiux02_specdoc_guide_v1";
+let EDITS={}, editMode=false, _saveT;
+
+function keyOf(t,r){ return t+":"+r; }
+function getVal(t,r,fallback){ const k=keyOf(t,r); return (k in EDITS) ? EDITS[k] : fallback; }
+function setVal(t,r,v){ EDITS[keyOf(t,r)]=v; persist(); }
+
+function loadSaved(){
+  try{ const ls=JSON.parse(localStorage.getItem(STORE_KEY)); if(ls&&ls.edits) return ls.edits; }catch(e){}
+  const emb=document.getElementById("embedded-data");
+  if(emb && emb.textContent.trim()){
+    try{ const o=JSON.parse(emb.textContent); if(o&&o.edits){ saveRaw(o.edits); return o.edits; } }catch(e){}
+  }
+  return {};
+}
+function saveRaw(edits){ try{ localStorage.setItem(STORE_KEY, JSON.stringify({edits,_savedAt:Date.now()})); return true; }catch(e){ return false; } }
+function persist(){
+  clearTimeout(_saveT);
+  _saveT=setTimeout(()=>{
+    const ok=saveRaw(EDITS);
+    document.getElementById("saveHint").textContent = ok ? ("已自动保存 · "+new Date().toLocaleTimeString()) : "⚠ 本地存储已满，请点导出";
+  },300);
+}
+
+const main=document.getElementById("main");
+const tocnav=document.getElementById("tocnav");
+
+function section(id,idx,title,bodyHTML){
+  return `<section class="card" id="${id}"><h2><span class="idx">${idx}</span>${title}</h2>${bodyHTML}</section>`;
+}
+
+function renderIntro(){
+  return section("sec-intro","·","写在前面",
+    `<div class="para" data-t="intro" data-r="0">${richText(getVal("intro",0,INTRO))}</div>`);
+}
+
+function renderContentSpec(){
+  const groups = CONTENT_GROUPS.map((g,gi)=>{
+    const items = g.items.map((it,ii)=>`<li data-t="content" data-r="${gi}-${ii}">${richText(getVal("content",gi+"-"+ii,it))}</li>`).join("");
+    return `<h3 data-t="contentTitle" data-r="${gi}">${esc(getVal("contentTitle",gi,g.title))}</h3><ul class="plain">${items}</ul>`;
+  }).join("");
+  return section("sec-content","A","一份完整的设计规范，需要定义哪些内容？",
+    `<div class="hint">这是内容<b>类别</b>清单，不是帮你把数值定好——具体色值、字号、间距是你们自己项目要填的东西。</div>${groups}`);
+}
+
+function renderRefs(){
+  const items = REFS.map((r,ri)=>`
+    <div class="refitem">
+      <div class="name" data-t="refName" data-r="${ri}">${esc(getVal("refName",ri,r.name))}</div>
+      <div class="desc" data-t="refDesc" data-r="${ri}">${richText(getVal("refDesc",ri,r.desc))}</div>
+      <div class="link"><a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.url)}</a></div>
+    </div>`).join("");
+  return section("sec-refs","B","去哪里找参考？",
+    `<div class="reflist">${items}</div>
+     <div class="callout" style="margin-top:14px"><b>提醒</b>：这些是通用设计系统范例，不是"游戏专用"的，学怎么把规范讲清楚就行，具体内容还是要按你们自己项目来定。</div>`);
+}
+
+function renderConventions(){
+  const items = CONVENTIONS.map((c,ci)=>`
+    <div class="convitem"><div class="n">${ci+1}</div><div class="txt" data-t="conv" data-r="${ci}">${richText(getVal("conv",ci,c))}</div></div>`).join("");
+  return section("sec-conv","C","桌宠游戏的通用规范是什么？",
+    `<div class="convgrid">${items}</div>
+     <div class="example" style="margin-top:14px" data-t="convNote" data-r="0">${richText(getVal("convNote",0,CONVENTIONS_NOTE))}</div>`);
+}
+
+function renderClosing(){
+  return section("sec-closing","·","接下来做什么",
+    `<ul class="plain">
+      <li>把 A 节的内容类别，对照你们自己项目里已经定的东西打个勾——缺哪块，这次里程碑就补哪块</li>
+      <li>把 C 节的桌宠惯例，直接抄进你们规范文档的"平台专属行为"这一节</li>
+      <li>回到《Figma 生产流程·母版》，把"定义 Design Tokens""撰写 5 页设计规范文档"这两步的检查项，参照这份文档来写</li>
+    </ul>`);
+}
+
+function render(){
+  main.innerHTML = renderIntro()+renderContentSpec()+renderRefs()+renderConventions()+renderClosing();
+  applyEditMode();
+}
+
+function buildTOC(){
+  const list=[
+    ["sec-intro","写在前面"],
+    ["sec-content","A · 需要定义哪些内容"],
+    ["sec-refs","B · 去哪找参考"],
+    ["sec-conv","C · 桌宠通用规范"],
+    ["sec-closing","接下来做什么"]
+  ];
+  tocnav.innerHTML = list.map(([id,label])=>`<a href="#${id}" data-id="${id}">${label}</a>`).join("");
+}
+
+function wireScrollSpy(){
+  const links=[...tocnav.querySelectorAll("a")];
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{ if(en.isIntersecting) links.forEach(a=>a.classList.toggle("active", a.dataset.id===en.target.id)); });
+  },{rootMargin:"-20% 0px -70% 0px"});
+  document.querySelectorAll("main .card").forEach(sec=>io.observe(sec));
+}
+
+/* ============================================================
+   Edit mode
+   ============================================================ */
+function applyEditMode(){
+  document.querySelectorAll("[data-t]").forEach(el=>{
+    if(editMode) el.setAttribute("contenteditable","true"); else el.removeAttribute("contenteditable");
+  });
+}
+function toggleEdit(){
+  editMode=!editMode;
+  document.body.classList.toggle("editing",editMode);
+  applyEditMode();
+  document.getElementById("btnEdit").textContent = editMode ? "✓ 完成编辑" : "✎ 编辑";
+  document.getElementById("btnEdit").classList.toggle("on",editMode);
+  document.getElementById("btnReset").style.display = editMode ? "" : "none";
+}
+main.addEventListener("input", e=>{
+  const el=e.target.closest("[data-t]");
+  if(!el || !editMode) return;
+  setVal(el.dataset.t, el.dataset.r, el.innerText);
+});
+
+/* ============================================================
+   Export / reset
+   ============================================================ */
+function download(name, content, mime){
+  const blob=new Blob([content],{type:mime||"text/html;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=name;
+  document.body.appendChild(a); a.click();
+  let done=false;
+  const cleanup=()=>{ if(done)return; done=true; URL.revokeObjectURL(a.href); a.remove(); window.removeEventListener("focus",onFocus); };
+  const onFocus=()=>setTimeout(cleanup,3000);
+  window.addEventListener("focus",onFocus);
+  setTimeout(cleanup,60000);
+}
+function replaceEmbeddedDataTag(html, jsonPayload){
+  const openNeedle = '<script id="embedded-data"';
+  const closeNeedle = "<" + "/script>";
+  const openIdx = html.indexOf(openNeedle);
+  if(openIdx<0) return html;
+  const gtIdx = html.indexOf(">", openIdx);
+  const closeIdx = html.indexOf(closeNeedle, gtIdx);
+  if(gtIdx<0 || closeIdx<0) return html;
+  return html.slice(0, gtIdx+1) + jsonPayload + html.slice(closeIdx);
+}
+function exportHTML(){
+  try{
+    const payload=JSON.stringify({edits:EDITS}).replace(/<\/script/gi,"<\\/script");
+    const html = replaceEmbeddedDataTag(PRISTINE, payload);
+    download("UIUX_02_怎么写设计规范_已编辑.html", html);
+  }catch(err){ alert("导出失败："+(err&&err.message||err)); }
+}
+function resetAll(){
+  if(!confirm("重置所有笔记/修改？（已导出的文件不受影响）")) return;
+  EDITS={};
+  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+  render(); wireScrollSpy();
+  document.getElementById("saveHint").textContent="未修改";
+}
+
+/* ============================================================
+   Init
+   ============================================================ */
+function init(){
+  EDITS=loadSaved();
+  buildTOC();
+  render();
+  wireScrollSpy();
+  document.getElementById("btnEdit").addEventListener("click", toggleEdit);
+  document.getElementById("btnExport").addEventListener("click", exportHTML);
+  document.getElementById("btnReset").addEventListener("click", resetAll);
+  if(Object.keys(EDITS).length) document.getElementById("saveHint").textContent="已载入此前的修改";
+}
+init();
+</script>
+</body>
+</html>

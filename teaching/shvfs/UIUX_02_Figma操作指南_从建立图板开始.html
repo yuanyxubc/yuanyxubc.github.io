@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Figma 操作指南 · 从建立图板开始</title>
+<style>
+:root{
+  --bg:#f6f7fb; --card:#ffffff; --ink:#1f2430; --dim:#6b7280; --line:#e6e8f0;
+  --accent:#4f46e5; --accent-soft:#eef1ff; --good:#16a34a; --good-soft:#eafaf0;
+  --warn:#b45309; --warn-soft:#fff4e5; --radius:10px;
+  --shadow:0 1px 2px rgba(20,20,50,.04), 0 6px 16px rgba(20,20,50,.05);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Roboto,Helvetica,Arial,sans-serif;
+  font-size:15px; line-height:1.75;
+}
+a{color:var(--accent)}
+
+#layout{display:flex; max-width:1280px; margin:0 auto; align-items:flex-start}
+#toc{position:sticky; top:0; height:100vh; width:250px; flex:0 0 250px; padding:28px 14px 28px 20px; overflow-y:auto}
+#toc h1{font-size:16px; margin:0 0 4px}
+#toc .sub{font-size:12px; color:var(--dim); margin-bottom:20px}
+#toc nav a{display:block; padding:7px 10px; margin-bottom:2px; border-radius:8px; font-size:12.5px; color:var(--dim);
+  text-decoration:none; border-left:3px solid transparent}
+#toc nav a:hover{background:var(--accent-soft); color:var(--accent)}
+#toc nav a.active{background:var(--accent-soft); color:var(--accent); border-left-color:var(--accent); font-weight:600}
+#toc .savehint{margin-top:18px; font-size:11px; color:var(--dim)}
+
+main{flex:1; min-width:0; padding:28px 32px 120px}
+.intro{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:22px 26px; margin-bottom:22px}
+.intro h1{font-size:21px; margin:0 0 10px}
+.intro p{margin:0 0 8px}
+.intro p:last-child{margin-bottom:0}
+
+.phase{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow);
+  padding:22px 26px; margin-bottom:18px; scroll-margin-top:16px}
+.phase-head{display:flex; align-items:flex-start; gap:12px; margin-bottom:6px}
+.phase-num{flex:0 0 auto; font-size:12px; font-weight:700; color:#fff; background:var(--accent);
+  border-radius:7px; padding:5px 10px; margin-top:2px}
+.phase-titles h2{font-size:18px; margin:0}
+.phase-titles .ref{font-size:11.5px; color:var(--dim); margin-top:2px}
+.goal{display:flex; gap:10px; align-items:flex-start; background:var(--accent-soft); border-radius:8px;
+  padding:10px 14px; margin:12px 0 14px; font-size:14px}
+.goal .lab{flex:0 0 auto; font-size:10.5px; font-weight:700; color:var(--accent); padding-top:2px}
+
+.steps{display:flex; flex-direction:column; gap:2px}
+.step{display:flex; gap:12px; align-items:flex-start; padding:9px 6px; border-radius:7px}
+.step:hover{background:#fafafe}
+.step .n{flex:0 0 auto; width:24px; height:24px; border-radius:50%; background:var(--good-soft); color:var(--good);
+  font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px}
+.step .txt{font-size:14.5px; line-height:1.65}
+kbd{font-family:"SFMono-Regular",Consolas,monospace; font-size:12px; background:#eef0f5; border:1px solid var(--line);
+  border-radius:4px; padding:1px 6px; color:var(--ink)}
+.ui{font-weight:600; color:var(--ink)}
+
+.tip{background:var(--good-soft); border-left:4px solid var(--good); border-radius:0 8px 8px 0; padding:10px 16px;
+  font-size:13.5px; margin-top:12px}
+.tip b{color:var(--good)}
+.warn{background:var(--warn-soft); border-left:4px solid var(--warn); border-radius:0 8px 8px 0; padding:10px 16px;
+  font-size:13.5px; margin-top:12px}
+.warn b{color:var(--warn)}
+
+#toolbar{position:fixed; right:18px; bottom:18px; z-index:50; display:flex; gap:8px}
+#toolbar button{font-size:13px; padding:10px 14px; border-radius:9px; border:1px solid var(--line);
+  background:#fff; color:var(--ink); cursor:pointer; box-shadow:var(--shadow)}
+#toolbar button:hover{border-color:var(--accent); color:var(--accent)}
+#toolbar button.on{background:var(--accent); color:#fff; border-color:var(--accent)}
+#toolbar #btnExport{background:var(--ink); color:#fff; border-color:var(--ink)}
+#hint{position:fixed; left:18px; bottom:18px; z-index:50; font-size:12.5px; color:var(--dim);
+  background:#fff; border:1px solid var(--line); border-radius:8px; padding:8px 12px; box-shadow:var(--shadow); max-width:340px}
+[data-t]{border-radius:5px; padding:1px 3px; margin:-1px -3px}
+.editing [data-t]{outline:1px dashed #c7ccdb; cursor:text}
+.editing [data-t]:hover{outline-color:var(--accent)}
+.editing [data-t]:focus{outline:2px solid var(--accent); background:var(--accent-soft)}
+
+@media (max-width:920px){ #toc{display:none} main{padding:20px 16px 120px} }
+</style>
+</head>
+<body>
+<div id="layout">
+  <aside id="toc">
+    <h1>Figma 操作指南</h1>
+    <div class="sub">从建立图板开始 · 一步一步照做</div>
+    <nav id="tocnav"></nav>
+    <div class="savehint" id="saveHint">未修改</div>
+  </aside>
+  <main id="main"></main>
+</div>
+
+<div id="toolbar">
+  <button id="btnEdit">✎ 编辑</button>
+  <button id="btnExport">⬇ 导出</button>
+  <button id="btnReset" style="display:none">↺ 重置</button>
+</div>
+<div id="hint">这份是"手怎么动"的操作指南，跟《Figma生产流程·母版》配套用——母版让你们自己填时间和检查项，这份告诉你们每一步具体怎么点。</div>
+<script id="embedded-data" type="application/json"></script>
+
+<script>
+/* ============================================================
+   PHASES — 每步：ref(对应大纲) + goal(一句话) + steps(逐条可操作指令)
+   ============================================================ */
+const PHASES = [
+{
+  title: "创建项目文件与团队协作",
+  ref: "开始之前",
+  goal: "所有人在同一个 Figma 文件里工作，不要各建各的。",
+  steps: [
+    "打开 Figma（网页版或桌面客户端），点左上角 Figma 图标旁边的「+」，选 <span class=\"ui\">Design file</span>，新建一个空白文件",
+    "双击左上角的文件名（默认叫 Untitled），改成团队约定的项目名，比如 <span class=\"ui\">UIUX02_史莱姆人格研究所</span>",
+    "点右上角 <span class=\"ui\">Share</span> 按钮，把另外 4 位组员的邮箱加进来，权限选 <span class=\"ui\">can edit</span>，确保 5 个人都能同时编辑同一个文件"
+  ],
+  tip: "5 个人一定要在同一个文件里，不要每人建一份自己的再合并——组件、颜色样式没法自动合并，后面会很痛苦。"
+},
+{
+  title: "建立 Page 结构",
+  ref: "对应大纲 5.1 文件结构",
+  goal: "固定的 Page 顺序，任何人打开文件都知道去哪找东西。",
+  steps: [
+    "左侧面板最上方是 Page 列表，新建文件默认只有一个 <span class=\"ui\">Page 1</span>",
+    "双击 <span class=\"ui\">Page 1</span> 的名字，改成 <span class=\"ui\">📄 Cover & Brief</span>",
+    "点 Page 列表下方的「+」新增 Page，依次建好：<span class=\"ui\">🎨 Design Tokens</span>、<span class=\"ui\">🧩 Components</span>、<span class=\"ui\">🩻 Wireframes (Low-fi)</span>、<span class=\"ui\">🖼️ Hi-Fi Screens</span>、<span class=\"ui\">🔗 Prototype</span>、<span class=\"ui\">📦 Handoff / Export</span>，顺序要和左侧列表的上下顺序一致",
+    "（可选）在每个 Page 名字上右键，选 <span class=\"ui\">Set page color</span>，给每个阶段一个识别色，左侧列表一眼就能看出现在在哪个阶段"
+  ]
+},
+{
+  title: "创建第一个画板（Frame）",
+  ref: "对应大纲 5.5 尺寸阶梯",
+  goal: "画板是所有画面的容器，尺寸从一开始就要定对。",
+  steps: [
+    "切换到 <span class=\"ui\">🩻 Wireframes</span> 这个 Page",
+    "按快捷键 <kbd>F</kbd>（或点左侧工具栏里的 Frame 图标）",
+    "屏幕右侧会弹出常见设备尺寸列表——这些是给 App/网页用的，直接在空白画布上拖一个框出来即可，不用选预设",
+    "拖完之后，看右侧属性面板的 <span class=\"ui\">W</span> 和 <span class=\"ui\">H</span> 两个输入框，手动填成你们定的原生小尺寸（比如 320 × 180，这样才能保证对齐像素网格）",
+    "按 <kbd>Enter</kbd> 确认。右侧图层面板会出现一个新的 Frame 图层",
+    "双击这个 Frame 的名字（默认叫 Frame 1），改成描述性名字，比如 <span class=\"ui\">HUD - 待机状态</span>"
+  ],
+  warn: "不要在一个 1920×1080 的大画板里画「看起来像素风」的小图——先建原生小尺寸的画板，画完之后再整体放大看效果，两者顺序不能反。"
+},
+{
+  title: "设置 Design Tokens：颜色样式",
+  ref: "对应大纲 4.1 色彩理论",
+  goal: "颜色只定义一次，全项目引用同一套。",
+  steps: [
+    "切到 <span class=\"ui\">🎨 Design Tokens</span> 这个 Page",
+    "按 <kbd>R</kbd>（Rectangle 工具），在画布上拖一个小方块出来占位",
+    "选中这个方块，右侧属性面板找到 <span class=\"ui\">Fill</span> 一栏，点击色块本身，会弹出取色器",
+    "在取色器最上方的输入框里，直接填你们定好的十六进制色值（比如 <kbd>#FFB088</kbd>）",
+    "取色器里，色块旁边有一个小圆圈图标（styles 入口），点击它，再点右上角的「+」，新建一个 Color Style",
+    "给这个样式起语义化的名字，比如 <span class=\"ui\">Light/Primary</span>、<span class=\"ui\">Night/Primary</span>——不要叫「颜色1」「颜色2」",
+    "对日间模式的 6 个语义色、夜间模式的 6 个语义色，重复这个过程，建成一整套 Color Styles"
+  ],
+  tip: "命名带上 Light/ 和 Night/ 前缀，Figma 会自动把它们分组显示在样式面板里，选色的时候一眼就能分清是哪套模式。"
+},
+{
+  title: "设置 Design Tokens：字体样式",
+  ref: "对应大纲 4.2 字体排版",
+  goal: "字号只在四级阶梯里选，不额外发明新字号。",
+  steps: [
+    "按 <kbd>T</kbd>（Text 工具），在画布上点一下，打一行占位文字",
+    "右侧属性面板设置好字体、字号、字重（先按你们定的标题/副标题/正文/说明小字四级里的一级来设）",
+    "同样在右侧 <span class=\"ui\">Text</span> 一栏找到 styles 入口，点「+」新建 Text Style",
+    "按四级阶梯依次命名：<span class=\"ui\">Heading</span>、<span class=\"ui\">Subheading</span>、<span class=\"ui\">Body</span>、<span class=\"ui\">Caption</span>"
+  ]
+},
+{
+  title: "设置间距阶梯（用 Figma 的网格/标尺辅助）",
+  ref: "对应大纲 5.5 32px 尺寸阶梯",
+  goal: "间距只用 8/16/32/64px，靠工具辅助而不是靠眼睛估。",
+  steps: [
+    "选中一个 Frame，右侧属性面板找到 <span class=\"ui\">Layout grid</span>，点「+」",
+    "把网格类型改成 <span class=\"ui\">Grid</span>，尺寸（Size）填 <kbd>32</kbd>，这样画布上会出现每隔 32px 一条的参考线",
+    "摆放元素时，边缘尽量对齐到网格线上；量间距时，按住 <kbd>Alt</kbd>（Windows）或 <kbd>Option</kbd>（Mac）并把鼠标悬停在两个图层之间，Figma 会直接显示像素间距数字",
+    "凡是量出来不是 8/16/32/64 倍数的间距，回去调整，不要将就"
+  ]
+},
+{
+  title: "创建组件和 Variants（以对话框为例）",
+  ref: "对应大纲 5.3 状态要用 Variants",
+  goal: "一个组件、多个状态，不是复制出几份独立图层。",
+  steps: [
+    "先在画布上做出对话框「提问」状态的完整视觉——背景、文字、图标都摆好",
+    "全选这些图层，右键选 <span class=\"ui\">Create component</span>（快捷键 <kbd>Ctrl/Cmd + Alt + K</kbd>），图层图标会变成紫色菱形，代表这是一个主组件",
+    "复制这个组件（<kbd>Ctrl/Cmd + D</kbd>），把复制出来的版本改成「等待选择」状态的视觉，重复这个过程做完全部 5 个状态（提问/等待选择/已选中/结果展示/毕业后回忆），每个都单独 Create component 一次",
+    "全选这 5 个独立组件，右键选 <span class=\"ui\">Combine as variants</span>，Figma 会自动把它们合并成一个组件集，旁边出现一个可编辑的属性",
+    "双击每个变体左上角的属性值，改成清楚的名字，比如 <span class=\"ui\">State=Ask</span>、<span class=\"ui\">State=Wait</span>、<span class=\"ui\">State=Selected</span>、<span class=\"ui\">State=Result</span>、<span class=\"ui\">State=Memory</span>",
+    "以后要用这个组件，从右侧 <span class=\"ui\">Assets</span> 面板拖一个实例（Instance）到画布上，选中实例后右侧面板可以直接切换 State 属性，不用重新画"
+  ],
+  warn: "史莱姆的 7 个状态、按钮的 4 个状态，按同样的流程各做一遍——先做齐每个独立状态，最后一步才合并成 Variants。"
+},
+{
+  title: "使用 Auto Layout",
+  ref: "对应大纲 5.4 Auto Layout 用在哪",
+  goal: "内容变长时容器自动撑开，不用手动一个个调。",
+  steps: [
+    "选中一组需要自动排列的图层（比如对话框的文字和背景）",
+    "按快捷键 <kbd>Shift + A</kbd>，或在右侧面板点 <span class=\"ui\">Add auto layout</span>",
+    "调整右侧新出现的 <span class=\"ui\">Auto layout</span> 参数：方向图标切换横向/纵向堆叠，<span class=\"ui\">Gap</span> 填间距阶梯里的数字（8/16/32），<span class=\"ui\">Padding</span> 填内边距",
+    "验证方法：把文字内容换成一句更长的话，背景应该自动跟着撑大——如果没有反应，说明 Auto Layout 没加在正确的图层上"
+  ],
+  warn: "史莱姆本体的像素精灵图不要加 Auto Layout——它会破坏像素网格，让图案糊掉。"
+},
+{
+  title: "设置 Constraints（对应 UE 的 Anchor）",
+  ref: "对应大纲 5.8 Figma⇄UE 控件对照",
+  goal: "元素知道自己该贴在父容器的哪个角、缩放时怎么跟着动。",
+  steps: [
+    "选中一个元素，右侧属性面板找到 <span class=\"ui\">Constraints</span> 区域",
+    "点开水平方向下拉菜单，根据这个元素该贴哪边选择 <span class=\"ui\">Left</span> / <span class=\"ui\">Right</span> / <span class=\"ui\">Center</span> / <span class=\"ui\">Left and right</span> / <span class=\"ui\">Scale</span>，垂直方向同理",
+    "测试方法：手动拖动父级 Frame 的边缘改变大小，观察这个元素是不是按你设的规则跟着动"
+  ]
+},
+{
+  title: "导出设置与 9-Slice 素材",
+  ref: "对应大纲 5.6 像素风处理 + 5.8 九宫格",
+  goal: "导出的图不会被拉糊，可拉伸面板能在引擎里正确工作。",
+  steps: [
+    "选中要导出的图层或 Frame，右侧属性面板最下方 <span class=\"ui\">Export</span> 区域点「+」",
+    "点开格式下拉菜单选 <span class=\"ui\">PNG</span>，倍数选 <span class=\"ui\">1x</span>/<span class=\"ui\">2x</span>/<span class=\"ui\">3x</span> 中的整数倍——不要用小数倍数",
+    "如果 Figma 版本里能找到缩放插值设置，选 <span class=\"ui\">Nearest neighbor（最近邻）</span>，不要用默认的平滑缩放，否则像素边缘会被磨糊",
+    "需要做 9-Slice 的面板（比如对话框背景），导出前确认：四个角的装饰细节保持完整不变形，边和中间部分是简单、可重复的纹理——这样才能在引擎里正确拉伸"
+  ]
+},
+{
+  title: "开始填写检查清单母版",
+  ref: "衔接后续",
+  goal: "上面这些操作做完一轮之后，回到母版文件记录进度。",
+  steps: [
+    "打开《Figma 生产流程·目标与检查清单》母版",
+    "对照你们刚才实际做的操作，把每一步的时间、目标、检查项填进对应位置",
+    "如果想先看看「填完是什么样子」，可以参考《Figma 案例 Checklist·示范填写》——那是用同一个项目做的例子，不是标准答案，只是给个参照"
+  ]
+}
+];
+
+/* ============================================================
+   Render (same edit/export architecture as the other reference docs)
+   ============================================================ */
+const PRISTINE = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+const STORE_KEY = "uiux02_figma_howto_v1";
+let EDITS={}, editMode=false, _saveT;
+
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+// PHASES text may contain pre-authored <span class="ui">/<kbd> tags (trusted, hand-written content,
+// not user input) — escape everything else, then unescape just those two whitelisted tags.
+function richText(s){
+  return esc(s)
+    .replace(/&lt;span class=&quot;ui&quot;&gt;/g,'<span class="ui">')
+    .replace(/&lt;\/span&gt;/g,'</span>')
+    .replace(/&lt;kbd&gt;/g,'<kbd>')
+    .replace(/&lt;\/kbd&gt;/g,'</kbd>');
+}
+
+function loadSaved(){
+  try{ const ls=JSON.parse(localStorage.getItem(STORE_KEY)); if(ls&&ls.edits) return ls.edits; }catch(e){}
+  const emb=document.getElementById("embedded-data");
+  if(emb && emb.textContent.trim()){
+    try{ const o=JSON.parse(emb.textContent); if(o&&o.edits){ saveRaw(o.edits); return o.edits; } }catch(e){}
+  }
+  return {};
+}
+function saveRaw(edits){ try{ localStorage.setItem(STORE_KEY, JSON.stringify({edits,_savedAt:Date.now()})); return true; }catch(e){ return false; } }
+function persist(){
+  clearTimeout(_saveT);
+  _saveT=setTimeout(()=>{
+    const ok=saveRaw(EDITS);
+    document.getElementById("saveHint").textContent = ok ? ("已自动保存 · "+new Date().toLocaleTimeString()) : "⚠ 本地存储已满，请点导出";
+  },300);
+}
+function keyOf(t,r,i){ return t+":"+r+(i==null?"":":"+i); }
+function getVal(t,r,i,fallback){ const k=keyOf(t,r,i); return (k in EDITS) ? EDITS[k] : fallback; }
+function setVal(t,r,i,v){ EDITS[keyOf(t,r,i)]=v; persist(); }
+
+const main=document.getElementById("main");
+const tocnav=document.getElementById("tocnav");
+
+function render(){
+  main.innerHTML = `
+    <div class="intro">
+      <h1>Figma 操作指南 · 从建立图板开始</h1>
+      <p>这份是手怎么动的具体步骤，从新建文件、建 Page，一路到导出设置，每一条都是可以照着点的操作。</p>
+      <p>跟《Figma 生产流程·目标与检查清单》是配套关系——那份让你们自己填时间、目标、检查项，这份负责告诉你们每一步具体怎么操作。</p>
+      <p><b>为什么要花时间把即刻设计的东西迁移到 Figma，值得先说清楚：</b>Figma 是目前游戏和产品 UI/UX 行业里事实上的通用工具，绝大多数公司的招聘信息会直接写"熟练使用 Figma"，面试里现场做设计题、review 作品集，用的也基本是 Figma。申请设计相关的研究生项目或作品集评审时，能不能拿出一个可以在线打开、可以点击交互的 Figma 原型，而不是几张静态截图，也是很实际的加分项。更重要的是，这门课要求你们做的这些事——统一命名、Design Tokens、组件做成 Variants、标 Constraints、Dev Mode 交接——不是这门课自己发明的规矩，是真实设计团队维护一套可复用系统时通用的做法，练的是能直接带到实习和工作里的手法，不是只在课堂上用一次就丢掉的格式要求。</p>
+    </div>
+  ` + PHASES.map((p,pi)=>{
+    const stepsHTML = p.steps.map((s,si)=>`
+      <div class="step"><div class="n">${si+1}</div><div class="txt" data-t="step" data-r="${pi}" data-i="${si}">${richText(getVal("step",pi,si,s))}</div></div>`).join("");
+    const tipHTML = p.tip ? `<div class="tip" data-t="tip" data-r="${pi}"><b>提示</b>：${richText(getVal("tip",pi,null,p.tip))}</div>` : "";
+    const warnHTML = p.warn ? `<div class="warn" data-t="warn" data-r="${pi}"><b>注意</b>：${richText(getVal("warn",pi,null,p.warn))}</div>` : "";
+    return `<section class="phase" id="phase-${pi}">
+      <div class="phase-head">
+        <div class="phase-num">${pi+1}</div>
+        <div class="phase-titles">
+          <h2 data-t="title" data-r="${pi}">${esc(getVal("title",pi,null,p.title))}</h2>
+          <div class="ref">${esc(p.ref)}</div>
+        </div>
+      </div>
+      <div class="goal"><span class="lab">目标</span><span data-t="goal" data-r="${pi}">${richText(getVal("goal",pi,null,p.goal))}</span></div>
+      <div class="steps">${stepsHTML}</div>
+      ${tipHTML}${warnHTML}
+    </section>`;
+  }).join("");
+  renderTOC();
+  applyEditMode();
+}
+
+function renderTOC(){
+  tocnav.innerHTML = PHASES.map((p,pi)=>`<a href="#phase-${pi}" data-i="${pi}">${pi+1}. ${esc(p.title)}</a>`).join("");
+  tocnav.querySelectorAll("a").forEach(a=>{
+    a.addEventListener("click",e=>{ e.preventDefault(); document.getElementById("phase-"+a.dataset.i).scrollIntoView({behavior:"smooth",block:"start"}); });
+  });
+}
+function wireScrollSpy(){
+  const links=[...tocnav.querySelectorAll("a")];
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(en=>{ if(en.isIntersecting) links.forEach(a=>a.classList.toggle("active", "phase-"+a.dataset.i===en.target.id)); });
+  },{rootMargin:"-15% 0px -70% 0px"});
+  document.querySelectorAll(".phase").forEach(sec=>io.observe(sec));
+}
+
+function applyEditMode(){
+  document.querySelectorAll("[data-t]").forEach(el=>{
+    if(editMode) el.setAttribute("contenteditable","true"); else el.removeAttribute("contenteditable");
+  });
+}
+function toggleEdit(){
+  editMode=!editMode;
+  document.body.classList.toggle("editing",editMode);
+  applyEditMode();
+  document.getElementById("btnEdit").textContent = editMode ? "✓ 完成编辑" : "✎ 编辑";
+  document.getElementById("btnEdit").classList.toggle("on",editMode);
+  document.getElementById("btnReset").style.display = editMode ? "" : "none";
+}
+main.addEventListener("input", e=>{
+  const el=e.target.closest("[data-t]");
+  if(!el || !editMode) return;
+  setVal(el.dataset.t, +el.dataset.r, el.dataset.i!=null && el.dataset.i!=="" ? +el.dataset.i : null, el.innerText);
+});
+
+function download(name, content, mime){
+  const blob=new Blob([content],{type:mime||"text/html;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=name;
+  document.body.appendChild(a); a.click();
+  let done=false;
+  const cleanup=()=>{ if(done)return; done=true; URL.revokeObjectURL(a.href); a.remove(); window.removeEventListener("focus",onFocus); };
+  const onFocus=()=>setTimeout(cleanup,3000);
+  window.addEventListener("focus",onFocus);
+  setTimeout(cleanup,60000);
+}
+function replaceEmbeddedDataTag(html, jsonPayload){
+  const openNeedle = '<script id="embedded-data"';
+  const closeNeedle = "<" + "/script>";
+  const openIdx = html.indexOf(openNeedle);
+  if(openIdx<0) return html;
+  const gtIdx = html.indexOf(">", openIdx);
+  const closeIdx = html.indexOf(closeNeedle, gtIdx);
+  if(gtIdx<0 || closeIdx<0) return html;
+  return html.slice(0, gtIdx+1) + jsonPayload + html.slice(closeIdx);
+}
+function exportHTML(){
+  try{
+    const payload=JSON.stringify({edits:EDITS}).replace(/<\/script/gi,"<\\/script");
+    const html = replaceEmbeddedDataTag(PRISTINE, payload);
+    download("UIUX_02_Figma操作指南_已编辑.html", html);
+  }catch(err){ alert("导出失败："+(err&&err.message||err)); }
+}
+function resetAll(){
+  if(!confirm("重置所有修改？（已导出的文件不受影响）")) return;
+  EDITS={};
+  try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+  render(); wireScrollSpy();
+  document.getElementById("saveHint").textContent="未修改";
+}
+
+function init(){
+  EDITS=loadSaved();
+  render();
+  wireScrollSpy();
+  document.getElementById("btnEdit").addEventListener("click", toggleEdit);
+  document.getElementById("btnExport").addEventListener("click", exportHTML);
+  document.getElementById("btnReset").addEventListener("click", resetAll);
+  if(Object.keys(EDITS).length) document.getElementById("saveHint").textContent="已载入此前的修改";
+}
+init();
+</script>
+</body>
+</html>

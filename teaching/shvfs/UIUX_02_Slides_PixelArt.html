@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UIUX Lesson 02+ 项目制教学 · 史莱姆人格研究所</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+@font-face{ font-family:"Zpix"; src:url("zpix.woff2") format("woff2"); font-display:swap; }
+
+:root{
+  --bg:#0e0e23; --bg2:#15163a; --panel:#1c1d44; --panel2:#24255a;
+  --ink:#f4f4ff; --dim:#a9abe0; --line:#3a3c7a; --black:#07071a;
+  --red:#e03a3a; --orange:#ff9f1c; --blue:#3a86ff; --green:#43d35a;
+  --magenta:#ff5db1; --cyan:#21d4d4; --gold:#ffd23f; --purple:#b15dff;
+  --accent:var(--blue);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:#000; color:var(--ink);
+  font-family:"Zpix","Press Start 2P","PingFang SC","Microsoft YaHei",monospace;
+  overflow:hidden; display:flex; align-items:center; justify-content:center; image-rendering:pixelated;
+}
+.en{font-family:"Press Start 2P","Zpix",monospace}
+
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#stage{
+  width:1280px;height:720px;position:relative;
+  background:radial-gradient(circle at 50% 0%, #1b1c4a 0%, var(--bg) 70%);
+  border:6px solid #2c2e6e; transform-origin:center center; overflow:hidden;
+}
+#stage::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:16px 16px; z-index:0;
+}
+
+.slide{position:absolute;inset:0;display:none;flex-direction:column;padding:44px 56px 36px;z-index:1}
+.slide.active{display:flex;animation:pop .18s steps(3)}
+@keyframes pop{from{opacity:.2;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.hud{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.tag{
+  font-family:"Press Start 2P","Zpix",monospace;font-size:11px;letter-spacing:1px;
+  background:var(--accent);color:var(--black);padding:9px 12px;border:3px solid #fff;
+  box-shadow:5px 5px 0 var(--black);text-transform:uppercase;
+}
+.hud-right{display:flex;align-items:center;gap:14px}
+.counter{
+  font-family:"Press Start 2P","Zpix",monospace;font-size:11px;color:var(--ink);
+  background:var(--panel);border:3px solid var(--line);padding:8px 11px;box-shadow:4px 4px 0 var(--black);
+}
+.counter b{color:var(--gold)}
+
+.title{margin-bottom:6px}
+.title .t-en{font-family:"Press Start 2P","Zpix",monospace;font-size:27px;line-height:1.35;color:#fff;
+  text-shadow:4px 4px 0 var(--accent), 8px 8px 0 var(--black)}
+.title .t-cn{font-size:20px;color:var(--dim);margin-top:14px;letter-spacing:1px;font-weight:bold}
+.rule{height:6px;background:var(--accent);margin:18px 0 4px;border:3px solid var(--black);box-shadow:4px 4px 0 var(--black);width:110px}
+
+.body{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;min-height:0}
+.body.has-img{flex-direction:row;align-items:stretch;gap:26px}
+.col-left{flex:1;display:flex;flex-direction:column;justify-content:center;gap:14px;min-width:0}
+.col-right{flex:0 0 420px;display:flex;flex-direction:column;justify-content:center}
+
+.panel{background:var(--panel);border:4px solid #fff;padding:18px 22px;box-shadow:8px 8px 0 var(--black)}
+.panel.accentbox{border-color:var(--accent)}
+.lead{font-size:20px;line-height:1.6}
+.lead.small{font-size:16.5px}
+
+.steps{display:flex;align-items:stretch;flex-wrap:wrap}
+.step{background:var(--panel2);border:3px solid var(--accent);color:#fff;font-family:"Press Start 2P","Zpix",monospace;
+  font-size:12px;line-height:1.5;padding:12px 14px;box-shadow:5px 5px 0 var(--black);display:flex;align-items:center}
+.chev{display:flex;align-items:center;color:var(--accent);font-family:"Press Start 2P","Zpix",monospace;font-size:16px;padding:0 8px}
+
+ol.numlist{list-style:none;display:flex;flex-direction:column;gap:11px}
+ol.numlist li{display:flex;gap:12px;align-items:flex-start;font-size:18.5px;line-height:1.5}
+ol.numlist li .num{font-family:"Press Start 2P","Zpix",monospace;font-size:11px;color:var(--black);background:var(--gold);
+  border:3px solid #fff;padding:6px 8px;box-shadow:3px 3px 0 var(--black);flex:0 0 auto}
+
+ul.bul{list-style:none;display:flex;flex-direction:column;gap:11px}
+ul.bul li{display:flex;gap:12px;align-items:flex-start;font-size:18.5px;line-height:1.5}
+ul.bul li::before{content:"";flex:0 0 auto;margin-top:8px;width:12px;height:12px;background:var(--accent);box-shadow:3px 3px 0 var(--black)}
+
+table.rows{width:100%;border-collapse:separate;border-spacing:0 8px;font-size:15px}
+table.rows td{vertical-align:top;padding:9px 12px;line-height:1.5}
+table.rows td.lab{font-family:"Press Start 2P","Zpix",monospace;font-size:10.5px;color:var(--black);
+  background:var(--gold);border:3px solid #fff;width:140px;box-shadow:3px 3px 0 var(--black)}
+table.rows tr{background:var(--panel2)}
+
+.checkgrid{display:flex;flex-direction:column;gap:8px}
+.checkrow{display:flex;gap:10px;align-items:flex-start;background:var(--panel2);border:2px solid var(--line);
+  padding:8px 12px;font-size:15px;line-height:1.5}
+.checkrow .cnum{flex:0 0 auto;font-family:"Press Start 2P","Zpix",monospace;font-size:9px;color:var(--black);
+  background:var(--cyan);padding:5px 7px;box-shadow:2px 2px 0 var(--black)}
+
+.badges{display:flex;flex-direction:column;gap:10px;margin-top:4px}
+.badge{display:flex;align-items:flex-start;gap:10px;font-size:16.5px;line-height:1.5}
+.badge .lab{font-family:"Press Start 2P","Zpix",monospace;font-size:9.5px;letter-spacing:1px;padding:7px 9px;
+  border:3px solid var(--black);flex:0 0 auto;color:var(--black);box-shadow:3px 3px 0 var(--black)}
+.lab.task{background:var(--green)}
+.lab.doc{background:var(--purple);color:#fff}
+.badge .txt{color:var(--dim);padding-top:4px}
+
+.imgframe{
+  position:relative;width:100%;aspect-ratio:4/3;background:var(--bg2);border:4px dashed var(--accent);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;overflow:hidden;
+  text-align:center;padding:16px;cursor:pointer;
+}
+.imgframe.drag{background:var(--panel2);border-style:solid}
+.imgframe .cam{font-size:36px;line-height:1}
+.imgframe .ph{font-family:"Press Start 2P","Zpix",monospace;font-size:10px;color:var(--accent);line-height:1.8}
+.imgframe .phcn{font-size:14px;color:var(--dim)}
+.imgframe img,.imgframe video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;image-rendering:auto;background:#000}
+.corner{position:absolute;width:16px;height:16px;border:4px solid var(--gold);z-index:2}
+.corner.tl{top:6px;left:6px;border-right:none;border-bottom:none}
+.corner.tr{top:6px;right:6px;border-left:none;border-bottom:none}
+.corner.bl{bottom:6px;left:6px;border-right:none;border-top:none}
+.corner.br{bottom:6px;right:6px;border-left:none;border-top:none}
+.imgcap{font-size:14px;color:var(--dim);margin-top:12px;line-height:1.5;display:flex;gap:9px;align-items:flex-start}
+.imgcap .lab{font-family:"Press Start 2P","Zpix",monospace;font-size:9px;color:var(--black);background:var(--orange);
+  padding:6px 7px;border:3px solid var(--black);box-shadow:3px 3px 0 var(--black);flex:0 0 auto}
+.exlink{color:var(--cyan);text-decoration:underline;word-break:break-all}
+.imgframe .framelink{position:absolute;left:8px;bottom:8px;z-index:5;text-decoration:none;cursor:pointer;
+  font-family:"Press Start 2P","Zpix",monospace;font-size:9px;color:#07071a;background:var(--cyan);
+  border:3px solid #fff;padding:6px 8px;box-shadow:3px 3px 0 #000}
+.imgframe .framelink:hover{background:#fff}
+.imgframe .linkbtn{position:absolute;right:8px;top:8px;z-index:6;display:none;cursor:pointer;
+  font-family:"Press Start 2P","Zpix",monospace;font-size:10px;color:#fff;background:var(--purple);
+  border:3px solid #fff;padding:5px 7px;box-shadow:2px 2px 0 #000}
+.editing .imgframe .linkbtn{display:block}
+
+.bp-title{font-family:"Press Start 2P","Zpix",monospace;font-size:13px;color:var(--gold);text-align:center;margin-bottom:8px}
+.bp{display:flex;flex-direction:column;align-items:center;gap:4px}
+.bp .body-shape{width:130px;height:110px;background:var(--green);border-radius:50% 50% 45% 45%;
+  border:4px solid #fff;box-shadow:6px 6px 0 var(--black);position:relative}
+.bp .body-shape::before,.bp .body-shape::after{content:"";position:absolute;top:38px;width:10px;height:14px;
+  background:var(--black);border-radius:50%}
+.bp .body-shape::before{left:38px}
+.bp .body-shape::after{right:38px}
+.bp .lbl{font-size:12px;color:var(--dim);margin-top:6px}
+
+.foot{display:flex;align-items:center;justify-content:space-between;margin-top:16px;border-top:4px solid var(--line);padding-top:11px}
+.foot .brand{font-family:"Press Start 2P","Zpix",monospace;font-size:9px;color:var(--line)}
+.help{font-family:"Press Start 2P","Zpix",monospace;font-size:9px;color:var(--dim)}
+.help b{color:var(--gold)}
+
+#progress{position:absolute;left:0;right:0;bottom:0;height:8px;display:flex;z-index:3}
+#progress i{flex:1;background:#1a1b40;border-right:1px solid #000}
+#progress i.on{background:var(--accent)}
+
+.cover{align-items:center;justify-content:center;text-align:center;gap:0}
+.cover .badge-top{font-family:"Press Start 2P","Zpix",monospace;font-size:12px;color:var(--gold);margin-bottom:26px;letter-spacing:2px}
+.cover h1{font-family:"Press Start 2P","Zpix",monospace;font-size:40px;line-height:1.4;color:#fff;
+  text-shadow:5px 5px 0 var(--green),10px 10px 0 var(--black)}
+.cover .sub{font-size:27px;color:var(--cyan);margin-top:26px;letter-spacing:3px;font-weight:bold}
+.cover .lesson{font-family:"Press Start 2P","Zpix",monospace;font-size:13px;color:var(--dim);margin-top:26px;line-height:1.8}
+.cover .start{font-family:"Press Start 2P","Zpix",monospace;font-size:13px;color:var(--green);margin-top:40px;animation:blink 1s steps(2,start) infinite}
+@keyframes blink{50%{opacity:0}}
+.cover .sprites{display:flex;gap:22px;margin-top:32px}
+.sprite{width:42px;height:42px}
+
+.break{align-items:center;justify-content:center;text-align:center}
+.break .bnum{font-family:"Press Start 2P","Zpix",monospace;font-size:46px;color:var(--gold);text-shadow:6px 6px 0 var(--black)}
+.break .blabel{font-family:"Press Start 2P","Zpix",monospace;font-size:16px;color:#fff;margin-top:20px;letter-spacing:2px}
+.break .bsub{font-size:16px;color:var(--dim);margin-top:16px}
+
+/* speaker notes / overview / hint / toolbar (same pattern as Lesson01 deck) */
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:42vh;overflow:auto;background:rgba(7,7,26,.96);
+  border-top:4px solid var(--gold);color:var(--ink);padding:18px 26px;display:none;z-index:50;font-size:15px;line-height:1.7}
+#notes.show{display:block}
+#notes h4{font-family:"Press Start 2P","Zpix",monospace;font-size:11px;color:var(--gold);margin-bottom:10px}
+#notes .nrow{margin-bottom:8px}
+#notes .nlab{color:var(--cyan);font-family:"Press Start 2P","Zpix",monospace;font-size:9px;margin-right:8px}
+
+#overview{position:fixed;inset:0;background:rgba(7,7,26,.97);z-index:60;display:none;
+  grid-template-columns:repeat(6,1fr);gap:8px;padding:24px;overflow:auto}
+#overview.show{display:grid}
+.thumb{background:var(--panel);border:2px solid var(--line);padding:8px;cursor:pointer;display:flex;flex-direction:column;gap:4px;min-height:78px}
+.thumb:hover{border-color:var(--gold)}
+.thumb .tn{font-family:"Press Start 2P","Zpix",monospace;font-size:8px;color:var(--gold)}
+.thumb .te{font-family:"Press Start 2P","Zpix",monospace;font-size:7px;color:#fff;line-height:1.4}
+.thumb .tc{font-size:11px;color:var(--dim)}
+
+#toolbar{position:fixed;left:10px;bottom:10px;z-index:45;display:flex;gap:6px}
+#toolbar button{font-family:"Press Start 2P","Zpix",monospace;font-size:9px;color:#fff;background:var(--panel);
+  border:3px solid var(--line);padding:8px 9px;cursor:pointer;box-shadow:3px 3px 0 #000}
+#toolbar button:hover{border-color:var(--gold)}
+#toolbar button.on{background:var(--green);color:#07071a;border-color:#fff}
+#btnExport{background:var(--gold);color:#07071a;border-color:#fff}
+.editing [data-f]{outline:2px dashed var(--gold);outline-offset:4px;cursor:text;border-radius:2px}
+.editing [data-f]:focus{outline:3px solid var(--gold);background:rgba(255,210,63,.08)}
+.panel.accentbox{overflow:hidden}
+.content-host{display:block}
+.cedit{width:100%;min-height:60px;background:#0c0c22;color:#fff;border:3px solid var(--gold);
+  font-family:"Zpix","PingFang SC","Microsoft YaHei",monospace;font-size:20px;line-height:1.6;
+  padding:12px;outline:none;white-space:pre-wrap;word-break:break-word}
+.editing .panel.accentbox{outline:2px dashed var(--green);outline-offset:4px;min-width:220px;min-height:80px;max-width:1168px;max-height:440px;resize:both;overflow:auto}
+.editing .imgframe{outline:3px solid var(--gold);outline-offset:4px;min-width:140px;min-height:110px;max-width:620px;max-height:470px;resize:both;overflow:auto}
+.editing .panel.accentbox::-webkit-resizer,.editing .imgframe::-webkit-resizer{background:var(--gold)}
+
+#hint{position:fixed;right:10px;bottom:14px;z-index:40;font-family:"Press Start 2P","Zpix",monospace;font-size:8px;color:#5658a0}
+</style>
+</head>
+<body>
+<div id="viewport">
+  <div id="stage">
+    <div id="progress"></div>
+  </div>
+</div>
+<div id="notes"></div>
+<div id="overview"></div>
+<div id="hint">← → 移动 · N 备注 · O 总览 · E 编辑 · F 全屏</div>
+
+<script>
+/* ============================================================
+   DATA — [en, cn, content, task, doc(配套文档指向), note]
+   ============================================================ */
+const DATA = [
+["Welcome Back","欢迎回到项目现场","上节课学了五要素、Game UX、Atomic Design 三套方法论。今天不再学新理论，而是把这三套工具，套到一个真实项目上跑一遍。","","","开场先花 1 分钟让学生说一句「还记得的一个框架关键词」，快速激活上节课记忆，不用展开讲。"],
+["What's Different Today","今天不一样在哪","Lesson 01 教的是「看懂+诊断」，今天要做的是「自己设计一套系统」。从这节课起，课程结构从「每节课一个新理论」切换成「一个项目、按里程碑推进」。","","","强调：今天学到的内容会直接变成这次作业要交的项目文档前几页——课上会先打一个样。"],
+["Project Brief","项目 Brief：史莱姆人格研究所","玩家扮演一只史莱姆，加入「怪物大学」，经历入学到毕业的四个阶段（春/夏/秋/冬），通过事件与问答互动，最终揭晓 MBTI 人格与对应的职业身份。\n平台：Steam 桌面宠物 · 美术风格：像素风，基础单位 32px","","项目 Brief 全表 / 团队自己交的项目文档截图","这是学生自己交上来的版本，比最初设想的更具体——四季结构、加权偏移、场景装饰、回忆对话都是他们自己加的。"],
+["Core Loop","核心玩法循环","生成桌宠 → 移动 → 点击 → 弹出问题 → 选择答案 → 播放升级特效 → 展示偏移面板 → 循环推进四季 → 毕业 → 揭晓 MBTI + 职业 → 常驻桌面，点击查看回忆","","","带学生把这条循环念一遍，顺便确认全班对项目机制的理解是同步的。"],
+["The Test","16 题加权偏移测试","共 16 题，每题对应 MBTI 的一个维度，不同选项会让结果产生不同程度的偏移，是加权计分，不是简单二选一。部分题目还会影响场景画面（如「捡到小花」让场景真的多一朵花）。","","","这条机制很适合用来讲清楚「结构层」和「表现层」是怎么互相影响的，为后面 3.1 铺垫。"],
+["Spot The Framework","找找看：你们已经在用哪些框架了？","四季结构、偏移面板、场景累积装饰、毕业后回忆——这些其实都是你们自己在不知不觉中做了 Structure / Scope / Emotion 层的设计决定。","学生两人一组，从项目 Brief 里挑一个细节，说出它对应五要素里的哪一层。","","这是一个「你们已经在用了，现在给它起名字」的时刻，重点是建立信心，不是考倒学生。"],
+["Five Elements: Strategy","策略层：这不是一款要专心玩的游戏","这是一个陪伴型、低压力的桌面常驻应用，套了「怪物大学」的轻松世界观。承诺是「轻量的自我探索 + 陪伴感 + 一点点养成的仪式感」，不是硬核挑战。","","","目标受众偏泛——桌宠爱好者 + 泛人格测试爱好者，这两点决定了后面所有的设计基调。"],
+["Five Elements: Scope","范围层：需要哪些系统","史莱姆状态系统 · 问答系统（16题加权）· 成长/阶段系统（四季）· 事件分支系统 · 场景装饰累积系统 · 右键菜单 · MBTI偏移面板 · 结果揭晓页 · 毕业后回忆对话 · 存档 · 分享出口","","","十一个系统列出来是为了让学生意识到：这不是「画几张图」的工作量，是一整套系统设计。"],
+["Five Elements: Structure","结构层：从首次启动到毕业常驻","首次启动引导 → 桌宠常驻、不定时弹出问题气泡 → 回答（分布在四季推进中）→ 小成长反馈 → 循环推进直到四季走完 → 毕业典礼 → 结果揭晓页 → 之后常驻在「已毕业」状态，点击可看回忆","","","这一页适合现场画一条时间线，比纯文字更直观。"],
+["Five Elements: Skeleton","框架层：大部分时间屏幕上只有史莱姆","因为是桌面常驻应用，屏幕上大部分时间只有史莱姆本体（加上累积的场景装饰），其它 UI 都是按需弹出、不常驻。","","","可以呼应 Lesson01 讲过的「UI 越少情绪有时越强」，但这里的理由不一样：是桌面场景决定了不能有常驻大界面。"],
+["Five Elements: Surface","表现层：Q弹动效 + 治愈配色 + 仪式感","像素风、32px 基础单位、史莱姆要有 Q 弹的挤压拉伸动效（呼应 Game Juice/打击感）；配色偏温暖治愈；毕业揭晓那一刻要做成一个「仪式感」时刻。","","","场景累积的小装饰也要保持统一的像素风格和色彩基调，不能各画各的——这条直接连到下午要讲的 Design Tokens。"],
+["Your Turn: Five Elements","轮到你们：填自己的表","从 Strategy 到 Surface，自己各填一遍这张表，哪怕只有一两句。","学生个人先填 3 分钟，再和组员对照讨论差异。","","这本身就是「用学过的框架分析自己项目」的练习，不用等老师讲完标准答案再动手。"],
+["Game UX: What To Diagnose","这个项目要重点诊断什么","可用性：弹窗时机会不会打扰玩家？桌宠类标准交互是右键菜单。\n动机：养成循环 + 好奇心 + 收集心态（16种人格天然带收集感）。\n情感：治愈温暖，毕业要有仪式感，回忆对话延续情感设计。\n心流：这里是「日常陪伴的节奏感」——多久弹一次问题、每次占用多长时间，和战斗心流是两码事。","","","四个维度里，「心流」这条和 Lesson01 讲的完全不是一回事，值得单独强调一下避免学生套错模板。"],
+["Predict The Problem","预判问题：如果气泡每 5 分钟弹一次","用 Lesson01 教的「问题→依据→原则→影响→修复方向」句式，预判这个设计可能出现的可用性问题。","小组讨论 3 分钟，抽 1-2 组说结果。","","常见答案方向：打扰专注工作、弹窗堆积、玩家关闭桌宠——用这些来检验学生是不是真的会用这个句式，不是背下来。"],
+["Atomic Design: Component Map","组件库长什么样","Atoms：色彩tokens、像素字体、图标、单帧精灵图\nMolecules：对话气泡、选项按钮、成长进度条、偏移量指示条\nOrganisms：问答面板、右键菜单、结果报告卡片、MBTI偏移面板、回忆对话\nTemplates：桌面浮层布局、结果页布局\nPages：具体问题截图、毕业典礼画面、结果揭晓卡片","","Atomic Design 五层示意图 / 团队已有组件截图","这张表本身就是这节课要交的作业雏形——不是让学生直接画结果页，而是先把这张表填完整。"],
+["New Discoveries","新发现的两个组件","MBTI 偏移面板和毕业后回忆对话，是从学生自己的项目文档里发现的——说明拆解一个真实项目，往往会比套用通用模板发现更多东西。","","","这一点值得直接告诉学生：你们自己的项目已经比标准模板走得更远了。"],
+["Break","休息 10 分钟","","","",""],
+["Color Theory In Practice","色彩理论落地","用 HSB 模型（色相/饱和度/明度）而不是死记颜色名。选一套配色方案，全项目只用这一套——类似色方案适合这种温暖治愈的桌宠调性。颜色要有语义命名：Primary/Secondary/Background/Surface/Text/Accent-Danger-Success。","","03节课色彩理论素材 / 对比度检测工具","提醒学生：03节课的色彩理论素材可以直接搬过来用，不用重新做，这节课是教怎么用到这个具体项目里。"],
+["Type & Layout","字体与排版","先定一套字号阶梯（标题/副标题/正文/说明小字，只留4级）。层级靠字号+字重+颜色共同传达。像素字体只在原生尺寸的整数倍下才清晰，任意缩放会糊。小对话框的行距字间距要专门测试。","","","这条和后面讲的「32px尺寸阶梯」是同一个纪律：字体和图案都要用整数倍缩放。"],
+["Pick Your Palette","现场定一版基础三色","用类似色方案给项目定一版基础三色（主色/背景色/文字色），再挑 2-3 个人格类型试着分配强调色。","小组现场定色，感受「有方法的选色」和「凭感觉选色」的区别。","","给 5 分钟，不用做到完美，重点是体会方法本身。"],
+["Figma Production Rules","Figma 生产规范总览","文件结构与命名 → 组件命名规则 → 状态做成 Variants → Auto Layout 用对地方 → 32px 尺寸阶梯 → 像素风特殊处理 → 鼠标交互惯例 → Figma⇄UE 控件对照 → 怎么写规范文档","","","这一页只列清单，不逐条展开——完整内容和可勾选清单在《Figma 生产流程·母版》里，等下动手时直接打开那份用。"],
+["Core Rules: Naming & Variants","核心规则：命名 + 状态变体","固定 Page 顺序：Cover&Brief → Design Tokens → Components → Wireframes → Hi-Fi Screens → Prototype → Handoff。组件命名按层级：Atom/Button/Primary。组件状态要做成 Variants：史莱姆7个变体、对话框5个变体、按钮4个变体，不要复制粘贴出独立图层。","","","命名规则本身是评分点。状态这条是新手最容易漏的地方——等下临摹时会强制大家至少想清楚一个组件的多种状态。"],
+["The 32px Ladder","32px 尺寸阶梯","美术基础单位是 32px，全项目间距、留白、图标尺寸都应该是 32px 或 16px 的倍数。间距阶梯：8/16/32/64px。可点击元素最小点击区域不小于 32px。","","","这条是直接回应学生自己提的问题——「怎么确认最小元素大小、在不同屏幕上都方便」，答案就是这套阶梯 + 只锁定一个目标分辨率。"],
+["Figma ⇄ UE","控件标准对照","自由定位的 Frame → Canvas Panel。Auto Layout → Horizontal/Vertical Box。锁定尺寸 → Size Box。需要跟内容拉伸的面板（如对话框背景）要做成 9-Slice 素材。","","","这是这次新加的重点——让学生画的东西未来能被直接翻译成 UE 的 UMG 控件结构，不是画完才发现没法实现。"],
+["Full Checklist Lives Here","完整清单在这里","这九条规则的完整版本、每一条的检查项，都在《Figma 生产流程·目标与检查清单》母版里——那份文件时间、目标、检查项都是空的，等下动手练习直接打开，自己讨论着填。","","打开《Figma 生产流程·目标与检查清单》母版","强调「母版」两个字：这是团队自己讨论出来的——这一步要做什么、什么时候做完，不是照抄一份现成清单交差。"],
+["Case Criteria","案例标准：什么样的案例可以临摹","必须是真实上线的游戏或应用截图，不是自己画的草图。风格统一、视觉语言清楚——不强制像素风，但线条配色要看得出是同一套系统做出来的。挑一个局部组件，不选整个复杂画面：一个对话框、一组按钮、一套图标、一张卡片，20分钟能做完的量。优先选和自己项目相关的类型：对话气泡、状态图标、进度指示——临摹完能直接迁移技能到 MBTI 项目里。","","参考来源：Game UI Database / Interface In Game / 自己玩过的游戏截图","这条标准是为了防止学生选一个自己做不完的复杂场景，或者选一个和项目八竿子打不着的风格——挑案例本身也是一次判断力练习。这条标准是给接下来 Lesson02 小作业用的。"],
+["Trace Task","Lesson02 小作业：临摹，或者直接原创","这是 Lesson02 的小作业，两条路选一条：① 照上一页的标准找一个案例，临摹一个局部组件；② 也可以不临摹，直接在自己的组件上做原创设计。两条路都行，选你觉得更有帮助的那条。\n操作要求：在你自己的 Figma 里开一个新文件（不是团队共用的那个），个人独立完成，用刚讲的 32px 阶梯和 Variants 思维来做。\n提交方式：完成后把你这个文件的分享链接，贴到 FigJam 看板里。","个人开自己的 Figma 工作区，20 分钟做临摹或原创，做完把链接分享到 FigJam 看板。","","这是 Lesson02 唯一的小作业，个人独立完成、独立提交，不是团队共用文件里的一部分。强调「不要求做完」，重点是过程不是结果。"],
+["Break","休息 10 分钟","","","",""],
+["Trace to Original","如果你选的是临摹：把学到的手法用回项目里","选了临摹这条路的同学，接下来把案例里学到的一个具体手法或细节——比如某种阴影处理、某种状态切换的反馈方式——原创地用到你们 MBTI 项目的一个组件上，把「学会了这个技巧」这件事真正用起来，照抄一遍不算数。选了直接原创那条路的同学，这段时间继续把自己那个组件做完整。","15 分钟，把手法应用到史莱姆项目的至少一个组件上（或者继续完成你的原创组件）。","","这一步是检验临摹有没有真正变成能力的地方——能不能迁移，是判断临摹有没有效果的标准。别忘了最后还是要把链接更新分享到 FigJam 看板。"],
+["After Class","课后延伸：这次小作业怎么继续","① 继续把这个组件打磨完整，作为个人技法练习\n② 把学到的手法扩展应用到 MBTI 项目的其他组件上\n③ 想要更有挑战性的产出，这个过程可以扩展成一份独立的个人项目——不依赖小组进度，单独证明你的 Figma 落地能力","","打开《怎么写UI设计规范文档》参考资料 + 《个人作业·5页设计规范文档打样》","第三个选项面向基础好、想多练的学生，是可选项不是必选——别让基础一般的学生觉得压力过大。"],
+["Four Milestones","四个里程碑总览","Lesson 02（本节）：项目拆解+视觉基础+Figma⇄UE标准。Lesson 03：线框与核心组件。Lesson 04：高保真视觉+完整规范文档。Lesson 05：原型联调+可用性测试+最终汇报。","","","每个里程碑交付时都要求学生用「我改了X，因为玩家在Z时刻需要Y」说明一个关键决定，这是持续练习，不是只在最后用一次。"],
+["How You'll Be Graded","评分标准总览","框架应用 25% · 设计规范完整度 25% · 视觉与可用性 20% · 设计理由的表达 20% · 文档与协作规范 10%——四个里程碑都按这五个维度打分，不是只在最后一次性评。","","","强调：框架应用那 25% 里，「能不能从自己项目里发现新东西」（比如偏移面板）比「套模板套得对不对」权重更高。"],
+["Challenge Levels","挑战关卡（选做，四选一）","1. 设计系统压力测试（推荐）：做一套夜间模式主题，只改 Tokens 不改组件。2. 16型人格卡片全集。3. Steam 商店页视觉。4. 成就系统 UI。","","","第1个特别推荐——不需要画新内容，却能直接暴露组件库是不是真的搭对了，这也是我们个人作业里「夜间模式」要求的由来。"],
+["Your Individual Assignment","个人作业提醒","每人独立提交一份 5 页设计规范文档：封面基调 → Design Tokens（含日间+夜间模式）→ 组件总览 → 状态说明 → 一条金句。内容是你自己在这次里程碑里真正做的部分。","","打开《个人作业·设计规范文档打样示范》","再强调一次：每个人要独立完成一份，用来证明自己真的参与、真的理解了这套系统，不是团队共用一份互相搭便车。"],
+["Exit Ticket","下课前提交","写下：你们小组这次里程碑打算先做哪一个组件？以及一个你现在还没想清楚的问题。","","","收口环节，2分钟，确保每个人带着明确的下一步动作离开教室。"]
+];
+
+/* ---- section groups for color-coding + progress bar ---- */
+function section(n){
+  // n=1 is the cover (handled separately in slideHTML); n=2..36 map to DATA[0..34].
+  if(n<=2) return ["RECAP","var(--cyan)"];
+  if(n<=7) return ["PROJECT BRIEF","var(--orange)"];
+  if(n<=13) return ["FIVE ELEMENTS","var(--blue)"];
+  if(n<=15) return ["GAME UX","var(--magenta)"];
+  if(n<=17) return ["ATOMIC DESIGN","var(--gold)"];
+  if(n===18) return ["BREAK","var(--dim)"];
+  if(n<=21) return ["VISUAL THEORY","var(--green)"];
+  if(n<=28) return ["FIGMA RULES","var(--purple)"];
+  if(n===29) return ["BREAK","var(--dim)"];
+  if(n<=31) return ["KEEP BUILDING","var(--cyan)"];
+  if(n<=34) return ["MILESTONES & GRADING","var(--orange)"];
+  return ["ASSIGNMENT","var(--red)"];
+}
+
+/* ============================================================
+   Content renderer (arrow-flow / numbered / bullets / plain)
+   ============================================================ */
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function linkify(s){ return s.replace(/(https?:\/\/[^\s<]+)/g, u=>`<a href="${u}" target="_blank" rel="noopener" class="exlink">${u}</a>`); }
+function escL(s){ return linkify(esc(s)); }
+
+function renderContent(c){
+  if(!c) return "";
+  if(c.indexOf("→")>-1){
+    const parts=c.split("→").map(s=>s.trim()).filter(Boolean);
+    let h='<div class="steps">';
+    parts.forEach((p,i)=>{ h+=`<div class="step">${escL(p)}</div>`; if(i<parts.length-1) h+='<div class="chev">▶</div>'; });
+    return h+"</div>";
+  }
+  if(/①.*②|1\..*2\./.test(c) && c.indexOf("\n")===-1){
+    // inline numbered-ish text, fall through to plain paragraph
+  }
+  if(c.indexOf("\n")>-1){
+    const lines=c.split("\n").map(s=>s.replace(/\s+$/,""));
+    return `<div class="lead${c.length>140?' small':''}">${lines.map(l=>l?escL(l):"&nbsp;").join("<br><br>")}</div>`;
+  }
+  const sent=c.split(/(?<=[.?！？])\s+/).map(s=>s.trim()).filter(Boolean);
+  if(sent.length>=2 && c.length>60){
+    let h='<ul class="bul">'; sent.forEach(s=>h+=`<li>${escL(s)}</li>`); return h+"</ul>";
+  }
+  return `<div class="lead${c.length>90?' small':''}">${escL(c)}</div>`;
+}
+
+function spriteSVG(color){
+  return `<svg class="sprite" viewBox="0 0 12 12" shape-rendering="crispEdges">
+    <g fill="${color}"><rect x="3" y="1" width="6" height="2"/><rect x="2" y="3" width="8" height="2"/>
+    <rect x="1" y="5" width="10" height="3"/><rect x="2" y="8" width="2" height="2"/><rect x="8" y="8" width="2" height="2"/></g>
+    <g fill="#07071a"><rect x="3" y="5" width="2" height="2"/><rect x="7" y="5" width="2" height="2"/></g></svg>`;
+}
+
+/* ============================================================
+   Persistence / state
+   ============================================================ */
+const PRISTINE = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+const STORE_KEY = "uiux02_deck_v1";
+const COVER_DEFAULT = {
+  h1:"UIUX LESSON 02+\nPROJECT MODE",
+  sub:"史莱姆人格研究所 · MBTI 桌宠",
+  lesson:"把五要素 · Game UX · Atomic Design\n真正套进一个项目里跑一遍",
+  inst:"Instructor 徐园园 YONA\nDoctoral Researcher · HCI\nThe University of British Columbia"
+};
+let state=[], edits={}, images={}, sizes={}, links={}, idx=0, editMode=false;
+let stage, progress, slides=[], blocks=[], notesEl, overview, resizeOb, _saveT;
+
+function nl2br(s){return esc(s).replace(/\n/g,"<br>");}
+
+function loadSaved(){
+  let ls=null;
+  try{ ls=JSON.parse(localStorage.getItem(STORE_KEY)); }catch(e){}
+  if(ls && (ls.edits||ls.images)) return ls;
+  const emb=document.getElementById("embedded-data");
+  if(emb){ try{ const o=JSON.parse(emb.textContent); saveRaw(o); return o; }catch(e){} }
+  return {edits:{},images:{}};
+}
+function saveRaw(o){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(o)); return true; }catch(e){ return false; } }
+function persist(){
+  if(saveRaw({edits,images,sizes,links})) return;
+  if(saveRaw({edits,sizes,links})) flashHint("⚠ 图片/视频太大未本地保存，请用「导出」保存");
+  else flashHint("⚠ 浏览器存储已满 — 请点「导出」保存");
+}
+function flashHint(msg){
+  const h=document.getElementById("hint");
+  const old=h.textContent; h.textContent=msg; h.style.color="var(--orange)";
+  setTimeout(()=>{ h.textContent=old; h.style.color=""; },2600);
+}
+
+function initState(){
+  const saved=loadSaved();
+  edits=saved.edits||{}; images=saved.images||{}; sizes=saved.sizes||{}; links=saved.links||{};
+  // Cover is a dedicated slide (n=1) separate from DATA, so no DATA row is ever
+  // silently discarded — every DATA entry gets its own slide at n=2..DATA.length+1.
+  const cover={n:1, isCover:true, ...COVER_DEFAULT};
+  const rest=DATA.map((d,i)=>({n:i+2,en:d[0],cn:d[1],c:d[2],t:d[3],g:d[4],note:d[5],isBreak:d[0]==="Break"}));
+  state=[cover,...rest];
+  for(const k in edits){ if(state[k]) Object.assign(state[k], edits[k]); }
+}
+function setField(i,f,v){ state[i][f]=v; (edits[i]=edits[i]||{})[f]=v; persist(); }
+
+/* ============================================================
+   Slide HTML
+   ============================================================ */
+function contentHostHTML(i){
+  return editMode
+    ? `<div class="cedit" contenteditable="true" data-host="${i}" spellcheck="false">${nl2br(state[i].c)}</div>`
+    : renderContent(state[i].c);
+}
+function slideHTML(i){
+  const s=state[i], n=s.n, [secName,acc]=section(n);
+
+  if(n===1){
+    return `
+      <div class="badge-top">★ UIUX LESSON 02+ · PROJECT MODE ★</div>
+      <h1 data-i="0" data-f="h1">${nl2br(s.h1)}</h1>
+      <div class="sub" data-i="0" data-f="sub">${nl2br(s.sub)}</div>
+      <div class="sprites">${spriteSVG("var(--green)")}${spriteSVG("var(--magenta)")}${spriteSVG("var(--cyan)")}${spriteSVG("var(--gold)")}</div>
+      <div class="lesson" data-i="0" data-f="lesson">${nl2br(s.lesson)}</div>
+      <div class="instructor" data-i="0" data-f="inst" style="font-size:16px;color:var(--cyan);margin-top:22px;line-height:1.7">${nl2br(s.inst||"")}</div>
+      <div class="start">▶ PRESS → TO START</div>`;
+  }
+
+  if(s.isBreak){
+    return `<div class="break" style="flex:1;display:flex;flex-direction:column">
+      <div class="bnum">☕</div>
+      <div class="blabel" data-i="${i}" data-f="en">${esc(s.en).toUpperCase()}</div>
+      <div class="bsub" data-i="${i}" data-f="cn">${esc(s.cn)}</div>
+    </div>`;
+  }
+
+  const taskBadge = s.t
+    ? `<div class="badge"><span class="lab task">▶ CLASS TASK 课堂任务</span><span class="txt" data-i="${i}" data-f="t">${nl2br(s.t)}</span></div>` : "";
+  const docBadge = s.g
+    ? `<div class="badge"><span class="lab doc">📄 打开文档</span><span class="txt" data-i="${i}" data-f="g">${linkify(nl2br(s.g))}</span></div>` : "";
+  const badgesHTML = (taskBadge||docBadge) ? `<div class="badges">${taskBadge}${docBadge}</div>` : "";
+
+  const body = `
+      <div class="body">
+        <div class="panel accentbox"><div class="content-host" data-i="${i}">${contentHostHTML(i)}</div></div>
+        ${badgesHTML}
+      </div>`;
+
+  return `
+      <div class="hud">
+        <div class="tag">${secName}</div>
+        <div class="hud-right">
+          <div class="counter">P <b>${String(n).padStart(2,"0")}</b> / ${state.length}</div>
+        </div>
+      </div>
+      <div class="title">
+        <div class="t-en en" data-i="${i}" data-f="en">${nl2br(s.en)}</div>
+        <div class="t-cn" data-i="${i}" data-f="cn">${nl2br(s.cn)}</div>
+      </div>
+      <div class="rule"></div>
+      ${body}
+      <div class="foot">
+        <div class="brand">UIUX-02 · SLIME MBTI PROJECT</div>
+        <div class="help">← → <b>MOVE</b> · N <b>NOTES</b> · O <b>MENU</b> · E <b>EDIT</b></div>
+      </div>`;
+}
+
+function applyImage(frame,n){
+  const dataURL=images[n]; if(!dataURL) return;
+  const isVid=/^data:video/i.test(dataURL);
+  frame.querySelectorAll("img,video").forEach(e=>e.remove());
+  let el;
+  if(isVid){ el=document.createElement("video"); el.src=dataURL; el.controls=true; el.playsInline=true; el.preload="auto"; }
+  else { el=document.createElement("img"); el.src=dataURL; }
+  frame.appendChild(el);
+  frame.querySelectorAll(".cam,.ph,.phcn").forEach(e=>e.style.display="none");
+}
+function applyLink(frame,n){
+  let a=frame.querySelector("a.framelink");
+  const url=links[n];
+  if(url){
+    if(!a){ a=document.createElement("a"); a.className="framelink"; a.target="_blank"; a.rel="noopener";
+            a.addEventListener("click",e=>e.stopPropagation()); frame.appendChild(a); }
+    a.href=url; a.textContent="🔗 打开网站";
+  }else if(a){ a.remove(); }
+}
+function setupLink(frame,n){
+  let btn=frame.querySelector(".linkbtn");
+  if(!btn){
+    btn=document.createElement("button"); btn.className="linkbtn"; btn.textContent="🔗"; btn.title="设置可跳转网址";
+    btn.addEventListener("click",e=>{
+      e.stopPropagation();
+      const u=prompt("输入要跳转的网址（含 http，留空可删除）：", links[n]||"https://");
+      if(u===null) return;
+      if(u.trim() && u.trim()!=="https://"){ links[n]=u.trim(); } else { delete links[n]; }
+      persist(); applyLink(frame,n);
+    });
+    frame.appendChild(btn);
+  }
+  applyLink(frame,n);
+}
+
+function build(){
+  slides.forEach(s=>s.remove());
+  slides=[]; progress.innerHTML="";
+  if(!resizeOb) resizeOb=new ResizeObserver(onBoxResize);
+  state.forEach((s,i)=>{
+    const el=document.createElement("section");
+    el.className="slide"+(s.n===1?" cover":"");
+    el.style.setProperty("--accent",section(s.n)[1]);
+    el.innerHTML=slideHTML(i);
+    stage.insertBefore(el,progress);
+    slides.push(el);
+    progress.appendChild(document.createElement("i"));
+    const box=el.querySelector(".panel.accentbox");
+    if(box){ box.__i=i; resizeOb.observe(box); }
+    applySize(i,box,null);
+  });
+  blocks=[...progress.children];
+}
+function applySize(i,box,frame){
+  const sz=sizes[i]; if(!sz) return;
+  if(box && sz.box){ box.style.width=sz.box.w+"px"; box.style.height=sz.box.h+"px"; }
+}
+function onBoxResize(entries){
+  if(!editMode) return;
+  for(const en of entries){
+    const el=en.target, i=el.__i; if(i==null) continue;
+    sizes[i]=sizes[i]||{};
+    const w=Math.round(el.offsetWidth), h=Math.round(el.offsetHeight);
+    sizes[i].box={w,h}; fitText(el);
+  }
+  clearTimeout(_saveT); _saveT=setTimeout(persist,400);
+}
+
+/* ============================================================
+   Navigation
+   ============================================================ */
+function show(i){
+  idx=Math.max(0,Math.min(slides.length-1,i));
+  slides.forEach((s,k)=>s.classList.toggle("active",k===idx));
+  blocks.forEach((b,k)=>{
+    b.classList.toggle("on",k<=idx);
+    b.style.background = k<=idx ? section(state[idx].n)[1] : "#1a1b40";
+  });
+  if(notesEl.classList.contains("show")) renderNotes();
+  fitActive();
+  slides.forEach((sl,k)=>{ if(k!==idx) sl.querySelectorAll("video").forEach(v=>v.pause()); });
+  const av=slides[idx] && slides[idx].querySelector("video");
+  if(av){ av.play().catch(()=>{ av.muted=true; av.play().catch(()=>{}); }); }
+}
+function next(){ Sound.nav(); show(idx+1) }
+function prev(){ Sound.nav(); show(idx-1) }
+
+function renderNotes(){
+  const s=state[idx];
+  notesEl.innerHTML=`
+    <h4>SPEAKER NOTES · P${String(s.n).padStart(2,"0")} ${esc(s.en)}</h4>
+    <div class="nrow"><span class="nlab">讲法</span>${esc(s.note||"")}</div>
+    ${s.t?`<div class="nrow"><span class="nlab">互动</span>${esc(s.t)}</div>`:""}
+    ${s.g?`<div class="nrow"><span class="nlab">文档</span>${esc(s.g)}</div>`:""}`;
+}
+function toggleNotes(){ notesEl.classList.toggle("show"); if(notesEl.classList.contains("show")) renderNotes(); }
+
+function buildOverview(){
+  overview.innerHTML="";
+  state.forEach((s,k)=>{
+    const t=document.createElement("div");
+    t.className="thumb"; t.style.borderColor=section(s.n)[1];
+    const title=s.n===1 ? "COVER" : esc(s.en);
+    t.innerHTML=`<div class="tn">P${String(s.n).padStart(2,"0")}</div><div class="te en">${title}</div><div class="tc">${esc(s.cn)}</div>`;
+    t.onclick=()=>{overview.classList.remove("show");show(k);};
+    overview.appendChild(t);
+  });
+}
+function toggleOverview(){ if(!overview.classList.contains("show")) buildOverview(); overview.classList.toggle("show"); }
+
+/* ============================================================
+   Edit mode
+   ============================================================ */
+function setEditMode(on){
+  editMode=on;
+  stage.classList.toggle("editing",on);
+  document.querySelectorAll('[data-f]').forEach(el=>{
+    if(on) el.setAttribute("contenteditable","true"); else el.removeAttribute("contenteditable");
+  });
+  document.querySelectorAll(".content-host").forEach(h=>{
+    if(on){ h.style.transform=""; h.style.width=""; }
+    h.innerHTML=contentHostHTML(+h.dataset.i);
+  });
+  document.querySelectorAll(".panel.accentbox").forEach(el=>{
+    el.style.resize = on ? "both" : "none";
+    el.style.overflow = on ? "auto" : "hidden";
+  });
+  fitActive();
+  document.getElementById("btnEdit").textContent = on ? "✓ 完成编辑" : "✎ 编辑";
+  document.getElementById("btnEdit").classList.toggle("on",on);
+  document.getElementById("btnReset").style.display = on ? "" : "none";
+  flashHint(on ? "编辑模式：点字改字、回车换行、拖右下角改框大小，自动保存" : "已退出编辑");
+}
+function toggleEdit(){ setEditMode(!editMode); }
+
+function fitText(box){
+  const host=box.querySelector(".content-host"); if(!host) return;
+  host.style.transformOrigin="top left";
+  host.style.transform="none"; host.style.width="";
+  const cs=getComputedStyle(box);
+  const availW=box.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+  const availH=box.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom);
+  if(availW<=4||availH<=4) return;
+  let lo=0.3, hi=2.0, best=lo;
+  for(let i=0;i<11;i++){
+    const k=(lo+hi)/2;
+    host.style.width=(availW/k)+"px";
+    if(host.scrollHeight*k <= availH+0.5){ best=k; lo=k; } else { hi=k; }
+  }
+  host.style.width=(availW/best)+"px";
+  host.style.transform="scale("+best+")";
+}
+function fitActive(){
+  const el=slides[idx]; if(!el) return;
+  el.querySelectorAll(".panel.accentbox").forEach(fitText);
+}
+
+function onEditInput(e){
+  const el=e.target;
+  if(el.matches(".cedit")){ setField(+el.dataset.host,"c",el.innerText); return; }
+  if(el.hasAttribute("data-f")){
+    const i=+el.dataset.i, f=el.dataset.f;
+    setField(i,f,el.innerText);
+  }
+}
+
+/* ============================================================
+   Export
+   ============================================================ */
+function download(name,html){
+  const blob=new Blob([html],{type:"text/html;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=name;
+  document.body.appendChild(a); a.click();
+  let done=false;
+  const cleanup=()=>{ if(done)return; done=true; URL.revokeObjectURL(a.href); a.remove(); window.removeEventListener("focus",onFocus); };
+  const onFocus=()=>setTimeout(cleanup,3000);
+  window.addEventListener("focus",onFocus);
+  setTimeout(cleanup,600000);
+}
+function exportHTML(){
+  try{
+    const payload=JSON.stringify({edits,images,sizes,links}).replace(/<\/script/gi,"<\\/script");
+    const tag=`\n<script id="embedded-data" type="application/json">${payload}<\/script>\n`;
+    const at=PRISTINE.lastIndexOf("</body>");
+    const html = at>=0 ? PRISTINE.slice(0,at)+tag+PRISTINE.slice(at) : PRISTINE+tag;
+    download("UIUX_02_Slides_PixelArt_edited.html", html);
+    flashHint("已导出带文字+图片的单文件 HTML ✔");
+  }catch(err){ alert("导出失败："+(err&&err.message||err)); }
+}
+function resetAll(){
+  if(!confirm("重置所有文字与图片修改？（导出过的文件不受影响）")) return;
+  edits={}; images={}; sizes={}; links={}; initState(); build(); show(idx); setEditMode(editMode);
+}
+
+/* ============================================================
+   Retro audio: chiptune BGM + UI SFX
+   ============================================================ */
+const Sound = (function(){
+  let ctx, master, bgmGain, sfxGain, noiseBuf, bgmOn=true, schedTimer, nextT=0, step=0;
+  const BASS=[98,0,0,0,98,0,0,0, 87.31,0,0,0,87.31,0,0,0, 130.81,0,0,0,130.81,0,0,0, 110,0,0,0,110,0,0,0];
+  const ARP =[196,247,294,247,196,247,294,247, 175,220,262,220,175,220,262,220, 262,330,392,330,262,330,392,330, 220,262,330,262,220,262,330,262];
+  const LEAD=[587,0,0,0,0,523,0,0, 523,0,0,0,0,440,0,0, 494,0,587,0,0,0,523,0, 440,0,392,0,0,0,0,0];
+  const STEP=0.14;
+  function ready(){
+    if(ctx) return true;
+    try{
+      ctx=new (window.AudioContext||window.webkitAudioContext)();
+      master=ctx.createGain(); master.gain.value=0.9; master.connect(ctx.destination);
+      bgmGain=ctx.createGain(); bgmGain.gain.value=0.05; bgmGain.connect(master);
+      sfxGain=ctx.createGain(); sfxGain.gain.value=0.22; sfxGain.connect(master);
+      const ns=Math.floor(ctx.sampleRate*0.2); noiseBuf=ctx.createBuffer(1,ns,ctx.sampleRate);
+      const d=noiseBuf.getChannelData(0); for(let i=0;i<ns;i++) d[i]=Math.random()*2-1;
+      return true;
+    }catch(e){ return false; }
+  }
+  function tone(freq,dur,type,gain,at,target){
+    const t=at||ctx.currentTime, o=ctx.createOscillator(), g=ctx.createGain();
+    o.type=type||"square"; o.frequency.setValueAtTime(freq,t);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(gain||0.3,t+0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g); g.connect(target||sfxGain);
+    o.start(t); o.stop(t+dur+0.02);
+  }
+  function hat(at){
+    const s=ctx.createBufferSource(); s.buffer=noiseBuf;
+    const f=ctx.createBiquadFilter(); f.type="highpass"; f.frequency.value=7000;
+    const g=ctx.createGain();
+    g.gain.setValueAtTime(0.0001,at); g.gain.exponentialRampToValueAtTime(0.09,at+0.005); g.gain.exponentialRampToValueAtTime(0.0001,at+0.05);
+    s.connect(f); f.connect(g); g.connect(bgmGain); s.start(at); s.stop(at+0.07);
+  }
+  function kick(at){
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.type="sine"; o.frequency.setValueAtTime(150,at); o.frequency.exponentialRampToValueAtTime(50,at+0.12);
+    g.gain.setValueAtTime(0.0001,at); g.gain.exponentialRampToValueAtTime(0.5,at+0.005); g.gain.exponentialRampToValueAtTime(0.0001,at+0.16);
+    o.connect(g); g.connect(bgmGain); o.start(at); o.stop(at+0.18);
+  }
+  function scheduler(){
+    while(nextT < ctx.currentTime+0.15){
+      const i=step%32, t=nextT;
+      if(LEAD[i]) tone(LEAD[i],STEP*1.6,"square",0.28,t,bgmGain);
+      if(ARP[i])  tone(ARP[i],STEP*0.8,"square",0.09,t,bgmGain);
+      if(BASS[i]) tone(BASS[i],STEP*3.6,"triangle",0.38,t,bgmGain);
+      if(i%4===0) kick(t);
+      if(i%2===1) hat(t);
+      nextT+=STEP; step++;
+    }
+  }
+  function startBGM(){ if(!ready())return; if(ctx.state==="suspended")ctx.resume(); if(schedTimer)return; nextT=ctx.currentTime+0.06; schedTimer=setInterval(scheduler,25); }
+  function stopBGM(){ if(schedTimer){clearInterval(schedTimer);schedTimer=null;} }
+  function wake(){ if(ready()&&ctx.state==="suspended")ctx.resume(); }
+  return {
+    nav(){ if(!ready())return; wake(); tone(880,0.05,"square",0.3); tone(1245,0.05,"square",0.22,ctx.currentTime+0.04); },
+    click(){ if(!ready())return; wake(); tone(523,0.04,"square",0.25); },
+    toggle(){ bgmOn=!bgmOn; if(bgmOn)startBGM(); else stopBGM(); return bgmOn; },
+    kick(){ if(bgmOn) startBGM(); }
+  };
+})();
+
+/* ============================================================
+   Toolbar
+   ============================================================ */
+function buildToolbar(){
+  const bar=document.createElement("div");
+  bar.id="toolbar";
+  bar.innerHTML=`<button id="btnEdit">✎ 编辑</button><button id="btnExport">⬇ 导出</button><button id="btnMusic" class="on">♪ 音乐</button><button id="btnReset" style="display:none">↺ 重置</button>`;
+  document.body.appendChild(bar);
+  document.getElementById("btnEdit").onclick=()=>{ Sound.click(); toggleEdit(); };
+  document.getElementById("btnExport").onclick=()=>{ Sound.click(); exportHTML(); };
+  document.getElementById("btnReset").onclick=()=>{ Sound.click(); resetAll(); };
+  const bm=document.getElementById("btnMusic");
+  bm.onclick=()=>{ Sound.click(); const on=Sound.toggle(); bm.classList.toggle("on",on); bm.textContent=on?"♪ 音乐":"♪ 静音"; };
+}
+
+/* ============================================================
+   Image/video frames: click / drag-drop, wired after build()
+   ============================================================ */
+function readImage(frame,n,file){
+  if(!file || !/^(image|video)\//.test(file.type)) return;
+  if(file.size > 30*1024*1024) flashHint("⚠ 文件较大("+Math.round(file.size/1048576)+"MB)，记得用「导出」保存");
+  const fr=new FileReader();
+  fr.onload=()=>{ images[n]=fr.result; persist(); applyImage(frame,n); };
+  fr.readAsDataURL(file);
+}
+
+/* ============================================================
+   Keyboard / click nav
+   ============================================================ */
+document.addEventListener("keydown",e=>{
+  const ae=document.activeElement;
+  if(ae && ae.isContentEditable && e.key==="Enter"){
+    e.preventDefault(); document.execCommand("insertLineBreak"); return;
+  }
+  const typing = ae && (ae.isContentEditable || ae.tagName==="TEXTAREA" || ae.tagName==="INPUT");
+  if(typing){ if(e.key==="Escape") ae.blur(); return; }
+  if(overview.classList.contains("show") && e.key==="Escape"){overview.classList.remove("show");return;}
+  switch(e.key){
+    case "ArrowRight": case " ": case "PageDown": next(); e.preventDefault(); break;
+    case "ArrowLeft": case "PageUp": prev(); e.preventDefault(); break;
+    case "Home": show(0); break;
+    case "End": show(slides.length-1); break;
+    case "n": case "N": toggleNotes(); break;
+    case "o": case "O": toggleOverview(); break;
+    case "e": case "E": toggleEdit(); break;
+    case "f": case "F":
+      if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+      else document.exitFullscreen(); break;
+    case "Escape": overview.classList.remove("show"); notesEl.classList.remove("show"); break;
+  }
+});
+
+function fit(){
+  const s=Math.min(window.innerWidth/1280, window.innerHeight/720);
+  stage.style.transform=`scale(${s})`;
+}
+
+/* ============================================================
+   Init
+   ============================================================ */
+function init(){
+  stage=document.getElementById("stage");
+  progress=document.getElementById("progress");
+  notesEl=document.getElementById("notes");
+  overview=document.getElementById("overview");
+  initState();
+  build();
+  buildToolbar();
+  stage.addEventListener("input",onEditInput);
+  stage.addEventListener("click",e=>{
+    if(editMode) return;
+    if(e.target.closest("[data-f]")||e.target.closest("#progress")) return;
+    const r=stage.getBoundingClientRect(), x=e.clientX-r.left;
+    if(x<r.width*0.30) prev(); else if(x>r.width*0.70) next();
+  });
+  ["pointerdown","keydown"].forEach(ev=>document.addEventListener(ev,()=>Sound.kick()));
+  window.addEventListener("resize",fit);
+  fit(); show(0);
+}
+if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init);
+else init();
+</script>
+</body>
+</html>
