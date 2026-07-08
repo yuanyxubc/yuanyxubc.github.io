@@ -309,6 +309,9 @@ const PAGES = [
         ${tok("Background","#FFF6EE")}
         ${tok("Surface","#FFFFFF")}
         ${tok("Text","#4A3B33")}
+        ${tok("Accent","#7CC7A8")}
+        ${tok("Danger","#D96B5F")}
+        ${tok("Success","#4F9E6D")}
       </div>
       <div class="modeblock night">
         <h4>☾ NIGHT 夜间模式</h4>
@@ -316,6 +319,9 @@ const PAGES = [
         ${tok("Background","#221A2E")}
         ${tok("Surface","#2E2440")}
         ${tok("Text","#F2E9E4")}
+        ${tok("Accent","#8FD6B7")}
+        ${tok("Danger","#FF8A7A")}
+        ${tok("Success","#70C98B")}
       </div>
     </div>
     <div class="scalerow">
@@ -323,7 +329,7 @@ const PAGES = [
       <span style="width:1px;height:36px;background:var(--line);margin:0 6px"></span>
       ${scaleBox(8,"8px")}${scaleBox(16,"16px")}${scaleBox(32,"32px")}${scaleBox(48,"64px÷1.3示意")}
     </div>
-    <div class="anno">两套模式共用同一套语义命名（Primary/Background/Surface/Text），只是取值不同——夜间模式要重新挑一组对比度合格的深色值，直接把颜色调暗是不够的。</div>
+    <div class="anno">两套模式共用同一套语义命名（Primary/Background/Surface/Text/Accent/Danger/Success），只是取值不同。正文对比度要够，状态区分不能只靠颜色；至少再加描边、图标、透明度或文字标签中的一种。</div>
   </div>
 `},
 
@@ -381,23 +387,25 @@ const PAGES = [
         <li><span class="num">3</span><span>Design Tokens 页必须同时包含<b>日间模式和夜间模式</b>两套色板</span></li>
         <li><span class="num">4</span><span>排版成 16:9，和这份打样一样是可以直接放进作品集的格式</span></li>
         <li><span class="num">5</span><span>命名要符合大纲 5.2 节的规则（Atom/Molecule/Organism 分层命名），别人一眼要能看懂</span></li>
+        <li><span class="num">6</span><span>如果你选了临摹路径，要写清楚学到的一个手法如何用回自己的项目；如果你直接原创，要写清楚这个原创组件解决了什么具体问题</span></li>
       </ol>
     </div>
-    <div class="disclaimer">从即刻设计迁移到 Figma、每一步具体要做什么，见配套文档：<b>《从即刻设计迁移到 Figma · 项目制作清单》</b>——按那份清单一步步做，做完这一步，第 5 页文档自然就有内容了。</div>
+    <div class="disclaimer">从即刻设计迁移到 Figma、每一步具体要做什么，见配套文档：<b>《Figma 生产流程·目标与检查清单》</b>——按那份清单一步步做，做完这一步，第 5 页文档自然就有内容了。</div>
   </div>
 `},
 
 // P9 评分标准
 {tag:"GRADING", acc:"var(--purple)", title:["Grading Rubric","个人作业评分标准"], html:`
   <div class="body">
-    <div class="anno" style="margin-bottom:4px">这是个人作业，独立打分，不因为团队整体做得好就自动拿高分：</div>
+    <div class="anno" style="margin-bottom:4px">这是从 Lesson02 开始的第一份正式个人作业，独立打分，不因为团队整体做得好就自动拿高分：</div>
     <table class="gradetable">
       <tr><th>评分项</th><th>分值</th></tr>
-      <tr><td>Design Tokens 完整度（含日间+夜间两套色板，语义命名）</td><td class="pts">4</td></tr>
+      <tr><td>Design Tokens 完整度（含日间+夜间两套色板，语义命名）</td><td class="pts">3</td></tr>
       <tr><td>组件总览：确实是你自己做的部分，命名规范</td><td class="pts">3</td></tr>
       <tr><td>状态说明：至少一个组件的全部 Variants，标注触发条件</td><td class="pts">4</td></tr>
+      <tr><td>临摹/原创转化：讲清楚你学到的手法或原创贡献如何用回项目</td><td class="pts">2</td></tr>
       <tr><td>金句：用固定句式讲清楚一个真实设计决定</td><td class="pts">2</td></tr>
-      <tr><td>版面：16:9、5 页整、排版干净</td><td class="pts">2</td></tr>
+      <tr><td>版面：16:9、5 页整、排版干净</td><td class="pts">1</td></tr>
     </table>
   </div>
 `},
@@ -412,7 +420,7 @@ const PAGES = [
         <li>5 个人的文档最后会拼成团队共用的设计系统参考——所以命名和 Tokens 尽量提前对齐，别每个人各定一套</li>
       </ul>
     </div>
-    <div class="disclaimer">这份打样只示范了 5 页文档本身，完整的里程碑安排和评分权重见 Lesson02 教学大纲第六、七章。</div>
+    <div class="disclaimer">这份打样示范的是个人作业本身；团队项目只是取材和推进场景，不能替代个人独立提交的 5 页文档。</div>
   </div>
 `},
 

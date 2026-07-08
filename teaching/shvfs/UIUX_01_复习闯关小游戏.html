@@ -86,20 +86,40 @@ button{font-family:inherit;cursor:pointer}
 .bigbtn:active{transform:translate(3px,3px);box-shadow:4px 4px 0 var(--black)}
 
 /* ---- dungeon map ---- */
-.mapwrap{flex:1;position:relative;display:flex;align-items:center;justify-content:center}
-.path{position:absolute;left:120px;right:120px;top:50%;height:6px;background:var(--line);z-index:0}
-.path i{position:absolute;top:0;height:100%;background:var(--gold);left:0}
-.nodes{position:relative;z-index:1;display:flex;justify-content:space-between;width:100%}
-.node{display:flex;flex-direction:column;align-items:center;gap:10px}
+.mapwrap{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:450px}
+.routes{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.routes line{stroke:#272858;stroke-width:6;stroke-linecap:square}
+.routes line.open{stroke:var(--gold);filter:drop-shadow(0 0 4px rgba(255,210,63,.35))}
+.routes line.locked{stroke:#191a3c}
+.nodes{position:absolute;inset:0;z-index:1}
+.node{position:absolute;display:flex;flex-direction:column;align-items:center;gap:8px;transform:translate(-50%,-50%)}
 .node .dot{width:64px;height:64px;border:4px solid #fff;background:var(--panel2);
   display:flex;align-items:center;justify-content:center;font-family:"Press Start 2P","Zpix",monospace;
   font-size:18px;box-shadow:6px 6px 0 var(--black);cursor:pointer;color:#fff}
 .node.locked .dot{background:#26273f;color:#4a4c73;cursor:not-allowed;box-shadow:6px 6px 0 #050510}
 .node.cleared .dot{background:var(--green);color:var(--black)}
 .node.current .dot{background:var(--gold);color:var(--black);animation:pulse 1s infinite}
+.node.start .dot{background:var(--cyan);color:var(--black)}
+.node.boss .dot{background:var(--red);color:#fff}
+.node.boss.current .dot{background:var(--red);animation:bossPulse .7s steps(2) infinite}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
-.node .name{font-family:"Press Start 2P","Zpix",monospace;font-size:9px;color:var(--dim);text-align:center;width:90px;line-height:1.6}
+.node .name{font-family:"Press Start 2P","Zpix",monospace;font-size:9px;color:var(--dim);text-align:center;width:112px;line-height:1.55}
 .node.cleared .name,.node.current .name{color:var(--ink)}
+.node .route{font-size:12px;color:var(--cyan);line-height:1}
+.node.locked .route{color:#4a4c73}
+.mapnote{position:absolute;left:28px;top:18px;width:245px;background:rgba(28,29,68,.92);
+  border:3px solid var(--line);box-shadow:5px 5px 0 var(--black);padding:12px 14px;font-size:14px;line-height:1.6;color:var(--dim)}
+.mapnote b{color:var(--gold)}
+.routebox{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:70px;
+  border:3px solid var(--line);background:rgba(28,29,68,.88);box-shadow:5px 5px 0 var(--black);padding:12px 14px}
+.routebox .title{font-family:"Press Start 2P","Zpix",monospace;font-size:10px;color:var(--gold);white-space:nowrap}
+.routebuttons{display:flex;flex:1;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.routebtn{font-family:"Press Start 2P","Zpix",monospace;font-size:9px;color:#fff;background:var(--panel2);
+  border:3px solid var(--line);padding:10px 12px;box-shadow:3px 3px 0 var(--black)}
+.routebtn:hover{border-color:var(--cyan);background:#303171}
+.routebtn.boss{background:var(--red);border-color:#fff}
+.routehint{font-size:14px;color:var(--dim);line-height:1.5}
+@keyframes bossPulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 
 /* ---- question screen ---- */
 .qwrap{flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px}
@@ -147,7 +167,7 @@ button{font-family:inherit;cursor:pointer}
 </head>
 <body>
 <div id="viewport"><div id="stage"></div></div>
-<div id="hint">点击作答 · H 键看提示 · 通关解锁下一关</div>
+<div id="hint">地图可选方向 · 点击作答 · H 键看提示</div>
 
 <script>
 /* ===== Sound (chiptune bgm + sfx, same approach as the lecture deck) ===== */
@@ -198,7 +218,7 @@ const Sound = (function(){
   };
 })();
 
-/* ===== Quiz content: Lesson 01 review, 5 levels x 3 questions ===== */
+/* ===== Quiz content: Lesson 01 review, 5 review rooms + boss quiz ===== */
 const LEVELS = [
   { name:"五要素", color:"var(--blue)", questions:[
     { q:"「这个游戏承诺给玩家什么体验」，这句话对应五要素的哪一层？", opts:["Strategy 策略层","Scope 范围层","Skeleton 框架层","Surface 表现层"], a:0,
@@ -210,6 +230,12 @@ const LEVELS = [
     { q:"表现层（Surface）真正的作用是什么？", opts:["单纯让界面好看","传递情绪和反馈","决定按钮的功能","减少代码量"], a:1,
       hint:"想一想：这层不是在讲「好不好看」，而是在讲「让玩家感觉到什么」。",
       ex:"表现层不是装饰，它负责让玩家感到科幻、紧张、稀有、危险……<b>传递情绪和反馈</b>。" },
+    { q:"列出「背包、技能树、商城、任务追踪」这些系统边界，主要是在做哪一层？", opts:["Scope 范围层","Surface 表现层","Skeleton 框架层","Strategy 策略层"], a:0,
+      hint:"想一想：这不是在排版，而是在确认「这个产品需要包含哪些功能」。",
+      ex:"<b>Scope</b> 负责把策略翻译成功能范围：需要什么系统，不需要什么系统。" },
+    { q:"「玩家从打开背包到装备武器要经过几步」对应五要素里的哪一层？", opts:["Surface 表现层","Structure 结构层","Strategy 策略层","Scope 范围层"], a:1,
+      hint:"想一想：这里讲的是流程、路径、页面之间怎么连接。", 
+      ex:"<b>Structure</b> 管交互流程和信息架构：玩家从哪里来、到哪里去、怎样完成任务。" },
   ]},
   { name:"可用性", color:"var(--green)", questions:[
     { q:"「预防错误」这条尼尔森原则在游戏里最合适的例子是？", opts:["把「卖装备」按钮放在离「穿装备」远的位置","加更多特效","把字体调大","增加背景音乐"], a:0,
@@ -221,6 +247,12 @@ const LEVELS = [
     { q:"同一张信息密集的界面，MMO老玩家觉得刚好、新手却看不懂——这说明判断「是否信息过载」要先看什么？", opts:["界面元素的数量","面向的玩家是谁、当前处在什么阶段","颜色种类多不多","文件大小"], a:1,
       hint:"想一想：同一张图，对老玩家和新玩家的感受可能完全不同。",
       ex:"没有绝对的「乱」，只有「对错了人」的乱——先问<b>给谁用、什么阶段</b>。" },
+    { q:"「状态可见性」在 Boss 战里最贴近哪个设计？", opts:["血量、冷却、危险提示实时可见","把所有信息藏进二级菜单","只在失败后告诉玩家原因","把按钮做得更华丽"], a:0,
+      hint:"想一想：状态可见性就是让玩家不用猜，马上知道现在发生了什么。",
+      ex:"战斗里最需要<b>状态可见</b>：血量、冷却、危险方向必须能被快速读到。" },
+    { q:"「识别优先于回忆」在游戏背包里最好的做法是？", opts:["只显示物品编号，让玩家自己记","把图标、名称、数量、稀有度直接显示出来","把所有说明藏到官网","每次都重新教学"], a:1,
+      hint:"想一想：玩家能直接看出来，就不需要靠记忆硬背。",
+      ex:"图标、名称、数量、稀有度直接可见，就是让玩家<b>识别</b>，而不是逼他回忆。" },
   ]},
   { name:"吸引力", color:"var(--magenta)", questions:[
     { q:"抽卡时「停顿半秒再揭晓结果」，主要是在利用哪个机制？", opts:["心流 Game Flow","动机中的期待感","可用性 Usability","安全区 Safe Area"], a:1,
@@ -232,6 +264,12 @@ const LEVELS = [
     { q:"「教程提示一条接一条、根本停不下来」，最容易打断的是什么？", opts:["心流 Game Flow","表现层 Surface","组织 Organism","范围层 Scope"], a:0,
       hint:"想一想：这跟「打断了一种很顺的状态」有关。",
       ex:"错误时机、过密的提示，正是打断<b>心流</b>最常见的原因。" },
+    { q:"同一个按钮要做出「危险」和「治愈」两种情绪，最应该调整什么？", opts:["只改按钮文字","颜色、形状、图标、材质和动效一起服务情绪","只把按钮放大","删掉所有反馈"], a:1,
+      hint:"想一想：情绪不是一个单独属性，而是视觉语言一起传出来的。",
+      ex:"情感设计要靠整套视觉语言：<b>颜色、形状、图标、材质、动效</b>共同传达世界观。" },
+    { q:"当游戏里的风、光、声音已经能指路时，减少界面箭头主要是为了什么？", opts:["让玩家更沉浸在世界反馈里","节省文件大小","让新手更迷路","减少美术工作"], a:0,
+      hint:"想一想：UI 少了，不代表反馈少了，而是反馈换了载体。",
+      ex:"低 UI 的前提是环境反馈足够强。这样能把注意力还给世界，增强<b>沉浸感</b>。" },
   ]},
   { name:"原子设计", color:"var(--gold)", questions:[
     { q:"血条、技能槽、物品卡，分别属于 Atomic Design 的哪一层？", opts:["Atoms 原子","Molecules 分子","Organisms 组织","Templates 模板"], a:1,
@@ -243,9 +281,32 @@ const LEVELS = [
     { q:"整个战斗 HUD（血条+技能槽+小地图组合在一起）属于哪一层？", opts:["Atoms 原子","Molecules 分子","Organisms 组织","Pages 页面"], a:2,
       hint:"想一想：这是好几个分子拼在一起、能独立完成一件事的区块。",
       ex:"能独立支撑玩家完成一个任务的完整区块，就是 <b>Organisms</b>。" },
+    { q:"颜色 token、字体样式、图标、稀有度标签这些最小零件属于哪一层？", opts:["Atoms 原子","Templates 模板","Pages 页面","Organisms 组织"], a:0,
+      hint:"想一想：这些本身不构成完整功能，但所有组件都会用到它们。",
+      ex:"不能再拆、但会被反复复用的视觉零件，就是 <b>Atoms</b>。" },
+    { q:"把物品卡套上真实长名字和真实数值，检查会不会撑爆布局，这是在验证什么？", opts:["页面能否承载真实内容","音乐是否好听","玩家等级是否足够","服务器是否稳定"], a:0,
+      hint:"想一想：真实内容一放进去，组件系统的问题才会暴露。",
+      ex:"<b>Pages</b> 是组件系统的真实内容测试场：长文本、数值、状态都要能放得下。" },
+  ]},
+  { name:"综合应用", color:"var(--cyan)", questions:[
+    { q:"分析一张游戏界面时，课件要求先问哪三件事？", opts:["玩家目标、关键信息、情绪体验","字体、颜色、价格","文件大小、分辨率、插件","作者、年份、软件"], a:0,
+      hint:"想一想：这是每张界面的三句口头检查。",
+      ex:"先问：<b>玩家想做什么、必须注意什么、这一刻应该有什么感觉</b>。" },
+    { q:"一条专业 UI/UX 诊断最不能缺少什么？", opts:["截图上的具体证据","更夸张的形容词","越多理论名词越好","只写个人喜好"], a:0,
+      hint:"想一想：没有证据，判断就会变成空泛评价。",
+      ex:"专业诊断必须能指向截图：先圈出<b>证据</b>，再写判断。" },
+    { q:"可用性诊断句式的正确顺序是？", opts:["问题 → 证据 → 原则 → 影响 → 改进方向","颜色 → 字体 → 图片 → 导出","喜欢 → 不喜欢 → 结束","先改版 → 再找理由"], a:0,
+      hint:"想一想：先发现，再证明，再说明为什么要改。",
+      ex:"稳定句式是：<b>Problem → Evidence → Principle → Impact → Fix direction</b>。" },
+    { q:"做竞品分析时，为什么要找同类型、同平台、同操作方式的案例？", opts:["对比条件更公平，结论更站得住","这样截图更好看","这样文件更小","因为不能看别的游戏"], a:0,
+      hint:"想一想：手游背包和主机 HUD 要解决的问题不一样。",
+      ex:"竞品要可比：同场景、同平台、同操作方式，诊断才有共同基准。" },
+    { q:"从诊断走到改版，最合理的工作顺序是？", opts:["问题证据 → UX 原则 → 改线框 → 改组件","先画高保真 → 再倒推理由","只改颜色 → 直接提交","先做动画 → 再看流程"], a:0,
+      hint:"想一想：改版不是美化，而是把证据转成结构和组件变化。",
+      ex:"正确链条是：<b>Evidence → Principle → Wireframe → Component</b>，这样改动才有理由。" },
   ]},
   { name:"预告 BOSS", color:"var(--red)", preview:true,
-    note:"下面 2 题是<b>这节课要教的新内容</b>——你还没学过，凭直觉猜猜看，猜错完全没关系，纯粹好玩。",
+    note:"下面 4 题是<b>这节课要教的新内容</b>——你还没学过，凭直觉猜猜看，猜错完全没关系，纯粹好玩。",
     questions:[
       { q:"为什么设计时要先做 low-fi（黑白线框），而不是直接跳到高保真？", opts:["因为低保真更好看","低保真只测试结构对不对，改起来成本低","因为低保真不用花时间","两者没有区别"], a:1,
         hint:"想一想：先做黑白线框，是为了先确认「结构对不对」，还是先追求「好看」？",
@@ -253,12 +314,41 @@ const LEVELS = [
       { q:"界面设计里的「安全区 Safe Area」，指的是什么？", opts:["游戏里最安全的关卡","无论设备、手指怎么挡，都不会被切掉/遮住的区域","存档文件的位置","反作弊系统"], a:1,
         hint:"想一想：这跟「不管什么手机、哪根手指，都不会挡住重要内容」有关。",
         ex:"<b>安全区</b>保证关键信息不会被刘海屏、手指或系统手势区挡住——这节课会细讲。" },
+      { q:"为什么 Figma 里要先定 Design Tokens，而不是每个按钮单独调颜色？", opts:["为了让颜色、字体、间距能复用和统一更新","因为 token 会自动画图","为了让文件更神秘","因为不能使用组件"], a:0,
+        hint:"想一想：项目越大，越怕每个地方手动改。",
+        ex:"<b>Design Tokens</b> 让颜色、字体、间距变成可复用规则，后面改主题才不会到处找。" },
+      { q:"32px 尺寸阶梯最主要解决什么问题？", opts:["让像素风元素、间距和点击区域更稳定","让所有字都必须 32px","让界面只能做正方形","让图片不能缩放"], a:0,
+        hint:"想一想：像素风最怕非整数缩放和随手摆放。",
+        ex:"32px/16px 的阶梯能稳定像素图、间距和点击热区，是后面做 Figma/UE 的基础。" },
     ]
   },
 ];
 
 /* ===== State ===== */
-let curLevel=0, curQ=0, score=0, bonusScore=0, cleared=[false,false,false,false,false], levelScore=0;
+const BOSS_INDEX = LEVELS.findIndex(l=>l.preview);
+const REVIEW_INDEXES = LEVELS.map((_,i)=>i).filter(i=>i!==BOSS_INDEX);
+const MAP_NODES = [
+  { id:"start", type:"start", label:"START", sub:"课堂小测试", x:9, y:52 },
+  { id:"lv0", level:0, label:"LV1", route:"入口", x:24, y:52 },
+  { id:"lv1", level:1, label:"LV2", route:"上路", x:43, y:23 },
+  { id:"lv2", level:2, label:"LV3", route:"下路", x:43, y:76 },
+  { id:"lv3", level:3, label:"LV4", route:"上路", x:64, y:31 },
+  { id:"lv4", level:4, label:"LV5", route:"下路", x:64, y:69 },
+  { id:"boss", type:"boss", level:BOSS_INDEX, label:"BOSS", sub:"新课预告", x:88, y:52 },
+];
+const MAP_EDGES = [
+  ["start","lv0"], ["lv0","lv1"], ["lv0","lv2"],
+  ["lv1","lv3"], ["lv2","lv4"], ["lv1","lv4"], ["lv2","lv3"],
+  ["lv3","boss"], ["lv4","boss"]
+];
+const MAP_PREREQS = {
+  0: [],
+  1: [0],
+  2: [0],
+  3: [1],
+  4: [2],
+};
+let curLevel=0, curQ=0, score=0, bonusScore=0, cleared=LEVELS.map(()=>false), levelScore=0;
 
 /* ===== Slime mascot ===== */
 function slimeHTML(bounce){
@@ -277,49 +367,95 @@ function setScreen(html){
 function showCover(){
   setScreen(`
     <div class="cover">
-      <div class="badge-top">★ REVIEW DUNGEON · 复习闯关 ★</div>
+      <div class="badge-top">★ CLASS QUIZ MAP · 课堂小测试 ★</div>
       <h1>UIUX LESSON 01<br>REVIEW</h1>
-      <div class="sub">五要素 · 可用性 · 吸引力 · 原子设计 · 综合</div>
+      <div class="sub">五要素 · 可用性 · 吸引力 · 原子设计 · 综合 · BOSS</div>
       ${slimeHTML(true)}
-      <div class="desc">带上史莱姆，闯 5 关，答对加分<br>不确定就按 H 键看提示——这是复习，不是考试<br>通关后揭晓你的复习等级</div>
+      <div class="desc">带上史莱姆，自己选地图方向，拿齐 5 把钥匙再打 Boss<br>不确定就按 H 键看提示——这是复习，不是考试<br>通关后揭晓你的复习等级</div>
       <button class="bigbtn" id="btnStart">▶ 开始闯关</button>
     </div>`);
   document.getElementById("btnStart").onclick=()=>{ Sound.nav(); showMap(); };
 }
 
+function nodeById(id){ return MAP_NODES.find(n=>n.id===id); }
+function clearedReviewCount(){ return REVIEW_INDEXES.filter(i=>cleared[i]).length; }
+function bossUnlocked(){ return REVIEW_INDEXES.every(i=>cleared[i]); }
+function isLevelAvailable(i){
+  if(i===BOSS_INDEX) return bossUnlocked();
+  const prereqs = MAP_PREREQS[i] || [];
+  return prereqs.every(p=>cleared[p]);
+}
+function edgeIsOpen(fromId,toId){
+  const from=nodeById(fromId), to=nodeById(toId);
+  if(!from || !to) return false;
+  if(to.type==="start") return true;
+  if(to.level===BOSS_INDEX) return bossUnlocked() || cleared[BOSS_INDEX];
+  return isLevelAvailable(to.level) || cleared[to.level];
+}
+
 function showMap(){
-  const nodes = LEVELS.map((lv,i)=>{
-    let cls="locked";
-    const unlocked = i===0 || cleared[i-1];
-    if(cleared[i]) cls="cleared";
-    else if(unlocked) cls="current";
-    const icon = cleared[i] ? "✓" : (i+1);
-    return `<div class="node ${cls}" data-i="${i}">
+  if(cleared[BOSS_INDEX]){ showFinal(); return; }
+  const lines = MAP_EDGES.map(([a,b])=>{
+    const from=nodeById(a), to=nodeById(b);
+    return `<line class="${edgeIsOpen(a,b)?"open":"locked"}" x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}"></line>`;
+  }).join("");
+  const nodes = MAP_NODES.map(n=>{
+    let cls=n.type||"level", icon=n.label, name=n.sub||"";
+    if(n.level!==undefined){
+      const lv=LEVELS[n.level], available=isLevelAvailable(n.level);
+      cls += n.level===BOSS_INDEX ? " boss" : "";
+      cls += cleared[n.level] ? " cleared" : (available ? " current" : " locked");
+      icon = cleared[n.level] ? "✓" : (n.level===BOSS_INDEX ? "B" : (n.level+1));
+      name = `${n.label}<br>${lv.name}`;
+    }else{
+      cls += clearedReviewCount()>0 ? " cleared" : " current";
+      name = `${n.label}<br>${n.sub}`;
+    }
+    return `<div class="node ${cls}" data-i="${n.level!==undefined?n.level:""}" style="left:${n.x}%;top:${n.y}%">
       <div class="dot">${icon}</div>
-      <div class="name">LV${i+1}<br>${lv.name}</div>
+      <div class="route">${n.route||""}</div>
+      <div class="name">${name}</div>
     </div>`;
   }).join("");
-  const clearedCount = cleared.filter(Boolean).length;
+  const availableNodes = MAP_NODES.filter(n=>n.level!==undefined && !cleared[n.level] && isLevelAvailable(n.level));
+  const routeButtons = availableNodes.map(n=>{
+    const lv=LEVELS[n.level];
+    const cls=n.level===BOSS_INDEX?"routebtn boss":"routebtn";
+    const prefix=n.level===BOSS_INDEX?"挑战 BOSS":"走向 " + (n.route || n.label);
+    return `<button class="${cls}" data-route="${n.level}">${prefix} · ${lv.name}</button>`;
+  }).join("");
+  const keys=clearedReviewCount();
+  const routeText = bossUnlocked()
+    ? "5 把钥匙已齐，Boss 房间开启。"
+    : `已拿到 ${keys} / ${REVIEW_INDEXES.length} 把钥匙；可先走上路或下路，但 Boss 前要补齐所有复习房间。`;
   setScreen(`
     <div class="hud">
       <div class="lv">DUNGEON MAP</div>
-      <div class="score">SCORE <b>${score}</b></div>
+      <div class="score">KEYS <b>${keys}/${REVIEW_INDEXES.length}</b>　SCORE <b>${score}</b></div>
     </div>
     <div class="mapwrap">
-      <div class="path"><i style="width:${clearedCount/(LEVELS.length-1)*100}%"></i></div>
+      <svg class="routes" viewBox="0 0 100 100" preserveAspectRatio="none">${lines}</svg>
+      <div class="mapnote"><b>路线规则</b><br>${routeText}<br>点击发光节点，或用下方路线按钮。</div>
       <div class="nodes">${nodes}</div>
     </div>
-    <div style="text-align:center">${slimeHTML(false)}</div>
+    <div class="routebox">
+      <div class="title">CHOOSE ROUTE</div>
+      <div class="routehint">${routeText}</div>
+      <div class="routebuttons">${routeButtons}</div>
+    </div>
   `);
   stage.querySelectorAll(".node").forEach(n=>{
+    if(n.dataset.i==="") return;
     const i=+n.dataset.i;
-    const unlocked = i===0 || cleared[i-1];
+    const unlocked = isLevelAvailable(i) && !cleared[i];
     if(unlocked){
       n.style.cursor="pointer";
       n.onclick=()=>{ Sound.nav(); enterLevel(i); };
     }
   });
-  if(clearedCount===LEVELS.length) showFinal();
+  stage.querySelectorAll(".routebtn").forEach(btn=>{
+    btn.onclick=()=>{ Sound.nav(); enterLevel(+btn.dataset.route); };
+  });
 }
 
 function enterLevel(i){
@@ -405,12 +541,13 @@ function nextStep(){
 function showLevelClear(){
   cleared[curLevel]=true;
   Sound.clear();
+  const isBoss = curLevel===BOSS_INDEX;
   setScreen(`
     <div class="midscreen">
-      <div class="big">LEVEL CLEAR!</div>
+      <div class="big">${isBoss?"BOSS CLEAR!":"LEVEL CLEAR!"}</div>
       ${slimeHTML(true)}
-      <div class="score-line">+${levelScore} PTS　总分 ${score}</div>
-      <button class="bigbtn" id="btnBack">▶ 返回地图</button>
+      <div class="score-line">${isBoss?`彩蛋 +${levelScore} PTS　普通分 ${score}`:`+${levelScore} PTS　总分 ${score}`}</div>
+      <button class="bigbtn" id="btnBack">▶ ${isBoss?"查看结果":"返回地图"}</button>
     </div>
   `);
   document.getElementById("btnBack").onclick=()=>{ Sound.nav(); showMap(); };

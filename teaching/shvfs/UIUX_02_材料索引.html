@@ -3,161 +3,307 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UIUX Lesson 02+ 教学材料索引 · 史莱姆人格研究所</title>
+<title>UIUX Week2 课堂材料索引 · 史莱姆人格研究所</title>
 <style>
+@font-face{font-family:"Zpix";src:url("zpix.woff2") format("woff2");font-display:swap}
 :root{
-  --bg:#f6f7fb; --card:#ffffff; --ink:#1f2430; --dim:#6b7280; --line:#e6e8f0;
-  --accent:#4f46e5; --accent-soft:#eef1ff; --good:#16a34a; --good-soft:#eafaf0;
-  --warn:#b45309; --warn-soft:#fff4e5; --purple:#8b5cf6; --purple-soft:#f4f1ff;
-  --radius:10px; --shadow:0 1px 2px rgba(20,20,50,.04), 0 6px 16px rgba(20,20,50,.05);
+  --bg:#0e0e23; --bg2:#15163a; --panel:#1c1d44; --panel2:#24255a;
+  --ink:#f4f4ff; --dim:#a9abe0; --line:#3a3c7a; --black:#07071a;
+  --cyan:#45d9ff; --gold:#ffd23f; --green:#69f087; --purple:#a98bff; --red:#ff6b8b;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  background:var(--bg); color:var(--ink);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Roboto,Helvetica,Arial,sans-serif;
-  font-size:15px; line-height:1.7;
+  min-height:100vh;
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),
+    radial-gradient(circle at 50% 0%, #1b1c4a 0%, var(--bg) 66%);
+  background-size:16px 16px,16px 16px,auto;
+  color:var(--ink);
+  font-family:"Zpix","PingFang SC","Microsoft YaHei",monospace;
+  font-size:15px;
+  line-height:1.6;
+  image-rendering:pixelated;
 }
-a{color:var(--accent); text-decoration:none}
-main{max-width:920px; margin:0 auto; padding:44px 28px 100px}
+a{color:inherit;text-decoration:none}
+main{max-width:1040px;margin:0 auto;padding:42px 28px 72px}
 
-header{margin-bottom:36px}
-header .eyebrow{font-size:12.5px; font-weight:700; color:var(--accent); letter-spacing:.04em; margin-bottom:8px}
-header h1{font-size:26px; margin:0 0 8px}
-header p{color:var(--dim); font-size:14.5px; margin:0; max-width:640px}
-
-.group{margin-bottom:32px}
-.group h2{font-size:14px; color:var(--dim); text-transform:uppercase; letter-spacing:.05em; margin:0 0 14px;
-  display:flex; align-items:center; gap:10px}
-.group h2::after{content:""; flex:1; height:1px; background:var(--line)}
-
-.card{
-  display:flex; align-items:flex-start; gap:16px; background:var(--card); border:1px solid var(--line);
-  border-radius:var(--radius); box-shadow:var(--shadow); padding:18px 20px; margin-bottom:12px;
-  transition:border-color .12s, transform .12s;
+.shell{
+  border:6px solid #2c2e6e;
+  background:rgba(12,12,34,.86);
+  box-shadow:10px 10px 0 var(--black);
+  padding:28px;
 }
-.card:hover{border-color:var(--accent)}
-.icon{
-  flex:0 0 auto; width:42px; height:42px; border-radius:9px; display:flex; align-items:center; justify-content:center;
-  font-size:19px; background:var(--accent-soft);
+header{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:18px;
+  align-items:end;
+  border-bottom:5px solid var(--line);
+  padding-bottom:22px;
+  margin-bottom:26px;
 }
-.icon.good{background:var(--good-soft)} .icon.warn{background:var(--warn-soft)} .icon.purple{background:var(--purple-soft)}
-.card .body{flex:1; min-width:0}
-.card .name{font-weight:700; font-size:15.5px; color:var(--ink); margin-bottom:4px}
-.card .desc{font-size:13.5px; color:var(--dim); line-height:1.6}
-.card .when{display:inline-block; margin-top:8px; font-size:11.5px; font-weight:700; color:var(--accent);
-  background:var(--accent-soft); border-radius:6px; padding:3px 8px}
-.card .go{flex:0 0 auto; align-self:center; font-size:13px; font-weight:600; color:var(--accent);
-  border:1px solid var(--accent); border-radius:8px; padding:8px 14px; white-space:nowrap}
-.card:hover .go{background:var(--accent); color:#fff}
-.card.filetype-md .go{color:var(--dim); border-color:var(--line)}
-.card.filetype-md:hover .go{background:var(--dim); color:#fff}
+.eyebrow{
+  display:inline-block;
+  color:var(--black);
+  background:var(--gold);
+  border:3px solid #fff;
+  box-shadow:4px 4px 0 var(--black);
+  font-size:11px;
+  letter-spacing:1px;
+  padding:7px 10px;
+  margin-bottom:14px;
+}
+h1{
+  margin:0;
+  color:#fff;
+  font-size:31px;
+  line-height:1.35;
+  text-shadow:4px 4px 0 var(--cyan),8px 8px 0 var(--black);
+}
+.meta{
+  justify-self:end;
+  color:var(--dim);
+  font-size:12px;
+  text-align:right;
+}
+.meta b{color:var(--green);font-weight:400}
 
-.case-row{display:flex; gap:14px; flex-wrap:wrap}
-.case-row .card{flex:1; min-width:260px}
-
-.note{background:var(--warn-soft); border-left:4px solid var(--warn); border-radius:0 8px 8px 0;
-  padding:10px 16px; font-size:13px; color:#5a3a00; margin-top:6px}
-
-footer{margin-top:40px; padding-top:20px; border-top:1px solid var(--line); font-size:12.5px; color:var(--dim)}
+.group{margin-top:28px}
+.group-title{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+}
+.group-title .code{
+  color:var(--black);
+  background:var(--cyan);
+  border:3px solid #fff;
+  box-shadow:4px 4px 0 var(--black);
+  font-size:10px;
+  padding:6px 8px;
+}
+.group-title h2{
+  margin:0;
+  color:#fff;
+  font-size:17px;
+  letter-spacing:1px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.item{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:14px;
+  align-items:center;
+  min-height:92px;
+  background:var(--panel);
+  border:4px solid #fff;
+  box-shadow:7px 7px 0 var(--black);
+  padding:15px 16px;
+}
+.item:hover{border-color:var(--gold)}
+.num{
+  width:42px;
+  height:42px;
+  display:grid;
+  place-items:center;
+  color:var(--black);
+  background:var(--green);
+  border:3px solid #fff;
+  box-shadow:3px 3px 0 var(--black);
+  font-size:12px;
+}
+.item:nth-child(2n) .num{background:var(--purple);color:#fff}
+.item:nth-child(3n) .num{background:var(--gold);color:var(--black)}
+.txt{min-width:0}
+.label{
+  display:inline-block;
+  color:var(--black);
+  background:var(--cyan);
+  border:2px solid var(--black);
+  box-shadow:2px 2px 0 var(--black);
+  font-size:9px;
+  line-height:1;
+  padding:5px 6px;
+  margin-bottom:8px;
+}
+.label.review{background:var(--purple);color:#fff}
+.label.task{background:var(--green)}
+.label.ref{background:var(--gold)}
+.name{
+  color:#fff;
+  font-size:14.5px;
+  line-height:1.45;
+  margin-bottom:5px;
+}
+.file{
+  color:var(--dim);
+  font-size:11.5px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.go{
+  align-self:stretch;
+  display:grid;
+  place-items:center;
+  min-width:86px;
+  color:var(--black);
+  background:var(--gold);
+  border:3px solid #fff;
+  box-shadow:4px 4px 0 var(--black);
+  font-size:11px;
+  padding:0 12px;
+  white-space:nowrap;
+}
+.go:hover{background:#fff}
+.go.view{background:var(--cyan)}
+footer{
+  margin-top:34px;
+  color:#676aaa;
+  font-size:10px;
+  letter-spacing:1px;
+  text-align:center;
+}
+@media (max-width:760px){
+  main{padding:22px 14px 42px}
+  .shell{padding:20px 16px}
+  header{grid-template-columns:1fr}
+  .meta{text-align:left;justify-self:start}
+  h1{font-size:25px}
+  .grid{grid-template-columns:1fr}
+  .item{grid-template-columns:auto 1fr;align-items:start}
+  .go{grid-column:1/-1;min-height:42px}
+}
 </style>
 </head>
 <body>
 <main>
-  <header>
-    <div class="eyebrow">UIUX LESSON 02+ · PROJECT MODE</div>
-    <h1>课堂材料索引</h1>
-    <p>史莱姆人格研究所 · MBTI 桌宠项目。这一页发给学生用——点卡片右边的按钮直接打开对应文件（和这份索引放在同一个文件夹里，链接才能正常跳转）。</p>
-  </header>
+  <div class="shell">
+    <header>
+      <div>
+        <div class="eyebrow">UIUX WEEK 02 · PROJECT MODE</div>
+        <h1>课堂材料索引</h1>
+      </div>
+      <div class="meta">
+        <div><b>MBTI 桌宠项目</b></div>
+        <div>Week2 Materials</div>
+      </div>
+    </header>
 
-  <div class="group">
-    <h2>课件</h2>
-    <div class="card">
-      <div class="icon">🎮</div>
-      <div class="body">
-        <div class="name">Lesson02 课件 · UIUX_02_Slides_PixelArt.html</div>
-        <div class="desc">像素风 16:9 课件，周一、周二两天的课堂内容都在这一份里，36 页。</div>
-        <span class="when">课后复习、缺课补看都可以用</span>
+    <section class="group">
+      <div class="group-title"><span class="code">SLIDES</span><h2>课件</h2></div>
+      <div class="grid">
+        <article class="item">
+          <div class="num">01</div>
+          <div class="txt">
+            <span class="label">WEEK2</span>
+            <div class="name">Week2 项目课件</div>
+            <div class="file">UIUX_02_Slides_PixelArt.html</div>
+          </div>
+          <a class="go" href="UIUX_02_Slides_PixelArt.html" target="_blank">OPEN</a>
+        </article>
+        <article class="item">
+          <div class="num">02</div>
+          <div class="txt">
+            <span class="label review">REVIEW</span>
+            <div class="name">Week1 复习课件</div>
+            <div class="file">0701SHVFS_UIUX_01_Slides_PixelArt_edited.html</div>
+          </div>
+          <a class="go" href="0701SHVFS_UIUX_01_Slides_PixelArt_edited.html" target="_blank">OPEN</a>
+        </article>
+        <article class="item">
+          <div class="num">03</div>
+          <div class="txt">
+            <span class="label review">QUIZ</span>
+            <div class="name">Lesson01 复习闯关小游戏</div>
+            <div class="file">UIUX_01_复习闯关小游戏.html</div>
+          </div>
+          <a class="go" href="UIUX_01_复习闯关小游戏.html" target="_blank">OPEN</a>
+        </article>
       </div>
-      <a class="go" href="UIUX_02_Slides_PixelArt.html" target="_blank">打开 →</a>
-    </div>
-    <div class="card">
-      <div class="icon">🕹️</div>
-      <div class="body">
-        <div class="name">Lesson01 复习闯关小游戏 · UIUX_01_复习闯关小游戏.html</div>
-        <div class="desc">像素风闯关小游戏，把 Lesson01 的五要素/Game UX/Atomic Design 知识点做成关卡，边玩边复习。</div>
-        <span class="when">Lesson01 内容自测</span>
+    </section>
+
+    <section class="group">
+      <div class="group-title"><span class="code">FIGMA</span><h2>课堂操作</h2></div>
+      <div class="grid">
+        <article class="item">
+          <div class="num">04</div>
+          <div class="txt">
+            <span class="label task">CHECKLIST</span>
+            <div class="name">Figma 生产流程</div>
+            <div class="file">UIUX_02_Figma生产流程_目标与检查清单.html</div>
+          </div>
+          <a class="go" href="UIUX_02_Figma生产流程_目标与检查清单.html" target="_blank">OPEN</a>
+        </article>
+        <article class="item">
+          <div class="num">05</div>
+          <div class="txt">
+            <span class="label task">GUIDE</span>
+            <div class="name">Figma 操作指南</div>
+            <div class="file">UIUX_02_Figma操作指南_从建立图板开始.html</div>
+          </div>
+          <a class="go" href="UIUX_02_Figma操作指南_从建立图板开始.html" target="_blank">OPEN</a>
+        </article>
       </div>
-      <a class="go" href="UIUX_01_复习闯关小游戏.html" target="_blank">打开 →</a>
-    </div>
+    </section>
+
+    <section class="group">
+      <div class="group-title"><span class="code">TASK</span><h2>作业说明</h2></div>
+      <div class="grid">
+        <article class="item">
+          <div class="num">06</div>
+          <div class="txt">
+            <span class="label task">SPEC</span>
+            <div class="name">设计规范怎么写</div>
+            <div class="file">UIUX_02_怎么写UI设计规范文档.html</div>
+          </div>
+          <a class="go" href="UIUX_02_怎么写UI设计规范文档.html" target="_blank">OPEN</a>
+        </article>
+        <article class="item">
+          <div class="num">07</div>
+          <div class="txt">
+            <span class="label task">SAMPLE</span>
+            <div class="name">个人作业打样</div>
+            <div class="file">UIUX_02_个人作业_设计规范文档_打样示范.html</div>
+          </div>
+          <a class="go" href="UIUX_02_个人作业_设计规范文档_打样示范.html" target="_blank">OPEN</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="group">
+      <div class="group-title"><span class="code">REF</span><h2>参考案例</h2></div>
+      <div class="grid">
+        <article class="item">
+          <div class="num">08</div>
+          <div class="txt">
+            <span class="label ref">STUDENT</span>
+            <div class="name">Genshin Impact UX Redesign</div>
+            <div class="file">Sarah Liriano · Portfolio Case</div>
+          </div>
+          <a class="go view" href="https://www.sarahlirianoportfolio.com/hybrid/genshin-impact-ux-redesign" target="_blank">VIEW</a>
+        </article>
+        <article class="item">
+          <div class="num">09</div>
+          <div class="txt">
+            <span class="label ref">INDUSTRY</span>
+            <div class="name">Destiny UI/UX Case Study</div>
+            <div class="file">David Candland · Bungie</div>
+          </div>
+          <a class="go view" href="https://www.cand.land/destiny" target="_blank">VIEW</a>
+        </article>
+      </div>
+    </section>
+
+    <footer>WEEK2 UI/UX PROJECT MATERIALS</footer>
   </div>
-
-  <div class="group">
-    <h2>配套文档</h2>
-    <div class="card">
-      <div class="icon good">✅</div>
-      <div class="body">
-        <div class="name">Figma 生产流程 · UIUX_02_Figma生产流程_目标与检查清单.html</div>
-        <div class="desc">打开就能看到一个示范团队做到一半的真实进度（有的打勾、有的还卡着）——参考着看，或者点「编辑」直接改成/清空成你们自己的时间、目标、检查项，可勾选、有进度条、能导出。</div>
-        <span class="when">第二节动手环节打开</span>
-      </div>
-      <a class="go" href="UIUX_02_Figma生产流程_目标与检查清单.html" target="_blank">打开 →</a>
-    </div>
-    <div class="card">
-      <div class="icon good">🛠️</div>
-      <div class="body">
-        <div class="name">Figma 操作指南 · UIUX_02_Figma操作指南_从建立图板开始.html</div>
-        <div class="desc">跟上面那份配套——那份是"填什么"，这份是"手怎么点"。从新建文件、建 Frame，一路到颜色样式/Variants/Auto Layout/导出设置，每一条都是可以照着操作的具体步骤，附官方文档链接。</div>
-        <span class="when">动手环节前，或学生卡住时随时查</span>
-      </div>
-      <a class="go" href="UIUX_02_Figma操作指南_从建立图板开始.html" target="_blank">打开 →</a>
-    </div>
-    <div class="card">
-      <div class="icon good">📐</div>
-      <div class="body">
-        <div class="name">设计规范怎么写 · UIUX_02_怎么写UI设计规范文档.html</div>
-        <div class="desc">回答三件事：规范要定义哪些内容类别、去哪找参考、桌宠这个品类有什么通用惯例。附了一个学生案例和一个行业案例。</div>
-        <span class="when">第三节布置个人作业前</span>
-      </div>
-      <a class="go" href="UIUX_02_怎么写UI设计规范文档.html" target="_blank">打开 →</a>
-    </div>
-    <div class="card">
-      <div class="icon good">📄</div>
-      <div class="body">
-        <div class="name">个人作业打样 · UIUX_02_个人作业_设计规范文档_打样示范.html</div>
-        <div class="desc">像素风 16:9 示范，10 页，演示 5 页设计规范文档该长什么样（含日间/夜间双模式配色要求）。</div>
-        <span class="when">布置个人作业时翻两页给大家看</span>
-      </div>
-      <a class="go" href="UIUX_02_个人作业_设计规范文档_打样示范.html" target="_blank">打开 →</a>
-    </div>
-  </div>
-
-  <div class="group">
-    <h2>参考案例（学生 / 行业各一个）</h2>
-    <div class="case-row">
-      <div class="card">
-        <div class="icon purple">🎓</div>
-        <div class="body">
-          <div class="name">学生案例：Genshin Impact UX Redesign</div>
-          <div class="desc">Sarah Liriano，ELVTR 训练营作品，重新设计了《原神》的背包系统和角色自定义功能，完整的问题→方案→效果研究。</div>
-        </div>
-        <a class="go" href="https://www.sarahlirianoportfolio.com/hybrid/genshin-impact-ux-redesign" target="_blank">查看 →</a>
-      </div>
-      <div class="card">
-        <div class="icon purple">🏢</div>
-        <div class="body">
-          <div class="name">行业案例：Destiny UI/UX Case Study</div>
-          <div class="desc">David Candland，Bungie UI/UX Director，《命运》界面系统的专业作品集页面，拿过 AIGA、Graphis 设计奖。</div>
-        </div>
-        <a class="go" href="https://www.cand.land/destiny" target="_blank">查看 →</a>
-      </div>
-    </div>
-    <div class="note">这两个案例也已经收进《怎么写UI设计规范文档》的参考资源部分，两处内容一致，看哪份顺手看哪份。</div>
-  </div>
-
-  <footer>
-    这是发给学生的版本，教学大纲和讲课逐字稿是老师自己留着的材料，没有放进这份索引——课件里的内容已经包含了课堂上要讲、要做的一切。Lesson01 系列文件、作品集案例研究范例、个人独立项目的里程碑评分标准也不在这份索引里，属于另一条教学线。
-  </footer>
 </main>
 </body>
 </html>

@@ -152,7 +152,7 @@ main{flex:1; min-width:0; padding:28px 32px 120px}
 const STEPS = [
   { title:"从即刻设计迁移到 Figma", ref:"迁移准备", hints:["导出旧素材","团队共用同一个 Figma 文件","文件命名规范"] },
   { title:"建立文件结构", ref:"对应大纲 5.1 文件结构（Page 命名）", hints:["Page 顺序","Page 命名规则"] },
-  { title:"定义 Design Tokens", ref:"对应大纲 4.1/4.2 色彩理论与字体排版", hints:["日间模式","夜间模式","语义命名","字号阶梯","间距阶梯"] },
+  { title:"定义 Design Tokens", ref:"对应大纲 4.1/4.2 色彩理论与字体排版", hints:["视觉关键词","日间模式","夜间模式","语义命名","对比度","字号阶梯","真实文本测试","间距阶梯"] },
   { title:"组件命名规则", ref:"对应大纲 5.2 组件命名规则", hints:["Atom/Molecule/Organism 分层","禁止随手命名（按钮1/按钮2）"] },
   { title:"组件状态做成 Variants", ref:"对应大纲 5.3 组件状态要用 Variants", hints:["史莱姆状态","对话框状态","按钮状态"] },
   { title:"Auto Layout 用对地方", ref:"对应大纲 5.4 Auto Layout 用在哪、不用在哪", hints:["内容会变长的地方用","像素精灵图不用"] },
@@ -190,10 +190,13 @@ const DEFAULT_FILLS = {
       goal:"定好日间 + 夜间两套色板、字号阶梯、间距阶梯，全项目共用。",
       items:[
         {text:"主色定为暖橙色系（#FFB088 日间 / #FF9466 夜间），走类似色方案",done:true},
-        {text:"日间模式 6 个语义色全部定义",done:true},
-        {text:"夜间模式 6 个语义色全部定义",done:true},
+        {text:"写下 3 个视觉关键词：温暖 / 治愈 / 轻量陪伴",done:true},
+        {text:"日间模式 7 个语义色全部定义：Primary / Background / Surface / Text / Accent / Danger / Success",done:true},
+        {text:"夜间模式 7 个语义色全部定义：Primary / Background / Surface / Text / Accent / Danger / Success",done:true},
         {text:"用对比度工具查过，正文文字都 ≥4.5:1",done:true},
+        {text:"检查过按钮状态：悬停 / 选中 / 禁用不只靠颜色区分，也有描边或透明度变化",done:false},
         {text:"4 级字号阶梯定完（标题32/副标题24/正文18/说明14）",done:true},
+        {text:"用真实问答文本测试过对话气泡，没有只用占位字",done:false},
         {text:"间距阶梯还差最后确认——8/16/32/64，队长说要再核对一下按钮内边距是不是都对齐了",done:false}
       ]},
   3:{ timeline:"7/10",

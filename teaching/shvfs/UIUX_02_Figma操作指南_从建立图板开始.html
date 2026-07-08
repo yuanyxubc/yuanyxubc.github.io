@@ -64,6 +64,10 @@ kbd{font-family:"SFMono-Regular",Consolas,monospace; font-size:12px; background:
 .warn{background:var(--warn-soft); border-left:4px solid var(--warn); border-radius:0 8px 8px 0; padding:10px 16px;
   font-size:13.5px; margin-top:12px}
 .warn b{color:var(--warn)}
+.links{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px}
+.links a{font-size:12.5px; text-decoration:none; border:1px solid var(--line); border-radius:999px;
+  padding:5px 10px; background:#fff; color:var(--accent); font-weight:600}
+.links a:hover{border-color:var(--accent); background:var(--accent-soft)}
 
 #toolbar{position:fixed; right:18px; bottom:18px; z-index:50; display:flex; gap:8px}
 #toolbar button{font-size:13px; padding:10px 14px; border-radius:9px; border:1px solid var(--line);
@@ -147,24 +151,44 @@ const PHASES = [
   goal: "颜色只定义一次，全项目引用同一套。",
   steps: [
     "切到 <span class=\"ui\">🎨 Design Tokens</span> 这个 Page",
-    "按 <kbd>R</kbd>（Rectangle 工具），在画布上拖一个小方块出来占位",
+    "先写下这套项目的视觉关键词，最多 3 个，比如「温暖」「治愈」「一点魔法感」。后面每个颜色都要能解释它服务哪个关键词",
+    "先定 5 个基础角色：<span class=\"ui\">Primary</span>（主色）、<span class=\"ui\">Background</span>（背景）、<span class=\"ui\">Surface</span>（卡片/面板）、<span class=\"ui\">Text</span>（文字）、<span class=\"ui\">Accent</span>（少量强调）。不要一开始就给 16 种人格各挑一个随机颜色",
+    "用类似色方案先做主调：在色相环上选相邻的 2-3 个暖色，作为 Primary / Secondary / Surface 的基础。类似色适合这个桌宠项目，因为它会更柔和、统一、不刺眼",
+    "再用互补色或三角色只做少量强调：比如危险提醒、成功反馈、稀有人格标签。强调色只能少量出现，否则整个界面会变吵",
+    "按 <kbd>R</kbd>（Rectangle 工具），在画布上拖一个小方块出来占位。每个色块旁边写清楚用途：这个颜色用在按钮、背景、文字、状态，还是人格标签",
     "选中这个方块，右侧属性面板找到 <span class=\"ui\">Fill</span> 一栏，点击色块本身，会弹出取色器",
-    "在取色器最上方的输入框里，直接填你们定好的十六进制色值（比如 <kbd>#FFB088</kbd>）",
+    "在取色器最上方的输入框里，填你们定好的十六进制色值（比如 <kbd>#FFB088</kbd>）。同一个角色的日间/夜间色要放在一起对照",
+    "检查文字对比度：正文文字和背景至少要达到 4.5:1；大标题或很大的文字至少 3:1。对比不够时，优先调明度（Brightness），不要只换一个更花的色相",
     "取色器里，色块旁边有一个小圆圈图标（styles 入口），点击它，再点右上角的「+」，新建一个 Color Style",
     "给这个样式起语义化的名字，比如 <span class=\"ui\">Light/Primary</span>、<span class=\"ui\">Night/Primary</span>——不要叫「颜色1」「颜色2」",
-    "对日间模式的 6 个语义色、夜间模式的 6 个语义色，重复这个过程，建成一整套 Color Styles"
+    "对日间模式和夜间模式各建一套语义色。最低限度要有：Primary、Background、Surface、Text、Accent、Danger、Success",
+    "最后做一次状态测试：普通状态、悬停状态、选中状态、禁用状态能不能只靠颜色看懂；如果看不懂，要加图标、描边或文字标签，不要只靠颜色区分"
   ],
-  tip: "命名带上 Light/ 和 Night/ 前缀，Figma 会自动把它们分组显示在样式面板里，选色的时候一眼就能分清是哪套模式。"
+  tip: "命名带上 Light/ 和 Night/ 前缀，Figma 会自动把它们分组显示在样式面板里，选色的时候一眼就能分清是哪套模式。",
+  links: [
+    {label:"Figma · 创建颜色/文字样式", url:"https://help.figma.com/hc/en-us/articles/360038746534-Create-color-text-effect-and-layout-guide-styles"},
+    {label:"Material Design · Color roles", url:"https://m3.material.io/styles/color/roles"},
+    {label:"WCAG · 文本对比度", url:"https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html"}
+  ]
 },
 {
   title: "设置 Design Tokens：字体样式",
   ref: "对应大纲 4.2 字体排版",
   goal: "字号只在四级阶梯里选，不额外发明新字号。",
   steps: [
-    "按 <kbd>T</kbd>（Text 工具），在画布上点一下，打一行占位文字",
-    "右侧属性面板设置好字体、字号、字重（先按你们定的标题/副标题/正文/说明小字四级里的一级来设）",
+    "先定这 4 级文字：<span class=\"ui\">Heading</span>（页面/弹窗标题）、<span class=\"ui\">Subheading</span>（小标题）、<span class=\"ui\">Body</span>（正文）、<span class=\"ui\">Caption</span>（说明/标签）。这 4 级够用，不要每个页面自己发明新字号",
+    "建议先用一套稳定阶梯：Heading 24/28px，Subheading 18/22px，Body 14/20px，Caption 12/16px。前一个数字是字号，后一个是行高；后面可以按你们字体微调",
+    "按 <kbd>T</kbd>（Text 工具），在画布上点一下，打一行真实文本，不要只写 lorem ipsum。比如写一条真实问题：如果今天必须选一个社团，你会靠近哪里？",
+    "右侧属性面板设置好字体、字号、字重。标题可以加粗，正文不要太细；像素字体如果小字号难读，可以只用于标题或按钮，正文换更清楚的系统字体",
     "同样在右侧 <span class=\"ui\">Text</span> 一栏找到 styles 入口，点「+」新建 Text Style",
-    "按四级阶梯依次命名：<span class=\"ui\">Heading</span>、<span class=\"ui\">Subheading</span>、<span class=\"ui\">Body</span>、<span class=\"ui\">Caption</span>"
+    "按四级阶梯依次命名：<span class=\"ui\">Heading</span>、<span class=\"ui\">Subheading</span>、<span class=\"ui\">Body</span>、<span class=\"ui\">Caption</span>",
+    "用真实对话气泡测试：把一句短问题、一句长问题、一段回忆文本分别放进气泡里。看是否溢出、是否太挤、是否还能一眼读完",
+    "像素字体只用整数倍缩放。比如 12px、24px、36px 通常比 13.5px、19px 更稳定；如果边缘发糊，先检查是不是用了非整数倍缩放",
+    "最后写一行说明：这套字体规则分别服务什么场景。比如 Heading 用于结果揭晓，Body 用于问答正文，Caption 用于状态解释"
+  ],
+  links: [
+    {label:"Figma · Text styles", url:"https://help.figma.com/hc/en-us/articles/360039957034-Create-and-apply-text-styles"},
+    {label:"Figma · Text properties", url:"https://help.figma.com/hc/en-us/articles/360039956634-Explore-text-properties"}
   ]
 },
 {
@@ -230,9 +254,10 @@ const PHASES = [
   ref: "衔接后续",
   goal: "上面这些操作做完一轮之后，回到母版文件记录进度。",
   steps: [
-    "打开《Figma 生产流程·目标与检查清单》母版",
+    "打开《Figma 生产流程·目标与检查清单》母版（文件名：UIUX_02_Figma生产流程_目标与检查清单.html）",
     "对照你们刚才实际做的操作，把每一步的时间、目标、检查项填进对应位置",
-    "如果想先看看「填完是什么样子」，可以参考《Figma 案例 Checklist·示范填写》——那是用同一个项目做的例子，不是标准答案，只是给个参照"
+    "如果想先看看「填完是什么样子」，直接看这份母版打开时默认显示的示范团队进度快照——那是用同一个项目做的例子，不是标准答案，只是给个参照",
+    "回到你自己的 Figma 文件，点右上角 <span class=\"ui\">Share</span>，确认权限能让老师打开，然后复制分享链接，贴到老师指定的 FigJam 看板里"
   ]
 }
 ];
@@ -249,7 +274,7 @@ function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").rep
 // not user input) — escape everything else, then unescape just those two whitelisted tags.
 function richText(s){
   return esc(s)
-    .replace(/&lt;span class=&quot;ui&quot;&gt;/g,'<span class="ui">')
+    .replace(/&lt;span class=(?:"|&quot;)ui(?:"|&quot;)&gt;/g,'<span class="ui">')
     .replace(/&lt;\/span&gt;/g,'</span>')
     .replace(/&lt;kbd&gt;/g,'<kbd>')
     .replace(/&lt;\/kbd&gt;/g,'</kbd>');
@@ -291,6 +316,7 @@ function render(){
       <div class="step"><div class="n">${si+1}</div><div class="txt" data-t="step" data-r="${pi}" data-i="${si}">${richText(getVal("step",pi,si,s))}</div></div>`).join("");
     const tipHTML = p.tip ? `<div class="tip" data-t="tip" data-r="${pi}"><b>提示</b>：${richText(getVal("tip",pi,null,p.tip))}</div>` : "";
     const warnHTML = p.warn ? `<div class="warn" data-t="warn" data-r="${pi}"><b>注意</b>：${richText(getVal("warn",pi,null,p.warn))}</div>` : "";
+    const linksHTML = p.links ? `<div class="links">${p.links.map(l=>`<a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a>`).join("")}</div>` : "";
     return `<section class="phase" id="phase-${pi}">
       <div class="phase-head">
         <div class="phase-num">${pi+1}</div>
@@ -301,7 +327,7 @@ function render(){
       </div>
       <div class="goal"><span class="lab">目标</span><span data-t="goal" data-r="${pi}">${richText(getVal("goal",pi,null,p.goal))}</span></div>
       <div class="steps">${stepsHTML}</div>
-      ${tipHTML}${warnHTML}
+      ${tipHTML}${warnHTML}${linksHTML}
     </section>`;
   }).join("");
   renderTOC();
