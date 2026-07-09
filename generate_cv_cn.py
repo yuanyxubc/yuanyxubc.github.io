@@ -206,6 +206,11 @@ def build_cv():
 
     # ---- \u7814\u7a76\u4e0e\u6559\u5b66 ----
     section("\u7814\u7a76\u4e0e\u6559\u5b66")
+    entry("2026年7月", [
+        P(f'<font name="{B}">讲师 \u2014 游戏UI/UX设计</font>','entry_title'),
+        P('上海大学 \u2014 温哥华电影学院 (VFS)'),
+        P('独立设计并讲授游戏UI/UX模块，内容涵盖游戏界面设计基础、像素风格美学、Figma生产流程与UI设计规范文档。')
+    ])
     entry("2025\u5e749\u6708 \u2013 \u81f3\u4eca", [
         P(f'<font name="{B}">\u7814\u7a76\u52a9\u7406 \u2014 \u6587\u5316\u4e0e\u6280\u672f\u4e2d\u5fc3</font>','entry_title'),
         P('\u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66'),

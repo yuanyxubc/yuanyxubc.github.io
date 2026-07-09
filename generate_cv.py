@@ -208,6 +208,11 @@ def build_cv():
 
     # ---- RESEARCH AND TEACHING ----
     section("Research and Teaching")
+    entry("Jul 2026", [
+        P("<b>Lecturer \u2014 Game UI/UX Design</b>",'entry_title'),
+        P("<i>Shanghai University \u2014 Vancouver Film School (VFS)</i>",'entry_italic'),
+        P("Designed and delivered a standalone Game UI/UX module covering game interface fundamentals, pixel art aesthetics, Figma production workflow, and UI design specification documents.")
+    ])
     entry("Sep 2025 \u2013 present", [
         P("<b>Research Assistant \u2014 Center for Culture and Technology</b>",'entry_title'),
         P("<i>University of British Columbia</i>",'entry_italic'),
