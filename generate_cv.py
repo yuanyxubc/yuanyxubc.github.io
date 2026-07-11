@@ -180,6 +180,7 @@ def build_cv():
         ("X. Shan, <b>Y. Xu</b>, T. Xia, Y.-S. Lin","Rethinking Wine Tasting for Chinese Consumers","2025 IEEE International Conference on Content-Based Multimedia Indexing (CBMI), 2025",None),
         ("<b>Y. Xu*</b>, Y.-S. Lin","Exploring the Influence of User-Perceived Value on NEV-Enterprises","FFIT 2024, Atlantis Press, 2024","doi.org/10.2991/978-94-6463-572-0_2"),
         ("G. Tian, <b>Y. Xu*</b>","A Study on the Typeface Design Method of Han Characters Imitated Tangut","AEHSSR, 2022","doi.org/10.56028/aehssr.2.1.270"),
+        ("<b>Y. Xu</b>, T.H. Sarker, C. Zhen, O. Nwosisi, A. Rahsaz, M. Thorogood, P. Lasserre, A. Dulic","Beaver World: Decolonizing Climate Education through Place-Based Interactive Simulation","Proceedings of the ACM SIGGRAPH 2026 Educator's Forum, pp. 1-3, 2026","doi.org/10.1145/3799829.3812512"),
     ]: entry("", [pub(a,t,v,d)], sp=3)
 
     subsec("Forthcoming (In Press)")
@@ -190,7 +191,6 @@ def build_cv():
         ("<b>Y. Xu</b>, Z. Sun, Y.-S. Lin, P. Lasserre, A. Dulic","The Absent Teacher in Eco-Games: A Theoretical Framework for Teacher Integration","DiGRA 2026"),
         ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","From Resource to Kin: Designing for Environmental Resilience in the Okanagan","DiGRA 2026"),
         ("Z. Sun, <b>Y. Xu</b>, Y.-S. Lin, P. Lasserre, A. Dulic, M. Smith","Re-evaluating the Pursuit of Hyper-Realism in VR Game Design","DiGRA 2026"),
-        ("<b>Y. Xu</b>, C. Zhen, O. Nwosisi, A. Rahsaz, T.H. Sarker, M. Thorogood, P. Lasserre, A. Dulic","Beaver World: Decolonizing Climate Education through Place-Based Interactive Simulation","Proceedings of SIGGRAPH 2026 Educator's Forum, ACM"),
     ]: entry("", [pub(a,t,v)], sp=3)
 
     subsec("Patents")

@@ -178,6 +178,7 @@ def build_cv():
         ("X. Shan, <b>Y. Xu</b>, T. Xia, Y.-S. Lin","\u91cd\u65b0\u601d\u8003\u4e2d\u56fd\u6d88\u8d39\u8005\u7684\u8461\u8404\u9152\u54c1\u5c1d","2025 IEEE International Conference on Content-Based Multimedia Indexing (CBMI), 2025",None),
         ("<b>Y. Xu*</b>, Y.-S. Lin","\u7528\u6237\u611f\u77e5\u4ef7\u503c\u5bf9\u65b0\u80fd\u6e90\u6c7d\u8f66\u4f01\u4e1a\u7684\u5f71\u54cd\u63a2\u7a76","FFIT 2024, Atlantis Press, 2024","doi.org/10.2991/978-94-6463-572-0_2"),
         ("G. Tian, <b>Y. Xu*</b>","\u4eff\u897f\u590f\u6587\u6c49\u5b57\u5b57\u4f53\u8bbe\u8ba1\u65b9\u6cd5\u7814\u7a76","AEHSSR, 2022","doi.org/10.56028/aehssr.2.1.270"),
+        ("<b>Y. Xu</b>, T.H. Sarker, C. Zhen, O. Nwosisi, A. Rahsaz, M. Thorogood, P. Lasserre, A. Dulic","Beaver World: 以地方性互动仿真推动气候教育的去殖民化","Proceedings of the ACM SIGGRAPH 2026 Educator's Forum, pp. 1-3, 2026","doi.org/10.1145/3799829.3812512"),
     ]: entry("", [pub(a,t,v,d)], sp=3)
 
     subsec("\u5373\u5c06\u53d1\u8868\uff08\u5f55\u7528\uff09")
@@ -188,7 +189,6 @@ def build_cv():
         ("<b>Y. Xu</b> et al.","生态游戏中缺席的教师：教师整合的理论框架","DiGRA 2026"),
         ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","从资源到亲属：Okanagan地区环境韧性设计","DiGRA 2026"),
         ("Z. Sun, <b>Y. Xu</b> et al.","重新审视VR游戏设计中的超写实追求","DiGRA 2026"),
-        ("<b>Y. Xu</b>, C. Zhen, O. Nwosisi, A. Rahsaz, T.H. Sarker, M. Thorogood, P. Lasserre, A. Dulic","Beaver World: 以地方性互动仿真推动气候教育的去殖民化","SIGGRAPH 2026 Educator's Forum, ACM"),
     ]: entry("", [pub(a,t,v)], sp=3)
 
     subsec("\u4e13\u5229")
