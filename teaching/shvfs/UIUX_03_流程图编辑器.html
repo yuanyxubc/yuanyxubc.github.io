@@ -567,6 +567,8 @@ function setupCardDrag(card, node) {
     // Disable drag if clicking delete button
     if (e.target.closest(".del")) return;
     
+    e.preventDefault();
+    
     dragNode = card;
     dragNodeOffset = {
       x: (e.clientX / zoom) - node.x,
@@ -574,12 +576,47 @@ function setupCardDrag(card, node) {
     };
     
     card.classList.add("dragging");
-    card.setPointerCapture(e.pointerId);
     e.stopPropagation();
   });
+}
+
+// ----- Drag to Connect Ports -----
+function setupPortDrag(port, cardId, dir) {
+  port.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    activePortDrag = { cardId, dir, element: port };
+    e.stopPropagation();
+    
+    // Create temporary connector SVG path
+    tempLine = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    tempLine.setAttribute("class", "connection-path temp");
+    svgLayer.appendChild(tempLine);
+  });
+}
+
+// Helper to find closest port of Card B to target coordinate (x, y)
+function getClosestPort(cardId, canvasX, canvasY) {
+  const dirs = ["top", "bottom", "left", "right"];
+  let closestDir = "left";
+  let minDist = Infinity;
   
-  handle.addEventListener("pointermove", (e) => {
-    if (dragNode === card) {
+  dirs.forEach(dir => {
+    const coords = getPortCoords(cardId, dir);
+    const dist = Math.hypot(coords.x - canvasX, coords.y - canvasY);
+    if (dist < minDist) {
+      minDist = dist;
+      closestDir = dir;
+    }
+  });
+  
+  return closestDir;
+}
+
+// ----- Global Pointer Drag Events on Document -----
+document.addEventListener("pointermove", (e) => {
+  if (dragNode) {
+    const node = nodes.find(n => n.id === dragNode.id);
+    if (node) {
       let rawX = (e.clientX / zoom) - dragNodeOffset.x;
       let rawY = (e.clientY / zoom) - dragNodeOffset.y;
       
@@ -593,41 +630,13 @@ function setupCardDrag(card, node) {
       node.x = Math.max(0, Math.min(rawX, 3200));
       node.y = Math.max(0, Math.min(rawY, 2200));
       
-      card.style.left = `${node.x}px`;
-      card.style.top = `${node.y}px`;
+      dragNode.style.left = `${node.x}px`;
+      dragNode.style.top = `${node.y}px`;
       
       // Redraw curves real-time
       drawConnections();
     }
-  });
-  
-  handle.addEventListener("pointerup", (e) => {
-    if (dragNode === card) {
-      dragNode = null;
-      card.classList.remove("dragging");
-      card.releasePointerCapture(e.pointerId);
-      saveState();
-    }
-  });
-}
-
-// ----- Drag to Connect Ports -----
-function setupPortDrag(port, cardId, dir) {
-  port.addEventListener("pointerdown", (e) => {
-    activePortDrag = { cardId, dir, element: port };
-    e.stopPropagation();
-    
-    // Create temporary connector SVG path
-    tempLine = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    tempLine.setAttribute("class", "connection-path temp");
-    svgLayer.appendChild(tempLine);
-    
-    port.setPointerCapture(e.pointerId);
-  });
-  
-  port.addEventListener("pointermove", (e) => {
-    if (!activePortDrag) return;
-    
+  } else if (activePortDrag) {
     const startPt = getPortCoords(activePortDrag.cardId, activePortDrag.dir);
     // Convert current client coordinates to workspace relative coords
     const rect = workspace.getBoundingClientRect();
@@ -637,28 +646,53 @@ function setupPortDrag(port, cardId, dir) {
     };
     
     tempLine.setAttribute("d", getBezierD(startPt, endPt, activePortDrag.dir, "auto"));
-  });
+  }
+});
+
+document.addEventListener("pointerup", (e) => {
+  if (dragNode) {
+    dragNode.classList.remove("dragging");
+    dragNode = null;
+    saveState();
+  }
   
-  port.addEventListener("pointerup", (e) => {
-    if (!activePortDrag) return;
-    
-    // Find target port under client coordinates
-    const targetElement = document.elementFromPoint(e.clientX, e.clientY);
-    const targetPort = targetElement ? targetElement.closest(".port") : null;
-    
+  if (activePortDrag) {
     if (tempLine) {
       tempLine.remove();
       tempLine = null;
     }
     
+    // Convert release point to canvas workspace relative coords
+    const rect = workspace.getBoundingClientRect();
+    const canvasX = (e.clientX - rect.left) / zoom;
+    const canvasY = (e.clientY - rect.top) / zoom;
+    
+    // Find target element under client coordinates
+    const targetElement = document.elementFromPoint(e.clientX, e.clientY);
+    const targetPort = targetElement ? targetElement.closest(".port") : null;
+    const targetCard = targetElement ? targetElement.closest(".card") : null;
+    
+    let targetCardId = null;
+    let targetDir = null;
+    
     if (targetPort) {
-      const targetCardId = targetPort.closest(".card").id;
-      const targetDir = targetPort.dataset.port;
+      targetCardId = targetPort.closest(".card").id;
+      targetDir = targetPort.dataset.port;
+    } else if (targetCard) {
+      targetCardId = targetCard.id;
+      targetDir = getClosestPort(targetCardId, canvasX, canvasY);
+    }
+    
+    if (targetCardId && targetCardId !== activePortDrag.cardId) {
+      // Verify connection doesn't exist yet
+      const duplicate = connections.some(c => 
+        c.from === activePortDrag.cardId && 
+        c.fromPort === activePortDrag.dir && 
+        c.to === targetCardId && 
+        c.toPort === targetDir
+      );
       
-      // Verify connection is valid (not self, and doesn't exist yet)
-      const duplicate = connections.some(c => c.from === activePortDrag.cardId && c.fromPort === activePortDrag.dir && c.to === targetCardId && c.toPort === targetDir);
-      
-      if (targetCardId !== activePortDrag.cardId && !duplicate) {
+      if (!duplicate) {
         connections.push({
           from: activePortDrag.cardId,
           fromPort: activePortDrag.dir,
@@ -670,11 +704,9 @@ function setupPortDrag(port, cardId, dir) {
         saveState();
       }
     }
-    
-    port.releasePointerCapture(e.pointerId);
     activePortDrag = null;
-  });
-}
+  }
+});
 
 // ----- Bezier Coordinates Helper -----
 function getPortCoords(cardId, dir) {
