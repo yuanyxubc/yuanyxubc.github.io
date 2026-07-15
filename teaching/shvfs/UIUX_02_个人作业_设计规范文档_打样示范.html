@@ -267,7 +267,7 @@ const PAGES = [
 {acc:"var(--gold)", cover:true, html:`
   <div class="badge-top">★ SAMPLE PAGE · 个人作业打样 ★</div>
   <h1>UI 设计规范文档<br>5 页示范</h1>
-  <div class="sub">史莱姆人格研究所 · 个人作业格式参考</div>
+  <div class="sub">像素风桌宠项目 · 个人作业格式参考</div>
   <div class="warn">⚠ 这是老师的示范页，不是你的作业答案<br>颜色/组件/文字都是示范内容<br>格式和深度参考这几页，内容必须是你自己在项目里做的部分</div>
 `},
 
@@ -276,9 +276,9 @@ const PAGES = [
   <div class="body">
     <div class="panel accentbox">
       <ul class="bul">
-        <li>这是 Lesson 02 大纲第 5.9 节讲过的"5 页设计规范文档"模板，用「史莱姆人格研究所」项目的示范内容画了一遍</li>
+        <li>这是 Lesson 02 大纲第 5.9 节讲过的"5 页设计规范文档"模板，用「像素风桌宠项目」项目的示范内容画了一遍</li>
         <li>你的小组一共 5 个人，<b>每人独立提交一份这样的 5 页文档</b>——内容是你自己在这次里程碑里真正做的组件/画面，不是抄团队共用文件</li>
-        <li>五页固定结构：封面基调 → Design Tokens → 组件总览 → 状态说明 → 一条金句</li>
+        <li>五页固定结构：封面基调 → Design Tokens → 组件总览 → 状态说明 → 设计理由与分析</li>
         <li>这份文档要用 <b>Figma</b> 做（不是即刻设计）——怎么迁移过去、每一步要做什么，看配套的《Figma 生产流程·目标与检查清单》</li>
       </ul>
     </div>
@@ -289,7 +289,7 @@ const PAGES = [
 {tag:"PAGE 1 OF 5", acc:"var(--gold)", title:["Cover & Tone","封面 + 项目基调"], html:`
   <div class="body">
     <div class="panel accentbox lead" style="text-align:center">
-      <b>史莱姆人格研究所</b> —— 一只史莱姆在"怪物大学"从入学到毕业，通过问答揭晓 MBTI 人格<br>
+      <b>像素风桌宠项目</b> —— 一个桌宠角色在"怪物大学"从入学到毕业，通过问答揭晓 MBTI 人格<br>
       <span class="small" style="color:var(--dim)">Steam 桌宠 · 像素风 · 32px 基础单位 · 温暖治愈基调</span>
     </div>
     <div class="atomrow" style="display:flex;gap:14px">
@@ -358,22 +358,28 @@ const PAGES = [
         <div class="state-item"><div class="chip wait">等待选择</div><span class="lbl" style="font-size:11px;color:var(--dim)">玩家悬停选项</span></div>
         <div class="state-item"><div class="chip picked">已选中</div><span class="lbl" style="font-size:11px;color:var(--dim)">点击某个选项后</span></div>
         <div class="state-item"><div class="chip result">结果展示</div><span class="lbl" style="font-size:11px;color:var(--dim)">MBTI揭晓时</span></div>
-        <div class="state-item"><div class="chip memory">毕业回忆</div><span class="lbl" style="font-size:11px;color:var(--dim)">点击已毕业史莱姆</span></div>
+        <div class="state-item"><div class="chip memory">毕业回忆</div><span class="lbl" style="font-size:11px;color:var(--dim)">点击已毕业角色</span></div>
       </div>
     </div>
     <div class="anno">挑 1-2 个你做的关键组件，把它<b>全部 Variants 并排放出来</b>，每个都标注"什么情况下触发这个状态"——这是最容易漏掉、也是评分最看重的一页。</div>
   </div>
 `},
 
-// P7 金句
-{tag:"PAGE 5 OF 5", acc:"var(--gold)", title:["Golden Sentence","一条设计金句"], html:`
+// P7 设计理由与分析
+{tag:"PAGE 5 OF 5", acc:"var(--gold)", title:["Design Rationale","设计理由与分析（临摹与原创转化）"], html:`
   <div class="body">
-    <div class="panel accentbox" style="flex:1;display:flex;align-items:center;justify-content:center">
-      <div class="goldsentence">
-        "史莱姆的对话框永远从<b>史莱姆当前位置</b>弹出，<br>不固定在屏幕角落，<br>因为玩家的注意力和鼠标都在史莱姆身上。"
+    <div class="panel accentbox" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:20px;">
+      <div style="border-bottom:2px dashed var(--line);padding-bottom:10px;text-align:left;">
+        <strong style="color:var(--cyan)">💡 临摹转化说明 (组件：对话气泡)</strong><br>
+        <span class="small" style="color:var(--dim)">临摹来源：《星露谷物语》对话框的像素描边与九宫格拉伸方式。</span><br>
+        在本项目中，我将双像素描边规则（外描边: 2px #000, 内描边: 2px #fff）应用到了我们的对话气泡组件上，并适配了 Auto Layout 自动伸缩。这保证了在文本内容变长时，气泡的像素描边边缘不会被拉伸或模糊，同时维持了游戏统一的复古调性。
+      </div>
+      <div style="padding-top:10px;text-align:left;">
+        <strong style="color:var(--green)">💡 原创设计理由 (组件：偏好偏移量控制板)</strong><br>
+        在进行倾向性控制板设计时，我将对话气泡和选项按钮进行了整合，并移除了常驻的数值面板。这是因为在桌宠常驻桌面时，过多的常驻文字会产生严重的视觉噪音。通过将倾向性偏移以进度条的形式隐藏在右键菜单气泡中，用户既能随时查看倾向变化，又不会被无关的UI元素分散注意力。
       </div>
     </div>
-    <div class="anno">句式固定：<b>我改了 X，因为玩家在 Z 时刻需要 Y</b>。这一条要能代表你这次里程碑里最重要的一个设计决定。</div>
+    <div class="anno">第 5 页说明你在这个里程碑里做出的核心设计理由。可以对比临摹案例，并说明你是如何“消化并转化”这些手法的；或者阐述你的原创组件解决了什么用户体验痛点。</div>
   </div>
 `},
 
@@ -383,7 +389,7 @@ const PAGES = [
     <div class="panel accentbox">
       <ol class="numlist">
         <li><span class="num">1</span><span>用 Figma 完成你在本次里程碑里负责的组件/画面（不是即刻设计）</span></li>
-        <li><span class="num">2</span><span>独立整理成这份 5 页文档：封面基调 → Design Tokens → 组件总览 → 状态说明 → 金句</span></li>
+        <li><span class="num">2</span><span>独立整理成这份 5 页文档：封面基调 → Design Tokens → 组件总览 → 状态说明 → 设计理由与分析</span></li>
         <li><span class="num">3</span><span>Design Tokens 页必须同时包含<b>日间模式和夜间模式</b>两套色板</span></li>
         <li><span class="num">4</span><span>排版成 16:9，和这份打样一样是可以直接放进作品集的格式</span></li>
         <li><span class="num">5</span><span>命名要符合大纲 5.2 节的规则（Atom/Molecule/Organism 分层命名），别人一眼要能看懂</span></li>
@@ -403,9 +409,8 @@ const PAGES = [
       <tr><td>Design Tokens 完整度（含日间+夜间两套色板，语义命名）</td><td class="pts">3</td></tr>
       <tr><td>组件总览：确实是你自己做的部分，命名规范</td><td class="pts">3</td></tr>
       <tr><td>状态说明：至少一个组件的全部 Variants，标注触发条件</td><td class="pts">4</td></tr>
-      <tr><td>临摹/原创转化：讲清楚你学到的手法或原创贡献如何用回项目</td><td class="pts">2</td></tr>
-      <tr><td>金句：用固定句式讲清楚一个真实设计决定</td><td class="pts">2</td></tr>
-      <tr><td>版面：16:9、5 页整、排版干净</td><td class="pts">1</td></tr>
+      <tr><td>设计理由与分析：讲清楚临摹手法转化或原创组件的设计理由（第 5 页）</td><td class="pts">4</td></tr>
+      <tr><td>版面与文件规范：16:9、5 页整、排版干净</td><td class="pts">1</td></tr>
     </table>
   </div>
 `},
