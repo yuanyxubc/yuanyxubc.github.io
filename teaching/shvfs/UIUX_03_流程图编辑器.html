@@ -756,6 +756,32 @@ function getBezierD(start, end, startDir, endDir) {
   return `M ${start.x} ${start.y} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${end.x} ${end.y}`;
 }
 
+// Helper to calculate Bezier midpoint
+function getMidpoint(startPt, endPt, fromPort, toPort) {
+  const dx = endPt.x - startPt.x;
+  const dy = endPt.y - startPt.y;
+  let cx1, cy1, cx2, cy2;
+  if (fromPort === "left" || fromPort === "right") {
+    cx1 = startPt.x + (fromPort === "right" ? Math.max(50, dx * 0.4) : -Math.max(50, -dx * 0.4));
+    cy1 = startPt.y;
+  } else {
+    cx1 = startPt.x;
+    cy1 = startPt.y + (fromPort === "bottom" ? Math.max(50, dy * 0.4) : -Math.max(50, -dy * 0.4));
+  }
+  
+  if (toPort === "left" || toPort === "right") {
+    cx2 = endPt.x + (toPort === "left" ? -Math.max(50, dx * 0.4) : Math.max(50, -dx * 0.4));
+    cy2 = endPt.y;
+  } else {
+    cx2 = endPt.x;
+    cy2 = endPt.y + (toPort === "top" ? -Math.max(50, dy * 0.4) : Math.max(50, -dy * 0.4));
+  }
+  
+  const midX = 0.125 * startPt.x + 0.375 * cx1 + 0.375 * cx2 + 0.125 * endPt.x;
+  const midY = 0.125 * startPt.y + 0.375 * cy1 + 0.375 * cy2 + 0.125 * endPt.y;
+  return { x: midX, y: midY };
+}
+
 // ----- Drawing Connections and Custom Labels -----
 function drawConnections() {
   // Clear old line elements and labels
@@ -771,6 +797,17 @@ function drawConnections() {
     path.setAttribute("class", "connection-path");
     path.setAttribute("d", getBezierD(startPt, endPt, conn.fromPort, conn.toPort));
     path.setAttribute("marker-end", "url(#arrow)");
+    path.setAttribute("title", "双击连线可恢复或添加条件描述");
+    
+    // Double click to restore or add label
+    path.addEventListener("dblclick", () => {
+      conn.hasLabel = true;
+      conn.label = conn.label || "双击输入条件";
+      conn.labelOffsetX = 0;
+      conn.labelOffsetY = 0;
+      drawConnections();
+      saveState();
+    });
     
     // Hover animation triggers
     path.addEventListener("mouseenter", () => {
@@ -784,59 +821,58 @@ function drawConnections() {
     
     svgLayer.appendChild(path);
     
-    // Calculate bezier midpoint mathematically for label placement
-    const dx = endPt.x - startPt.x;
-    const dy = endPt.y - startPt.y;
-    let cx1, cy1, cx2, cy2;
-    if (conn.fromPort === "left" || conn.fromPort === "right") {
-      cx1 = startPt.x + (conn.fromPort === "right" ? Math.max(50, dx * 0.4) : -Math.max(50, -dx * 0.4));
-      cy1 = startPt.y;
-    } else {
-      cx1 = startPt.x;
-      cy1 = startPt.y + (conn.fromPort === "bottom" ? Math.max(50, dy * 0.4) : -Math.max(50, -dy * 0.4));
+    // Render label wrapper if hasLabel is not false
+    if (conn.hasLabel !== false) {
+      const mid = getMidpoint(startPt, endPt, conn.fromPort, conn.toPort);
+      
+      const labelWrap = document.createElement("div");
+      labelWrap.className = "conn-label-wrap";
+      labelWrap.style.left = `${mid.x + (conn.labelOffsetX || 0)}px`;
+      labelWrap.style.top = `${mid.y + (conn.labelOffsetY || 0)}px`;
+      labelWrap.style.cursor = "move";
+      
+      const labelText = document.createElement("div");
+      labelText.className = "conn-label-text";
+      labelText.contentEditable = "true";
+      labelText.textContent = conn.label || "";
+      labelText.addEventListener("blur", () => {
+        conn.label = labelText.textContent.trim();
+        saveState();
+      });
+      // Prevent drag trigger when selecting text inside label
+      labelText.addEventListener("pointerdown", (e) => {
+        e.stopPropagation();
+      });
+      labelWrap.appendChild(labelText);
+      
+      // Delete arrow label button (preserves arrow, cancels text)
+      const delBtn = document.createElement("button");
+      delBtn.className = "conn-del-btn";
+      delBtn.innerHTML = "&#x2715;";
+      delBtn.title = "取消条件描述文本 (保留箭头)";
+      delBtn.onclick = (e) => {
+        e.stopPropagation();
+        conn.hasLabel = false;
+        drawConnections();
+        saveState();
+      };
+      labelWrap.appendChild(delBtn);
+      
+      // Label dragging handler
+      labelWrap.addEventListener("pointerdown", (e) => {
+        if (e.target.closest(".conn-del-btn")) return;
+        dragLabel = conn;
+        dragLabelEl = labelWrap;
+        dragLabelStart = { x: e.clientX, y: e.clientY };
+        dragLabelOffsetStart = {
+          x: conn.labelOffsetX || 0,
+          y: conn.labelOffsetY || 0
+        };
+        e.stopPropagation();
+      });
+      
+      workspace.appendChild(labelWrap);
     }
-    
-    if (conn.toPort === "left" || conn.toPort === "right") {
-      cx2 = endPt.x + (conn.toPort === "left" ? -Math.max(50, dx * 0.4) : Math.max(50, -dx * 0.4));
-      cy2 = endPt.y;
-    } else {
-      cx2 = endPt.x;
-      cy2 = endPt.y + (conn.toPort === "top" ? -Math.max(50, dy * 0.4) : Math.max(50, -dy * 0.4));
-    }
-    
-    // Bezier midpoint at t = 0.5
-    const midX = 0.125 * startPt.x + 0.375 * cx1 + 0.375 * cx2 + 0.125 * endPt.x;
-    const midY = 0.125 * startPt.y + 0.375 * cy1 + 0.375 * cy2 + 0.125 * endPt.y;
-    
-    // Create connection label wrapper
-    const labelWrap = document.createElement("div");
-    labelWrap.className = "conn-label-wrap";
-    labelWrap.style.left = `${midX}px`;
-    labelWrap.style.top = `${midY}px`;
-    
-    const labelText = document.createElement("div");
-    labelText.className = "conn-label-text";
-    labelText.contentEditable = "true";
-    labelText.textContent = conn.label || "";
-    labelText.addEventListener("blur", () => {
-      conn.label = labelText.textContent.trim();
-      saveState();
-    });
-    labelWrap.appendChild(labelText);
-    
-    // Delete arrow button inside label
-    const delBtn = document.createElement("button");
-    delBtn.className = "conn-del-btn";
-    delBtn.innerHTML = "&#x2715;";
-    delBtn.title = "删除这条箭头";
-    delBtn.onclick = () => {
-      connections.splice(index, 1);
-      drawConnections();
-      saveState();
-    };
-    labelWrap.appendChild(delBtn);
-    
-    workspace.appendChild(labelWrap);
   });
 }
 
