@@ -5,323 +5,908 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>游戏设计流程图编辑器 · Flow Editor</title>
 <style>
-:root{
-  --ink:#141414; --dim:#6b6b6b; --line:#c9c9c9; --bg:#f4f4f6; --card:#ffffff;
-  --page:#2e8b57; --panel:#2b6cb0; --overlay:#c2410c; --tooltip:#7c3aed;
-  --accent:#141414;
+:root {
+  --ink: #141414;
+  --dim: #6b6b6b;
+  --line: #c9c9c9;
+  --bg: #f4f4f6;
+  --card: #ffffff;
+  --page: #10b981;    /* Green */
+  --panel: #3b82f6;   /* Blue */
+  --overlay: #f97316; /* Orange */
+  --tooltip: #8b5cf6; /* Purple */
+  --accent: #ffd23f;  /* Gold */
+  --grid-dot: #e1e1e8;
 }
-*{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"PingFang SC","Microsoft YaHei","Segoe UI",Arial,sans-serif}
-h1,h2{margin:0}
 
-/* ---------- toolbar (screen only) ---------- */
-.toolbar{
-  position:sticky;top:0;z-index:50;background:#1c1c22;color:#fff;
-  padding:14px 22px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;
-  box-shadow:0 3px 10px rgba(0,0,0,.25);
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0; height: 100vh;
+  background: var(--bg); color: var(--ink);
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+  overflow: hidden;
+  user-select: none;
 }
-.toolbar .ttitle{font-weight:700;font-size:16px;margin-right:auto;white-space:nowrap}
-.toolbar button, .toolbar .field{
-  font-family:inherit;font-size:13px;border:1.5px solid #444;background:#2a2a33;color:#fff;
-  padding:8px 12px;border-radius:6px;cursor:pointer;white-space:nowrap;
+
+/* ---------- Toolbar ---------- */
+.toolbar {
+  position: relative; z-index: 50; background: #1c1c22; color: #fff;
+  padding: 12px 20px; display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,.2);
 }
-.toolbar button:hover{background:#38384a;border-color:#666}
-.toolbar button.primary{background:#ffd23f;color:#141414;border-color:#ffd23f;font-weight:700}
-.toolbar button.primary:hover{background:#ffdd6b}
-.toolbar .field{background:#141419;display:flex;align-items:center;gap:6px;cursor:default}
-.toolbar .field input{background:transparent;border:none;color:#fff;font-family:inherit;font-size:13px;width:120px;outline:none}
-.toolbar .sep{width:1px;height:22px;background:#444;margin:0 2px}
-
-/* ---------- page ---------- */
-.sheet{max-width:1500px;margin:26px auto;padding:0 20px 60px}
-.doc-head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid var(--ink);padding-bottom:14px;margin-bottom:26px;gap:20px;flex-wrap:wrap}
-.doc-head h1{font-size:26px;letter-spacing:.5px}
-.doc-head .doc-sub{color:var(--dim);font-size:14px;margin-top:6px;max-width:640px;line-height:1.6}
-.doc-meta{font-size:13px;color:var(--dim);text-align:right;line-height:1.9}
-.doc-meta b{color:var(--ink)}
-.doc-meta input{border:none;border-bottom:1px dashed var(--line);background:transparent;font-family:inherit;font-size:13px;color:var(--ink);text-align:right;width:150px;outline:none}
-.doc-meta input:focus{border-bottom-color:var(--ink)}
-
-/* ---------- flow ---------- */
-.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;row-gap:34px}
-.node-wrap{display:flex;align-items:center}
-.connector{display:flex;align-items:center;justify-content:center;width:64px;flex:0 0 auto;position:relative}
-.connector svg{width:56px;height:24px;overflow:visible}
-.connector .cond{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--dim);
-  background:var(--card);padding:1px 6px;border:1px solid var(--line);border-radius:10px;white-space:nowrap;min-width:18px;text-align:center}
-.addbtn{width:26px;height:26px;border-radius:50%;border:1.5px dashed var(--line);background:var(--card);
-  color:var(--dim);font-size:15px;line-height:1;cursor:pointer;flex:0 0 auto;display:flex;align-items:center;justify-content:center}
-.addbtn:hover{border-color:var(--ink);color:var(--ink)}
-
-.card{
-  width:270px;flex:0 0 auto;background:var(--card);border:2.5px solid var(--ink);border-radius:10px;
-  padding:14px 16px 16px;position:relative;box-shadow:3px 3px 0 rgba(0,0,0,.08);
+.toolbar .ttitle { font-weight: 700; font-size: 15px; margin-right: auto; white-space: nowrap; }
+.toolbar button, .toolbar select {
+  font-family: inherit; font-size: 13px; border: 1.5px solid #444; background: #2a2a33; color: #fff;
+  padding: 6px 12px; border-radius: 6px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
 }
-.card .del{position:absolute;top:6px;right:8px;border:none;background:none;color:#bbb;font-size:15px;cursor:pointer;line-height:1;padding:2px 4px}
-.card .del:hover{color:#c2410c}
+.toolbar button:hover { background: #38384a; border-color: #666; }
+.toolbar button.primary { background: var(--accent); color: #141414; border-color: var(--accent); font-weight: 700; }
+.toolbar button.primary:hover { background: #ffdd6b; }
+.toolbar .sep { width: 1px; height: 20px; background: #444; margin: 0 2px; }
+.toolbar .ctrl-group { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #aaa; }
+.toolbar .ctrl-group input[type="checkbox"] { cursor: pointer; accent-color: var(--accent); }
 
-.typebadge{
-  display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;letter-spacing:.5px;
-  padding:3px 9px;border-radius:4px;cursor:pointer;user-select:none;margin-bottom:9px;
+/* ---------- Canvas and container ---------- */
+#canvas-container {
+  width: 100%; height: calc(100vh - 54px);
+  position: relative; overflow: hidden;
+  cursor: grab;
 }
-.typebadge[data-type="page"]{background:var(--page);color:#fff}
-.typebadge[data-type="panel"]{background:var(--panel);color:#fff}
-.typebadge[data-type="overlay"]{background:var(--overlay);color:#fff}
-.typebadge[data-type="tooltip"]{background:var(--tooltip);color:#fff}
+#canvas-container:active { cursor: grabbing; }
 
-.card h3{
-  font-size:16px;margin:0 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line);
-  outline:none;min-height:1.3em;
+#workspace {
+  width: 3500px; height: 2500px;
+  position: absolute; top: 0; left: 0;
+  transform-origin: 0 0;
+  background-image: radial-gradient(var(--grid-dot) 1.5px, transparent 1.5px);
+  background-size: 20px 20px;
 }
-.card h3:empty:before{content:"节点标题";color:#bbb}
 
-.kv{margin-bottom:9px}
-.kv .k{font-size:11px;font-weight:700;color:var(--dim);display:block;margin-bottom:2px}
-.kv .v{font-size:13.5px;line-height:1.55;outline:none;min-height:1.4em;border-bottom:1px dotted transparent}
-.kv .v:focus{border-bottom-color:var(--line)}
-.kv .v:empty:before{content:attr(data-ph);color:#c6c6c6}
-.kv.player .k{color:var(--panel)}
-.kv.system .k{color:var(--overlay)}
-.kv.next .k{color:var(--page)}
+/* ---------- Connections Layer ---------- */
+#connections-svg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 5;
+  overflow: visible;
+}
+.connection-path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 3;
+  cursor: pointer;
+  pointer-events: stroke;
+}
+.connection-path:hover {
+  stroke: var(--panel);
+  stroke-width: 4.5;
+}
+.connection-path.temp {
+  stroke: var(--panel);
+  stroke-dasharray: 6, 6;
+  pointer-events: none;
+}
 
-/* ---------- legend ---------- */
-.legend{margin-top:36px;padding:14px 18px;border:1.5px solid var(--line);border-radius:8px;background:var(--card);
-  display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:var(--dim);align-items:center}
-.legend b{color:var(--ink)}
-.legend .lg-item{display:flex;align-items:center;gap:6px}
-.legend .sw{width:14px;height:14px;border-radius:3px;display:inline-block}
-.legend .sw.page{background:var(--page)} .legend .sw.panel{background:var(--panel)}
-.legend .sw.overlay{background:var(--overlay)} .legend .sw.tooltip{background:var(--tooltip)}
+/* ---------- Midpoint Connection Labels ---------- */
+.conn-label-wrap {
+  position: absolute;
+  z-index: 25;
+  transform: translate(-50%, -50%);
+  display: flex; align-items: center; gap: 4px;
+  background: var(--card);
+  border: 1.5px solid var(--ink);
+  border-radius: 20px;
+  padding: 4px 10px;
+  box-shadow: 2px 2px 0 rgba(0,0,0,.08);
+  pointer-events: auto;
+}
+.conn-label-wrap:hover {
+  border-color: var(--panel);
+  box-shadow: 2px 2px 0 rgba(59,130,246,.2);
+}
+.conn-label-text {
+  font-size: 11px; color: var(--ink); font-weight: 500;
+  outline: none; min-width: 20px; text-align: center;
+  user-select: text;
+}
+.conn-label-text:empty:before { content: "双击输入条件"; color: var(--dim); }
+.conn-del-btn {
+  border: none; background: none; color: var(--dim); font-size: 11px;
+  cursor: pointer; padding: 0; display: inline-flex; align-items: center; justify-content: center;
+  width: 14px; height: 14px; border-radius: 50%;
+}
+.conn-del-btn:hover { background: #fee2e2; color: #ef4444; }
 
-.footprint{margin-top:22px;font-size:12px;color:var(--dim);text-align:center}
+/* ---------- Draggable Card (Nodes) ---------- */
+.card {
+  position: absolute; width: 280px; background: var(--card);
+  border: 2.5px solid var(--ink); border-radius: 12px;
+  padding: 12px 14px 14px;
+  box-shadow: 4px 4px 0 rgba(0,0,0,.06);
+  z-index: 10;
+  cursor: default;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.card:hover {
+  box-shadow: 6px 6px 0 rgba(0,0,0,.08);
+}
+.card.dragging {
+  box-shadow: 10px 10px 16px rgba(0,0,0,0.12);
+  z-index: 30;
+}
+.card .card-hdr {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px; cursor: move;
+  padding-bottom: 6px; border-bottom: 1.5px solid #f0f0f0;
+}
+.card .del {
+  border: none; background: none; color: #ccc; font-size: 15px; cursor: pointer;
+  padding: 2px 4px; border-radius: 4px; line-height: 1;
+}
+.card .del:hover { background: #fee2e2; color: #ef4444; }
 
-/* =========================================================
-   BLACK & WHITE MODE (screen + print) — 覆盖颜色，只留边框区分类型
-   ========================================================= */
-body.bw .typebadge{background:#fff !important;color:var(--ink) !important;border:1.5px solid var(--ink)}
-body.bw .typebadge[data-type="page"]{border-width:3px}
-body.bw .typebadge[data-type="panel"]{border-style:solid}
-body.bw .typebadge[data-type="overlay"]{border-style:dashed}
-body.bw .typebadge[data-type="tooltip"]{border-style:dotted;border-width:2.5px}
-body.bw .kv.player .k, body.bw .kv.system .k, body.bw .kv.next .k{color:var(--ink)}
-body.bw .legend .sw{background:#fff !important;border:1.5px solid var(--ink)}
-body.bw .legend .sw.page{border-width:3px}
-body.bw .legend .sw.panel{border-style:solid}
-body.bw .legend .sw.overlay{border-style:dashed}
-body.bw .legend .sw.tooltip{border-style:dotted;border-width:2.5px}
+.typebadge {
+  font-size: 10px; font-weight: 700; letter-spacing: .5px;
+  padding: 2px 8px; border-radius: 4px; cursor: pointer; user-select: none;
+  text-transform: uppercase; border: 1.5px solid transparent;
+}
+.typebadge[data-type="page"] { background: var(--page); color: #fff; }
+.typebadge[data-type="panel"] { background: var(--panel); color: #fff; }
+.typebadge[data-type="overlay"] { background: var(--overlay); color: #fff; }
+.typebadge[data-type="tooltip"] { background: var(--tooltip); color: #fff; }
 
-/* =========================================================
-   PRINT
-   ========================================================= */
-@media print{
-  .toolbar, .addbtn, .card .del{display:none !important}
-  body{background:#fff}
-  .sheet{max-width:none;margin:0;padding:6mm 8mm}
-  .card{box-shadow:none;break-inside:avoid}
-  .flow{row-gap:26px}
-  .doc-meta input{border-bottom:1px solid #999}
-  @page{size:A3 landscape;margin:10mm}
+.card h3 {
+  font-size: 15.5px; margin: 0 0 10px; padding: 2px 0;
+  outline: none; min-height: 1.3em;
+  font-weight: 700; border-bottom: 1px dotted transparent;
+  user-select: text;
+}
+.card h3:focus { border-bottom-color: var(--line); }
+.card h3:empty:before { content: "输入节点名称"; color: #ccc; }
+
+.kv { margin-bottom: 8px; }
+.kv:last-child { margin-bottom: 0; }
+.kv .k { font-size: 10.5px; font-weight: 700; color: var(--dim); display: block; margin-bottom: 2px; }
+.kv .v { font-size: 13px; line-height: 1.5; outline: none; min-height: 1.4em; border-bottom: 1px dotted transparent; user-select: text; }
+.kv .v:focus { border-bottom-color: var(--line); }
+.kv .v:empty:before { content: attr(data-ph); color: #ccc; }
+.kv.player .k { color: var(--panel); }
+.kv.system .k { color: var(--overlay); }
+.kv.next .k { color: var(--page); }
+
+/* ---------- Ports (for connection dragging) ---------- */
+.port {
+  position: absolute; width: 10px; height: 10px;
+  background: var(--card); border: 2px solid var(--ink); border-radius: 50%;
+  z-index: 15; cursor: crosshair;
+  opacity: 0;
+  transition: opacity 0.1s ease, transform 0.1s ease;
+}
+.card:hover .port { opacity: 0.6; }
+.port:hover { opacity: 1 !important; transform: scale(1.3); background: var(--accent); }
+
+.port[data-port="top"] { top: -6px; left: calc(50% - 5px); }
+.port[data-port="bottom"] { bottom: -6px; left: calc(50% - 5px); }
+.port[data-port="left"] { left: -6px; top: calc(50% - 5px); }
+.port[data-port="right"] { right: -6px; top: calc(50% - 5px); }
+
+/* ---------- Legend ---------- */
+.legend {
+  position: fixed; left: 20px; bottom: 20px; z-index: 45;
+  padding: 10px 14px; border: 2px solid var(--ink); border-radius: 8px; background: rgba(255,255,255,0.92);
+  display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--dim); align-items: center;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.06); backdrop-filter: blur(4px);
+}
+.legend b { color: var(--ink); }
+.legend .lg-item { display: flex; align-items: center; gap: 6px; }
+.legend .sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; border: 1.5px solid var(--ink); }
+.legend .sw.page { background: var(--page); }
+.legend .sw.panel { background: var(--panel); }
+.legend .sw.overlay { background: var(--overlay); }
+.legend .sw.tooltip { background: var(--tooltip); }
+
+/* ---------- Document Header Info (Non-absolute) ---------- */
+.doc-info-block {
+  position: absolute; left: 40px; top: 40px; z-index: 8;
+  max-width: 600px; pointer-events: auto;
+  background: rgba(255,255,255,0.9); padding: 18px; border: 2px solid var(--ink);
+  box-shadow: 4px 4px 0 rgba(0,0,0,0.06); border-radius: 8px;
+}
+.doc-info-block h1 { font-size: 20px; margin: 0 0 6px; outline: none; }
+.doc-info-block h1:empty:before { content: "在此输入流程图标题"; color: var(--dim); }
+.doc-info-block p { margin: 0; font-size: 13px; color: var(--dim); line-height: 1.5; outline: none; }
+.doc-info-block p:empty:before { content: "在此输入流程图详细描述..."; color: var(--dim); }
+.doc-metadata { margin-top: 10px; font-size: 11.5px; color: var(--dim); border-top: 1px dotted var(--line); padding-top: 8px; }
+.doc-metadata input { border: none; border-bottom: 1.1px dashed var(--line); background: transparent; font-family: inherit; font-size: 11.5px; outline: none; padding: 0 4px; }
+.doc-metadata input:focus { border-bottom-color: var(--ink); }
+
+/* ---------- Black & White Mode (for print / class aesthetics) ---------- */
+body.bw {
+  --page: #fff; --panel: #fff; --overlay: #fff; --tooltip: #fff;
+  --accent: #fff;
+}
+body.bw .typebadge {
+  border: 1.5px solid var(--ink);
+  color: var(--ink) !important;
+}
+body.bw .typebadge[data-type="page"] { border-width: 2.5px; }
+body.bw .typebadge[data-type="panel"] { border-style: solid; }
+body.bw .typebadge[data-type="overlay"] { border-style: dashed; }
+body.bw .typebadge[data-type="tooltip"] { border-style: dotted; }
+body.bw .legend .sw { background: #fff !important; }
+body.bw .legend .sw.page { border-width: 2.5px; }
+body.bw .legend .sw.panel { border-style: solid; }
+body.bw .legend .sw.overlay { border-style: dashed; }
+body.bw .legend .sw.tooltip { border-style: dotted; }
+
+/* ---------- Print layout ---------- */
+@media print {
+  .toolbar, .legend, .port, .conn-del-btn, .card .del { display: none !important; }
+  body { overflow: visible; background: #fff !important; }
+  #canvas-container { overflow: visible !important; width: auto !important; height: auto !important; position: static !important; }
+  #workspace { transform: none !important; position: static !important; background: none !important; width: auto !important; height: auto !important; }
+  .card { box-shadow: none !important; border-width: 2px !important; break-inside: avoid !important; }
+  .doc-info-block { position: static !important; max-width: none !important; box-shadow: none !important; margin-bottom: 20px; background: none !important; }
+  #connections-svg { width: 100% !important; height: 100% !important; }
+  @page { size: A3 landscape; margin: 10mm; }
 }
 </style>
 </head>
 <body>
 
 <div class="toolbar">
-  <div class="ttitle">🎮 流程图编辑器</div>
-  <button id="btnAddEnd">+ 在末尾新增节点</button>
-  <button id="btnReset">↺ 恢复默认案例</button>
+  <div class="ttitle">🎮 游戏设计流程图编辑器</div>
+  <button id="btnAddPage">+ 新增 Page 页面</button>
+  <button id="btnAddPanel">+ 新增 Panel 面板</button>
+  <button id="btnAddOverlay">+ 新增 Overlay 覆盖层</button>
+  <button id="btnAddTooltip">+ 新增 Tooltip 提示层</button>
   <div class="sep"></div>
-  <button id="btnToggleBW">🎨 切换配色（当前：彩色）</button>
+  <div class="ctrl-group">
+    <input type="checkbox" id="chkSnap" checked> <label for="chkSnap">对齐网格</label>
+  </div>
   <div class="sep"></div>
-  <button class="primary" id="btnPrintColor">🖨 打印彩色</button>
-  <button class="primary" id="btnPrintBW">🖨 打印黑白</button>
+  <button id="btnZoomIn">➕ 放大</button>
+  <span id="txtZoom" style="font-size:12px; color:#aaa; min-width:40px; text-align:center;">100%</span>
+  <button id="btnZoomOut">➖ 缩小</button>
+  <button id="btnZoomReset">↺ 居中</button>
+  <div class="sep"></div>
+  <button id="btnReset">↺ 重置案例</button>
+  <button id="btnToggleBW">🎨 切换黑白/彩色</button>
+  <div class="sep"></div>
+  <button class="primary" id="btnPrintColor">🖨 打印/导出</button>
 </div>
 
-<div class="sheet">
-
-  <div class="doc-head">
-    <div>
+<div id="canvas-container">
+  <div id="workspace">
+    <div class="doc-info-block">
       <h1 id="docTitle" contenteditable="true">THE REQUIRED EQUIPMENT FLOW · 装备流程</h1>
-      <div class="doc-sub" id="docSub" contenteditable="true">六个界面围绕一条关键流程连接：从看到拾取反馈，到打开背包、找到新物品、查看比较、决定装备，最后确认人物属性变化。每个节点必须写清「玩家做了什么 / 系统怎样回应 / 下一步能做什么」。</div>
+      <p id="docSub" contenteditable="true">六个界面围绕一条关键流程连接：从看到拾取反馈，到打开背包、找到新物品、查看比较、决定装备，最后确认人物属性变化。拖拽节点可自由排版，拖拽节点边缘的圆圈可创建自定义指向箭头，双击连线上的文字块可自由添加转移描述条件。</p>
+      <div class="doc-metadata">
+        小组／姓名：<input id="teamName" placeholder="双击或点击填写" value=""><br>
+        更新时间：<span id="dateStamp"></span>
+      </div>
     </div>
-    <div class="doc-meta">
-      小组／作业名：<input id="teamName" placeholder="填写小组或姓名"><br>
-      日期：<b id="dateStamp"></b><br>
-      课程：UIUX-03 · 信息架构与 Wireframe
-    </div>
+    
+    <svg id="connections-svg">
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--ink)" />
+        </marker>
+        <marker id="arrow-hover" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="var(--panel)" />
+        </marker>
+      </defs>
+    </svg>
   </div>
+</div>
 
-  <div class="flow" id="flow"></div>
-
-  <div class="legend" id="legend">
-    <b>容器类型：</b>
-    <span class="lg-item"><span class="sw page"></span>Page 页面</span>
-    <span class="lg-item"><span class="sw panel"></span>Panel 面板</span>
-    <span class="lg-item"><span class="sw overlay"></span>Overlay 覆盖层</span>
-    <span class="lg-item"><span class="sw tooltip"></span>Tooltip 提示层</span>
-    <span style="margin-left:auto">点击类型徽章可循环切换类型；点击 ✕ 删除节点；节点间的圆圈可插入新节点</span>
-  </div>
-
-  <div class="footprint">UIUX-03 · REQUIRED EQUIPMENT FLOW · 每个节点必须回答：玩家做了什么 / 系统怎样回应 / 下一步能做什么</div>
-
+<div class="legend">
+  <b>容器类型：</b>
+  <span class="lg-item"><span class="sw page"></span>Page 页面</span>
+  <span class="lg-item"><span class="sw panel"></span>Panel 面板</span>
+  <span class="lg-item"><span class="sw overlay"></span>Overlay 覆盖层</span>
+  <span class="lg-item"><span class="sw tooltip"></span>Tooltip 提示层</span>
+  <span>| 💡 <b>使用说明：</b>拖动卡片顶部进行移动；点击卡片类型标志切换容器；拖动卡片四周圆圈建立连线；点击连线文字可直接编辑或删除连线。</span>
 </div>
 
 <script>
-const TYPES = ["page","panel","overlay","tooltip"];
-const TYPE_LABEL = {page:"PAGE 页面", panel:"PANEL 面板", overlay:"OVERLAY 覆盖层", tooltip:"TOOLTIP 提示层"};
+// ----- State Variables -----
+let nodes = [];
+let connections = [];
+let zoom = 1.0;
+let panX = 0;
+let panY = 0;
+let isPanning = false;
+let panStart = { x: 0, y: 0 };
 
+let dragNode = null;
+let dragNodeOffset = { x: 0, y: 0 };
+let activePortDrag = null;
+let tempLine = null;
+const gridSnapSize = 20;
+
+// ----- Default Data -----
 const DEFAULT_NODES = [
-  { type:"overlay", title:"战斗中：看到拾取反馈", cond:"", player:"击杀精英怪，武器掉落在地", system:"地面浮现橙色物品名标签，伴随拾取音效", next:"靠近拾取，或先无视继续战斗" },
-  { type:"page", title:"打开背包", cond:"按 I", player:"按下 I 键", system:"背包页面覆盖战斗画面，新物品格显示 NEW 角标", next:"浏览网格，找到新武器所在格子" },
-  { type:"panel", title:"找到新物品", cond:"", player:"在网格中定位新武器图标", system:"稀有度颜色边框高亮该格子", next:"点击查看，或直接拖拽装备" },
-  { type:"tooltip", title:"查看并比较", cond:"悬停", player:"鼠标悬停在新武器上", system:"弹出属性 Tooltip，与当前装备的差异用颜色标出（更好/更差）", next:"决定装备、丢弃或留着卖钱" },
-  { type:"panel", title:"决定装备", cond:"点击装备", player:"点击「装备」按钮", system:"旧武器退回背包格，新武器进入装备栏，图标微光闪动", next:"继续整理背包，或关闭背包" },
-  { type:"page", title:"确认人物属性变化", cond:"Esc 关闭", player:"切换查看人物信息（或背包内嵌显示）", system:"攻击力数字实时更新并短暂高亮", next:"满意则关闭背包回到战斗；不满意则换回旧武器" },
+  { id: "n1", type: "overlay", title: "战斗中：看到拾取反馈", x: 80, y: 310, player: "击杀精英怪，武器掉落在地", system: "地面浮现橙色物品名标签，伴随拾取音效", next: "靠近拾取，或先无视继续战斗" },
+  { id: "n2", type: "page", title: "打开背包", x: 420, y: 310, player: "按下 I 键", system: "背包页面覆盖战斗画面，新物品格显示 NEW 角标", next: "浏览网格，找到新武器所在格子" },
+  { id: "n3", type: "panel", title: "找到新物品", x: 760, y: 310, player: "在网格中定位新武器图标", system: "稀有度颜色边框高亮该格子", next: "点击查看，或直接拖拽装备" },
+  { id: "n4", type: "tooltip", title: "查看并比较", x: 1100, y: 310, player: "鼠标悬停在新武器上", system: "弹出属性 Tooltip，与当前装备的差异用颜色标出（更好/更差）", next: "决定装备、丢弃或留着卖钱" },
+  { id: "n5", type: "panel", title: "决定装备", x: 1100, y: 640, player: "点击「装备」按钮", system: "旧武器退回背包格，新武器进入装备栏，图标微光闪动", next: "继续整理背包，或关闭背包" },
+  { id: "n6", type: "page", title: "确认人物属性变化", x: 760, y: 640, player: "切换查看人物信息（或背包内嵌显示）", system: "攻击力数字实时更新并短暂高亮", next: "满意则关闭背包回到战斗；不满意则换回旧武器" }
 ];
 
-const flow = document.getElementById("flow");
+const DEFAULT_CONNECTIONS = [
+  { from: "n1", fromPort: "right", to: "n2", toPort: "left", label: "按 I 键" },
+  { from: "n2", fromPort: "right", to: "n3", toPort: "left", label: "定位新物品" },
+  { from: "n3", fromPort: "right", to: "n4", toPort: "left", label: "鼠标悬停" },
+  { from: "n4", fromPort: "bottom", to: "n5", toPort: "top", label: "点击装备" },
+  { from: "n5", fromPort: "left", to: "n6", toPort: "right", label: "确认属性变化" }
+];
 
-function cycleType(el){
-  const cur = el.dataset.type;
-  const idx = (TYPES.indexOf(cur)+1) % TYPES.length;
-  const next = TYPES[idx];
-  el.dataset.type = next;
-  el.textContent = TYPE_LABEL[next];
+// ----- DOM Elements -----
+const container = document.getElementById("canvas-container");
+const workspace = document.getElementById("workspace");
+const svgLayer = document.getElementById("connections-svg");
+const txtZoom = document.getElementById("txtZoom");
+const chkSnap = document.getElementById("chkSnap");
+const dateStamp = document.getElementById("dateStamp");
+
+// ----- Init and Loading -----
+function init() {
+  dateStamp.textContent = new Date().toLocaleDateString("zh-CN", { year: "numeric", month: "long", day: "numeric" });
+  
+  // Load from LocalStorage if exists
+  if (localStorage.getItem("vfs_flow_nodes")) {
+    try {
+      nodes = JSON.parse(localStorage.getItem("vfs_flow_nodes"));
+      connections = JSON.parse(localStorage.getItem("vfs_flow_connections"));
+      panX = parseFloat(localStorage.getItem("vfs_flow_panx")) || 0;
+      panY = parseFloat(localStorage.getItem("vfs_flow_pany")) || 0;
+      zoom = parseFloat(localStorage.getItem("vfs_flow_zoom")) || 1.0;
+    } catch (e) {
+      nodes = JSON.parse(JSON.stringify(DEFAULT_NODES));
+      connections = JSON.parse(JSON.stringify(DEFAULT_CONNECTIONS));
+    }
+  } else {
+    resetToDefault(false);
+  }
+  
+  updateTransform();
+  renderAll();
 }
 
-function makeBadge(type){
-  const b = document.createElement("span");
-  b.className = "typebadge";
-  b.dataset.type = type;
-  b.textContent = TYPE_LABEL[type];
-  b.title = "点击切换容器类型";
-  b.onclick = () => cycleType(b);
-  return b;
+function saveState() {
+  localStorage.setItem("vfs_flow_nodes", JSON.stringify(nodes));
+  localStorage.setItem("vfs_flow_connections", JSON.stringify(connections));
+  localStorage.setItem("vfs_flow_panx", panX.toString());
+  localStorage.setItem("vfs_flow_pany", panY.toString());
+  localStorage.setItem("vfs_flow_zoom", zoom.toString());
 }
 
-function kv(label, ph, cls, text){
-  const row = document.createElement("div");
-  row.className = "kv " + cls;
-  const k = document.createElement("span"); k.className="k"; k.textContent = label;
-  const v = document.createElement("div"); v.className="v"; v.contentEditable="true"; v.dataset.ph = ph;
-  if(text) v.textContent = text;
-  row.appendChild(k); row.appendChild(v);
-  return row;
+function resetToDefault(confirmReq = true) {
+  if (confirmReq && !confirm("确定重置为默认的暗黑装备流程图吗？您的修改将被清空。")) return;
+  nodes = JSON.parse(JSON.stringify(DEFAULT_NODES));
+  connections = JSON.parse(JSON.stringify(DEFAULT_CONNECTIONS));
+  zoom = 1.0;
+  panX = 0;
+  panY = 0;
+  document.getElementById("docTitle").textContent = "THE REQUIRED EQUIPMENT FLOW · 装备流程";
+  document.getElementById("docSub").textContent = "六个界面围绕一条关键流程连接：从看到拾取反馈，到打开背包、找到新物品、查看比较、决定装备，最后确认人物属性变化。每个节点必须写清「玩家做了什么 / 系统怎样回应 / 下一步能做什么」。";
+  document.getElementById("teamName").value = "";
+  
+  saveState();
+  updateTransform();
+  renderAll();
 }
 
-function makeCard(data){
+// ----- Workspace Transformation (Zoom and Pan) -----
+function updateTransform() {
+  workspace.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+  txtZoom.textContent = `${Math.round(zoom * 100)}%`;
+}
+
+// Panning handlers
+container.addEventListener("pointerdown", (e) => {
+  // If target is container or empty workspace grid, start panning
+  if (e.target === container || e.target === workspace) {
+    isPanning = true;
+    panStart = { x: e.clientX - panX, y: e.clientY - panY };
+    container.setPointerCapture(e.pointerId);
+  }
+});
+
+container.addEventListener("pointermove", (e) => {
+  if (isPanning) {
+    panX = e.clientX - panStart.x;
+    panY = e.clientY - panStart.y;
+    updateTransform();
+  }
+});
+
+container.addEventListener("pointerup", (e) => {
+  if (isPanning) {
+    isPanning = false;
+    container.releasePointerCapture(e.pointerId);
+    saveState();
+  }
+});
+
+// Zoom triggers
+document.getElementById("btnZoomIn").onclick = () => { zoom = Math.min(zoom + 0.1, 1.8); updateTransform(); saveState(); };
+document.getElementById("btnZoomOut").onclick = () => { zoom = Math.max(zoom - 0.1, 0.5); updateTransform(); saveState(); };
+document.getElementById("btnZoomReset").onclick = () => { zoom = 1.0; panX = 0; panY = 0; updateTransform(); saveState(); };
+
+// ----- Node rendering -----
+const TYPES = ["page", "panel", "overlay", "tooltip"];
+const TYPE_LABEL = { page: "PAGE 页面", panel: "PANEL 面板", overlay: "OVERLAY 覆盖层", tooltip: "TOOLTIP 提示层" };
+
+function renderAll() {
+  // 1. Clear old elements except info block and SVG layer
+  const infoBlock = workspace.querySelector(".doc-info-block");
+  workspace.innerHTML = "";
+  workspace.appendChild(infoBlock);
+  workspace.appendChild(svgLayer);
+  
+  // Clear SVG lines & path labels
+  document.querySelectorAll(".conn-label-wrap").forEach(el => el.remove());
+  svgLayer.querySelectorAll(".connection-path").forEach(el => el.remove());
+  
+  // 2. Render cards
+  nodes.forEach(node => {
+    const cardEl = createCardElement(node);
+    workspace.appendChild(cardEl);
+  });
+  
+  // 3. Render connections
+  drawConnections();
+}
+
+function createCardElement(node) {
   const card = document.createElement("div");
   card.className = "card";
-
+  card.id = node.id;
+  card.style.left = `${node.x}px`;
+  card.style.top = `${node.y}px`;
+  
+  // Header / Handle
+  const hdr = document.createElement("div");
+  hdr.className = "card-hdr";
+  
+  // Type Badge
+  const badge = document.createElement("span");
+  badge.className = "typebadge";
+  badge.dataset.type = node.type;
+  badge.textContent = TYPE_LABEL[node.type];
+  badge.onclick = (e) => {
+    const nextIdx = (TYPES.indexOf(node.type) + 1) % TYPES.length;
+    node.type = TYPES[nextIdx];
+    badge.dataset.type = node.type;
+    badge.textContent = TYPE_LABEL[node.type];
+    saveState();
+  };
+  hdr.appendChild(badge);
+  
+  // Delete Button
   const del = document.createElement("button");
-  del.className = "del"; del.textContent = "✕"; del.title = "删除此节点";
-  del.onclick = () => removeCard(card);
-  card.appendChild(del);
-
-  card.appendChild(makeBadge(data.type || "panel"));
-
+  del.className = "del";
+  del.innerHTML = "&#x2715;";
+  del.title = "删除此节点";
+  del.onclick = (e) => {
+    e.stopPropagation();
+    if (!confirm(`确定删除节点 "${node.title || '未命名'}" 吗？所有连向它的连线也将被删除。`)) return;
+    nodes = nodes.filter(n => n.id !== node.id);
+    connections = connections.filter(c => c.from !== node.id && c.to !== node.id);
+    card.remove();
+    drawConnections();
+    saveState();
+  };
+  hdr.appendChild(del);
+  card.appendChild(hdr);
+  
+  // Title (Editable)
   const h3 = document.createElement("h3");
   h3.contentEditable = "true";
-  h3.textContent = data.title || "";
+  h3.textContent = node.title;
+  h3.addEventListener("blur", () => {
+    node.title = h3.textContent.trim();
+    saveState();
+  });
   card.appendChild(h3);
-
-  card.appendChild(kv("玩家做了什么", "填写玩家的具体动作……", "player", data.player));
-  card.appendChild(kv("系统怎样回应", "填写系统的反馈：视觉/音效/文字……", "system", data.system));
-  card.appendChild(kv("下一步能做什么", "填写玩家接下来的选项……", "next", data.next));
-
-  card._cond = data.cond || "";
+  
+  // Fields (Editable)
+  const playerField = createField("玩家做了什么", "描述玩家行为...", "player", node.player, (val) => { node.player = val; saveState(); });
+  const systemField = createField("系统怎样回应", "描述系统反馈...", "system", node.system, (val) => { node.system = val; saveState(); });
+  const nextField = createField("下一步能做什么", "描述后续流向...", "next", node.next, (val) => { node.next = val; saveState(); });
+  
+  card.appendChild(playerField);
+  card.appendChild(systemField);
+  card.appendChild(nextField);
+  
+  // Attach 4 ports
+  ["top", "bottom", "left", "right"].forEach(dir => {
+    const port = document.createElement("div");
+    port.className = "port";
+    port.dataset.port = dir;
+    setupPortDrag(port, node.id, dir);
+    card.appendChild(port);
+  });
+  
+  // Dragging handlers for card
+  setupCardDrag(card, node);
+  
   return card;
 }
 
-function makeConnector(condText){
-  const wrap = document.createElement("div");
-  wrap.className = "connector";
-  wrap.innerHTML = `
-    <svg viewBox="0 0 56 24"><line x1="2" y1="12" x2="46" y2="12" stroke="currentColor" stroke-width="3"/>
-      <polygon points="46,5 56,12 46,19" fill="currentColor"/></svg>
-    <span class="cond" contenteditable="true" data-ph="条件">${condText||""}</span>
-  `;
-  wrap.style.color = "var(--ink)";
-  return wrap;
-}
-
-function addBtn(afterWrap){
-  const b = document.createElement("button");
-  b.className = "addbtn"; b.textContent = "+"; b.title = "在此处插入新节点";
-  b.onclick = () => insertNodeAfter(afterWrap);
-  return b;
-}
-
-function render(nodes){
-  flow.innerHTML = "";
-  nodes.forEach((data, i) => {
-    if(i > 0){
-      flow.appendChild(makeConnector(data.cond));
-    }
-    const card = makeCard(data);
-    flow.appendChild(card);
+function createField(label, placeholder, cls, value, onSave) {
+  const container = document.createElement("div");
+  container.className = `kv ${cls}`;
+  
+  const span = document.createElement("span");
+  span.className = "k";
+  span.textContent = label;
+  
+  const v = document.createElement("div");
+  v.className = "v";
+  v.contentEditable = "true";
+  v.dataset.ph = placeholder;
+  v.textContent = value || "";
+  v.addEventListener("blur", () => {
+    onSave(v.textContent.trim());
   });
-  flow.appendChild(addBtn(null)); // 末尾追加按钮（工具栏也有一个，这里省略避免重复）
-  flow.lastChild.remove();
+  
+  container.appendChild(span);
+  container.appendChild(v);
+  return container;
 }
 
-function insertNodeAfter(afterWrap){
-  const blank = { type:"panel", title:"", cond:"", player:"", system:"", next:"" };
-  const card = makeCard(blank);
-  const conn1 = makeConnector("");
-  if(afterWrap == null){
-    // 插入到最前面
-    if(flow.firstChild){
-      flow.insertBefore(makeConnector(""), flow.firstChild);
-      flow.insertBefore(card, flow.firstChild);
-    } else {
-      flow.appendChild(card);
+// ----- Drag and Drop Card -----
+function setupCardDrag(card, node) {
+  const handle = card.querySelector(".card-hdr");
+  
+  handle.addEventListener("pointerdown", (e) => {
+    // Disable drag if clicking delete button
+    if (e.target.closest(".del")) return;
+    
+    dragNode = card;
+    dragNodeOffset = {
+      x: (e.clientX / zoom) - node.x,
+      y: (e.clientY / zoom) - node.y
+    };
+    
+    card.classList.add("dragging");
+    card.setPointerCapture(e.pointerId);
+    e.stopPropagation();
+  });
+  
+  handle.addEventListener("pointermove", (e) => {
+    if (dragNode === card) {
+      let rawX = (e.clientX / zoom) - dragNodeOffset.x;
+      let rawY = (e.clientY / zoom) - dragNodeOffset.y;
+      
+      // Snap to Grid option
+      if (chkSnap.checked) {
+        rawX = Math.round(rawX / gridSnapSize) * gridSnapSize;
+        rawY = Math.round(rawY / gridSnapSize) * gridSnapSize;
+      }
+      
+      // Keep nodes in workspace bounds
+      node.x = Math.max(0, Math.min(rawX, 3200));
+      node.y = Math.max(0, Math.min(rawY, 2200));
+      
+      card.style.left = `${node.x}px`;
+      card.style.top = `${node.y}px`;
+      
+      // Redraw curves real-time
+      drawConnections();
     }
+  });
+  
+  handle.addEventListener("pointerup", (e) => {
+    if (dragNode === card) {
+      dragNode = null;
+      card.classList.remove("dragging");
+      card.releasePointerCapture(e.pointerId);
+      saveState();
+    }
+  });
+}
+
+// ----- Drag to Connect Ports -----
+function setupPortDrag(port, cardId, dir) {
+  port.addEventListener("pointerdown", (e) => {
+    activePortDrag = { cardId, dir, element: port };
+    e.stopPropagation();
+    
+    // Create temporary connector SVG path
+    tempLine = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    tempLine.setAttribute("class", "connection-path temp");
+    svgLayer.appendChild(tempLine);
+    
+    port.setPointerCapture(e.pointerId);
+  });
+  
+  port.addEventListener("pointermove", (e) => {
+    if (!activePortDrag) return;
+    
+    const startPt = getPortCoords(activePortDrag.cardId, activePortDrag.dir);
+    // Convert current client coordinates to workspace relative coords
+    const rect = workspace.getBoundingClientRect();
+    const endPt = {
+      x: (e.clientX - rect.left) / zoom,
+      y: (e.clientY - rect.top) / zoom
+    };
+    
+    tempLine.setAttribute("d", getBezierD(startPt, endPt, activePortDrag.dir, "auto"));
+  });
+  
+  port.addEventListener("pointerup", (e) => {
+    if (!activePortDrag) return;
+    
+    // Find target port under client coordinates
+    const targetElement = document.elementFromPoint(e.clientX, e.clientY);
+    const targetPort = targetElement ? targetElement.closest(".port") : null;
+    
+    if (tempLine) {
+      tempLine.remove();
+      tempLine = null;
+    }
+    
+    if (targetPort) {
+      const targetCardId = targetPort.closest(".card").id;
+      const targetDir = targetPort.dataset.port;
+      
+      // Verify connection is valid (not self, and doesn't exist yet)
+      const duplicate = connections.some(c => c.from === activePortDrag.cardId && c.fromPort === activePortDrag.dir && c.to === targetCardId && c.toPort === targetDir);
+      
+      if (targetCardId !== activePortDrag.cardId && !duplicate) {
+        connections.push({
+          from: activePortDrag.cardId,
+          fromPort: activePortDrag.dir,
+          to: targetCardId,
+          toPort: targetDir,
+          label: "新转移"
+        });
+        drawConnections();
+        saveState();
+      }
+    }
+    
+    port.releasePointerCapture(e.pointerId);
+    activePortDrag = null;
+  });
+}
+
+// ----- Bezier Coordinates Helper -----
+function getPortCoords(cardId, dir) {
+  const node = nodes.find(n => n.id === cardId);
+  if (!node) return { x: 0, y: 0 };
+  
+  // Card dimensions: width: 280px. Height can be dynamic, so let's find the element height
+  const el = document.getElementById(cardId);
+  const w = 280;
+  const h = el ? el.offsetHeight : 180;
+  
+  switch(dir) {
+    case "top": return { x: node.x + w/2, y: node.y };
+    case "bottom": return { x: node.x + w/2, y: node.y + h };
+    case "left": return { x: node.x, y: node.y + h/2 };
+    case "right": return { x: node.x + w, y: node.y + h/2 };
+  }
+}
+
+function getBezierD(start, end, startDir, endDir) {
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  let cx1, cy1, cx2, cy2;
+  
+  // Handle start control point offset based on exit direction
+  if (startDir === "left" || startDir === "right") {
+    cx1 = start.x + (startDir === "right" ? Math.max(50, dx * 0.4) : -Math.max(50, -dx * 0.4));
+    cy1 = start.y;
   } else {
-    const ref = afterWrap.nextSibling;
-    flow.insertBefore(conn1, ref);
-    flow.insertBefore(card, ref);
+    cx1 = start.x;
+    cy1 = start.y + (startDir === "bottom" ? Math.max(50, dy * 0.4) : -Math.max(50, -dy * 0.4));
   }
-  card.querySelector("h3").focus();
+  
+  // Handle end control point offset
+  if (endDir === "left" || endDir === "right") {
+    cx2 = end.x + (endDir === "left" ? -Math.max(50, dx * 0.4) : Math.max(50, -dx * 0.4));
+    cy2 = end.y;
+  } else if (endDir === "top" || endDir === "bottom") {
+    cx2 = end.x;
+    cy2 = end.y + (endDir === "top" ? -Math.max(50, dy * 0.4) : Math.max(50, -dy * 0.4));
+  } else {
+    // Temp drag target has no direction, smooth it out
+    cx2 = end.x - dx * 0.2;
+    cy2 = end.y - dy * 0.2;
+  }
+  
+  return `M ${start.x} ${start.y} C ${cx1} ${cy1}, ${cx2} ${cy2}, ${end.x} ${end.y}`;
 }
 
-function removeCard(card){
-  if(!confirm("删除这个节点？")) return;
-  const prev = card.previousElementSibling;
-  const next = card.nextElementSibling;
-  // 删除节点及其左侧（或右侧）连接箭头，保持连贯
-  if(prev && prev.classList.contains("connector")){
-    prev.remove();
-  } else if(next && next.classList.contains("connector")){
-    next.remove();
-  }
-  card.remove();
+// ----- Drawing Connections and Custom Labels -----
+function drawConnections() {
+  // Clear old line elements and labels
+  document.querySelectorAll(".conn-label-wrap").forEach(el => el.remove());
+  svgLayer.querySelectorAll(".connection-path:not(.temp)").forEach(el => el.remove());
+  
+  connections.forEach((conn, index) => {
+    const startPt = getPortCoords(conn.from, conn.fromPort);
+    const endPt = getPortCoords(conn.to, conn.toPort);
+    
+    // Draw SVG path
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("class", "connection-path");
+    path.setAttribute("d", getBezierD(startPt, endPt, conn.fromPort, conn.toPort));
+    path.setAttribute("marker-end", "url(#arrow)");
+    
+    // Hover animation triggers
+    path.addEventListener("mouseenter", () => {
+      path.setAttribute("marker-end", "url(#arrow-hover)");
+      path.style.stroke = "var(--panel)";
+    });
+    path.addEventListener("mouseleave", () => {
+      path.setAttribute("marker-end", "url(#arrow)");
+      path.style.stroke = "var(--ink)";
+    });
+    
+    svgLayer.appendChild(path);
+    
+    // Calculate bezier midpoint mathematically for label placement
+    const dx = endPt.x - startPt.x;
+    const dy = endPt.y - startPt.y;
+    let cx1, cy1, cx2, cy2;
+    if (conn.fromPort === "left" || conn.fromPort === "right") {
+      cx1 = startPt.x + (conn.fromPort === "right" ? Math.max(50, dx * 0.4) : -Math.max(50, -dx * 0.4));
+      cy1 = startPt.y;
+    } else {
+      cx1 = startPt.x;
+      cy1 = startPt.y + (conn.fromPort === "bottom" ? Math.max(50, dy * 0.4) : -Math.max(50, -dy * 0.4));
+    }
+    
+    if (conn.toPort === "left" || conn.toPort === "right") {
+      cx2 = endPt.x + (conn.toPort === "left" ? -Math.max(50, dx * 0.4) : Math.max(50, -dx * 0.4));
+      cy2 = endPt.y;
+    } else {
+      cx2 = endPt.x;
+      cy2 = endPt.y + (conn.toPort === "top" ? -Math.max(50, dy * 0.4) : Math.max(50, -dy * 0.4));
+    }
+    
+    // Bezier midpoint at t = 0.5
+    const midX = 0.125 * startPt.x + 0.375 * cx1 + 0.375 * cx2 + 0.125 * endPt.x;
+    const midY = 0.125 * startPt.y + 0.375 * cy1 + 0.375 * cy2 + 0.125 * endPt.y;
+    
+    // Create connection label wrapper
+    const labelWrap = document.createElement("div");
+    labelWrap.className = "conn-label-wrap";
+    labelWrap.style.left = `${midX}px`;
+    labelWrap.style.top = `${midY}px`;
+    
+    const labelText = document.createElement("div");
+    labelText.className = "conn-label-text";
+    labelText.contentEditable = "true";
+    labelText.textContent = conn.label || "";
+    labelText.addEventListener("blur", () => {
+      conn.label = labelText.textContent.trim();
+      saveState();
+    });
+    labelWrap.appendChild(labelText);
+    
+    // Delete arrow button inside label
+    const delBtn = document.createElement("button");
+    delBtn.className = "conn-del-btn";
+    delBtn.innerHTML = "&#x2715;";
+    delBtn.title = "删除这条箭头";
+    delBtn.onclick = () => {
+      connections.splice(index, 1);
+      drawConnections();
+      saveState();
+    };
+    labelWrap.appendChild(delBtn);
+    
+    workspace.appendChild(labelWrap);
+  });
 }
 
-document.getElementById("btnAddEnd").onclick = () => {
-  const cards = [...flow.children];
-  const lastWrap = cards.length ? cards[cards.length-1] : null;
-  insertNodeAfter(lastWrap && lastWrap.classList.contains("card") ? lastWrap : null);
-};
+// ----- Add new nodes of different types -----
+function addNode(type) {
+  // Spawn node near current center of screen
+  const rect = container.getBoundingClientRect();
+  const screenX = -panX + (rect.width / 2) - 140;
+  const screenY = -panY + (rect.height / 2) - 90;
+  
+  // Snap coordinates if snap-to-grid is checked
+  let targetX = screenX / zoom;
+  let targetY = screenY / zoom;
+  if (chkSnap.checked) {
+    targetX = Math.round(targetX / gridSnapSize) * gridSnapSize;
+    targetY = Math.round(targetY / gridSnapSize) * gridSnapSize;
+  }
+  
+  const id = `n_${Date.now()}`;
+  const newNode = {
+    id,
+    type,
+    title: "",
+    x: targetX,
+    y: targetY,
+    player: "",
+    system: "",
+    next: ""
+  };
+  
+  nodes.push(newNode);
+  const cardEl = createCardElement(newNode);
+  workspace.appendChild(cardEl);
+  cardEl.querySelector("h3").focus();
+  saveState();
+}
 
-document.getElementById("btnReset").onclick = () => {
-  if(!confirm("恢复为默认的六节点装备流程案例？当前编辑内容会丢失。")) return;
-  render(DEFAULT_NODES);
-};
+document.getElementById("btnAddPage").onclick = () => addNode("page");
+document.getElementById("btnAddPanel").onclick = () => addNode("panel");
+document.getElementById("btnAddOverlay").onclick = () => addNode("overlay");
+document.getElementById("btnAddTooltip").onclick = () => addNode("tooltip");
+
+// ----- Setup Header metadata fields autosave -----
+const docTitle = document.getElementById("docTitle");
+const docSub = document.getElementById("docSub");
+const teamName = document.getElementById("teamName");
+
+docTitle.addEventListener("blur", () => {
+  localStorage.setItem("vfs_flow_title", docTitle.textContent.trim());
+});
+docSub.addEventListener("blur", () => {
+  localStorage.setItem("vfs_flow_sub", docSub.textContent.trim());
+});
+teamName.addEventListener("change", () => {
+  localStorage.setItem("vfs_flow_team", teamName.value.trim());
+});
+
+// Load header data from local storage
+if (localStorage.getItem("vfs_flow_title")) {
+  docTitle.textContent = localStorage.getItem("vfs_flow_title");
+}
+if (localStorage.getItem("vfs_flow_sub")) {
+  docSub.textContent = localStorage.getItem("vfs_flow_sub");
+}
+if (localStorage.getItem("vfs_flow_team")) {
+  teamName.value = localStorage.getItem("vfs_flow_team");
+}
+
+// ----- Reset, black-and-white, and print options -----
+document.getElementById("btnReset").onclick = () => resetToDefault(true);
 
 const bwBtn = document.getElementById("btnToggleBW");
-function setBW(on){
+function setBW(on) {
   document.body.classList.toggle("bw", on);
-  bwBtn.textContent = on ? "🎨 切换配色（当前：黑白）" : "🎨 切换配色（当前：彩色）";
+  bwBtn.textContent = on ? "🎨 切换彩色" : "🎨 切换黑白";
 }
 bwBtn.onclick = () => setBW(!document.body.classList.contains("bw"));
 
-document.getElementById("btnPrintColor").onclick = () => { setBW(false); requestAnimationFrame(()=>setTimeout(()=>window.print(),50)); };
-document.getElementById("btnPrintBW").onclick = () => { setBW(true); requestAnimationFrame(()=>setTimeout(()=>window.print(),50)); };
+// Print buttons setup
+document.getElementById("btnPrintColor").onclick = () => {
+  setBW(false);
+  // Reset pan and zoom to print bounds properly
+  const origZoom = zoom;
+  const origPanX = panX;
+  const origPanY = panY;
+  zoom = 1.0; panX = 0; panY = 0;
+  updateTransform();
+  drawConnections();
+  
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      window.print();
+      // Restore coordinates after printing dialog opens
+      zoom = origZoom; panX = origPanX; panY = origPanY;
+      updateTransform();
+      drawConnections();
+    }, 50);
+  });
+};
 
-document.getElementById("dateStamp").textContent = new Date().toLocaleDateString("zh-CN",{year:"numeric",month:"long",day:"numeric"});
-
-render(DEFAULT_NODES);
+// Start system
+init();
 </script>
 </body>
 </html>
