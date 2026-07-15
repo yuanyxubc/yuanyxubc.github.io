@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>游戏设计流程图编辑器 · Flow Editor</title>
+<style>
+:root{
+  --ink:#141414; --dim:#6b6b6b; --line:#c9c9c9; --bg:#f4f4f6; --card:#ffffff;
+  --page:#2e8b57; --panel:#2b6cb0; --overlay:#c2410c; --tooltip:#7c3aed;
+  --accent:#141414;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font-family:"PingFang SC","Microsoft YaHei","Segoe UI",Arial,sans-serif}
+h1,h2{margin:0}
+
+/* ---------- toolbar (screen only) ---------- */
+.toolbar{
+  position:sticky;top:0;z-index:50;background:#1c1c22;color:#fff;
+  padding:14px 22px;display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;
+  box-shadow:0 3px 10px rgba(0,0,0,.25);
+}
+.toolbar .ttitle{font-weight:700;font-size:16px;margin-right:auto;white-space:nowrap}
+.toolbar button, .toolbar .field{
+  font-family:inherit;font-size:13px;border:1.5px solid #444;background:#2a2a33;color:#fff;
+  padding:8px 12px;border-radius:6px;cursor:pointer;white-space:nowrap;
+}
+.toolbar button:hover{background:#38384a;border-color:#666}
+.toolbar button.primary{background:#ffd23f;color:#141414;border-color:#ffd23f;font-weight:700}
+.toolbar button.primary:hover{background:#ffdd6b}
+.toolbar .field{background:#141419;display:flex;align-items:center;gap:6px;cursor:default}
+.toolbar .field input{background:transparent;border:none;color:#fff;font-family:inherit;font-size:13px;width:120px;outline:none}
+.toolbar .sep{width:1px;height:22px;background:#444;margin:0 2px}
+
+/* ---------- page ---------- */
+.sheet{max-width:1500px;margin:26px auto;padding:0 20px 60px}
+.doc-head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid var(--ink);padding-bottom:14px;margin-bottom:26px;gap:20px;flex-wrap:wrap}
+.doc-head h1{font-size:26px;letter-spacing:.5px}
+.doc-head .doc-sub{color:var(--dim);font-size:14px;margin-top:6px;max-width:640px;line-height:1.6}
+.doc-meta{font-size:13px;color:var(--dim);text-align:right;line-height:1.9}
+.doc-meta b{color:var(--ink)}
+.doc-meta input{border:none;border-bottom:1px dashed var(--line);background:transparent;font-family:inherit;font-size:13px;color:var(--ink);text-align:right;width:150px;outline:none}
+.doc-meta input:focus{border-bottom-color:var(--ink)}
+
+/* ---------- flow ---------- */
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;row-gap:34px}
+.node-wrap{display:flex;align-items:center}
+.connector{display:flex;align-items:center;justify-content:center;width:64px;flex:0 0 auto;position:relative}
+.connector svg{width:56px;height:24px;overflow:visible}
+.connector .cond{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:11px;color:var(--dim);
+  background:var(--card);padding:1px 6px;border:1px solid var(--line);border-radius:10px;white-space:nowrap;min-width:18px;text-align:center}
+.addbtn{width:26px;height:26px;border-radius:50%;border:1.5px dashed var(--line);background:var(--card);
+  color:var(--dim);font-size:15px;line-height:1;cursor:pointer;flex:0 0 auto;display:flex;align-items:center;justify-content:center}
+.addbtn:hover{border-color:var(--ink);color:var(--ink)}
+
+.card{
+  width:270px;flex:0 0 auto;background:var(--card);border:2.5px solid var(--ink);border-radius:10px;
+  padding:14px 16px 16px;position:relative;box-shadow:3px 3px 0 rgba(0,0,0,.08);
+}
+.card .del{position:absolute;top:6px;right:8px;border:none;background:none;color:#bbb;font-size:15px;cursor:pointer;line-height:1;padding:2px 4px}
+.card .del:hover{color:#c2410c}
+
+.typebadge{
+  display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;letter-spacing:.5px;
+  padding:3px 9px;border-radius:4px;cursor:pointer;user-select:none;margin-bottom:9px;
+}
+.typebadge[data-type="page"]{background:var(--page);color:#fff}
+.typebadge[data-type="panel"]{background:var(--panel);color:#fff}
+.typebadge[data-type="overlay"]{background:var(--overlay);color:#fff}
+.typebadge[data-type="tooltip"]{background:var(--tooltip);color:#fff}
+
+.card h3{
+  font-size:16px;margin:0 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line);
+  outline:none;min-height:1.3em;
+}
+.card h3:empty:before{content:"节点标题";color:#bbb}
+
+.kv{margin-bottom:9px}
+.kv .k{font-size:11px;font-weight:700;color:var(--dim);display:block;margin-bottom:2px}
+.kv .v{font-size:13.5px;line-height:1.55;outline:none;min-height:1.4em;border-bottom:1px dotted transparent}
+.kv .v:focus{border-bottom-color:var(--line)}
+.kv .v:empty:before{content:attr(data-ph);color:#c6c6c6}
+.kv.player .k{color:var(--panel)}
+.kv.system .k{color:var(--overlay)}
+.kv.next .k{color:var(--page)}
+
+/* ---------- legend ---------- */
+.legend{margin-top:36px;padding:14px 18px;border:1.5px solid var(--line);border-radius:8px;background:var(--card);
+  display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:var(--dim);align-items:center}
+.legend b{color:var(--ink)}
+.legend .lg-item{display:flex;align-items:center;gap:6px}
+.legend .sw{width:14px;height:14px;border-radius:3px;display:inline-block}
+.legend .sw.page{background:var(--page)} .legend .sw.panel{background:var(--panel)}
+.legend .sw.overlay{background:var(--overlay)} .legend .sw.tooltip{background:var(--tooltip)}
+
+.footprint{margin-top:22px;font-size:12px;color:var(--dim);text-align:center}
+
+/* =========================================================
+   BLACK & WHITE MODE (screen + print) — 覆盖颜色，只留边框区分类型
+   ========================================================= */
+body.bw .typebadge{background:#fff !important;color:var(--ink) !important;border:1.5px solid var(--ink)}
+body.bw .typebadge[data-type="page"]{border-width:3px}
+body.bw .typebadge[data-type="panel"]{border-style:solid}
+body.bw .typebadge[data-type="overlay"]{border-style:dashed}
+body.bw .typebadge[data-type="tooltip"]{border-style:dotted;border-width:2.5px}
+body.bw .kv.player .k, body.bw .kv.system .k, body.bw .kv.next .k{color:var(--ink)}
+body.bw .legend .sw{background:#fff !important;border:1.5px solid var(--ink)}
+body.bw .legend .sw.page{border-width:3px}
+body.bw .legend .sw.panel{border-style:solid}
+body.bw .legend .sw.overlay{border-style:dashed}
+body.bw .legend .sw.tooltip{border-style:dotted;border-width:2.5px}
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+@media print{
+  .toolbar, .addbtn, .card .del{display:none !important}
+  body{background:#fff}
+  .sheet{max-width:none;margin:0;padding:6mm 8mm}
+  .card{box-shadow:none;break-inside:avoid}
+  .flow{row-gap:26px}
+  .doc-meta input{border-bottom:1px solid #999}
+  @page{size:A3 landscape;margin:10mm}
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="ttitle">🎮 流程图编辑器</div>
+  <button id="btnAddEnd">+ 在末尾新增节点</button>
+  <button id="btnReset">↺ 恢复默认案例</button>
+  <div class="sep"></div>
+  <button id="btnToggleBW">🎨 切换配色（当前：彩色）</button>
+  <div class="sep"></div>
+  <button class="primary" id="btnPrintColor">🖨 打印彩色</button>
+  <button class="primary" id="btnPrintBW">🖨 打印黑白</button>
+</div>
+
+<div class="sheet">
+
+  <div class="doc-head">
+    <div>
+      <h1 id="docTitle" contenteditable="true">THE REQUIRED EQUIPMENT FLOW · 装备流程</h1>
+      <div class="doc-sub" id="docSub" contenteditable="true">六个界面围绕一条关键流程连接：从看到拾取反馈，到打开背包、找到新物品、查看比较、决定装备，最后确认人物属性变化。每个节点必须写清「玩家做了什么 / 系统怎样回应 / 下一步能做什么」。</div>
+    </div>
+    <div class="doc-meta">
+      小组／作业名：<input id="teamName" placeholder="填写小组或姓名"><br>
+      日期：<b id="dateStamp"></b><br>
+      课程：UIUX-03 · 信息架构与 Wireframe
+    </div>
+  </div>
+
+  <div class="flow" id="flow"></div>
+
+  <div class="legend" id="legend">
+    <b>容器类型：</b>
+    <span class="lg-item"><span class="sw page"></span>Page 页面</span>
+    <span class="lg-item"><span class="sw panel"></span>Panel 面板</span>
+    <span class="lg-item"><span class="sw overlay"></span>Overlay 覆盖层</span>
+    <span class="lg-item"><span class="sw tooltip"></span>Tooltip 提示层</span>
+    <span style="margin-left:auto">点击类型徽章可循环切换类型；点击 ✕ 删除节点；节点间的圆圈可插入新节点</span>
+  </div>
+
+  <div class="footprint">UIUX-03 · REQUIRED EQUIPMENT FLOW · 每个节点必须回答：玩家做了什么 / 系统怎样回应 / 下一步能做什么</div>
+
+</div>
+
+<script>
+const TYPES = ["page","panel","overlay","tooltip"];
+const TYPE_LABEL = {page:"PAGE 页面", panel:"PANEL 面板", overlay:"OVERLAY 覆盖层", tooltip:"TOOLTIP 提示层"};
+
+const DEFAULT_NODES = [
+  { type:"overlay", title:"战斗中：看到拾取反馈", cond:"", player:"击杀精英怪，武器掉落在地", system:"地面浮现橙色物品名标签，伴随拾取音效", next:"靠近拾取，或先无视继续战斗" },
+  { type:"page", title:"打开背包", cond:"按 I", player:"按下 I 键", system:"背包页面覆盖战斗画面，新物品格显示 NEW 角标", next:"浏览网格，找到新武器所在格子" },
+  { type:"panel", title:"找到新物品", cond:"", player:"在网格中定位新武器图标", system:"稀有度颜色边框高亮该格子", next:"点击查看，或直接拖拽装备" },
+  { type:"tooltip", title:"查看并比较", cond:"悬停", player:"鼠标悬停在新武器上", system:"弹出属性 Tooltip，与当前装备的差异用颜色标出（更好/更差）", next:"决定装备、丢弃或留着卖钱" },
+  { type:"panel", title:"决定装备", cond:"点击装备", player:"点击「装备」按钮", system:"旧武器退回背包格，新武器进入装备栏，图标微光闪动", next:"继续整理背包，或关闭背包" },
+  { type:"page", title:"确认人物属性变化", cond:"Esc 关闭", player:"切换查看人物信息（或背包内嵌显示）", system:"攻击力数字实时更新并短暂高亮", next:"满意则关闭背包回到战斗；不满意则换回旧武器" },
+];
+
+const flow = document.getElementById("flow");
+
+function cycleType(el){
+  const cur = el.dataset.type;
+  const idx = (TYPES.indexOf(cur)+1) % TYPES.length;
+  const next = TYPES[idx];
+  el.dataset.type = next;
+  el.textContent = TYPE_LABEL[next];
+}
+
+function makeBadge(type){
+  const b = document.createElement("span");
+  b.className = "typebadge";
+  b.dataset.type = type;
+  b.textContent = TYPE_LABEL[type];
+  b.title = "点击切换容器类型";
+  b.onclick = () => cycleType(b);
+  return b;
+}
+
+function kv(label, ph, cls, text){
+  const row = document.createElement("div");
+  row.className = "kv " + cls;
+  const k = document.createElement("span"); k.className="k"; k.textContent = label;
+  const v = document.createElement("div"); v.className="v"; v.contentEditable="true"; v.dataset.ph = ph;
+  if(text) v.textContent = text;
+  row.appendChild(k); row.appendChild(v);
+  return row;
+}
+
+function makeCard(data){
+  const card = document.createElement("div");
+  card.className = "card";
+
+  const del = document.createElement("button");
+  del.className = "del"; del.textContent = "✕"; del.title = "删除此节点";
+  del.onclick = () => removeCard(card);
+  card.appendChild(del);
+
+  card.appendChild(makeBadge(data.type || "panel"));
+
+  const h3 = document.createElement("h3");
+  h3.contentEditable = "true";
+  h3.textContent = data.title || "";
+  card.appendChild(h3);
+
+  card.appendChild(kv("玩家做了什么", "填写玩家的具体动作……", "player", data.player));
+  card.appendChild(kv("系统怎样回应", "填写系统的反馈：视觉/音效/文字……", "system", data.system));
+  card.appendChild(kv("下一步能做什么", "填写玩家接下来的选项……", "next", data.next));
+
+  card._cond = data.cond || "";
+  return card;
+}
+
+function makeConnector(condText){
+  const wrap = document.createElement("div");
+  wrap.className = "connector";
+  wrap.innerHTML = `
+    <svg viewBox="0 0 56 24"><line x1="2" y1="12" x2="46" y2="12" stroke="currentColor" stroke-width="3"/>
+      <polygon points="46,5 56,12 46,19" fill="currentColor"/></svg>
+    <span class="cond" contenteditable="true" data-ph="条件">${condText||""}</span>
+  `;
+  wrap.style.color = "var(--ink)";
+  return wrap;
+}
+
+function addBtn(afterWrap){
+  const b = document.createElement("button");
+  b.className = "addbtn"; b.textContent = "+"; b.title = "在此处插入新节点";
+  b.onclick = () => insertNodeAfter(afterWrap);
+  return b;
+}
+
+function render(nodes){
+  flow.innerHTML = "";
+  nodes.forEach((data, i) => {
+    if(i > 0){
+      flow.appendChild(makeConnector(data.cond));
+    }
+    const card = makeCard(data);
+    flow.appendChild(card);
+  });
+  flow.appendChild(addBtn(null)); // 末尾追加按钮（工具栏也有一个，这里省略避免重复）
+  flow.lastChild.remove();
+}
+
+function insertNodeAfter(afterWrap){
+  const blank = { type:"panel", title:"", cond:"", player:"", system:"", next:"" };
+  const card = makeCard(blank);
+  const conn1 = makeConnector("");
+  if(afterWrap == null){
+    // 插入到最前面
+    if(flow.firstChild){
+      flow.insertBefore(makeConnector(""), flow.firstChild);
+      flow.insertBefore(card, flow.firstChild);
+    } else {
+      flow.appendChild(card);
+    }
+  } else {
+    const ref = afterWrap.nextSibling;
+    flow.insertBefore(conn1, ref);
+    flow.insertBefore(card, ref);
+  }
+  card.querySelector("h3").focus();
+}
+
+function removeCard(card){
+  if(!confirm("删除这个节点？")) return;
+  const prev = card.previousElementSibling;
+  const next = card.nextElementSibling;
+  // 删除节点及其左侧（或右侧）连接箭头，保持连贯
+  if(prev && prev.classList.contains("connector")){
+    prev.remove();
+  } else if(next && next.classList.contains("connector")){
+    next.remove();
+  }
+  card.remove();
+}
+
+document.getElementById("btnAddEnd").onclick = () => {
+  const cards = [...flow.children];
+  const lastWrap = cards.length ? cards[cards.length-1] : null;
+  insertNodeAfter(lastWrap && lastWrap.classList.contains("card") ? lastWrap : null);
+};
+
+document.getElementById("btnReset").onclick = () => {
+  if(!confirm("恢复为默认的六节点装备流程案例？当前编辑内容会丢失。")) return;
+  render(DEFAULT_NODES);
+};
+
+const bwBtn = document.getElementById("btnToggleBW");
+function setBW(on){
+  document.body.classList.toggle("bw", on);
+  bwBtn.textContent = on ? "🎨 切换配色（当前：黑白）" : "🎨 切换配色（当前：彩色）";
+}
+bwBtn.onclick = () => setBW(!document.body.classList.contains("bw"));
+
+document.getElementById("btnPrintColor").onclick = () => { setBW(false); requestAnimationFrame(()=>setTimeout(()=>window.print(),50)); };
+document.getElementById("btnPrintBW").onclick = () => { setBW(true); requestAnimationFrame(()=>setTimeout(()=>window.print(),50)); };
+
+document.getElementById("dateStamp").textContent = new Date().toLocaleDateString("zh-CN",{year:"numeric",month:"long",day:"numeric"});
+
+render(DEFAULT_NODES);
+</script>
+</body>
+</html>
