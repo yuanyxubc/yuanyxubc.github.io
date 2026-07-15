@@ -129,6 +129,14 @@ html, body {
   font-size: 11px;
 }
 .line-del-btn:hover { background: #dc2626; transform: translate(-50%, -50%) scale(1.15); }
+.line-add-label-btn {
+  position: absolute; z-index: 24; width: 22px; height: 22px;
+  background: var(--panel); color: #fff; border: 1.8px solid var(--ink);
+  border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.1); transform: translate(-50%, -50%);
+  font-size: 11px;
+}
+.line-add-label-btn:hover { background: #2563eb; transform: translate(-50%, -50%) scale(1.15); }
 
 /* ---------- Draggable Card (Nodes) ---------- */
 .card {
@@ -854,24 +862,72 @@ function drawConnections() {
     
     const mid = getMidpoint(startPt, endPt, conn.fromPort, conn.toPort);
     
-    // Render delete line button if selected
+    // Render floating buttons if selected
     if (isSelected) {
-      const delBtnY = conn.hasLabel !== false ? mid.y - 25 : mid.y;
-      
-      const lineDelBtn = document.createElement("button");
-      lineDelBtn.className = "line-del-btn";
-      lineDelBtn.innerHTML = "🗑️";
-      lineDelBtn.title = "删除此连线";
-      lineDelBtn.style.left = `${mid.x}px`;
-      lineDelBtn.style.top = `${delBtnY}px`;
-      lineDelBtn.onclick = (e) => {
-        e.stopPropagation();
-        connections = connections.filter(c => c !== conn);
-        selectedConnection = null;
-        drawConnections();
-        saveState();
-      };
-      workspace.appendChild(lineDelBtn);
+      if (conn.hasLabel !== false) {
+        // Only show delete button offset above the label
+        const lineDelBtn = document.createElement("button");
+        lineDelBtn.className = "line-del-btn";
+        lineDelBtn.innerHTML = "🗑️";
+        lineDelBtn.title = "删除此连线";
+        lineDelBtn.style.left = `${mid.x}px`;
+        lineDelBtn.style.top = `${mid.y - 25}px`;
+        lineDelBtn.onclick = (e) => {
+          e.stopPropagation();
+          connections = connections.filter(c => c !== conn);
+          selectedConnection = null;
+          drawConnections();
+          saveState();
+        };
+        workspace.appendChild(lineDelBtn);
+      } else {
+        // Show delete button and add label button side by side at midpoint
+        const lineDelBtn = document.createElement("button");
+        lineDelBtn.className = "line-del-btn";
+        lineDelBtn.innerHTML = "🗑️";
+        lineDelBtn.title = "删除此连线";
+        lineDelBtn.style.left = `${mid.x - 16}px`;
+        lineDelBtn.style.top = `${mid.y}px`;
+        lineDelBtn.onclick = (e) => {
+          e.stopPropagation();
+          connections = connections.filter(c => c !== conn);
+          selectedConnection = null;
+          drawConnections();
+          saveState();
+        };
+        workspace.appendChild(lineDelBtn);
+        
+        const lineAddLabelBtn = document.createElement("button");
+        lineAddLabelBtn.className = "line-add-label-btn";
+        lineAddLabelBtn.innerHTML = "➕";
+        lineAddLabelBtn.title = "添加转移条件描述文字";
+        lineAddLabelBtn.style.left = `${mid.x + 16}px`;
+        lineAddLabelBtn.style.top = `${mid.y}px`;
+        lineAddLabelBtn.onclick = (e) => {
+          e.stopPropagation();
+          conn.hasLabel = true;
+          conn.label = "双击输入条件";
+          conn.labelOffsetX = 0;
+          conn.labelOffsetY = 0;
+          drawConnections();
+          saveState();
+          
+          // Auto focus the new text label
+          setTimeout(() => {
+            const labels = document.querySelectorAll(".conn-label-text");
+            if (labels.length) {
+              const lastLabel = labels[labels.length - 1];
+              lastLabel.focus();
+              const range = document.createRange();
+              range.selectNodeContents(lastLabel);
+              const sel = window.getSelection();
+              sel.removeAllRanges();
+              sel.addRange(range);
+            }
+          }, 50);
+        };
+        workspace.appendChild(lineAddLabelBtn);
+      }
     }
     
     // Render label wrapper if hasLabel is not false
