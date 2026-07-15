@@ -117,6 +117,19 @@ html, body {
 }
 .conn-del-btn:hover { background: #fee2e2; color: #ef4444; }
 
+.connection-path.selected {
+  stroke: var(--panel) !important;
+  stroke-width: 4.5 !important;
+}
+.line-del-btn {
+  position: absolute; z-index: 24; width: 22px; height: 22px;
+  background: #ef4444; color: #fff; border: 1.8px solid var(--ink);
+  border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.1); transform: translate(-50%, -50%);
+  font-size: 11px;
+}
+.line-del-btn:hover { background: #dc2626; transform: translate(-50%, -50%) scale(1.15); }
+
 /* ---------- Draggable Card (Nodes) ---------- */
 .card {
   position: absolute; width: 280px; background: var(--card);
@@ -324,6 +337,12 @@ let dragNodeOffset = { x: 0, y: 0 };
 let activePortDrag = null;
 let tempLine = null;
 const gridSnapSize = 20;
+
+let dragLabel = null;
+let dragLabelEl = null;
+let dragLabelStart = { x: 0, y: 0 };
+let dragLabelOffsetStart = { x: 0, y: 0 };
+let selectedConnection = null;
 
 // ----- Default Data -----
 const DEFAULT_NODES = [
@@ -786,6 +805,7 @@ function getMidpoint(startPt, endPt, fromPort, toPort) {
 function drawConnections() {
   // Clear old line elements and labels
   document.querySelectorAll(".conn-label-wrap").forEach(el => el.remove());
+  document.querySelectorAll(".line-del-btn").forEach(el => el.remove());
   svgLayer.querySelectorAll(".connection-path:not(.temp)").forEach(el => el.remove());
   
   connections.forEach((conn, index) => {
@@ -794,13 +814,24 @@ function drawConnections() {
     
     // Draw SVG path
     const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    path.setAttribute("class", "connection-path");
+    
+    // Add selected class if this connection is selected
+    const isSelected = conn === selectedConnection;
+    path.setAttribute("class", "connection-path" + (isSelected ? " selected" : ""));
     path.setAttribute("d", getBezierD(startPt, endPt, conn.fromPort, conn.toPort));
     path.setAttribute("marker-end", "url(#arrow)");
-    path.setAttribute("title", "双击连线可恢复或添加条件描述");
+    path.setAttribute("title", "双击连线可恢复或添加条件描述，单击可选择并删除");
+    
+    // Single click to select connection
+    path.addEventListener("click", (e) => {
+      e.stopPropagation();
+      selectedConnection = conn;
+      drawConnections();
+    });
     
     // Double click to restore or add label
-    path.addEventListener("dblclick", () => {
+    path.addEventListener("dblclick", (e) => {
+      e.stopPropagation();
       conn.hasLabel = true;
       conn.label = conn.label || "双击输入条件";
       conn.labelOffsetX = 0;
@@ -812,19 +843,39 @@ function drawConnections() {
     // Hover animation triggers
     path.addEventListener("mouseenter", () => {
       path.setAttribute("marker-end", "url(#arrow-hover)");
-      path.style.stroke = "var(--panel)";
+      if (!isSelected) path.style.stroke = "var(--panel)";
     });
     path.addEventListener("mouseleave", () => {
       path.setAttribute("marker-end", "url(#arrow)");
-      path.style.stroke = "var(--ink)";
+      if (!isSelected) path.style.stroke = "var(--ink)";
     });
     
     svgLayer.appendChild(path);
     
+    const mid = getMidpoint(startPt, endPt, conn.fromPort, conn.toPort);
+    
+    // Render delete line button if selected
+    if (isSelected) {
+      const delBtnY = conn.hasLabel !== false ? mid.y - 25 : mid.y;
+      
+      const lineDelBtn = document.createElement("button");
+      lineDelBtn.className = "line-del-btn";
+      lineDelBtn.innerHTML = "🗑️";
+      lineDelBtn.title = "删除此连线";
+      lineDelBtn.style.left = `${mid.x}px`;
+      lineDelBtn.style.top = `${delBtnY}px`;
+      lineDelBtn.onclick = (e) => {
+        e.stopPropagation();
+        connections = connections.filter(c => c !== conn);
+        selectedConnection = null;
+        drawConnections();
+        saveState();
+      };
+      workspace.appendChild(lineDelBtn);
+    }
+    
     // Render label wrapper if hasLabel is not false
     if (conn.hasLabel !== false) {
-      const mid = getMidpoint(startPt, endPt, conn.fromPort, conn.toPort);
-      
       const labelWrap = document.createElement("div");
       labelWrap.className = "conn-label-wrap";
       labelWrap.style.left = `${mid.x + (conn.labelOffsetX || 0)}px`;
@@ -972,6 +1023,24 @@ document.getElementById("btnPrintColor").onclick = () => {
     }, 50);
   });
 };
+
+// Deselect connection when clicking on canvas background
+workspace.addEventListener("click", (e) => {
+  if (e.target.closest(".card") || e.target.closest(".conn-label-wrap")) return;
+  selectedConnection = null;
+  drawConnections();
+});
+
+// Delete selected connection on Backspace or Delete press (if not typing in text field)
+document.addEventListener("keydown", (e) => {
+  if ((e.key === "Delete" || e.key === "Backspace") && selectedConnection) {
+    if (document.activeElement.contentEditable === "true" || document.activeElement.tagName === "INPUT") return;
+    connections = connections.filter(c => c !== selectedConnection);
+    selectedConnection = null;
+    drawConnections();
+    saveState();
+  }
+});
 
 // Start system
 init();
