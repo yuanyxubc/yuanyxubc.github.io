@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>复习闯关 · Lesson 03 · Info Dungeon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+@font-face{ font-family:"Zpix"; src:url("zpix.woff2") format("woff2"); font-display:swap; }
+
+:root{
+  --bg:#0e0e23; --bg2:#15163a; --panel:#1c1d44; --panel2:#24255a;
+  --ink:#f4f4ff; --dim:#a9abe0; --line:#3a3c7a; --black:#07071a;
+  --red:#e03a3a; --orange:#ff9f1c; --blue:#3a86ff; --green:#43d35a;
+  --magenta:#ff5db1; --cyan:#21d4d4; --gold:#ffd23f; --purple:#b15dff;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:#000;color:var(--ink);
+  font-family:"Zpix","Press Start 2P","PingFang SC","Microsoft YaHei",monospace;
+  overflow:hidden;display:flex;align-items:center;justify-content:center;image-rendering:pixelated;
+}
+.en{font-family:"Press Start 2P","Zpix",monospace}
+button{font-family:inherit;cursor:pointer}
+
+#viewport{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#stage{
+  width:1280px;height:720px;position:relative;
+  background:radial-gradient(circle at 50% 0%, #1b1c4a 0%, var(--bg) 70%);
+  transform-origin:center center;overflow:hidden;border:6px solid #2c2e6e;
+}
+#stage::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:16px 16px;z-index:0;
+}
+.screen{position:absolute;inset:0;display:none;flex-direction:column;padding:40px 54px;z-index:1}
+.screen.active{display:flex;animation:pop .18s steps(3)}
+@keyframes pop{from{opacity:.2;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+/* ---- top HUD ---- */
+.hud{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.hud .lv{font-family:"Press Start 2P","Zpix",monospace;font-size:12px;background:var(--purple);color:#fff;
+  padding:9px 12px;border:3px solid #fff;box-shadow:5px 5px 0 var(--black)}
+.hud .score{font-family:"Press Start 2P","Zpix",monospace;font-size:12px;background:var(--panel);
+  border:3px solid var(--line);padding:8px 11px;box-shadow:4px 4px 0 var(--black)}
+.hud .score b{color:var(--gold)}
+.hearts{display:flex;gap:6px}
+.heart{position:relative;width:16px;height:16px}
+.heart::before{content:"";position:absolute;left:2px;top:3px;width:2px;height:2px;background:var(--red);
+  box-shadow:2px 0 var(--red),6px 0 var(--red),8px 0 var(--red),
+    0 2px var(--red),2px 2px var(--red),4px 2px var(--red),6px 2px var(--red),8px 2px var(--red),10px 2px var(--red),
+    0 4px var(--red),2px 4px var(--red),4px 4px var(--red),6px 4px var(--red),8px 4px var(--red),10px 4px var(--red),
+    2px 6px var(--red),4px 6px var(--red),6px 6px var(--red),8px 6px var(--red),
+    4px 8px var(--red),6px 8px var(--red);}
+.heart.off::before{opacity:.15}
+
+/* ---- slime mascot ---- */
+.slime{width:64px;height:56px;position:relative;margin:0 auto}
+.slime i{position:absolute;background:var(--cyan)}
+.slime .body{left:8px;top:16px;width:48px;height:32px}
+.slime .top{left:16px;top:8px;width:32px;height:12px}
+.slime .l1{left:0;top:24px;width:8px;height:16px}
+.slime .l2{left:56px;top:24px;width:8px;height:16px}
+.slime .eye{background:var(--black);width:6px;height:8px;top:26px}
+.slime .eye.left{left:20px}
+.slime .eye.right{left:38px}
+.slime .shine{background:#bdf0f2;width:8px;height:6px;left:16px;top:18px}
+.slime.bounce{animation:sbounce 1.1s ease-in-out infinite}
+@keyframes sbounce{0%,100%{transform:translateY(0) scaleY(1)}45%{transform:translateY(-10px) scaleY(1.06)}55%{transform:translateY(-10px) scaleY(1.06)}70%{transform:translateY(2px) scaleY(.9)}}
+
+/* ---- cover ---- */
+.cover{align-items:center;justify-content:center;text-align:center;gap:0}
+.cover .badge-top{font-family:"Press Start 2P","Zpix",monospace;font-size:11px;color:var(--gold);margin-bottom:22px;letter-spacing:2px}
+.cover h1{font-family:"Press Start 2P","Zpix",monospace;font-size:34px;line-height:1.4;color:#fff;
+  text-shadow:5px 5px 0 var(--purple),10px 10px 0 var(--black)}
+.cover .sub{font-size:19px;color:var(--cyan);margin-top:22px;letter-spacing:2px;font-weight:bold}
+.cover .desc{font-family:"Press Start 2P","Zpix",monospace;font-size:11px;color:var(--dim);margin-top:26px;line-height:2}
+.bigbtn{margin-top:32px;font-family:"Press Start 2P","Zpix",monospace;font-size:14px;color:var(--black);
+  background:var(--gold);border:4px solid #fff;padding:16px 26px;box-shadow:7px 7px 0 var(--black)}
+.bigbtn:hover{background:#fff}
+.bigbtn:active{transform:translate(3px,3px);box-shadow:4px 4px 0 var(--black)}
+
+/* ---- dungeon map ---- */
+.mapwrap{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:450px}
+.routes{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.routes line{stroke:#272858;stroke-width:6;stroke-linecap:square}
+.routes line.open{stroke:var(--gold);filter:drop-shadow(0 0 4px rgba(255,210,63,.35))}
+.routes line.locked{stroke:#191a3c}
+.nodes{position:absolute;inset:0;z-index:1}
+.node{position:absolute;display:flex;flex-direction:column;align-items:center;gap:8px;transform:translate(-50%,-50%)}
+.node .dot{width:64px;height:64px;border:4px solid #fff;background:var(--panel2);
+  display:flex;align-items:center;justify-content:center;font-family:"Press Start 2P","Zpix",monospace;
+  font-size:18px;box-shadow:6px 6px 0 var(--black);cursor:pointer;color:#fff}
+.node.locked .dot{background:#26273f;color:#4a4c73;cursor:not-allowed;box-shadow:6px 6px 0 #050510}
+.node.cleared .dot{background:var(--green);color:var(--black)}
+.node.current .dot{background:var(--gold);color:var(--black);animation:pulse 1s infinite}
+.node.start .dot{background:var(--cyan);color:var(--black)}
+.node.boss .dot{background:var(--red);color:#fff}
+.node.boss.current .dot{background:var(--red);animation:bossPulse .7s steps(2) infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.node .name{font-family:"Press Start 2P","Zpix",monospace;font-size:9px;color:var(--dim);text-align:center;width:112px;line-height:1.55}
+.node.cleared .name,.node.current .name{color:var(--ink)}
+.node .route{font-size:12px;color:var(--cyan);line-height:1}
+.node.locked .route{color:#4a4c73}
+.mapnote{position:absolute;left:28px;top:18px;width:245px;background:rgba(28,29,68,.92);
+  border:3px solid var(--line);box-shadow:5px 5px 0 var(--black);padding:12px 14px;font-size:14px;line-height:1.6;color:var(--dim)}
+.mapnote b{color:var(--gold)}
+.routebox{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:70px;
+  border:3px solid var(--line);background:rgba(28,29,68,.88);box-shadow:5px 5px 0 var(--black);padding:12px 14px}
+.routebox .title{font-family:"Press Start 2P","Zpix",monospace;font-size:10px;color:var(--gold);white-space:nowrap}
+.routebuttons{display:flex;flex:1;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.routebtn{font-family:"Press Start 2P","Zpix",monospace;font-size:9px;color:#fff;background:var(--panel2);
+  border:3px solid var(--line);padding:10px 12px;box-shadow:3px 3px 0 var(--black)}
+.routebtn:hover{border-color:var(--cyan);background:#303171}
+.routebtn.boss{background:var(--red);border-color:#fff}
+.routehint{font-size:14px;color:var(--dim);line-height:1.5}
+@keyframes bossPulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+/* ---- question screen ---- */
+.qwrap{flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px}
+.qpanel{background:var(--panel);border:4px solid var(--gold);padding:24px 30px;box-shadow:8px 8px 0 var(--black)}
+.qpanel .qn{font-family:"Press Start 2P","Zpix",monospace;font-size:11px;color:var(--gold);margin-bottom:12px}
+.qpanel .qt{font-size:21px;line-height:1.6}
+.qpanel .scene{font-size:15px;color:var(--cyan);margin-bottom:10px;line-height:1.6}
+.opts{display:flex;flex-direction:column;gap:11px}
+.opt{background:var(--panel2);border:3px solid var(--line);padding:13px 18px;font-size:17px;
+  display:flex;gap:14px;align-items:center;text-align:left;color:var(--ink);box-shadow:4px 4px 0 var(--black)}
+.opt:hover{border-color:var(--cyan)}
+.opt .k{font-family:"Press Start 2P","Zpix",monospace;font-size:12px;color:var(--black);background:var(--cyan);
+  border:2px solid #fff;padding:5px 8px;flex:0 0 auto}
+.opt.correct{background:var(--green);border-color:#fff;color:var(--black)}
+.opt.correct .k{background:#fff}
+.opt.wrong{background:var(--red);border-color:#fff;color:#fff}
+.opt.wrong .k{background:#fff;color:var(--black)}
+.opt[disabled]{cursor:default}
+.hintrow{display:flex;align-items:flex-start;gap:14px}
+.hintbtn{flex:0 0 auto;font-family:"Press Start 2P","Zpix",monospace;font-size:10px;color:var(--black);
+  background:var(--cyan);border:3px solid #fff;padding:9px 11px;box-shadow:3px 3px 0 var(--black)}
+.hintbtn:hover{background:#fff}
+.hintbtn[disabled]{opacity:.4;cursor:default}
+.explain{flex:1;font-size:15px;color:var(--dim);line-height:1.6;min-height:24px}
+.explain b{color:var(--gold)}
+.kpchip{display:inline-block;margin-top:8px;font-size:13px;color:var(--black);background:var(--gold);
+  border:2px solid #fff;padding:4px 10px;box-shadow:3px 3px 0 var(--black);animation:pop .2s steps(3)}
+.nextbtn{align-self:flex-end;font-family:"Press Start 2P","Zpix",monospace;font-size:11px;color:var(--black);
+  background:var(--gold);border:3px solid #fff;padding:10px 16px;box-shadow:4px 4px 0 var(--black);
+  opacity:0;pointer-events:none;transition:opacity .15s}
+.nextbtn.show{opacity:1;pointer-events:auto}
+
+/* ---- clear / final / certificate ---- */
+.midscreen{align-items:center;justify-content:center;text-align:center;gap:18px}
+.midscreen .big{font-family:"Press Start 2P","Zpix",monospace;font-size:30px;color:#fff;
+  text-shadow:4px 4px 0 var(--green),8px 8px 0 var(--black)}
+.midscreen .score-line{font-family:"Press Start 2P","Zpix",monospace;font-size:15px;color:var(--gold);margin-top:10px}
+.rank{font-family:"Press Start 2P","Zpix",monospace;font-size:64px;margin:12px 0;text-shadow:6px 6px 0 var(--black)}
+.rank.S{color:var(--gold)} .rank.A{color:var(--cyan)} .rank.B{color:var(--green)} .rank.C{color:var(--dim)}
+
+.namebox{display:flex;gap:12px;align-items:center;margin-top:18px}
+.namebox label{font-size:16px;color:var(--dim)}
+.namebox input{font-family:inherit;font-size:20px;color:var(--ink);background:var(--panel2);
+  border:3px solid var(--gold);padding:12px 16px;width:300px;box-shadow:4px 4px 0 var(--black);text-align:center}
+.namebox input:focus{outline:none;border-color:#fff}
+
+.certwrap{flex:1;display:flex;flex-direction:column;min-height:0}
+.cert{flex:1;overflow-y:auto;background:var(--panel);border:4px solid var(--gold);
+  box-shadow:8px 8px 0 var(--black);padding:24px 34px}
+.cert h2{font-family:"Press Start 2P","Zpix",monospace;font-size:16px;color:var(--gold);text-align:center;margin-bottom:4px}
+.cert .who{text-align:center;font-size:18px;color:var(--cyan);margin-bottom:14px}
+.cert .who b{color:#fff;font-size:22px}
+.certcols{display:grid;grid-template-columns:1fr 1fr;gap:10px 26px}
+.certgroup{margin-bottom:6px}
+.certgroup h3{font-size:14px;color:var(--gold);border-bottom:2px solid var(--line);padding-bottom:4px;margin-bottom:6px}
+.certgroup li{font-size:13.5px;line-height:1.65;color:var(--ink);list-style:none;padding-left:18px;position:relative}
+.certgroup li::before{content:"◆";position:absolute;left:0;color:var(--green);font-size:10px;top:4px}
+.certgroup.miss li::before{content:"↺";color:var(--orange)}
+.certgroup.miss li{color:var(--dim)}
+.certbtns{display:flex;gap:12px;justify-content:center;margin-top:14px}
+.certbtns .bigbtn{margin-top:0;font-size:11px;padding:12px 18px}
+
+/* ---- toolbar ---- */
+.toolbar{position:fixed;left:10px;bottom:10px;z-index:45;display:flex;gap:6px}
+.toolbar button{font-family:"Press Start 2P","Zpix",monospace;font-size:9px;color:#fff;background:var(--panel);
+  border:3px solid var(--line);padding:8px 9px;box-shadow:3px 3px 0 #000}
+.toolbar button.on{background:var(--green);color:#07071a;border-color:#fff}
+#hint{position:fixed;right:10px;bottom:14px;z-index:40;font-family:"Press Start 2P","Zpix",monospace;font-size:8px;color:#5658a0}
+
+/* ---- printable card (screen: hidden / print: only this) ---- */
+#printCard{display:none}
+@media print{
+  body{overflow:visible;height:auto;display:block;background:#fff}
+  #viewport,.toolbar,#hint{display:none !important}
+  #printCard{display:block;color:#111;font-family:"PingFang SC","Microsoft YaHei",sans-serif;padding:10mm 8mm}
+  #printCard .p-head{text-align:center;border-bottom:3px solid #111;padding-bottom:10px;margin-bottom:14px}
+  #printCard .p-head h1{font-size:20pt;letter-spacing:2px}
+  #printCard .p-head .sub{font-size:10pt;color:#555;margin-top:4px}
+  #printCard .p-who{font-size:13pt;text-align:center;margin-bottom:14px}
+  #printCard .p-who b{font-size:16pt;border-bottom:2px solid #111;padding:0 8px}
+  #printCard h2{font-size:12pt;background:#111;color:#fff;display:inline-block;padding:2px 10px;margin:10px 0 6px}
+  #printCard ul{margin-left:18px}
+  #printCard li{font-size:10.5pt;line-height:1.75}
+  #printCard .p-miss li{color:#8a5a00}
+  #printCard .p-foot{margin-top:16px;font-size:9pt;color:#777;text-align:center;border-top:1px solid #ccc;padding-top:8px}
+}
+</style>
+</head>
+<body>
+<div id="viewport"><div id="stage"></div></div>
+<div id="hint">地图可选方向 · 点击作答 · H 键看提示</div>
+<div id="printCard"></div>
+
+<script>
+/* ===== Sound ===== */
+const Sound = (function(){
+  let ctx, master, bgmGain, sfxGain, bgmOn=true, schedTimer, nextT=0, step=0;
+  const BASS=[147,0,0,0, 175,0,0,0, 196,0,0,0, 165,0,0,0];
+  const LEAD=[587,0,698,0, 622,0,587,0, 523,0,587,0, 494,0,523,0];
+  const STEP=0.15;
+  function ready(){
+    if(ctx) return true;
+    try{
+      ctx=new (window.AudioContext||window.webkitAudioContext)();
+      master=ctx.createGain(); master.gain.value=0.9; master.connect(ctx.destination);
+      bgmGain=ctx.createGain(); bgmGain.gain.value=0.045; bgmGain.connect(master);
+      sfxGain=ctx.createGain(); sfxGain.gain.value=0.28; sfxGain.connect(master);
+      return true;
+    }catch(e){ return false; }
+  }
+  function tone(freq,dur,type,gain,at,target){
+    const t=at||ctx.currentTime, o=ctx.createOscillator(), g=ctx.createGain();
+    o.type=type||"square"; o.frequency.setValueAtTime(freq,t);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(gain||0.3,t+0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g); g.connect(target||sfxGain);
+    o.start(t); o.stop(t+dur+0.02);
+  }
+  function scheduler(){
+    while(nextT < ctx.currentTime+0.12){
+      const i=step%16;
+      if(LEAD[i]) tone(LEAD[i],STEP*1.1,"square",0.20,nextT,bgmGain);
+      if(BASS[i]) tone(BASS[i],STEP*3.2,"triangle",0.35,nextT,bgmGain);
+      nextT+=STEP; step++;
+    }
+  }
+  function startBGM(){ if(!ready())return; if(ctx.state==="suspended")ctx.resume(); if(schedTimer)return; nextT=ctx.currentTime+0.05; schedTimer=setInterval(scheduler,25); }
+  function stopBGM(){ if(schedTimer){clearInterval(schedTimer);schedTimer=null;} }
+  return {
+    nav(){ if(!ready())return; if(ctx.state==="suspended")ctx.resume(); tone(880,0.05,"square",0.28); },
+    correct(){ if(!ready())return; if(ctx.state==="suspended")ctx.resume();
+      [523,659,784,1047].forEach((f,i)=>tone(f,0.12,"square",0.28,ctx.currentTime+i*0.06)); },
+    wrong(){ if(!ready())return; if(ctx.state==="suspended")ctx.resume();
+      tone(180,0.18,"sawtooth",0.22); tone(140,0.22,"sawtooth",0.2,ctx.currentTime+0.08); },
+    clear(){ if(!ready())return; if(ctx.state==="suspended")ctx.resume();
+      [523,659,784,1047,1319].forEach((f,i)=>tone(f,0.16,"square",0.3,ctx.currentTime+i*0.09)); },
+    toggle(){ bgmOn=!bgmOn; if(bgmOn)startBGM(); else stopBGM(); return bgmOn; },
+    kick(){ if(bgmOn) startBGM(); }
+  };
+})();
+
+/* ===== Quiz content: Lesson 03 · 信息架构与 Wireframe ===== */
+/* 每题带 kp：答对 = 收进「我的知识卡」，答错 = 进「待复习」 */
+const LEVELS = [
+  { name:"出现时机", color:"var(--blue)", questions:[
+    { q:"「生命值与药剂数量」应该属于哪种出现时机？", opts:["常驻","条件出现","主动查看","不显示"], a:0,
+      hint:"想一想：它决定「我下一秒会不会死」，多数战斗时刻都要瞄一眼。",
+      ex:"生命值在多数战斗时刻都被需要，满足<b>常驻</b>的唯一条件。",
+      kp:"常驻的条件：玩家在多数战斗时刻都需要它（如生命值、药剂）" },
+    { q:"「掉落物品提示」什么时候才应该出现？", opts:["一直挂在屏幕上","怪物死亡、有掉落这个事件发生时","玩家打开背包时","进入设置页时"], a:1,
+      hint:"想一想：没有怪物倒下，就没有掉落——信息跟着什么走？",
+      ex:"掉落标签是典型的<b>条件出现</b>：事件发生→信息出现，事件结束→信息消失。",
+      kp:"条件出现：事件发生才显示，事件结束就消失（如掉落标签、Boss 血条）" },
+    { q:"「完整人物属性」为什么适合做成主动查看？", opts:["因为它不重要","信息量大、战斗中来不及看，玩家想看时再打开","因为策划懒得做","因为它每秒都在变"], a:1,
+      hint:"想一想：几十行属性数字，你会在躲 Boss 技能的时候读吗？",
+      ex:"信息量大但战斗中不急用——玩家按 C <b>主动打开</b>，看完关掉回去打。",
+      kp:"主动查看：信息量大、不急用的内容让玩家需要时再打开（如属性、背包）" },
+    { q:"判断一条信息能不能常驻，第一个要问的问题是？", opts:["它好不好看","玩家在多数战斗时刻是否需要它","它是不是很贵","别的游戏有没有做"], a:1,
+      hint:"想一想：课件那句话——常驻不是荣誉，是＿＿。",
+      ex:"常驻是<b>成本</b>：每个常驻元素都在争夺战斗注意力，先问玩家是否真的随时需要。",
+      kp:"常驻是成本不是荣誉：每个常驻元素都在争夺战斗注意力" },
+    { q:"小地图常驻在角落、全屏大地图按 M 打开——这说明什么？", opts:["设计师犯了重复的错误","同一信息可以用不同时机、不同容器出现两次","地图不重要","全屏地图是多余的"], a:1,
+      hint:"想一想：边打边导航 vs 停下来规划路线，是同一个需求吗？",
+      ex:"两种场景两种需求：<b>同一信息可以以不同形态出现多次</b>——常驻小图导航，全屏大图规划。",
+      kp:"同一信息可按场景拆成多种形态：小地图常驻导航 + 全屏地图主动规划" },
+  ]},
+  { name:"注意力权重", color:"var(--magenta)", questions:[
+    { q:"「濒死警告」落在重要性 × 紧迫性矩阵的哪个象限？", opts:["高紧迫 × 高重要","低紧迫 × 高重要","高紧迫 × 低重要","低紧迫 × 低重要"], a:0,
+      hint:"想一想：不马上处理就死了——既急又致命。",
+      ex:"濒死、Boss 致命攻击都是<b>高紧迫 × 高重要</b>，配最强的视觉权重。",
+      kp:"高紧迫×高重要（濒死、致命攻击）配最强视觉权重" },
+    { q:"「装备升级可用、技能点没花」属于哪个象限？该怎么提示？", opts:["高紧迫×高重要，全屏红光","低紧迫×高重要，用不打扰的持续小提示","高紧迫×低重要，弹窗打断","不用提示"], a:1,
+      hint:"想一想：它很重要，但晚十分钟处理会有损失吗？",
+      ex:"<b>低紧迫 × 高重要</b>：值得提醒但不必打断——角标、小红点这类持续而安静的提示。",
+      kp:"低紧迫×高重要（技能点、装备升级）用安静的持续提示，不打断战斗" },
+    { q:"「每一个常驻元素都在争夺战斗注意力」，这句话的设计含义是？", opts:["常驻元素越多越专业","只有偶尔需要的信息，应改为条件出现","把所有信息都藏起来","注意力是无限的"], a:1,
+      hint:"想一想：屏幕和注意力都是有限资源，挂上去的每一块都有代价。",
+      ex:"结论就是课件原话：<b>只有偶尔需要的信息，改为条件出现</b>。",
+      kp:"只有偶尔需要的信息改为条件出现，为战斗注意力减负" },
+    { q:"哪类反馈可以不放进 HUD，交给别的载体？", opts:["能由世界、声音或动画承担的反馈","玩家的生命值","所有反馈都必须进 HUD","付费按钮"], a:0,
+      hint:"想一想：脚步声、受击闪红、怪物抬手动作——它们传递信息吗？",
+      ex:"<b>能由世界、声音、动画承担的反馈，不必在 HUD 重复堆叠</b>——低 UI 的底气来自这里。",
+      kp:"世界/声音/动画能承担的反馈，不必在 HUD 重复堆叠" },
+    { q:"想把一条常驻信息藏起来之前，必须先确认什么？", opts:["美术已经画完了","玩家仍能感知、理解并行动","服务器撑得住","竞品也藏了"], a:1,
+      hint:"想一想：隐藏不是删除，玩家还能不能完成原来的判断？",
+      ex:"课件原话：<b>隐藏信息前先确认玩家仍能感知、理解并行动</b>。",
+      kp:"隐藏信息前先确认玩家仍能感知、理解并行动" },
+  ]},
+  { name:"四种容器", color:"var(--gold)", questions:[
+    { q:"占据主要画布、承载一个完整任务的容器是？", opts:["Page 页面","Panel 面板","Overlay 覆盖层","Tooltip 提示层"], a:0,
+      hint:"想一想：商场比喻里「一整家店，走进去就是为了办一件事」。",
+      ex:"技能树、全屏地图都是 <b>Page</b>：玩家主动进入，完成任务后离开。",
+      kp:"Page：占据主画布、承载完整任务（背包页、技能树、全屏地图）" },
+    { q:"掉落标签、任务完成横幅这种「临时盖上来、但不打断游戏」的是？", opts:["Page","Panel","Overlay","Tooltip"], a:2,
+      hint:"想一想：它出现的时候，你还在跑还在打——游戏没停。",
+      ex:"<b>Overlay</b> 的关键词是「不中断上下文」：信息盖上来，战斗继续。",
+      kp:"Overlay：不中断游戏的临时信息（掉落标签、Boss 血条、横幅）" },
+    { q:"鼠标悬停在一把剑上，弹出的属性详情框是？", opts:["Page","Tooltip","Panel","新的窗口"], a:1,
+      hint:"想一想：它跟着「某一个对象」走，凑近才出现。",
+      ex:"<b>Tooltip</b> 由悬停或聚焦触发，针对单个对象补充细节。",
+      kp:"Tooltip：悬停/聚焦触发、针对单个对象的细节（装备属性框）" },
+    { q:"背包页里的「装备栏区域」「格子网格区」各算什么？", opts:["两个独立的 Page","两个 Panel：页面中的功能区域","两个 Overlay","两个 Tooltip"], a:1,
+      hint:"想一想：它们是大页面里的分区，不能脱离背包页单独存在。",
+      ex:"<b>Panel</b> 是页面中的功能区域——一个 Page 通常由多个 Panel 组成。",
+      kp:"Panel：页面内的功能分区（背包页 = 装备栏 Panel + 网格 Panel）" },
+    { q:"判断容器的口诀，正确的一条是？", opts:["好看→Page，难看→Panel","打断游戏→Page；不打断→Overlay；跟着对象走→Tooltip","越大越好","全部做成弹窗"], a:1,
+      hint:"想一想：第一问永远是「玩家的游戏被打断了吗」。",
+      ex:"口诀：<b>打断→Page，不打断→Overlay，跟对象→Tooltip，页面里的分区→Panel</b>。先选容器，再谈布局。",
+      kp:"先选容器再画布局：打断→Page / 不打断→Overlay / 跟对象→Tooltip / 分区→Panel" },
+  ]},
+  { name:"信息架构", color:"var(--purple)", questions:[
+    { q:"信息架构（IA）要回答的四件事是？", opts:["在哪里、从哪进入、下一步去哪、怎么返回","颜色、字体、图标、动效","价格、等级、数值、掉率","策划、美术、程序、测试"], a:0,
+      hint:"想一想：IA 管的是「找不找得到、回不回得去」，不管好不好看。",
+      ex:"IA 四问：<b>内容放在哪里、从哪里进入、下一步能去哪里、怎样取消或返回</b>。",
+      kp:"IA 四问：放在哪里 / 从哪进入 / 下一步去哪 / 怎么取消返回" },
+    { q:"「按 C 开人物、按 I 开背包、Esc 开菜单」解决的是 IA 四问中的哪一问？", opts:["内容放在哪里","玩家从哪里进入","下一步能去哪里","怎样取消返回"], a:1,
+      hint:"想一想：快捷键是一种什么？是门。",
+      ex:"固定的快捷键和 HUD 图标是稳定的<b>入口</b>——老玩家闭着眼都找得到。",
+      kp:"入口要稳定可预测：快捷键 + HUD 图标 + 主菜单" },
+    { q:"检验一个游戏 IA 好坏的标准，课件里的说法是？", opts:["页面数量足够多","第一次进入游戏的玩家也能大致猜到背包、人物、技能的入口","按钮全都做了动效","用了最流行的字体"], a:1,
+      hint:"想一想：好结构让新玩家「猜得到」，不需要说明书。",
+      ex:"好的结构让<b>第一次进入的玩家也能预测入口位置</b>——可预测性就是 IA 的质量。",
+      kp:"IA 的检验标准：新玩家不看说明书也能猜到入口" },
+    { q:"「点错了能不能撤销、按 Esc 关的是什么」属于 IA 的哪个部分？", opts:["命名系统","内容分组","恢复路径","导航关系"], a:2,
+      hint:"想一想：玩家不仅要能进入，也要能安全地＿＿。",
+      ex:"取消、返回、关闭、撤销统称<b>恢复路径</b>——玩家要能安全离开。",
+      kp:"恢复路径：取消 / 返回 / 撤销必须清楚，玩家能安全离开" },
+    { q:"「IA 不是把页面排成一排」，那 IA 是什么？", opts:["建立可预测的结构","把图标画得更精致","减少页面数量","把所有内容塞进一页"], a:0,
+      hint:"想一想：两个游戏页面一样多，一个三步换装备、一个让你迷路，差在哪？",
+      ex:"IA 是<b>建立可预测的结构</b>：分组、导航、命名、恢复路径共同决定「迷不迷路」。",
+      kp:"IA = 可预测的结构：内容分组 + 导航关系 + 命名系统 + 恢复路径" },
+  ]},
+  { name:"页面地图", color:"var(--cyan)", questions:[
+    { q:"画 Page Map 的原则，课件的原话是？", opts:["先画画面，再补关系","先画关系，再画画面","直接画高保真","先选配色"], a:1,
+      hint:"想一想：P18 的标题就是这八个字。",
+      ex:"<b>先画关系，再画画面</b>：HUD、主菜单、人物、背包、技能树、设置——谁连着谁最重要。",
+      kp:"Page Map：先画页面之间的关系，再画单个画面" },
+    { q:"「人物 / 背包 / 技能 / 设置」这些入口属于什么导航？要求是什么？", opts:["局部导航，随页面变化","全局导航，位置和命名跨页面一致","装饰元素，无所谓","隐藏彩蛋"], a:1,
+      hint:"想一想：不管你在哪个页面，这几个入口应该都在老地方。",
+      ex:"<b>全局导航</b>要稳定：位置一致、命名一致、支持快捷键。",
+      kp:"全局导航（人物/背包/技能/设置）位置和命名要跨页面一致" },
+    { q:"「筛选、排序、装备、升级」这类操作属于？", opts:["全局导航","局部导航：只服务当前页面任务","系统设置","不属于导航"], a:1,
+      hint:"想一想：这些按钮离开当前页面还有意义吗？",
+      ex:"<b>局部导航</b>贴近内容、只服务当前任务，而且操作后要立即反馈。",
+      kp:"局部导航（筛选/排序/装备）贴近内容，操作后立即反馈" },
+    { q:"课件里「入口 Entry」的三种典型形式是？", opts:["HUD 图标、快捷键、主菜单","广告、弹窗、红点","开场动画、剧情、成就","登录、注册、充值"], a:0,
+      hint:"想一想：你平时打开背包有几种方式？",
+      ex:"<b>HUD 图标、快捷键、主菜单</b>——三种入口互为备份，新手点图标，老手按快捷键。",
+      kp:"入口三形式：HUD 图标 / 快捷键 / 主菜单，互为备份" },
+    { q:"Entry-Exit-Recovery 里的 Recovery 指什么？", opts:["回血道具","取消、撤销、错误说明","重新登录","自动存档"], a:1,
+      hint:"想一想：玩家点错了、误操作了，界面给他什么退路？",
+      ex:"<b>Recovery = 取消、撤销、错误说明</b>：让误操作可以回头，玩家才敢探索界面。",
+      kp:"Recovery：给误操作留退路（取消、撤销、错误说明）" },
+  ]},
+  { name:"BOSS 新斧头之旅", color:"var(--red)", boss:true,
+    note:"最终挑战：一个第一次玩暗黑的玩家，捡到一把新斧头想换上。<br>跟着他走完这条路，每一步用今天学的知识判断——走完你就通关了。",
+    questions:[
+      { scene:"第 1 步 · 怪物倒下，地面浮出一行字：「精钢斧」。",
+        q:"这行掉落标签，用的是哪种容器、哪种出现时机？", opts:["Page · 常驻","Overlay · 条件出现","Tooltip · 主动查看","Panel · 常驻"], a:1,
+        hint:"想一想：战斗没停，标签是「事件发生」才浮出来的。",
+        ex:"掉落标签 = <b>Overlay + 条件出现</b>：怪物死亡这个事件触发，信息盖上来但不打断游戏。",
+        kp:"实战：掉落标签 = Overlay 容器 + 条件出现时机" },
+      { scene:"第 2 步 · 他想换装备，但这是他第一次玩。",
+        q:"他能不假思索找到背包入口，靠的是什么？", opts:["运气好","全局导航稳定：HUD 图标固定 + 快捷键 I + 主菜单兜底","读了三页说明书","问客服"], a:1,
+        hint:"想一想：IA 四问的第二问——从哪里进入。",
+        ex:"<b>稳定的全局入口</b>让新玩家也能猜对：图标在老地方、快捷键符合惯例、主菜单兜底。",
+        kp:"实战：新玩家找到背包 = 全局导航入口稳定可预测" },
+      { scene:"第 3 步 · 他按 I 打开了背包，整个屏幕被背包占据。",
+        q:"背包是什么容器？为什么允许它「打断」战斗画面？", opts:["Overlay，因为它是临时的","Page，因为换装备是玩家主动进入的完整任务","Tooltip，因为它显示细节","不应该打断，这是设计失误"], a:1,
+        hint:"想一想：是谁决定打开背包的？这个任务能在一瞬间完成吗？",
+        ex:"背包是 <b>Page</b>：玩家主动进入、承载完整任务——「打断」是玩家自己的选择，所以成立。",
+        kp:"实战：背包 = Page，玩家主动进入的完整任务可以占据主画布" },
+      { scene:"第 4 步 · 他把鼠标停在新斧头上，旧斧头的属性对比浮了出来。",
+        q:"这个属性对比框是什么容器？它为什么不常驻？", opts:["Panel，它是背包的分区","Tooltip，跟着具体对象走，凑近才出现","Page，它很重要","Overlay，它是横幅"], a:1,
+        hint:"想一想：它属于「这一把斧头」，鼠标移开就消失。",
+        ex:"<b>Tooltip</b>：由悬停触发、针对单个对象的细节。几十件装备的属性如果全部常驻，屏幕就爆炸了。",
+        kp:"实战：装备对比 = Tooltip，对象级细节悬停才出现" },
+      { scene:"第 5 步 · 他点击装备，攻击力数字变了、还闪了一下绿色。",
+        q:"这个「立即变化 + 闪光」满足了什么设计要求？", opts:["局部导航要求操作后立即反馈","全局导航要求命名一致","常驻信息要求一直可见","纯粹是特效炫技"], a:0,
+        hint:"想一想：装备、升级这类局部操作，做完后玩家最需要什么？",
+        ex:"<b>局部操作 → 立即反馈</b>：数字变化 + 颜色强调，玩家不用猜「刚才生效了吗」。",
+        kp:"实战：局部操作（装备/升级）后必须立即反馈" },
+      { scene:"最后一步 · 他按下 Esc，背包关闭，回到刚才的战场，位置一点没变。",
+        q:"这个顺滑的「离开」，对应 IA 四问的哪一问？", opts:["内容放在哪里","从哪里进入","下一步能去哪里","怎样取消或返回（恢复路径）"], a:3,
+        hint:"想一想：进得去只是一半，另一半是＿＿。",
+        ex:"<b>恢复路径</b>：Esc 关闭、回到原情境、无损失。全程没看说明书但每一步都猜对——这就是好 IA。",
+        kp:"实战：Esc 安全返回原情境 = 恢复路径，好 IA 的收尾" },
+    ]
+  },
+];
+
+/* ===== State ===== */
+const BOSS_INDEX = LEVELS.findIndex(l=>l.boss);
+const REVIEW_INDEXES = LEVELS.map((_,i)=>i).filter(i=>i!==BOSS_INDEX);
+const MAP_NODES = [
+  { id:"start", type:"start", label:"START", sub:"课堂小测试", x:9, y:52 },
+  { id:"lv0", level:0, label:"LV1", route:"入口", x:24, y:52 },
+  { id:"lv1", level:1, label:"LV2", route:"上路", x:43, y:23 },
+  { id:"lv2", level:2, label:"LV3", route:"下路", x:43, y:76 },
+  { id:"lv3", level:3, label:"LV4", route:"上路", x:64, y:31 },
+  { id:"lv4", level:4, label:"LV5", route:"下路", x:64, y:69 },
+  { id:"boss", type:"boss", level:BOSS_INDEX, label:"BOSS", sub:"新斧头之旅", x:88, y:52 },
+];
+const MAP_EDGES = [
+  ["start","lv0"], ["lv0","lv1"], ["lv0","lv2"],
+  ["lv1","lv3"], ["lv2","lv4"], ["lv1","lv4"], ["lv2","lv3"],
+  ["lv3","boss"], ["lv4","boss"]
+];
+const MAP_PREREQS = { 0:[], 1:[0], 2:[0], 3:[1], 4:[2] };
+let curLevel=0, curQ=0, score=0, cleared=LEVELS.map(()=>false), levelScore=0;
+let kpGot=[], kpMiss=[];   // {kp, level}
+let playerName="";
+
+/* ===== Slime ===== */
+function slimeHTML(bounce){
+  return `<div class="slime${bounce?' bounce':''}">
+    <i class="body"></i><i class="top"></i><i class="l1"></i><i class="l2"></i>
+    <i class="eye left"></i><i class="eye right"></i><i class="shine"></i>
+  </div>`;
+}
+
+/* ===== Screens ===== */
+const stage=document.getElementById("stage");
+function setScreen(html){
+  stage.innerHTML = `<section class="screen active">${html}</section>`;
+}
+
+function showCover(){
+  setScreen(`
+    <div class="cover">
+      <div class="badge-top">★ CLASS QUIZ MAP · 课堂小测试 ★</div>
+      <h1>UIUX LESSON 03<br>INFO DUNGEON</h1>
+      <div class="sub">出现时机 · 注意力权重 · 四种容器 · 信息架构 · 页面地图 · BOSS</div>
+      ${slimeHTML(true)}
+      <div class="desc">答对一题，捡起一块知识碎片；拿齐 5 把钥匙挑战 Boss「新斧头之旅」<br>不确定就按 H 键看提示——这是复习，不是考试<br>通关后输入你的名字，打印属于你自己的知识卡</div>
+      <button class="bigbtn" id="btnStart">▶ 开始闯关</button>
+    </div>`);
+  document.getElementById("btnStart").onclick=()=>{ Sound.nav(); showMap(); };
+}
+
+function nodeById(id){ return MAP_NODES.find(n=>n.id===id); }
+function clearedReviewCount(){ return REVIEW_INDEXES.filter(i=>cleared[i]).length; }
+function bossUnlocked(){ return REVIEW_INDEXES.every(i=>cleared[i]); }
+function isLevelAvailable(i){
+  if(i===BOSS_INDEX) return bossUnlocked();
+  const prereqs = MAP_PREREQS[i] || [];
+  return prereqs.every(p=>cleared[p]);
+}
+function edgeIsOpen(fromId,toId){
+  const from=nodeById(fromId), to=nodeById(toId);
+  if(!from || !to) return false;
+  if(to.type==="start") return true;
+  if(to.level===BOSS_INDEX) return bossUnlocked() || cleared[BOSS_INDEX];
+  return isLevelAvailable(to.level) || cleared[to.level];
+}
+
+function showMap(){
+  if(cleared[BOSS_INDEX]){ showVictory(); return; }
+  const lines = MAP_EDGES.map(([a,b])=>{
+    const from=nodeById(a), to=nodeById(b);
+    return `<line class="${edgeIsOpen(a,b)?"open":"locked"}" x1="${from.x}" y1="${from.y}" x2="${to.x}" y2="${to.y}"></line>`;
+  }).join("");
+  const nodes = MAP_NODES.map(n=>{
+    let cls=n.type||"level", icon=n.label, name=n.sub||"";
+    if(n.level!==undefined){
+      const lv=LEVELS[n.level], available=isLevelAvailable(n.level);
+      cls += n.level===BOSS_INDEX ? " boss" : "";
+      cls += cleared[n.level] ? " cleared" : (available ? " current" : " locked");
+      icon = cleared[n.level] ? "✓" : (n.level===BOSS_INDEX ? "B" : (n.level+1));
+      name = `${n.label}<br>${lv.name}`;
+    }else{
+      cls += clearedReviewCount()>0 ? " cleared" : " current";
+      name = `${n.label}<br>${n.sub}`;
+    }
+    return `<div class="node ${cls}" data-i="${n.level!==undefined?n.level:""}" style="left:${n.x}%;top:${n.y}%">
+      <div class="dot">${icon}</div>
+      <div class="route">${n.route||""}</div>
+      <div class="name">${name}</div>
+    </div>`;
+  }).join("");
+  const availableNodes = MAP_NODES.filter(n=>n.level!==undefined && !cleared[n.level] && isLevelAvailable(n.level));
+  const routeButtons = availableNodes.map(n=>{
+    const lv=LEVELS[n.level];
+    const cls=n.level===BOSS_INDEX?"routebtn boss":"routebtn";
+    const prefix=n.level===BOSS_INDEX?"挑战 BOSS":"走向 " + (n.route || n.label);
+    return `<button class="${cls}" data-route="${n.level}">${prefix} · ${lv.name}</button>`;
+  }).join("");
+  const keys=clearedReviewCount();
+  const routeText = bossUnlocked()
+    ? "5 把钥匙已齐，Boss 房间「新斧头之旅」开启。"
+    : `已拿到 ${keys} / ${REVIEW_INDEXES.length} 把钥匙；可先走上路或下路，但 Boss 前要补齐所有复习房间。`;
+  setScreen(`
+    <div class="hud">
+      <div class="lv">DUNGEON MAP</div>
+      <div class="score">KEYS <b>${keys}/${REVIEW_INDEXES.length}</b>　SCORE <b>${score}</b>　碎片 <b>${kpGot.length}</b></div>
+    </div>
+    <div class="mapwrap">
+      <svg class="routes" viewBox="0 0 100 100" preserveAspectRatio="none">${lines}</svg>
+      <div class="mapnote"><b>路线规则</b><br>${routeText}<br>点击发光节点，或用下方路线按钮。</div>
+      <div class="nodes">${nodes}</div>
+    </div>
+    <div class="routebox">
+      <div class="title">CHOOSE ROUTE</div>
+      <div class="routehint">${routeText}</div>
+      <div class="routebuttons">${routeButtons}</div>
+    </div>
+  `);
+  stage.querySelectorAll(".node").forEach(n=>{
+    if(n.dataset.i==="") return;
+    const i=+n.dataset.i;
+    const unlocked = isLevelAvailable(i) && !cleared[i];
+    if(unlocked){
+      n.style.cursor="pointer";
+      n.onclick=()=>{ Sound.nav(); enterLevel(i); };
+    }
+  });
+  stage.querySelectorAll(".routebtn").forEach(btn=>{
+    btn.onclick=()=>{ Sound.nav(); enterLevel(+btn.dataset.route); };
+  });
+}
+
+function enterLevel(i){
+  curLevel=i; curQ=0; levelScore=0;
+  const lv=LEVELS[i];
+  if(lv.boss){ showBossIntro(); } else { showQuestion(); }
+}
+
+function showBossIntro(){
+  const lv=LEVELS[curLevel];
+  setScreen(`
+    <div class="midscreen">
+      <div class="lv" style="background:${lv.color}">FINAL BOSS · ${lv.name}</div>
+      <div class="big" style="font-size:24px;margin-top:16px">⚔ 最终挑战</div>
+      <div style="font-size:17px;line-height:1.9;max-width:840px;margin-top:6px">${lv.note}</div>
+      ${slimeHTML(true)}
+      <button class="bigbtn" id="btnBossGo">▶ 出发</button>
+    </div>
+  `);
+  document.getElementById("btnBossGo").onclick=()=>{ Sound.nav(); showQuestion(); };
+}
+
+function showQuestion(){
+  const lv=LEVELS[curLevel];
+  const q=lv.questions[curQ];
+  const heartsHTML = Array.from({length:lv.questions.length},(_,k)=>`<span class="heart${k<=curQ?'':' off'}"></span>`).join("");
+  setScreen(`
+    <div class="hud">
+      <div class="lv" style="background:${lv.color}">${lv.boss?'BOSS':'LV'+(curLevel+1)} · ${lv.name}</div>
+      <div class="hearts">${heartsHTML}</div>
+      <div class="score">SCORE <b>${score}</b>　碎片 <b>${kpGot.length}</b></div>
+    </div>
+    <div class="qwrap">
+      <div class="qpanel">
+        <div class="qn">Q${curQ+1} / ${lv.questions.length}</div>
+        ${q.scene?`<div class="scene">${q.scene}</div>`:''}
+        <div class="qt">${q.q}</div>
+      </div>
+      <div class="opts">
+        ${q.opts.map((o,k)=>`<button class="opt" data-k="${k}"><span class="k">${String.fromCharCode(65+k)}</span><span>${o}</span></button>`).join("")}
+      </div>
+      <div class="hintrow">
+        <button class="hintbtn" id="hintBtn">💡 提示 (H)</button>
+        <div class="explain" id="explain"></div>
+      </div>
+      <button class="nextbtn" id="nextBtn">下一步 ▶</button>
+    </div>
+  `);
+  let answered=false, hintShown=false;
+  const explainEl=document.getElementById("explain");
+  document.getElementById("hintBtn").onclick=()=>{
+    if(answered || hintShown) return;
+    hintShown=true; Sound.nav();
+    explainEl.innerHTML = "💡 " + q.hint;
+  };
+  stage.querySelectorAll(".opt").forEach(btn=>{
+    btn.onclick=()=>{
+      if(answered) return; answered=true;
+      const k=+btn.dataset.k;
+      const correct = k===q.a;
+      stage.querySelectorAll(".opt").forEach(b=>b.setAttribute("disabled","true"));
+      if(correct){
+        btn.classList.add("correct"); Sound.correct();
+        score+=10; levelScore+=10;
+        kpGot.push({kp:q.kp, level:lv.name});
+        explainEl.innerHTML = "✔ 答对了！ " + q.ex +
+          `<br><span class="kpchip">📜 知识碎片 +1：${q.kp}</span>`;
+      }else{
+        btn.classList.add("wrong"); Sound.wrong();
+        stage.querySelector(`.opt[data-k="${q.a}"]`).classList.add("correct");
+        kpMiss.push({kp:q.kp, level:lv.name});
+        explainEl.innerHTML = "✘ 差一点。 " + q.ex;
+      }
+      const nb=document.getElementById("nextBtn"); nb.classList.add("show");
+      nb.onclick=()=>{ Sound.nav(); nextStep(); };
+    };
+  });
+}
+
+function nextStep(){
+  const lv=LEVELS[curLevel];
+  curQ++;
+  if(curQ < lv.questions.length){ showQuestion(); }
+  else{ showLevelClear(); }
+}
+
+function showLevelClear(){
+  cleared[curLevel]=true;
+  Sound.clear();
+  const isBoss = curLevel===BOSS_INDEX;
+  setScreen(`
+    <div class="midscreen">
+      <div class="big">${isBoss?"BOSS CLEAR!":"LEVEL CLEAR!"}</div>
+      ${slimeHTML(true)}
+      <div class="score-line">+${levelScore} PTS　总分 ${score}　知识碎片 ${kpGot.length}</div>
+      <button class="bigbtn" id="btnBack">▶ ${isBoss?"领取挑战证书":"返回地图"}</button>
+    </div>
+  `);
+  document.getElementById("btnBack").onclick=()=>{ Sound.nav(); isBoss?showVictory():showMap(); };
+}
+
+/* ===== Victory: name input ===== */
+function calcRank(){
+  const max = LEVELS.reduce((s,l)=>s+l.questions.length,0)*10;
+  const pct = score/max;
+  let rank="C";
+  if(pct>=0.93) rank="S"; else if(pct>=0.73) rank="A"; else if(pct>=0.5) rank="B";
+  return {rank, max};
+}
+function showVictory(){
+  const {rank, max} = calcRank();
+  setScreen(`
+    <div class="midscreen">
+      <div class="big">挑战成功！</div>
+      <div class="rank ${rank}">${rank}</div>
+      ${slimeHTML(true)}
+      <div class="score-line">总分 ${score} / ${max}　知识碎片 ${kpGot.length} 块</div>
+      <div class="namebox">
+        <label>挑战者姓名：</label>
+        <input id="nameInput" maxlength="16" placeholder="输入你的名字" autocomplete="off">
+      </div>
+      <button class="bigbtn" id="btnCert">📜 生成我的知识卡</button>
+    </div>
+  `);
+  const input=document.getElementById("nameInput");
+  input.focus();
+  const go=()=>{
+    playerName = input.value.trim() || "无名勇者";
+    Sound.clear(); showCertificate();
+  };
+  document.getElementById("btnCert").onclick=go;
+  input.addEventListener("keydown",e=>{ if(e.key==="Enter") go(); });
+}
+
+/* ===== Certificate: on-stage view + printable card ===== */
+function groupByLevel(arr){
+  const m=new Map();
+  arr.forEach(({kp,level})=>{
+    if(!m.has(level)) m.set(level,new Set());
+    m.get(level).add(kp);
+  });
+  return m;
+}
+function showCertificate(){
+  const {rank, max} = calcRank();
+  const got=groupByLevel(kpGot), miss=groupByLevel(kpMiss);
+  const dateStr=new Date().toLocaleDateString("zh-CN",{year:"numeric",month:"long",day:"numeric"});
+
+  const gotHTML=[...got.entries()].map(([lvl,set])=>`
+    <div class="certgroup"><h3>【${lvl}】</h3>
+      <ul>${[...set].map(k=>`<li>${k}</li>`).join("")}</ul>
+    </div>`).join("") || `<div class="certgroup"><ul><li style="color:var(--dim)">这次没收集到碎片，重新挑战试试！</li></ul></div>`;
+  const missHTML=[...miss.entries()].map(([lvl,set])=>`
+    <div class="certgroup miss"><h3 style="color:var(--orange)">【${lvl}】待复习</h3>
+      <ul>${[...set].map(k=>`<li>${k}</li>`).join("")}</ul>
+    </div>`).join("");
+
+  setScreen(`
+    <div class="hud">
+      <div class="lv" style="background:var(--gold);color:var(--black)">📜 KNOWLEDGE CARD</div>
+      <div class="score">RANK <b>${rank}</b>　SCORE <b>${score}/${max}</b></div>
+    </div>
+    <div class="certwrap">
+      <div class="cert">
+        <h2>★ UIUX LESSON 03 · 挑战成功证书 ★</h2>
+        <div class="who">挑战者 <b>${escapeHTML(playerName)}</b> · ${dateStr} · 评级 ${rank}</div>
+        <div class="certcols">
+          <div>
+            <div class="certgroup"><h3 style="font-size:15px">✔ 我整理的知识点（${kpGot.length} 条）</h3></div>
+            ${gotHTML}
+          </div>
+          <div>
+            ${missHTML ? `<div class="certgroup"><h3 style="font-size:15px;color:var(--orange)">↺ 待复习（${kpMiss.length} 条）</h3></div>${missHTML}` : `<div class="certgroup"><h3 style="font-size:15px;color:var(--green)">🏆 全部答对，无待复习项！</h3></div>`}
+          </div>
+        </div>
+      </div>
+      <div class="certbtns">
+        <button class="bigbtn" id="btnPrint">🖨 打印知识卡</button>
+        <button class="bigbtn" id="btnRetry" style="background:var(--cyan)">↺ 重新挑战</button>
+      </div>
+    </div>
+  `);
+  buildPrintCard(rank,max,dateStr,got,miss);
+  document.getElementById("btnPrint").onclick=()=>{ Sound.nav(); window.print(); };
+  document.getElementById("btnRetry").onclick=()=>{
+    Sound.nav(); curLevel=0; curQ=0; score=0; cleared=cleared.map(()=>false);
+    kpGot=[]; kpMiss=[]; playerName="";
+    document.getElementById("printCard").innerHTML="";
+    showMap();
+  };
+}
+function escapeHTML(s){ return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function buildPrintCard(rank,max,dateStr,got,miss){
+  const gotHTML=[...got.entries()].map(([lvl,set])=>`
+    <h2>${lvl}</h2><ul>${[...set].map(k=>`<li>${k}</li>`).join("")}</ul>`).join("");
+  const missHTML=[...miss.entries()].map(([lvl,set])=>`
+    <h2 style="background:#8a5a00">${lvl} · 待复习</h2><ul class="p-miss">${[...set].map(k=>`<li>${k}</li>`).join("")}</ul>`).join("");
+  document.getElementById("printCard").innerHTML=`
+    <div class="p-head">
+      <h1>UIUX LESSON 03 · 我的知识卡</h1>
+      <div class="sub">信息架构与 Wireframe · 出现时机 / 注意力权重 / 四种容器 / 信息架构 / 页面地图</div>
+    </div>
+    <div class="p-who">挑战者：<b>${escapeHTML(playerName)}</b>　　评级：<b>${rank}</b>　　得分：${score} / ${max}　　${dateStr}</div>
+    ${gotHTML || "<p>（本次未收集到知识点）</p>"}
+    ${missHTML ? missHTML : "<h2 style='background:#0a7a2f'>全部答对 · 无待复习项 🏆</h2>"}
+    <div class="p-foot">SHVFS · UI/UX for Games · Lesson 03 复习闯关 · 由挑战者本人在游戏中亲手收集整理</div>
+  `;
+}
+
+/* ===== toolbar + boot ===== */
+const bar=document.createElement("div");
+bar.className="toolbar";
+bar.innerHTML=`<button id="btnMusic" class="on">♪ 音乐</button>`;
+document.body.appendChild(bar);
+const bm=document.getElementById("btnMusic");
+bm.onclick=()=>{ Sound.nav(); const on=Sound.toggle(); bm.classList.toggle("on",on); bm.textContent=on?"♪ 音乐":"♪ 静音"; };
+["pointerdown","keydown"].forEach(ev=>document.addEventListener(ev,()=>Sound.kick()));
+document.addEventListener("keydown",e=>{
+  if(e.target && e.target.tagName==="INPUT") return;
+  if(e.key==="h"||e.key==="H"){ const hb=document.getElementById("hintBtn"); if(hb) hb.click(); }
+});
+
+function fit(){
+  const s=Math.min(window.innerWidth/1280, window.innerHeight/720);
+  stage.style.transform=`scale(${s})`;
+}
+window.addEventListener("resize",fit);
+fit();
+showCover();
+</script>
+</body>
+</html>

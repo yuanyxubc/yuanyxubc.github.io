@@ -293,7 +293,7 @@ const PAGES = [
       <span class="small" style="color:var(--dim)">Steam 桌宠 · 像素风 · 32px 基础单位 · 温暖治愈基调</span>
     </div>
     <div class="atomrow" style="display:flex;gap:14px">
-      ${frame("情绪参考图 1")}${frame("情绪参考图 2")}${frame("情绪参考图 3")}
+      \${frame("情绪参考图 1")}\${frame("情绪参考图 2")}\${frame("情绪参考图 3")}
     </div>
     <div class="anno">这一页只做一件事：让人 5 秒内明白这个项目"是什么、什么调性"——不用写长段落。</div>
   </div>
@@ -305,29 +305,29 @@ const PAGES = [
     <div class="modepair">
       <div class="modeblock day">
         <h4>☀ LIGHT 日间模式</h4>
-        ${tok("Primary","#FFB088")}
-        ${tok("Background","#FFF6EE")}
-        ${tok("Surface","#FFFFFF")}
-        ${tok("Text","#4A3B33")}
-        ${tok("Accent","#7CC7A8")}
-        ${tok("Danger","#D96B5F")}
-        ${tok("Success","#4F9E6D")}
+        \${tok("Primary","#FFB088")}
+        \${tok("Background","#FFF6EE")}
+        \${tok("Surface","#FFFFFF")}
+        \${tok("Text","#4A3B33")}
+        \${tok("Accent","#7CC7A8")}
+        \${tok("Danger","#D96B5F")}
+        \${tok("Success","#4F9E6D")}
       </div>
       <div class="modeblock night">
         <h4>☾ NIGHT 夜间模式</h4>
-        ${tok("Primary","#FF9466")}
-        ${tok("Background","#221A2E")}
-        ${tok("Surface","#2E2440")}
-        ${tok("Text","#F2E9E4")}
-        ${tok("Accent","#8FD6B7")}
-        ${tok("Danger","#FF8A7A")}
-        ${tok("Success","#70C98B")}
+        \${tok("Primary","#FF9466")}
+        \${tok("Background","#221A2E")}
+        \${tok("Surface","#2E2440")}
+        \${tok("Text","#F2E9E4")}
+        \${tok("Accent","#8FD6B7")}
+        \${tok("Danger","#FF8A7A")}
+        \${tok("Success","#70C98B")}
       </div>
     </div>
     <div class="scalerow">
-      ${scaleBox(14,"说明小字")}${scaleBox(18,"正文")}${scaleBox(24,"副标题")}${scaleBox(32,"标题")}
+      \${scaleBox(14,"说明小字")}\${scaleBox(18,"正文")}\${scaleBox(24,"副标题")}\${scaleBox(32,"标题")}
       <span style="width:1px;height:36px;background:var(--line);margin:0 6px"></span>
-      ${scaleBox(8,"8px")}${scaleBox(16,"16px")}${scaleBox(32,"32px")}${scaleBox(48,"64px÷1.3示意")}
+      \${scaleBox(8,"8px")}\${scaleBox(16,"16px")}\${scaleBox(32,"32px")}\${scaleBox(48,"64px÷1.3示意")}
     </div>
     <div class="anno">两套模式共用同一套语义命名（Primary/Background/Surface/Text/Accent/Danger/Success），只是取值不同。正文对比度要够，状态区分不能只靠颜色；至少再加描边、图标、透明度或文字标签中的一种。</div>
   </div>
@@ -376,7 +376,7 @@ const PAGES = [
       </div>
       <div style="padding-top:10px;text-align:left;">
         <strong style="color:var(--green)">💡 原创设计理由 (组件：偏好偏移量控制板)</strong><br>
-        在进行倾向性控制板设计时，我将对话气泡和选项按钮进行了整合，并移除了常驻的数值面板。这是因为在桌宠常驻桌面时，过多的常驻文字会产生严重的视觉噪音。通过将倾向性偏移以进度条的形式隐藏在右键菜单气泡中，用户既能随时查看倾向变化，又不会被无关的UI元素分散注意力。
+        在进行倾向性控制板设计时，我将对话气泡 and 选项按钮进行了整合，并移除了常驻的数值面板。这是因为在桌宠常驻桌面时，过多的常驻文字会产生严重的视觉噪音。通过将倾向性偏移以进度条的形式隐藏在右键菜单气泡中，用户既能随时查看倾向变化，又不会被无关的UI元素分散注意力。
       </div>
     </div>
     <div class="anno">第 5 页说明你在这个里程碑里做出的核心设计理由。可以对比临摹案例，并说明你是如何“消化并转化”这些手法的；或者阐述你的原创组件解决了什么用户体验痛点。</div>
@@ -422,12 +422,12 @@ const PAGES = [
       <ul class="bul">
         <li>先打开配套的《Figma 生产流程·目标与检查清单》，从第一步开始按顺序做</li>
         <li>做完一步，回来这份文档里能写的内容就多一点——不用等全部做完才开始写</li>
-        <li>5 个人的文档最后会拼成团队共用的设计系统参考——所以命名和 Tokens 尽量提前对齐，别每个人各定一套</li>
+        <li>5 个人的文档最后会拼成团队共用的设计系统参考——所以命名 and Tokens 尽量提前对齐，别每个人各定一套</li>
       </ul>
     </div>
     <div class="disclaimer">这份打样示范的是个人作业本身；团队项目只是取材和推进场景，不能替代个人独立提交的 5 页文档。</div>
   </div>
-`},
+`}
 
 ];
 
@@ -442,14 +442,14 @@ PAGES.forEach((p,i)=>{
     el.innerHTML = `
       <div class="hud">
         <div class="tag">${p.tag}</div>
-        <div class="counter">P <b>${String(i+1).padStart(2,"0")}</b> / ${PAGES.length}</div>
+        <div class="counter">P <b>\${String(i+1).padStart(2,"0")}</b> / \${PAGES.length}</div>
       </div>
       <div class="title">
-        <div class="t-en en">${p.title[0]}</div>
-        <div class="t-cn">${p.title[1]}</div>
+        <div class="t-en en">\${p.title[0]}</div>
+        <div class="t-cn">\${p.title[1]}</div>
       </div>
       <div class="rule"></div>
-      ${p.html}
+      \${p.html}
       <div class="foot">
         <div class="brand">SAMPLE · SLIME MBTI SPEC DOC</div>
         <div class="help">← → <b>MOVE</b> · F <b>FULLSCREEN</b></div>
