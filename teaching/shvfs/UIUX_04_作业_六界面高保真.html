@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UI/UX Design 作业与课程安排</title>
+  <title>UIUX 作业 3 · 六界面高保真视觉设计评分说明</title>
   <style>
     :root {
       --bg: #f7f8fa;
@@ -13,11 +13,11 @@
       --line: #d9dee8;
       --blue: #1f5fbf;
       --soft: #f1f5fb;
+      --gold: #b45309;
       font-family: "Noto Sans SC", "Microsoft YaHei", Arial, sans-serif;
     }
 
     * { box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
@@ -28,11 +28,7 @@
       font-size: 16px;
     }
 
-    a {
-      color: var(--blue);
-      text-decoration: none;
-    }
-
+    a { color: var(--blue); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
     .page {
@@ -49,11 +45,19 @@
       margin-bottom: 18px;
     }
 
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+
     h1 {
       margin: 0 0 10px;
       font-size: 34px;
       line-height: 1.2;
-      letter-spacing: 0;
     }
 
     .subtitle {
@@ -61,6 +65,26 @@
       color: var(--muted);
       font-size: 17px;
     }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1.5px solid;
+    }
+
+    .badge-blue { background: #eff6ff; color: var(--blue); border-color: #bfdbfe; }
+    .badge-gold { background: #fef3c7; color: var(--gold); border-color: #fcd34d; }
+    .badge-gray { background: var(--soft); color: var(--muted); border-color: var(--line); }
 
     nav {
       position: sticky;
@@ -96,24 +120,11 @@
       margin-bottom: 18px;
     }
 
-    h2 {
-      margin: 0 0 14px;
-      font-size: 24px;
-      line-height: 1.25;
-    }
-
-    h3 {
-      margin: 20px 0 8px;
-      font-size: 18px;
-    }
-
+    h2 { margin: 0 0 14px; font-size: 24px; line-height: 1.25; }
+    h3 { margin: 20px 0 8px; font-size: 18px; }
     p { margin: 0 0 12px; }
 
-    ul, ol {
-      margin: 8px 0 0;
-      padding-left: 22px;
-    }
-
+    ul, ol { margin: 8px 0 0; padding-left: 22px; }
     li { margin: 5px 0; }
 
     .note {
@@ -125,10 +136,16 @@
       margin: 14px 0;
     }
 
-    .meta {
-      color: var(--muted);
-      font-size: 14px;
+    .warn {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 12px 14px;
+      border-radius: 4px;
+      color: var(--gold);
+      margin: 14px 0;
     }
+
+    .meta { color: var(--muted); font-size: 14px; }
 
     table {
       width: 100%;
@@ -149,287 +166,253 @@
       font-weight: 800;
     }
 
-    details {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      padding: 0;
-      margin: 10px 0;
-      background: #fff;
-    }
-
-    summary {
-      cursor: pointer;
-      padding: 14px 16px;
+    .score-row td:last-child {
       font-weight: 800;
-      list-style: none;
+      font-size: 20px;
+      color: var(--blue);
+      text-align: center;
+      width: 60px;
     }
 
-    summary::-webkit-details-marker { display: none; }
+    .total-row {
+      background: #eff6ff;
+      font-weight: 800;
+    }
 
-    summary::after {
-      content: "展开";
-      float: right;
+    .total-row td:last-child {
+      font-size: 22px;
+      color: var(--blue);
+      text-align: center;
+    }
+
+    .screen-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .screen-card {
+      border: 1.5px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fafbfd;
+    }
+
+    .screen-card .num {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .screen-card h4 {
+      margin: 0 0 6px;
+      font-size: 15px;
+    }
+
+    .screen-card p {
+      margin: 0;
+      font-size: 13px;
       color: var(--muted);
-      font-weight: 500;
+    }
+
+    .tip-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .tip {
+      border: 1.5px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
       font-size: 14px;
     }
 
-    details[open] summary::after { content: "收起"; }
-
-    .detail-body {
-      border-top: 1px solid var(--line);
-      padding: 14px 16px 16px;
+    .tip .tip-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       color: var(--muted);
+      margin-bottom: 6px;
     }
 
-    .tag {
+    .back-link {
       display: inline-block;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 3px 9px;
-      margin: 3px 4px 3px 0;
-      font-size: 13px;
-      color: var(--muted);
-      background: #fff;
-    }
-
-    .copy-box {
-      background: #fbfcff;
-      border: 1px solid var(--line);
+      margin-top: 0;
+      padding: 8px 16px;
+      border: 1.5px solid var(--line);
       border-radius: 6px;
-      padding: 12px;
-      white-space: pre-wrap;
-      font-family: Consolas, "Courier New", monospace;
-      font-size: 13px;
-      color: #26374f;
-    }
-
-    .btn {
-      margin-top: 8px;
-      border: 1px solid var(--blue);
-      background: #fff;
-      color: var(--blue);
-      border-radius: 6px;
-      padding: 8px 10px;
-      font-weight: 700;
-      cursor: pointer;
+      color: var(--text);
+      font-size: 14px;
     }
 
     @media (max-width: 700px) {
-      h1 { font-size: 28px; }
+      h1 { font-size: 26px; }
       section, header { padding: 20px; }
       table { font-size: 14px; }
+      .tip-box { grid-template-columns: 1fr; }
+      .score-row td:last-child { font-size: 18px; }
     }
   </style>
 </head>
 <body>
   <div class="page">
     <header>
-      <h1>UI/UX Design 作业与课程安排</h1>
-      <p class="subtitle">课程安排、阅读案例、Final Project 要求与评分标准。</p>
+      <div class="eyebrow">UIUX · WEEK 04 · 作业 3</div>
+      <h1>六界面高保真视觉设计</h1>
+      <p class="subtitle">将 Wireframe 结构转化为有世界观包装特色的高保真游戏 UI</p>
+      <div class="badge-row">
+        <span class="badge badge-blue">满分 10 分</span>
+        <span class="badge badge-gold">与作业 2 一起在第 8 周统一提交</span>
+        <span class="badge badge-gray">个人作业</span>
+      </div>
     </header>
 
     <nav aria-label="页面目录">
       <div class="links">
-        <a href="#overview">总览</a>
-        <a href="#schedule">课程安排</a>
-        <a href="#final">Final Project</a>
-        <a href="#cases">案例参考</a>
-        <a href="#figma">Figma 文件</a>
-        <a href="#rubric">评分标准</a>
+        <a href="#overview">任务概览</a>
+        <a href="#screens">必做六张界面</a>
+        <a href="#rubric">评分细则</a>
+        <a href="#tips">评分说明</a>
+        <a href="#submit">提交要求</a>
       </div>
     </nav>
 
     <section id="overview">
-      <h2>课程目标</h2>
-      <p>本课程从游戏界面案例出发，学习如何观察 UI/UX 问题、拆解信息层级、使用 Figma 组织界面，并清楚说明自己的设计判断。</p>
+      <h2>任务概览</h2>
+      <p>为同一个类暗黑式 Action RPG 建立一套高保真 UI 系统。最终必须提交恰好六张界面：战斗 HUD、人物信息、背包 / 装备、技能树、主菜单、设置。这六张界面必须共享同一套视觉风格、色彩系统、字体层次，并使用组件（Components）、变体（Variants）与变量（Variables）规范进行构建。</p>
       <div class="note">
-        Final Project 将以 Figma 项目板形式提交，包含案例分析、流程结构、关键界面、设计说明与课堂展示。
+        <strong>⚠️ 一致性要求：</strong>
+        六个页面必须共享同一套视觉方向、语义 Variables 与 Components。不能把六个页面做成几种互不相关的艺术风格。推荐先做好「背包/装备」的 Benchmark，锁定了颜色、Token 和排版后，再扩展应用到其余五个页面。
       </div>
-      <h3>Final Project Checklist</h3>
-      <ul>
-        <li>1 个游戏模块案例分析</li>
-        <li>1 张流程图或信息结构图</li>
-        <li>恰好 6 个 Figma 高保真界面：战斗 HUD、人物信息、背包 / 装备、技能树、主菜单、设置</li>
-        <li>至少 8 个课程组件的使用或改造</li>
-        <li>5 分钟课堂展示</li>
-      </ul>
     </section>
 
-    <section id="schedule">
-      <h2>8 周课程安排</h2>
-      <p class="meta">上课时间：上午 9:00-12:00。第 4 周为周一，日期待定；其余课程按下方日期进行。</p>
-
-      <details open>
-        <summary>Week 1｜7月2日（周四）｜UI vs UX / 3C 框架</summary>
-        <div class="detail-body">
-          课堂内容：理解 UI 与 UX 的区别，学习 3C 框架。<br>
-          课堂产出：标注一个游戏界面的 UX 问题。<br>
-          阅读案例：《原神》任务界面、《崩坏：星穹铁道》角色界面、《王者荣耀》结算界面。
-        </div>
-      </details>
-
-      <details>
-        <summary>Week 2｜7月9日（周四）｜UI Fundamentals</summary>
-        <div class="detail-body">
-          课堂内容：颜色、对比、信息层级、按钮层级。<br>
-          课堂产出：用黑白灰重画一个界面的信息结构。
-        </div>
-      </details>
-
-      <details>
-        <summary>Week 3｜7月16日（周四）｜Inputs / Design Patterns</summary>
-        <div class="detail-body">
-          课堂内容：按钮、Tab、弹窗、进度条、奖励卡片、状态标签。<br>
-          课堂产出：使用组件库组合一个小界面。
-        </div>
-      </details>
-
-      <details>
-        <summary>Week 4｜周一，日期待定｜Game UI / HUD</summary>
-        <div class="detail-body">
-          课堂内容：游戏 HUD、触控区域、可读性、信息优先级。<br>
-          课堂产出：完成一个低保真 HUD 或菜单 wireframe。
-        </div>
-      </details>
-
-      <details>
-        <summary>Week 5｜7月30日（周四）｜复杂系统拆解</summary>
-        <div class="detail-body">
-          课堂内容：活动、抽卡、养成等复杂系统。<br>
-          课堂产出：选择一个 Final Project 方向，收集 3-5 张参考截图，并记录可借鉴或需要改进的地方。
-        </div>
-      </details>
-
-      <details>
-        <summary>Week 6｜8月6日（周四）｜UX Testing / Critique</summary>
-        <div class="detail-body">
-          课堂内容：如何发现界面问题、表达可用性反馈、提出改进理由。<br>
-          课堂产出：整理 Final Project 选题草案：模块、目标用户、主要 UX 问题。
-        </div>
-      </details>
-
-      <details>
-        <summary>Week 7｜8月13日（周四）｜Final Workshop</summary>
-        <div class="detail-body">
-          课堂内容：整合最终 Figma 文件。<br>
-          课堂产出：案例截图、问题分析、流程结构、六张高保真界面和设计说明。
-        </div>
-      </details>
-
-      <details>
-        <summary>Week 8｜8月20日（周四）｜Final Project</summary>
-        <div class="detail-body">
-          提交 Final Project，并进行 5 分钟课堂展示。
-        </div>
-      </details>
-    </section>
-
-    <section id="final">
-      <h2>Final Project：六界面高保真 Figma 项目板</h2>
-      <p>为同一个类暗黑式 Action RPG 建立一套高保真 UI 系统。最终必须提交恰好六张界面：战斗 HUD、人物信息、背包 / 装备、技能树、主菜单、设置。六张必须共享同一套视觉方向、语义 Variables、Components 与 Variants；不能把六张做成六种互不相关的风格。</p>
-
-      <h3>固定作业范围</h3>
-      <p>
-        <span class="tag">战斗 HUD</span>
-        <span class="tag">人物信息</span>
-        <span class="tag">背包 / 装备</span>
-        <span class="tag">技能树</span>
-        <span class="tag">主菜单</span>
-        <span class="tag">设置</span>
-      </p>
-
-      <h3>六张界面分别要做到什么</h3>
+    <section id="screens">
+      <h2>必做六张界面及本课系统要求</h2>
+      <p>六张界面需要包含的最低内容、关键状态及对应的 Figma 功能要求如下：</p>
       <table>
-        <tr><th>界面</th><th>最低内容与关键状态</th><th>本课系统要求</th></tr>
-        <tr><td>01 · 战斗 HUD</td><td>生命 / 资源、当前目标、技能冷却、危险提示和操作反馈；至少展示正常与危险状态。</td><td>使用 Constraints 固定 HUD 锚点；技能槽和状态提示来自 Components / Variants。</td></tr>
-        <tr><td>02 · 人物信息</td><td>基础属性、抗性、装备摘要、升级或加点入口；数值变化要能比较。</td><td>属性行使用 Auto Layout；数值、标题、Surface 引用语义 Variables。</td></tr>
-        <tr><td>03 · 背包 / 装备</td><td>物品格、装备槽、Tooltip、装备比较、已装备 / 新物品 / 不可装备状态。</td><td>这张先做 Benchmark；综合使用 Variables、Components、Variants 与 Auto Layout。</td></tr>
-        <tr><td>04 · 技能树</td><td>锁定、可学习、悬停、已学习、满级，并说明前置条件和资源消耗。</td><td>技能节点必须是 Component Set；用 Variant 属性切换 State。</td></tr>
-        <tr><td>05 · 主菜单</td><td>继续、人物、背包、技能、设置、退出；显示默认、Hover、Focus / Selected。</td><td>按钮和导航复用同一组件；列表使用 Auto Layout。</td></tr>
-        <tr><td>06 · 设置</td><td>Toggle、Slider、Keybind；包含 Hover / Focus、未保存、按键冲突与确认。</td><td>控件使用 Variants；Danger / Success 与间距全部引用 Variables。</td></tr>
+        <tr>
+          <th>界面</th>
+          <th>最低内容与关键状态</th>
+          <th>本课 Figma 系统要求</th>
+        </tr>
+        <tr>
+          <td><strong>01 · 战斗 HUD</strong></td>
+          <td>生命 / 资源球、当前任务目标、技能冷却、危险提示和操作反馈。展示正常与危险两种状态。</td>
+          <td>使用 Constraints 固定 HUD 的四周锚点，使其自适应 1920×1080 视口；技能槽和危险反馈复用组件库。</td>
+        </tr>
+        <tr>
+          <td><strong>02 · 人物信息</strong></td>
+          <td>基础属性、抗性详情、当前装备摘要、升级或加点入口；数值变化（增加/减少）需清晰比较。</td>
+          <td>属性行使用 Auto Layout（自适应内容宽度与间距）；数值、标题、Surface 引用全局语义 Variables。</td>
+        </tr>
+        <tr>
+          <td><strong>03 · 背包 / 装备</strong></td>
+          <td>物品格、装备槽、Tooltip 悬停属性弹窗、装备属性比较状态、已装备/新物品/不可装备状态。</td>
+          <td>作为首张 Benchmark；必须综合使用组件、Variants（切换物品状态）、Auto Layout 和 Variables。</td>
+        </tr>
+        <tr>
+          <td><strong>04 · 技能树</strong></td>
+          <td>锁定、可学习、悬停、已学习、已满级状态；清楚体现前置条件线和资源消耗。</td>
+          <td>技能节点必须封装为 Component Set；用 Variant 属性一键切换不同学习状态（State）。</td>
+        </tr>
+        <tr>
+          <td><strong>05 · 主菜单</strong></td>
+          <td>继续、角色、背包、技能、设置、退出；显示默认、Hover、Focus/Selected 等状态。</td>
+          <td>按钮和导航项复用同一底层组件，列表使用 Auto Layout 排版。</td>
+        </tr>
+        <tr>
+          <td><strong>06 · 设置</strong></td>
+          <td>Toggle 开关、Slider 滑动条、Keybind 按键绑定；包含 Hover、未保存、按键冲突等状态。</td>
+          <td>输入和控制控件使用 Variants 统一风格，Danger/Success 状态色与间距全部引用全局 Variables。</td>
+        </tr>
       </table>
-      <p class="meta">Tooltip、装备比较、掉落提示、未保存条和按键冲突提示属于上述界面的状态或覆盖层，不另算第七张。</p>
-
-      <h3>推荐制作顺序</h3>
-      <p><b>背包 / 装备 Benchmark → 人物信息 + 技能树 → 战斗 HUD → 主菜单 + 设置 → 六页一致性检查。</b>第一张先锁定字体、材质、Token、组件尺寸和状态语言；其余五张复用，不重新探索风格。</p>
-
-      <h3>必须包含</h3>
-      <table>
-        <tr><th>模块</th><th>要求</th></tr>
-        <tr><td>案例分析</td><td>至少 3 张真实游戏截图，并用 3C 或信息层级进行标注。</td></tr>
-        <tr><td>设计目标</td><td>说明你要解决的 2-3 个 UX 问题。</td></tr>
-        <tr><td>流程 / 结构</td><td>1 张 user flow 或 information architecture 图，说明玩家如何完成核心任务。</td></tr>
-        <tr><td>界面设计</td><td>恰好六张 1920 × 1080 高保真界面，完整覆盖固定作业范围。</td></tr>
-        <tr><td>视觉系统证据</td><td>展示 Variables Collection、语义命名、至少 3 组 Components / Variants，以及一个 Instance 切换状态的证据。</td></tr>
-        <tr><td>设计说明</td><td>每个界面写 2-3 句：玩家目标、关键层级 / 状态、复用了哪项系统规则。</td></tr>
-        <tr><td>过程证据</td><td>提交六图总览、背包 Benchmark 局部、至少一组 wireframe / hi-fi 对照和一次一致性检查记录。</td></tr>
-        <tr><td>展示</td><td>5 分钟口头展示，说明问题、方案和取舍。</td></tr>
-      </table>
-    </section>
-
-    <section id="cases">
-      <h2>案例参考</h2>
-      <p>以下案例可用于课堂讨论和选题参考。</p>
-      <table>
-        <tr><th>游戏</th><th>可观察内容</th></tr>
-        <tr><td>原神</td><td>任务追踪、角色养成、地图、背包、活动入口。</td></tr>
-        <tr><td>崩坏：星穹铁道</td><td>角色详情、抽卡、活动奖励、队伍配置、战斗结算。</td></tr>
-        <tr><td>王者荣耀</td><td>移动端 HUD、技能按钮、商店、赛后结算、匹配流程。</td></tr>
-        <tr><td>明日方舟</td><td>干员列表、关卡选择、基建、活动商店、资源管理。</td></tr>
-        <tr><td>和平精英</td><td>移动射击 HUD、背包、地图、队友状态、触控热区。</td></tr>
-        <tr><td>永劫无间手游</td><td>动作战斗 HUD、技能冷却、道具、状态提示。</td></tr>
-      </table>
-    </section>
-
-    <section id="figma">
-      <h2>Figma 文件结构</h2>
-      <div class="copy-box" id="figmaStructure">00 Read Me / 作业说明
-01 Teacher Example / 老师范例
-02 Component Library / 组件库
-03 Student Template / 学生模板
-04 Case Study / 真实游戏截图分析
-05 Final Board / 最终项目板
-06 Presentation / 5分钟展示页</div>
-      <button class="btn" data-copy="figmaStructure">复制结构</button>
-
-      <h3>提交命名</h3>
-      <div class="copy-box" id="naming">文件名：Name_UIUX_Final
-Figma Page：Final Board
-展示时长：5 minutes
-提交内容：Figma 链接 + 六张高保真总览 + Variables/Components/Variants 证据 + 导出 PDF（可选）</div>
-      <button class="btn" data-copy="naming">复制命名规则</button>
+      <p class="meta">※ Tooltip、装备属性比较、掉落提示、未保存状态栏和按键冲突属于上述界面的内部状态或 Overlay，不另算第七张页面。</p>
     </section>
 
     <section id="rubric">
-      <h2>评分标准</h2>
-      <p class="meta">Final Project 将根据以下标准评分。</p>
+      <h2>评分细则</h2>
+      <p class="meta">总分 10 分，与作业 2（Wireframe）一起在第 8 周统一评分。</p>
       <table>
-        <tr><th>项目</th><th>占比</th><th>评分依据</th></tr>
-        <tr><td>案例分析</td><td>20%</td><td>是否能明确指出原界面的 UX 问题；截图标注是否清楚；是否使用 3C 或信息层级语言。</td></tr>
-        <tr><td>流程与结构</td><td>20%</td><td>流程图是否完整；玩家下一步是否明确；是否避免不必要的步骤。</td></tr>
-        <tr><td>界面完成度</td><td>25%</td><td>六张规定高保真是否全部完成；1920 × 1080 下是否清楚；组件、Variables 与状态是否一致。</td></tr>
-        <tr><td>设计说明</td><td>20%</td><td>能否解释自己的设计选择；是否能说清楚每页解决什么问题。</td></tr>
-        <tr><td>Final Presentation</td><td>15%</td><td>展示结构是否清楚；能否在 5 分钟内说明问题、方案和取舍。</td></tr>
+        <tr>
+          <th>评分项目</th>
+          <th>评分标准</th>
+          <th>分值</th>
+        </tr>
+        <tr class="score-row">
+          <td><strong>视觉风格建立 &amp; 规范一致性</strong></td>
+          <td>
+            世界观包装与视觉关键词明确；六张页面风格高度统一（色调、质感、线宽、排版一致）；字体、圆角、背景色全部引用了全局 Tokens/Variables，而不是手动指定颜色。
+          </td>
+          <td>3</td>
+        </tr>
+        <tr class="score-row">
+          <td><strong>六张高保真页面视觉质量</strong></td>
+          <td>
+            所有 6 个必做页面高保真设计齐全，细节丰富、质感 premium；文字层级清晰，数值易读性高，满足 PC 端（1920×1080）体验需求。
+          </td>
+          <td>4</td>
+        </tr>
+        <tr class="score-row">
+          <td><strong>组件系统与变量搭建</strong></td>
+          <td>
+            规范建立了 Component Library；物品格、技能、按钮等核心元素使用 Variant 设置了多种交互状态；Auto Layout 布局合理；展示了语义化 Variables 的应用。
+          </td>
+          <td>3</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="2"><strong>总计</strong></td>
+          <td>10</td>
+        </tr>
       </table>
-      <p class="meta">可选加分：完成基础点击跳转、补充更多状态动效或可访问性验证。加分内容不能代替六张规定高保真。</p>
     </section>
-  </div>
 
-  <script>
-    document.querySelectorAll("[data-copy]").forEach(button => {
-      button.addEventListener("click", async () => {
-        const target = document.getElementById(button.dataset.copy);
-        try {
-          await navigator.clipboard.writeText(target.textContent.trim());
-          const old = button.textContent;
-          button.textContent = "已复制";
-          setTimeout(() => button.textContent = old, 1200);
-        } catch {
-          button.textContent = "请手动复制";
-        }
-      });
-    });
-  </script>
+    <section id="tips">
+      <h2>评分说明</h2>
+      <div class="tip-box">
+        <div class="tip">
+          <div class="tip-label">✅ 基础分（8分）</div>
+          <p>只要完整提交 6 张高保真页面、没有穿帮和明显的对齐间距错误，UI 风格基本一致，即可获得 <strong>8 分基础分</strong>。</p>
+        </div>
+        <div class="tip">
+          <div class="tip-label">⭐ 进阶分（+2分）</div>
+          <p>进阶的 2 分用于拉开档次，考察：<strong>设计细节和世界观包装特色</strong>、<strong>Figma 语义 Variables（变量）命名的规范度与干净程度</strong>，以及组件库的模块化程度。</p>
+        </div>
+        <div class="tip">
+          <div class="tip-label">⚙️ 加分项</div>
+          <p>完成基础的 Figma 原型点击跳转、补充更多动效状态或进行可访问性测试（Color Blindness 验证等）可作为加分加成，但不能代替必做的六张页面。</p>
+        </div>
+        <div class="tip">
+          <div class="tip-label">🎨 制作建议</div>
+          <p>建议以「背包/装备」作为第一个 Benchmark 页面。在这张里锁死字体大小、配色、圆角和 Token，其余 5 页直接复用，不重复发明轮子。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="submit">
+      <h2>提交要求</h2>
+      <table>
+        <tr><th>提交内容</th><th>说明</th></tr>
+        <tr><td>Figma 分享链接</td><td>开启查看权限，确保链接可被老师访问</td></tr>
+        <tr><td>视觉系统证据</td><td>展示全局 Variables 变量命名、至少 3 组 Components/Variants，以及组件实例化（Instance）状态切换的证据</td></tr>
+        <tr><td>六张高保真页面</td><td>1920 × 1080 尺寸的 Frame，完整覆盖战斗 HUD、人物、背包、技能树、主菜单和设置</td></tr>
+        <tr><td>设计说明</td><td>每个界面提供 2-3 句话的设计阐述：玩家目标是什么、复用了哪项系统规则</td></tr>
+      </table>
+      <div class="note" style="margin-top: 16px;">
+        提交方式：将 Figma 分享链接贴入课堂 FigJam Board 中对应的作业贴纸下，截止时间为<strong>第 8 周课前</strong>。
+      </div>
+      <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="UIUX_02_材料索引.html" class="back-link">← 返回材料索引</a>
+        <a href="UIUX_课程大纲.html" class="back-link">← 返回课程大纲</a>
+      </div>
+    </section>
+
+  </div>
 </body>
 </html>
