@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UIUX 作业 2 · 信息架构与 Wireframe 评分说明</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --paper: #ffffff;
+      --text: #1f2937;
+      --muted: #667085;
+      --line: #d9dee8;
+      --blue: #1f5fbf;
+      --soft: #f1f5fb;
+      --gold: #b45309;
+      font-family: "Noto Sans SC", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    header {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 28px;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1.5px solid;
+    }
+
+    .badge-blue { background: #eff6ff; color: var(--blue); border-color: #bfdbfe; }
+    .badge-gold { background: #fef3c7; color: var(--gold); border-color: #fcd34d; }
+    .badge-gray { background: var(--soft); color: var(--muted); border-color: var(--line); }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(247, 248, 250, 0.96);
+      border-bottom: 1px solid var(--line);
+      margin: 0 -20px 20px;
+      padding: 10px 20px;
+    }
+
+    nav .links {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 8px 2px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+
+    h2 { margin: 0 0 14px; font-size: 24px; line-height: 1.25; }
+    h3 { margin: 20px 0 8px; font-size: 18px; }
+    p { margin: 0 0 12px; }
+
+    ul, ol { margin: 8px 0 0; padding-left: 22px; }
+    li { margin: 5px 0; }
+
+    .note {
+      background: var(--soft);
+      border-left: 4px solid var(--blue);
+      padding: 12px 14px;
+      border-radius: 4px;
+      color: #26374f;
+      margin: 14px 0;
+    }
+
+    .warn {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 12px 14px;
+      border-radius: 4px;
+      color: var(--gold);
+      margin: 14px 0;
+    }
+
+    .meta { color: var(--muted); font-size: 14px; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 15px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: var(--soft);
+      font-weight: 800;
+    }
+
+    .score-row td:last-child {
+      font-weight: 800;
+      font-size: 20px;
+      color: var(--blue);
+      text-align: center;
+      width: 60px;
+    }
+
+    .total-row {
+      background: #eff6ff;
+      font-weight: 800;
+    }
+
+    .total-row td:last-child {
+      font-size: 22px;
+      color: var(--blue);
+      text-align: center;
+    }
+
+    .screen-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .screen-card {
+      border: 1.5px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fafbfd;
+    }
+
+    .screen-card .num {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--blue);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .screen-card h4 {
+      margin: 0 0 6px;
+      font-size: 15px;
+    }
+
+    .screen-card p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .tip-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .tip {
+      border: 1.5px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 14px;
+    }
+
+    .tip .tip-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 0;
+      padding: 8px 16px;
+      border: 1.5px solid var(--line);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    @media (max-width: 700px) {
+      h1 { font-size: 26px; }
+      section, header { padding: 20px; }
+      table { font-size: 14px; }
+      .tip-box { grid-template-columns: 1fr; }
+      .score-row td:last-child { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="eyebrow">UIUX · WEEK 03 · 作业 2</div>
+      <h1>信息架构与 Wireframe</h1>
+      <p class="subtitle">完成 ARPG 核心任务流及六个必做页面的 Wireframe 设计</p>
+      <div class="badge-row">
+        <span class="badge badge-blue">满分 10 分</span>
+        <span class="badge badge-gold">与作业 3 合并在第 8 周统一提交</span>
+        <span class="badge badge-gray">个人作业</span>
+      </div>
+    </header>
+
+    <nav aria-label="页面目录">
+      <div class="links">
+        <a href="#overview">任务概览</a>
+        <a href="#screens">六个必做界面</a>
+        <a href="#rubric">评分细则</a>
+        <a href="#tips">评分说明</a>
+        <a href="#submit">提交要求</a>
+      </div>
+    </nav>
+
+    <section id="overview">
+      <h2>任务概览</h2>
+      <p>为同一个类暗黑式 Action RPG（俯视角 PC 端，1920×1080，鼠标键盘）设计核心装备任务流的中保真 Wireframe。</p>
+      <div class="note">
+        <strong>本次作业需要提交三件事：</strong>
+        <ol>
+          <li><strong>Brief 与目标玩家假设</strong>：你的游戏名称 / 一句话概念，以及你定义的目标玩家（熟悉程度、使用情境、最重要的游戏目标）</li>
+          <li><strong>信息架构与页面地图</strong>：六个界面的跳转关系图，标出全局导航、Overlay 及返回路径</li>
+          <li><strong>任务流 + 六页 Wireframe</strong>：从「击杀怪物获得装备」到「装备完成并确认属性变化」的主路径（6–10 个节点），加至少一条异常分支，以及对应的 Wireframe 画面</li>
+        </ol>
+      </div>
+      <div class="warn">
+        ⚠️ 此作业与作业 3（高保真视觉设计）共同在第 8 周统一提交，建议在第三节课后尽快启动并提前贴入 FigJam，以获得老师提前批改的机会。
+      </div>
+    </section>
+
+    <section id="screens">
+      <h2>六个必做界面</h2>
+      <p>所有同学都必须完成以下六个界面的 Wireframe，自由发挥世界观和视觉关键词，但界面范围固定。</p>
+      <div class="screen-grid">
+        <div class="screen-card">
+          <div class="num">01 · HUD</div>
+          <h4>战斗抬头显示器</h4>
+          <p>战斗状态与即时决策。展示生命/资源、技能冷却、危险提示。</p>
+        </div>
+        <div class="screen-card">
+          <div class="num">02 · CHARACTER</div>
+          <h4>角色信息</h4>
+          <p>人物属性与装备结果。可查看基础属性、抗性、当前装备情况。</p>
+        </div>
+        <div class="screen-card">
+          <div class="num">03 · INVENTORY</div>
+          <h4>背包</h4>
+          <p>物品管理与装备比较。含物品格、装备槽、Tooltip、比较状态。</p>
+        </div>
+        <div class="screen-card">
+          <div class="num">04 · SKILL TREE</div>
+          <h4>技能树</h4>
+          <p>成长选择与前置条件。展示锁定、可学习、已学习等状态。</p>
+        </div>
+        <div class="screen-card">
+          <div class="num">05 · SETTINGS</div>
+          <h4>设置</h4>
+          <p>控制、音画与可访问性。包含 Toggle、Slider、Keybind 等控件。</p>
+        </div>
+        <div class="screen-card">
+          <div class="num">06 · OVERLAY</div>
+          <h4>覆盖层</h4>
+          <p>拾取提示、Tooltip 或装备比较层。不中断上下文的临时信息。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="rubric">
+      <h2>评分细则</h2>
+      <p class="meta">总分 10 分，与作业 3 一起在第 8 周统一评分。</p>
+      <table>
+        <tr>
+          <th>评分项目</th>
+          <th>评分标准</th>
+          <th>分值</th>
+        </tr>
+        <tr class="score-row">
+          <td><strong>Brief、目标玩家假设</strong></td>
+          <td>
+            有明确的游戏概念（哪怕一句话）；定义了目标玩家的熟悉程度和使用情境；设定能影响到设计判断（如：哪些信息优先显示、哪里可能迷路）。
+          </td>
+          <td>1</td>
+        </tr>
+        <tr class="score-row">
+          <td><strong>信息架构与页面地图</strong></td>
+          <td>
+            六个界面连接关系清晰；全局导航和局部操作有区分；Overlay 的触发和关闭路径有标注；每个页面有明确的返回/关闭出口。
+          </td>
+          <td>2</td>
+        </tr>
+        <tr class="score-row">
+          <td><strong>任务流与异常路径</strong></td>
+          <td>
+            装备主路径（获得→打开背包→比较→装备→确认属性）完整，共 6–10 个节点；每个节点同时写出玩家动作和系统反馈；至少包含一条异常分支（如背包已满、等级不足、属性下降确认、取消操作）。
+          </td>
+          <td>2</td>
+        </tr>
+        <tr class="score-row">
+          <td><strong>六页 Wireframe：层级与可用性</strong></td>
+          <td>
+            六个必做界面均已完成；各界面内的信息层级清楚（主要信息 vs 次要信息 vs 操作按钮位置合理）；入口、出口、关闭手势在 Wireframe 中可见；内容量（文字/格子/按钮数量）符合实际需求，不空洞也不塞满。
+          </td>
+          <td>5</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="2"><strong>总计</strong></td>
+          <td>10</td>
+        </tr>
+      </table>
+    </section>
+
+    <section id="tips">
+      <h2>评分说明</h2>
+      <div class="tip-box">
+        <div class="tip">
+          <div class="tip-label">✅ 基础分（8分）</div>
+          <p>只要完整提交六页 Wireframe、有可识别的页面地图和任务流、没有明显常识性排版对齐错误，即可获得 <strong>8 分基础分</strong>。</p>
+        </div>
+        <div class="tip">
+          <div class="tip-label">⭐ 进阶分（+2分）</div>
+          <p>进阶的 2 分用于拉开档次，考察：<strong>异常分支覆盖的细致程度</strong>、<strong>设计理由论证</strong>、以及 Wireframe 中组件状态和可用性细节。</p>
+        </div>
+        <div class="tip">
+          <div class="tip-label">⏰ 提前提交奖励</div>
+          <p>提前贴入 FigJam 的同学，老师会在第 8 周统一截止前给出<strong>具体文字反馈</strong>，并有机会根据反馈修改后<strong>重新评分</strong>（提分机会）。</p>
+        </div>
+        <div class="tip">
+          <div class="tip-label">🎨 主题自由</div>
+          <p>你无需以史莱姆或 Diablo 为主题。鼓励设计属于你自己世界观的游戏 UI，只要完成六个固定界面且任务流完整即可。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="submit">
+      <h2>提交要求</h2>
+      <table>
+        <tr><th>提交内容</th><th>说明</th></tr>
+        <tr><td>Figma 项目链接</td><td>开启查看权限，确保链接可访问</td></tr>
+        <tr><td>Brief 与目标玩家</td><td>一段话即可，写在 Figma 项目板或第一个 Frame 里</td></tr>
+        <tr><td>页面地图</td><td>可以是 FigJam 流程图、Figma 框线图或手绘扫描</td></tr>
+        <tr><td>任务流</td><td>需标注每个节点的玩家动作 + 系统反馈 + 下一步</td></tr>
+        <tr><td>六页 Wireframe</td><td>中保真即可，不需要颜色和贴图；每页需有界面名称标注</td></tr>
+      </table>
+      <div class="note" style="margin-top: 16px;">
+        提交方式：将 Figma 分享链接贴入课堂 FigJam Board 中对应的作业贴纸下，截止时间为<strong>第 8 周课前</strong>。
+      </div>
+      <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="UIUX_02_材料索引.html" class="back-link">← 返回材料索引</a>
+        <a href="UIUX_课程大纲.html" class="back-link">← 返回课程大纲</a>
+        <a href="UIUX_03_流程图编辑器.html" target="_blank" style="display:inline-block; padding:8px 16px; background:var(--blue); color:#fff; border-radius:6px; font-size:14px; text-decoration:none; font-weight:700;">打开流程图编辑器 →</a>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
