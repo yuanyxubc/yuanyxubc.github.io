@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UI/UX Design 作业与课程安排</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --paper: #ffffff;
+      --text: #1f2937;
+      --muted: #667085;
+      --line: #d9dee8;
+      --blue: #1f5fbf;
+      --soft: #f1f5fb;
+      font-family: "Noto Sans SC", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover { text-decoration: underline; }
+
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    header {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 28px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      line-height: 1.2;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(247, 248, 250, 0.96);
+      border-bottom: 1px solid var(--line);
+      margin: 0 -20px 20px;
+      padding: 10px 20px;
+    }
+
+    nav .links {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    nav a {
+      display: inline-block;
+      padding: 8px 2px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    section {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 24px;
+      line-height: 1.25;
+    }
+
+    h3 {
+      margin: 20px 0 8px;
+      font-size: 18px;
+    }
+
+    p { margin: 0 0 12px; }
+
+    ul, ol {
+      margin: 8px 0 0;
+      padding-left: 22px;
+    }
+
+    li { margin: 5px 0; }
+
+    .note {
+      background: var(--soft);
+      border-left: 4px solid var(--blue);
+      padding: 12px 14px;
+      border-radius: 4px;
+      color: #26374f;
+      margin: 14px 0;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 15px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 10px;
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: var(--soft);
+      font-weight: 800;
+    }
+
+    details {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0;
+      margin: 10px 0;
+      background: #fff;
+    }
+
+    summary {
+      cursor: pointer;
+      padding: 14px 16px;
+      font-weight: 800;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    summary::after {
+      content: "展开";
+      float: right;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    details[open] summary::after { content: "收起"; }
+
+    .detail-body {
+      border-top: 1px solid var(--line);
+      padding: 14px 16px 16px;
+      color: var(--muted);
+    }
+
+    .tag {
+      display: inline-block;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 3px 9px;
+      margin: 3px 4px 3px 0;
+      font-size: 13px;
+      color: var(--muted);
+      background: #fff;
+    }
+
+    .copy-box {
+      background: #fbfcff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 12px;
+      white-space: pre-wrap;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      color: #26374f;
+    }
+
+    .btn {
+      margin-top: 8px;
+      border: 1px solid var(--blue);
+      background: #fff;
+      color: var(--blue);
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    @media (max-width: 700px) {
+      h1 { font-size: 28px; }
+      section, header { padding: 20px; }
+      table { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>UI/UX Design 作业与课程安排</h1>
+      <p class="subtitle">课程安排、阅读案例、Final Project 要求与评分标准。</p>
+    </header>
+
+    <nav aria-label="页面目录">
+      <div class="links">
+        <a href="#overview">总览</a>
+        <a href="#schedule">课程安排</a>
+        <a href="#final">Final Project</a>
+        <a href="#cases">案例参考</a>
+        <a href="#figma">Figma 文件</a>
+        <a href="#rubric">评分标准</a>
+      </div>
+    </nav>
+
+    <section id="overview">
+      <h2>课程目标</h2>
+      <p>本课程从游戏界面案例出发，学习如何观察 UI/UX 问题、拆解信息层级、使用 Figma 组织界面，并清楚说明自己的设计判断。</p>
+      <div class="note">
+        Final Project 将以 Figma 项目板形式提交，包含案例分析、流程结构、关键界面、设计说明与课堂展示。
+      </div>
+      <h3>Final Project Checklist</h3>
+      <ul>
+        <li>1 个游戏模块案例分析</li>
+        <li>1 张流程图或信息结构图</li>
+        <li>恰好 6 个 Figma 高保真界面：战斗 HUD、人物信息、背包 / 装备、技能树、主菜单、设置</li>
+        <li>至少 8 个课程组件的使用或改造</li>
+        <li>5 分钟课堂展示</li>
+      </ul>
+    </section>
+
+    <section id="schedule">
+      <h2>8 周课程安排</h2>
+      <p class="meta">上课时间：上午 9:00-12:00。第 4 周为周一，日期待定；其余课程按下方日期进行。</p>
+
+      <details open>
+        <summary>Week 1｜7月2日（周四）｜UI vs UX / 3C 框架</summary>
+        <div class="detail-body">
+          课堂内容：理解 UI 与 UX 的区别，学习 3C 框架。<br>
+          课堂产出：标注一个游戏界面的 UX 问题。<br>
+          阅读案例：《原神》任务界面、《崩坏：星穹铁道》角色界面、《王者荣耀》结算界面。
+        </div>
+      </details>
+
+      <details>
+        <summary>Week 2｜7月9日（周四）｜UI Fundamentals</summary>
+        <div class="detail-body">
+          课堂内容：颜色、对比、信息层级、按钮层级。<br>
+          课堂产出：用黑白灰重画一个界面的信息结构。
+        </div>
+      </details>
+
+      <details>
+        <summary>Week 3｜7月16日（周四）｜Inputs / Design Patterns</summary>
+        <div class="detail-body">
+          课堂内容：按钮、Tab、弹窗、进度条、奖励卡片、状态标签。<br>
+          课堂产出：使用组件库组合一个小界面。
+        </div>
+      </details>
+
+      <details>
+        <summary>Week 4｜周一，日期待定｜Game UI / HUD</summary>
+        <div class="detail-body">
+          课堂内容：游戏 HUD、触控区域、可读性、信息优先级。<br>
+          课堂产出：完成一个低保真 HUD 或菜单 wireframe。
+        </div>
+      </details>
+
+      <details>
+        <summary>Week 5｜7月30日（周四）｜复杂系统拆解</summary>
+        <div class="detail-body">
+          课堂内容：活动、抽卡、养成等复杂系统。<br>
+          课堂产出：选择一个 Final Project 方向，收集 3-5 张参考截图，并记录可借鉴或需要改进的地方。
+        </div>
+      </details>
+
+      <details>
+        <summary>Week 6｜8月6日（周四）｜UX Testing / Critique</summary>
+        <div class="detail-body">
+          课堂内容：如何发现界面问题、表达可用性反馈、提出改进理由。<br>
+          课堂产出：整理 Final Project 选题草案：模块、目标用户、主要 UX 问题。
+        </div>
+      </details>
+
+      <details>
+        <summary>Week 7｜8月13日（周四）｜Final Workshop</summary>
+        <div class="detail-body">
+          课堂内容：整合最终 Figma 文件。<br>
+          课堂产出：案例截图、问题分析、流程结构、六张高保真界面和设计说明。
+        </div>
+      </details>
+
+      <details>
+        <summary>Week 8｜8月20日（周四）｜Final Project</summary>
+        <div class="detail-body">
+          提交 Final Project，并进行 5 分钟课堂展示。
+        </div>
+      </details>
+    </section>
+
+    <section id="final">
+      <h2>Final Project：六界面高保真 Figma 项目板</h2>
+      <p>为同一个类暗黑式 Action RPG 建立一套高保真 UI 系统。最终必须提交恰好六张界面：战斗 HUD、人物信息、背包 / 装备、技能树、主菜单、设置。六张必须共享同一套视觉方向、语义 Variables、Components 与 Variants；不能把六张做成六种互不相关的风格。</p>
+
+      <h3>固定作业范围</h3>
+      <p>
+        <span class="tag">战斗 HUD</span>
+        <span class="tag">人物信息</span>
+        <span class="tag">背包 / 装备</span>
+        <span class="tag">技能树</span>
+        <span class="tag">主菜单</span>
+        <span class="tag">设置</span>
+      </p>
+
+      <h3>六张界面分别要做到什么</h3>
+      <table>
+        <tr><th>界面</th><th>最低内容与关键状态</th><th>本课系统要求</th></tr>
+        <tr><td>01 · 战斗 HUD</td><td>生命 / 资源、当前目标、技能冷却、危险提示和操作反馈；至少展示正常与危险状态。</td><td>使用 Constraints 固定 HUD 锚点；技能槽和状态提示来自 Components / Variants。</td></tr>
+        <tr><td>02 · 人物信息</td><td>基础属性、抗性、装备摘要、升级或加点入口；数值变化要能比较。</td><td>属性行使用 Auto Layout；数值、标题、Surface 引用语义 Variables。</td></tr>
+        <tr><td>03 · 背包 / 装备</td><td>物品格、装备槽、Tooltip、装备比较、已装备 / 新物品 / 不可装备状态。</td><td>这张先做 Benchmark；综合使用 Variables、Components、Variants 与 Auto Layout。</td></tr>
+        <tr><td>04 · 技能树</td><td>锁定、可学习、悬停、已学习、满级，并说明前置条件和资源消耗。</td><td>技能节点必须是 Component Set；用 Variant 属性切换 State。</td></tr>
+        <tr><td>05 · 主菜单</td><td>继续、人物、背包、技能、设置、退出；显示默认、Hover、Focus / Selected。</td><td>按钮和导航复用同一组件；列表使用 Auto Layout。</td></tr>
+        <tr><td>06 · 设置</td><td>Toggle、Slider、Keybind；包含 Hover / Focus、未保存、按键冲突与确认。</td><td>控件使用 Variants；Danger / Success 与间距全部引用 Variables。</td></tr>
+      </table>
+      <p class="meta">Tooltip、装备比较、掉落提示、未保存条和按键冲突提示属于上述界面的状态或覆盖层，不另算第七张。</p>
+
+      <h3>推荐制作顺序</h3>
+      <p><b>背包 / 装备 Benchmark → 人物信息 + 技能树 → 战斗 HUD → 主菜单 + 设置 → 六页一致性检查。</b>第一张先锁定字体、材质、Token、组件尺寸和状态语言；其余五张复用，不重新探索风格。</p>
+
+      <h3>必须包含</h3>
+      <table>
+        <tr><th>模块</th><th>要求</th></tr>
+        <tr><td>案例分析</td><td>至少 3 张真实游戏截图，并用 3C 或信息层级进行标注。</td></tr>
+        <tr><td>设计目标</td><td>说明你要解决的 2-3 个 UX 问题。</td></tr>
+        <tr><td>流程 / 结构</td><td>1 张 user flow 或 information architecture 图，说明玩家如何完成核心任务。</td></tr>
+        <tr><td>界面设计</td><td>恰好六张 1920 × 1080 高保真界面，完整覆盖固定作业范围。</td></tr>
+        <tr><td>视觉系统证据</td><td>展示 Variables Collection、语义命名、至少 3 组 Components / Variants，以及一个 Instance 切换状态的证据。</td></tr>
+        <tr><td>设计说明</td><td>每个界面写 2-3 句：玩家目标、关键层级 / 状态、复用了哪项系统规则。</td></tr>
+        <tr><td>过程证据</td><td>提交六图总览、背包 Benchmark 局部、至少一组 wireframe / hi-fi 对照和一次一致性检查记录。</td></tr>
+        <tr><td>展示</td><td>5 分钟口头展示，说明问题、方案和取舍。</td></tr>
+      </table>
+    </section>
+
+    <section id="cases">
+      <h2>案例参考</h2>
+      <p>以下案例可用于课堂讨论和选题参考。</p>
+      <table>
+        <tr><th>游戏</th><th>可观察内容</th></tr>
+        <tr><td>原神</td><td>任务追踪、角色养成、地图、背包、活动入口。</td></tr>
+        <tr><td>崩坏：星穹铁道</td><td>角色详情、抽卡、活动奖励、队伍配置、战斗结算。</td></tr>
+        <tr><td>王者荣耀</td><td>移动端 HUD、技能按钮、商店、赛后结算、匹配流程。</td></tr>
+        <tr><td>明日方舟</td><td>干员列表、关卡选择、基建、活动商店、资源管理。</td></tr>
+        <tr><td>和平精英</td><td>移动射击 HUD、背包、地图、队友状态、触控热区。</td></tr>
+        <tr><td>永劫无间手游</td><td>动作战斗 HUD、技能冷却、道具、状态提示。</td></tr>
+      </table>
+    </section>
+
+    <section id="figma">
+      <h2>Figma 文件结构</h2>
+      <div class="copy-box" id="figmaStructure">00 Read Me / 作业说明
+01 Teacher Example / 老师范例
+02 Component Library / 组件库
+03 Student Template / 学生模板
+04 Case Study / 真实游戏截图分析
+05 Final Board / 最终项目板
+06 Presentation / 5分钟展示页</div>
+      <button class="btn" data-copy="figmaStructure">复制结构</button>
+
+      <h3>提交命名</h3>
+      <div class="copy-box" id="naming">文件名：Name_UIUX_Final
+Figma Page：Final Board
+展示时长：5 minutes
+提交内容：Figma 链接 + 六张高保真总览 + Variables/Components/Variants 证据 + 导出 PDF（可选）</div>
+      <button class="btn" data-copy="naming">复制命名规则</button>
+    </section>
+
+    <section id="rubric">
+      <h2>评分标准</h2>
+      <p class="meta">Final Project 将根据以下标准评分。</p>
+      <table>
+        <tr><th>项目</th><th>占比</th><th>评分依据</th></tr>
+        <tr><td>案例分析</td><td>20%</td><td>是否能明确指出原界面的 UX 问题；截图标注是否清楚；是否使用 3C 或信息层级语言。</td></tr>
+        <tr><td>流程与结构</td><td>20%</td><td>流程图是否完整；玩家下一步是否明确；是否避免不必要的步骤。</td></tr>
+        <tr><td>界面完成度</td><td>25%</td><td>六张规定高保真是否全部完成；1920 × 1080 下是否清楚；组件、Variables 与状态是否一致。</td></tr>
+        <tr><td>设计说明</td><td>20%</td><td>能否解释自己的设计选择；是否能说清楚每页解决什么问题。</td></tr>
+        <tr><td>Final Presentation</td><td>15%</td><td>展示结构是否清楚；能否在 5 分钟内说明问题、方案和取舍。</td></tr>
+      </table>
+      <p class="meta">可选加分：完成基础点击跳转、补充更多状态动效或可访问性验证。加分内容不能代替六张规定高保真。</p>
+    </section>
+  </div>
+
+  <script>
+    document.querySelectorAll("[data-copy]").forEach(button => {
+      button.addEventListener("click", async () => {
+        const target = document.getElementById(button.dataset.copy);
+        try {
+          await navigator.clipboard.writeText(target.textContent.trim());
+          const old = button.textContent;
+          button.textContent = "已复制";
+          setTimeout(() => button.textContent = old, 1200);
+        } catch {
+          button.textContent = "请手动复制";
+        }
+      });
+    });
+  </script>
+</body>
+</html>
