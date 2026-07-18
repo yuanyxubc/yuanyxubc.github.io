@@ -191,6 +191,8 @@ def build_cv():
         ("<b>Y. Xu</b>, Z. Sun, Y.-S. Lin, P. Lasserre, A. Dulic","The Absent Teacher in Eco-Games: A Theoretical Framework for Teacher Integration","DiGRA 2026"),
         ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","From Resource to Kin: Designing for Environmental Resilience in the Okanagan","DiGRA 2026"),
         ("Z. Sun, <b>Y. Xu</b>, Y.-S. Lin, P. Lasserre, A. Dulic, M. Smith","Re-evaluating the Pursuit of Hyper-Realism in VR Game Design","DiGRA 2026"),
+        ("Z. Sun, <b>Y. Xu</b>, C. Zhen, M. Smith",'"You Were Never Meant to Win": A Taxonomy of Scripted Loss in Digital Games',"ACM CHI PLAY 2026"),
+        ("C. Zhen, <b>Y. Xu</b>, Z. Sun, A. Dulic, M. Thorogood","Sound as the Score: Designing Progressive Audio Layering as Embodied Music Reward","ACM CHI PLAY 2026"),
     ]: entry("", [pub(a,t,v)], sp=3)
 
     subsec("Patents")

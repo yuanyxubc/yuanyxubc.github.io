@@ -189,6 +189,8 @@ def build_cv():
         ("<b>Y. Xu</b> et al.","生态游戏中缺席的教师：教师整合的理论框架","DiGRA 2026"),
         ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","从资源到亲属：Okanagan地区环境韧性设计","DiGRA 2026"),
         ("Z. Sun, <b>Y. Xu</b> et al.","重新审视VR游戏设计中的超写实追求","DiGRA 2026"),
+        ("Z. Sun, <b>Y. Xu</b>, C. Zhen, M. Smith","「你注定无法获胜」：数字游戏中的剧本式失败分类学","ACM CHI PLAY 2026"),
+        ("C. Zhen, <b>Y. Xu</b>, Z. Sun, A. Dulic, M. Thorogood","以声为分：设计作为具身音乐奖励的渐进式音频分层","ACM CHI PLAY 2026"),
     ]: entry("", [pub(a,t,v)], sp=3)
 
     subsec("\u4e13\u5229")
