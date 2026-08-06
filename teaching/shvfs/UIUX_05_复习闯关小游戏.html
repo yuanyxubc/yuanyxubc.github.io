@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>复习闯关 · Lesson 05 · Rift Ladder</title>
+<style>
+  :root{
+    --bg:#0a0d14; --panel:#12161f; --line:#232a3a;
+    --cyan:#45d9ff; --purple:#a98bff; --green:#69f087; --gold:#ffd23f; --pink:#ff6b8b;
+    --text:#e8ecf4; --dim:#7a8296;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;background:var(--bg);color:var(--text);
+    font-family:"Consolas","Courier New",monospace;overflow:hidden;}
+  #app{display:flex;height:100%;}
+
+  /* ---- Left: Rift Ladder ---- */
+  #ladder{width:220px;flex:none;background:var(--panel);border-right:2px solid var(--line);
+    padding:18px 12px;overflow-y:auto;}
+  #ladder h1{font-size:13px;letter-spacing:2px;color:var(--dim);margin:0 0 14px;text-transform:uppercase;}
+  .rung{display:flex;align-items:center;gap:10px;padding:8px 6px;margin-bottom:4px;
+    border-left:3px solid transparent;opacity:.35;transition:.2s;}
+  .rung.done{opacity:1;border-left-color:var(--green);}
+  .rung.active{opacity:1;border-left-color:var(--cyan);background:rgba(69,217,255,.08);}
+  .rung.boss{border-left-color:var(--pink);}
+  .rung .dot{width:22px;height:22px;flex:none;display:flex;align-items:center;justify-content:center;
+    font-size:11px;font-weight:bold;border:2px solid var(--line);background:#0a0d14;}
+  .rung.done .dot{border-color:var(--green);color:var(--green);}
+  .rung.active .dot{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 8px var(--cyan);}
+  .rung.boss .dot{border-color:var(--pink);color:var(--pink);}
+  .rung .label{font-size:11px;color:var(--dim);line-height:1.3;}
+  .rung.active .label,.rung.done .label{color:var(--text);}
+
+  /* ---- Right: Stage ---- */
+  #stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:30px;position:relative;}
+  #hud{position:absolute;top:18px;right:24px;font-size:12px;color:var(--dim);text-align:right;}
+  #hud b{color:var(--gold);}
+  .tag{font-size:12px;letter-spacing:3px;color:var(--purple);text-transform:uppercase;margin-bottom:10px;}
+  .tag.bosstag{color:var(--pink);}
+  #qbox{max-width:640px;width:100%;}
+  #qtext{font-size:22px;line-height:1.5;margin-bottom:26px;color:var(--text);}
+  .opt{display:block;width:100%;text-align:left;background:var(--panel);border:2px solid var(--line);
+    color:var(--text);font-family:inherit;font-size:15px;padding:14px 16px;margin-bottom:10px;
+    cursor:pointer;transition:.15s;}
+  .opt:hover{border-color:var(--cyan);background:rgba(69,217,255,.08);}
+  .opt.correct{border-color:var(--green);background:rgba(105,240,135,.12);color:var(--green);}
+  .opt.wrong{border-color:var(--pink);background:rgba(255,107,139,.12);color:var(--pink);}
+  .opt[disabled]{cursor:default;}
+  #hint{margin-top:14px;font-size:13px;color:var(--gold);min-height:18px;}
+  #footer{margin-top:22px;font-size:11px;color:var(--dim);letter-spacing:1px;}
+  #footer kbd{border:1px solid var(--line);padding:1px 6px;color:var(--cyan);}
+  #next{margin-top:18px;background:var(--cyan);color:#0a0d14;border:none;padding:10px 22px;
+    font-family:inherit;font-weight:bold;letter-spacing:2px;cursor:pointer;display:none;}
+
+  /* ---- Cover / Result ---- */
+  .center-card{max-width:560px;text-align:center;}
+  .center-card h2{font-size:26px;margin-bottom:10px;}
+  .center-card p{color:var(--dim);font-size:14px;line-height:1.6;}
+  #startBtn,#retryBtn{margin-top:22px;background:var(--gold);color:#0a0d14;border:none;
+    padding:12px 30px;font-family:inherit;font-weight:bold;letter-spacing:2px;cursor:pointer;}
+  #rank{font-size:80px;font-weight:bold;margin:14px 0;letter-spacing:4px;}
+  #rankdesc{font-size:14px;color:var(--dim);margin-bottom:6px;}
+  #scoreline{font-size:13px;color:var(--dim);}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="ladder"></div>
+  <div id="stage">
+    <div id="hud"></div>
+    <div id="qbox" style="display:none">
+      <div class="tag" id="qtag"></div>
+      <div id="qtext"></div>
+      <div id="opts"></div>
+      <div id="hint"></div>
+      <div id="footer">点击选项作答 · 按 <kbd>H</kbd> 看提示</div>
+      <button id="next">继续 →</button>
+    </div>
+    <div id="cover" class="center-card">
+      <div class="tag">UIUX · REVIEW RIFT</div>
+      <h2>复习闯关 · Lesson 05</h2>
+      <p>逐层攻略前几节课的知识点，第 8 层之后进入 <b style="color:#ff6b8b">FINAL BOSS · Lesson 05</b>——今天讲的用户测试方法论与 Final Challenge。全程不看错就是 SSS。</p>
+      <button id="startBtn">开始攻略 ▶</button>
+    </div>
+    <div id="result" class="center-card" style="display:none">
+      <div class="tag">RUN COMPLETE</div>
+      <div id="rank"></div>
+      <div id="rankdesc"></div>
+      <div id="scoreline"></div>
+      <button id="retryBtn">再来一轮 ↺</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TIERS = [
+ {tag:"L1 · 五要素", q:"Garrett 用户体验五要素，正确的推导顺序是？",
+  opts:["Surface → Skeleton → Structure → Scope → Strategy","Strategy → Scope → Structure → Skeleton → Surface","Scope → Strategy → Skeleton → Structure → Surface","Structure → Scope → Strategy → Surface → Skeleton"],
+  correct:1, hint:"从最抽象的“游戏想给玩家什么”开始，一路推到最表层的“看起来什么样”。"},
+ {tag:"L1 · Game UX", q:"Hodent 的 Game UX 框架，两大支柱是什么？",
+  opts:["视觉 + 音效","Usability + Engage-ability","难度 + 奖励","叙事 + 玩法"],
+  correct:1, hint:"一个管“好不好用”，一个管“想不想继续玩”。"},
+ {tag:"L1 · Atomic Design", q:"Atomic Design 从小到大的正确顺序是？",
+  opts:["Molecules → Atoms → Organisms → Pages → Templates","Atoms → Molecules → Organisms → Templates → Pages","Atoms → Organisms → Molecules → Templates → Pages","Templates → Pages → Organisms → Molecules → Atoms"],
+  correct:1, hint:"先有最小元素，组合成小组件，再组成大区块，最后套进页面模板。"},
+ {tag:"L2 · Figma", q:"Figma 里哪个功能能让组件排列自动跟着内容变化，对应 UMG 的 Box 容器？",
+  opts:["Auto Layout","Boolean Group","Component Variant","Prototype Connection"],
+  correct:0, hint:"这个功能让间距、对齐自动适应内容，不用手动摆位置。"},
+ {tag:"L3 · Pipeline", q:"哪个角色负责把 Figma 设计稿在 Unreal 里“翻译”成 UMG 结构？",
+  opts:["Localization","Technical Artist","Producer","QA"],
+  correct:1, hint:"这个角色站在设计和程序中间，写 Shader、搭 Widget、做性能优化。"},
+ {tag:"L3 · Figma vs UMG", q:"为什么团队不直接在 UMG 里做设计，要先用 Figma？",
+  opts:["Figma 免费","UMG 不能加文字","Figma 迭代快、评审方便、门槛低","UMG 没有图层"],
+  correct:2, hint:"想想“改一版要几秒还是要重新编译”这件事。"},
+ {tag:"L4 · 保真度", q:"低保真（Low-fi）线框图主要用来验证什么？",
+  opts:["最终视觉风格","页面结构和流程走不走得通","动效时长","品牌颜色"],
+  correct:1, hint:"低保真阶段还没有颜色和精修，回答的是“信息在哪、路径通不通”。"},
+ {tag:"L4 · Prototype", q:"在 Figma Prototype 面板里，把按钮连到下一页最基础的触发方式是？",
+  opts:["On Click / Tap","While Hovering","Mouse Leave","Key/Gamepad"],
+  correct:0, hint:"最常见、最基础的一种触发——点一下就跳转。"},
+];
+const BOSS = [
+ {q:"诺曼（Don Norman）说的 “slip”，指的是？",
+  opts:["目标本身就错了","目标是对的，但执行断在了某一步","玩家完全不会玩游戏","界面颜色不好看"],
+  correct:1, hint:"和“mistake”对着看：一个是目标错，一个是执行断。"},
+ {q:"背包里的 NEW 标签和属性比较面板，属于哪一类游戏 UI？",
+  opts:["Diegetic（叙事内）","Non-diegetic（叙事外）","Meta（元）","Spatial（空间）"],
+  correct:1, hint:"角色自己看不到它，它只画给屏幕前的玩家看。"},
+ {q:"这次装备任务流的小型测试，属于哪一种评估？",
+  opts:["Summative（总结性）","Formative（形成性）","A/B Testing","Regression Testing"],
+  correct:1, hint:"目的是“指导下一步怎么改”，不是“打分”。"},
+ {q:"尼尔森的研究显示，单轮测试用几位用户通常能发现约 85% 的可用性问题？",
+  opts:["1 位","3 位","5 位","20 位"],
+  correct:2, hint:"这也是“游击式可用性测试”常用的参与者数量。"},
+ {q:"Final Challenge 的三个交付节点，8 月 12 日代表的是？",
+  opts:["最终提交截止","Presentation + 形成性评审（约 80% 完成度）","作业发布日","休息日"],
+  correct:1, hint:"这天不是终点，是“拿去给人看、收反馈”的节点。"},
+ {q:"最终提交是 8 月 19 日 24:00，那天要交的是？",
+  opts:["只交 Final Challenge","Final Challenge + 此前所有没交的小作业","只交 Case Study","只交 Prototype 链接"],
+  correct:1, hint:"这是全学期唯一一次统一锁分，别漏了前面欠的。"},
+ {q:"测试发现了 4 个问题，应该先改哪一个？",
+  opts:["三个人都提到的间距问题","只有一个人遇到、但让主任务完全走不下去的问题","最容易改的那个","最后一个被发现的"],
+  correct:1, hint:"小样本里，严重度优先于出现次数。"},
+];
+
+const ALL = TIERS.map((t,i)=>({...t,boss:false,idx:i})).concat(
+  BOSS.map((t,i)=>({...t,tag:"FINAL BOSS · Lesson 05",boss:true,idx:TIERS.length+i}))
+);
+
+let cur=0, score=0, maxScore=0, hintUsed=false, wrongOnThis=false, locked=false;
+ALL.forEach(t=> maxScore += t.boss?5:3);
+
+const ladderEl=document.getElementById('ladder');
+const hud=document.getElementById('hud');
+
+function renderLadder(){
+  let html='<h1>Rift Ladder</h1>';
+  ALL.forEach((t,i)=>{
+    let cls='rung'+(t.boss?' boss':'')+(i<cur?' done':(i===cur?' active':''));
+    let dot = i<cur ? '✓' : (t.boss?'☠':(i+1));
+    html+=`<div class="${cls}"><div class="dot">${dot}</div><div class="label">${t.boss?('BOSS '+(t.idx-TIERS.length+1)):t.tag}</div></div>`;
+  });
+  ladderEl.innerHTML=html;
+}
+
+function updateHUD(){
+  hud.innerHTML = `SCORE <b>${score}</b> / ${maxScore}&nbsp;&nbsp;·&nbsp;&nbsp;TIER <b>${Math.min(cur+1,ALL.length)}</b> / ${ALL.length}`;
+}
+
+function showQuestion(){
+  locked=false; hintUsed=false; wrongOnThis=false;
+  document.getElementById('cover').style.display='none';
+  document.getElementById('result').style.display='none';
+  document.getElementById('qbox').style.display='block';
+  const t = ALL[cur];
+  const tagEl = document.getElementById('qtag');
+  tagEl.textContent = t.boss ? ('⚔ FINAL BOSS · LESSON 05 · '+(t.idx-TIERS.length+1)+'/'+BOSS.length) : t.tag;
+  tagEl.className = 'tag'+(t.boss?' bosstag':'');
+  document.getElementById('qtext').textContent = t.q;
+  document.getElementById('hint').textContent='';
+  document.getElementById('next').style.display='none';
+  const optsEl = document.getElementById('opts');
+  optsEl.innerHTML='';
+  t.opts.forEach((opt,i)=>{
+    const b=document.createElement('button');
+    b.className='opt'; b.textContent=opt;
+    b.onclick=()=>answer(i);
+    optsEl.appendChild(b);
+  });
+  renderLadder();
+  updateHUD();
+}
+
+function answer(i){
+  if(locked) return;
+  const t = ALL[cur];
+  const buttons = document.querySelectorAll('.opt');
+  if(i===t.correct){
+    locked=true;
+    buttons[i].classList.add('correct');
+    buttons.forEach(b=>b.setAttribute('disabled','1'));
+    let pts = t.boss?5:3;
+    if(hintUsed) pts = t.boss?3:2;
+    if(wrongOnThis) pts = t.boss?2:1;
+    score += pts;
+    document.getElementById('hint').style.color='#69f087';
+    document.getElementById('hint').textContent = `+${pts} 分 · 正确`;
+    document.getElementById('next').style.display='inline-block';
+  } else {
+    wrongOnThis=true;
+    buttons[i].classList.add('wrong');
+    buttons[i].setAttribute('disabled','1');
+    document.getElementById('hint').style.color='#ff6b8b';
+    document.getElementById('hint').textContent = '不对，再试一次——按 H 也可以看提示';
+  }
+}
+
+document.getElementById('next').onclick=()=>{
+  cur++;
+  if(cur>=ALL.length){ showResult(); } else { showQuestion(); }
+};
+
+document.addEventListener('keydown',(e)=>{
+  if(e.key.toLowerCase()==='h'){
+    if(document.getElementById('qbox').style.display==='block' && !locked){
+      hintUsed=true;
+      document.getElementById('hint').style.color='#ffd23f';
+      document.getElementById('hint').textContent = '💡 ' + ALL[cur].hint;
+    }
+  }
+});
+
+function rankFor(pct){
+  if(pct>=100) return ['SSS','#ffd23f','满分通关！没有一次答错，也没用提示——顶级评价。'];
+  if(pct>=92)  return ['SS','#ffd23f','几乎完美，Rift 记录板前排。'];
+  if(pct>=80)  return ['S','#45d9ff','很扎实，知识点串得很清楚。'];
+  if(pct>=65)  return ['A','#45d9ff','整体不错，有一两处还需要巩固。'];
+  if(pct>=50)  return ['B','#a98bff','基础都在，但不够熟练。'];
+  if(pct>=30)  return ['C','#a98bff','建议回去翻一遍对应几节课的内容。'];
+  return ['D','#ff6b8b','这次先别灰心，重开一轮，专挑不熟的层多看提示。'];
+}
+
+function showResult(){
+  document.getElementById('qbox').style.display='none';
+  document.getElementById('result').style.display='block';
+  const pct = Math.round(score/maxScore*100);
+  const [rank,color,desc] = rankFor(pct);
+  const rankEl=document.getElementById('rank');
+  rankEl.textContent=rank; rankEl.style.color=color; rankEl.style.textShadow=`0 0 20px ${color}`;
+  document.getElementById('rankdesc').textContent=desc;
+  document.getElementById('scoreline').textContent=`总分 ${score} / ${maxScore}（${pct}%）`;
+}
+
+document.getElementById('startBtn').onclick=()=>{ cur=0;score=0; showQuestion(); };
+document.getElementById('retryBtn').onclick=()=>{ cur=0;score=0; showQuestion(); };
+
+renderLadder(); updateHUD();
+</script>
+</body>
+</html>
