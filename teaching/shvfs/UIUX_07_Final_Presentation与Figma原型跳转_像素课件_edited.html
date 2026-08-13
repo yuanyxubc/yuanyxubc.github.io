@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UIUX Lesson 07 · Final Presentation + Figma Prototype</title><style>
+@font-face{font-family:Zpix;src:url('UIUX_07_Final_Presentation与Figma原型跳转_assets/zpix.woff2') format('woff2');font-display:swap}
+:root{--bg:#090a1a;--panel:#161936;--panel2:#20234b;--ink:#f7f4ff;--muted:#aaa9c8;--cyan:#48ddff;--yellow:#ffd447;--green:#70f09a;--pink:#ff719e;--purple:#ae91ff;--orange:#ff9d55;--line:#373c7c}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#060713;color:var(--ink);font-family:Zpix,"Microsoft YaHei",sans-serif}body{letter-spacing:.2px}
+a{color:inherit}.deck-shell{position:fixed;inset:46px 0 0;display:flex;align-items:center;justify-content:center}.stage{width:1280px;height:720px;position:relative;transform-origin:center;background:var(--bg);box-shadow:0 0 0 6px #292d68,0 24px 80px #000b;overflow:hidden}.slide{position:absolute;inset:0;display:none;padding:46px 58px 52px;background:radial-gradient(circle at 82% 18%,#27245a55 0 1px,transparent 2px),linear-gradient(135deg,#0a0c21 0%,#11132e 65%,#10102a 100%);background-size:18px 18px,auto;overflow:hidden}.slide.active{display:block}.slide:before{content:"";position:absolute;inset:14px;border:2px solid #2e3267;pointer-events:none}.slide:after{content:"";position:absolute;left:18px;right:18px;top:18px;height:4px;background:linear-gradient(90deg,var(--cyan) 0 12%,transparent 12% 14%,var(--purple) 14% 27%,transparent 27% 29%,var(--yellow) 29% 38%,transparent 38%);opacity:.85;pointer-events:none}
+.toolbar{position:fixed;z-index:50;inset:0 0 auto;height:42px;background:#101226f2;border-bottom:2px solid #343873;display:flex;align-items:center;padding:0 14px;gap:8px;font-size:13px}.toolbar .brand{color:var(--cyan);margin-right:auto}.toolbar button{font:inherit;color:#f7f4ff;background:#20234b;border:1px solid #4a5095;padding:5px 10px;cursor:pointer}.toolbar button:hover,.toolbar button.on{background:#343873;color:var(--yellow)}.counter{min-width:72px;text-align:center;color:var(--muted)}
+.footer{position:absolute;z-index:4;bottom:24px;left:58px;right:58px;display:flex;justify-content:space-between;color:#777cae;font-size:12px}.footer b{color:var(--purple)}
+.eyebrow{font-size:14px;letter-spacing:2px;color:var(--cyan);margin-bottom:8px}.slide-heading{position:relative;z-index:2;margin-bottom:24px}.slide-heading.compact{margin-bottom:14px}.slide-heading h2{font-size:42px;line-height:1.12;margin:0 0 8px;text-shadow:4px 4px #050612}.slide-heading p{margin:0;color:var(--muted);font-size:19px}.cover-grid{position:absolute;inset:0;background:linear-gradient(#48ddff10 1px,transparent 1px),linear-gradient(90deg,#48ddff10 1px,transparent 1px);background-size:40px 40px;transform:perspective(450px) rotateX(58deg) translateY(260px) scale(1.5);opacity:.7}.cover-content{position:relative;z-index:2;margin:70px 0 0 66px}.cover-content .eyebrow{font-size:18px}.cover-content h1{font-size:84px;line-height:.9;margin:30px 0 20px;text-shadow:7px 7px #171943}.cover-content h1 span{color:var(--yellow)}.cover-cn{font-size:30px;color:#ddd9ff}.cover-route{display:flex;gap:12px;margin-top:36px}.tag{display:inline-block;border:2px solid;padding:8px 12px;font-size:15px;background:#0d102a}.tag.cyan{border-color:var(--cyan);color:var(--cyan)}.tag.yellow{border-color:var(--yellow);color:var(--yellow)}.tag.green{border-color:var(--green);color:var(--green)}.press-start{position:absolute;right:65px;bottom:76px;color:var(--green);font-size:18px;animation:blink 1.3s steps(2,end) infinite}@keyframes blink{50%{opacity:.35}}
+.timeline{display:grid;gap:10px;position:relative;z-index:2}.timeline.six{grid-template-columns:repeat(3,1fr)}.time-block{height:142px;background:#171a39;border:2px solid #39407a;padding:18px;display:grid;grid-template-columns:auto 1fr;gap:8px 14px;align-content:start;box-shadow:7px 7px #080918}.time-block b{font-size:17px}.time-block span{font-size:20px}.time-block small{grid-column:1/-1;color:var(--muted);font-size:15px;line-height:1.55}.time-block.cyan{border-color:var(--cyan)}.time-block.cyan span{color:var(--cyan)}.time-block.purple{border-color:var(--purple)}.time-block.purple span{color:var(--purple)}.time-block.yellow{border-color:var(--yellow)}.time-block.yellow span{color:var(--yellow)}.time-block.pink{border-color:var(--pink)}.time-block.pink span{color:var(--pink)}.time-block.green{border-color:var(--green)}.time-block.green span{color:var(--green)}.time-block.muted span{color:#bec2e8}.callout{position:relative;z-index:2;margin-top:18px;background:#12152f;border-left:6px solid var(--cyan);padding:14px 18px;font-size:17px;color:#d9dcff}.yellow-line{border-left-color:var(--yellow)}
+.check-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.check{height:136px;border:2px solid #404687;background:#171a39;padding:16px;color:var(--cyan);font-size:18px;box-shadow:6px 6px #080918}.check b{display:block;color:#fff;font-size:21px;margin:6px 0}.check span{display:block;color:var(--muted);font-size:15px;line-height:1.45}.status-row{display:flex;gap:16px;margin-top:24px}.status{flex:1;text-align:center;border:2px solid;padding:12px}.status.green{color:var(--green);border-color:var(--green)}.status.yellow{color:var(--yellow);border-color:var(--yellow)}.status.pink{color:var(--pink);border-color:var(--pink)}
+.steps.six-cols{display:grid;grid-template-columns:repeat(6,1fr);gap:9px}.step{height:300px;border-top:8px solid;background:#171a39;padding:18px 12px;display:flex;flex-direction:column;box-shadow:6px 6px #080918}.step strong{font-size:28px;margin-bottom:28px}.step b{font-size:20px;margin-bottom:18px}.step span{font-size:14px;line-height:1.6;color:var(--muted)}.step.cyan{border-color:var(--cyan)}.step.cyan strong{color:var(--cyan)}.step.purple{border-color:var(--purple)}.step.purple strong{color:var(--purple)}.step.yellow{border-color:var(--yellow)}.step.yellow strong{color:var(--yellow)}.step.pink{border-color:var(--pink)}.step.pink strong{color:var(--pink)}.step.green{border-color:var(--green)}.step.green strong{color:var(--green)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:26px}.two-col.wide-left{grid-template-columns:44% 56%}.formula-stack{display:grid;gap:10px}.formula-stack>div{display:grid;grid-template-columns:52px 125px 1fr;align-items:center;background:#171a39;border:1px solid #3a4083;padding:14px}.formula-stack i{font-style:normal;color:var(--cyan);font-size:22px}.formula-stack b{color:var(--yellow)}.formula-stack span{color:var(--muted);font-size:15px}.example-panel{background:#20234b;border:2px solid var(--purple);padding:22px 26px;box-shadow:8px 8px #080918}.example-panel p{font-size:16px;line-height:1.55;padding:8px 0 8px 18px;margin:0;border-left:3px solid #494fa0}.mini-label{font-size:13px;color:var(--purple);letter-spacing:1px;margin-bottom:14px}
+.cards{display:grid;gap:15px}.cards.four{grid-template-columns:repeat(4,1fr)}.cards.two{grid-template-columns:repeat(2,1fr)}.card{background:#171a39;border:2px solid #3e4485;border-top-width:7px;padding:18px;box-shadow:7px 7px #080918}.card.cyan{border-top-color:var(--cyan)}.card.yellow{border-top-color:var(--yellow)}.card.purple{border-top-color:var(--purple)}.card.green{border-top-color:var(--green)}.card-kicker{font-size:13px;color:var(--muted)}.card h3{font-size:22px;margin:12px 0;color:#fff}.card-body{font-size:15px;line-height:1.55;color:#bbbddd}.cards.big .card{height:310px;padding:28px}.cards.big .card h3{font-size:26px}.cards.big .card-body{font-size:17px}.feedback-sentence{margin-top:25px;padding:18px;background:#22264f;border:2px dashed var(--yellow);font-size:18px}.feedback-sentence b{color:var(--yellow)}.route-mini{font-size:24px;color:var(--cyan);padding:14px 0}.card p{color:var(--muted)}
+.page-frame-demo{display:grid;grid-template-columns:2fr 1fr;gap:24px}.figma-page{height:350px;border:3px solid var(--purple);background:#141731;padding:20px;position:relative}.page-label{color:var(--purple);font-size:16px;margin-bottom:42px}.frame-row{display:flex;align-items:center;gap:12px}.mock-frame{height:185px;flex:1;border:2px solid var(--cyan);background:linear-gradient(180deg,#28305e,#11142e);padding:12px;display:flex;flex-direction:column;justify-content:space-between}.mock-frame span{font-size:12px;color:var(--cyan)}.mock-frame b{font-size:19px}.wire{color:var(--yellow);font-size:30px}.definition-list{display:grid;gap:12px}.definition-list>div{background:#171a39;border-left:5px solid var(--cyan);padding:18px}.definition-list b{display:block;color:var(--yellow);font-size:18px}.definition-list span{display:block;color:var(--muted);margin-top:8px;font-size:14px;line-height:1.45}
+.shot-layout{display:grid;grid-template-columns:58% 42%;gap:22px;align-items:stretch}.shot-layout.ratio-60{grid-template-columns:60% 40%}.shot-layout.ratio-55{grid-template-columns:55% 45%}.shot-layout.ratio-62{grid-template-columns:62% 38%}.shot{margin:0;border:2px solid #5359a0;background:#eee;min-height:360px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}.shot.dark{background:#171a39}.shot img{display:block;max-width:100%;max-height:405px;object-fit:contain}.source{position:absolute;left:8px;bottom:7px;background:#090a1add;color:#d2d5f7;padding:5px 8px;font-size:11px;z-index:2}.source a{color:var(--cyan);text-decoration:none}.anatomy-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}.anatomy-list>div{background:#171a39;border:1px solid #3e4485;padding:13px}.anatomy-list i{font-style:normal;display:inline-grid;place-items:center;width:28px;height:28px;border:2px solid var(--cyan);color:var(--cyan);margin-right:8px}.anatomy-list b{font-size:15px;color:var(--yellow)}.anatomy-list span{display:block;margin:9px 0 0 38px;color:var(--muted);font-size:13px}.instruction-panel{background:#171a39;border:2px solid var(--purple);padding:18px;display:flex;flex-direction:column;gap:10px}.click-step{display:grid;grid-template-columns:38px 1fr;align-items:center;border-bottom:1px solid #3b407b;padding:9px 0}.click-step i{font-style:normal;color:var(--cyan);font-size:24px}.click-step span{font-size:16px}.warning{margin-top:auto;background:#3b2038;border-left:5px solid var(--pink);padding:12px;font-size:14px}.setting-stack{display:grid;grid-template-columns:1fr 1fr;gap:12px}.setting-stack>div{background:#171a39;border:1px solid #3e4485;padding:16px}.setting-stack small{display:block;color:var(--purple);font-size:12px}.setting-stack b{display:block;color:var(--yellow);font-size:18px;margin:11px 0}.setting-stack span{font-size:13px;color:var(--muted)}
+.game-flow{height:340px;display:flex;align-items:center;gap:10px;position:relative}.screen{width:170px;height:240px;background:linear-gradient(#242a55,#101329);border:2px solid #555caa;padding:14px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:6px 6px #050611}.screen.start{border-color:var(--cyan)}.screen.success{border-color:var(--green)}.screen small{color:var(--cyan);font-size:11px}.screen b{font-size:19px}.screen em{font-style:normal;color:var(--yellow);font-size:11px;border:1px solid var(--yellow);padding:6px}.flow-arrow{font-size:28px;color:var(--yellow)}.overlay-card{position:absolute;left:710px;top:20px;width:205px;background:#2a2142;border:2px solid var(--pink);padding:12px;z-index:3;box-shadow:5px 5px #070713}.overlay-card small{color:var(--pink)}.overlay-card b{display:block;margin:8px 0}.overlay-card span{font-size:11px;color:var(--muted)}.demo-goals{display:flex;gap:10px}.demo-goals span{flex:1;border:1px solid #464c92;padding:12px;text-align:center;color:var(--cyan);font-size:14px}
+.number-list{display:grid;gap:10px}.number-list>div{background:#171a39;border:1px solid #3c4281;padding:14px;display:grid;grid-template-columns:52px 1fr;align-items:center}.number-list i{font-style:normal;color:var(--cyan);font-size:22px}.number-list span{font-size:16px}.naming-board{background:#171a39;border:2px solid var(--purple);padding:22px;display:flex;flex-wrap:wrap;gap:9px;align-content:flex-start}.naming-board .mini-label{width:100%}.naming-board code{font-family:Zpix,monospace;background:#0c0e22;border:1px solid #3f458a;padding:10px;color:#d9dcff}.naming-board code.accent{color:var(--pink);border-color:var(--pink)}.naming-board p{font-size:14px;line-height:1.5;color:var(--muted)}
+.overlay-demo{display:grid;grid-template-columns:235px 150px 320px 1fr;gap:18px;align-items:center}.base-screen{height:350px;border:2px solid var(--cyan);background:#171a39;padding:20px;text-align:center;display:flex;flex-direction:column;justify-content:space-between}.base-screen small{color:var(--cyan)}.base-screen .sword{font-size:84px;color:var(--yellow)}.base-screen b{font-size:22px}.base-screen button{font-family:inherit;background:var(--yellow);border:0;padding:11px}.overlay-arrow{color:var(--pink);font-size:16px;line-height:1.6;text-align:center}.modal-mock{border:3px solid var(--pink);background:#24203e;padding:26px;box-shadow:10px 10px #060713}.modal-mock small{color:var(--pink)}.modal-mock b{display:block;font-size:23px;margin:22px 0 12px}.modal-mock p{color:var(--green)}.modal-mock div{display:flex;gap:12px;margin-top:28px}.modal-mock span,.modal-mock strong{flex:1;border:1px solid #777dbb;padding:10px;text-align:center;font-size:12px}.modal-mock strong{background:var(--yellow);color:#111}.overlay-rules{display:grid;gap:12px}.overlay-rules>div{background:#171a39;border-left:5px solid var(--cyan);padding:15px}.overlay-rules b{display:block;color:var(--yellow)}.overlay-rules span{font-size:13px;color:var(--muted)}
+.big-number{font-size:48px;color:var(--cyan);margin-top:18px}.instruction-panel p,.instruction-panel li{font-size:15px;line-height:1.55;color:var(--muted)}.instruction-panel b{color:#fff}.two-shots{display:grid;grid-template-columns:1fr 1fr;gap:18px}.two-shots .shot{min-height:330px}.two-shots .shot img{max-height:330px}.preview-check{display:flex;gap:8px;margin-top:16px}.preview-check span{flex:1;border:1px solid #444a8d;background:#171a39;padding:10px;text-align:center;font-size:12px;color:#d8dbff}
+.troubleshoot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.troubleshoot-grid>div{height:152px;background:#171a39;border:2px solid #3d4382;padding:18px;box-shadow:6px 6px #070814}.troubleshoot-grid b{display:block;color:var(--yellow);font-size:18px;margin-bottom:12px}.troubleshoot-grid span{display:block;color:var(--muted);font-size:14px;line-height:1.5}.sprint-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.sprint{height:245px;background:#171a39;border-top:9px solid;padding:24px;display:flex;flex-direction:column}.sprint strong{font-size:34px;margin-bottom:32px}.sprint b{font-size:23px;margin-bottom:18px}.sprint span{font-size:15px;line-height:1.55;color:var(--muted)}.sprint.cyan{border-color:var(--cyan)}.sprint.cyan strong{color:var(--cyan)}.sprint.purple{border-color:var(--purple)}.sprint.purple strong{color:var(--purple)}.sprint.green{border-color:var(--green)}.sprint.green strong{color:var(--green)}.deliverable-box{display:flex;gap:10px;margin-top:20px;align-items:center}.deliverable-box b{color:var(--yellow)}.deliverable-box span{border:1px solid #464c92;padding:9px 12px;font-size:13px}
+.jury-table{display:grid;border:2px solid #444a8f}.jury-table>div{display:grid;grid-template-columns:90px 180px 1fr 1fr 1.2fr;border-bottom:1px solid #373d78}.jury-table>div:last-child{border-bottom:0}.jury-table span{padding:13px 16px;border-right:1px solid #373d78}.jury-table span:last-child{border-right:0}.jury-table .head{background:#272b5a;color:var(--cyan);font-size:13px}.jury-table>div:not(.head) span:first-child{color:var(--yellow)}.revision-loop{display:flex;align-items:center;gap:8px}.revision-loop>div{flex:1;height:180px;background:#171a39;border:2px solid #3f4587;padding:16px;display:flex;flex-direction:column}.revision-loop i{font-style:normal;font-size:26px;color:var(--cyan)}.revision-loop b{font-size:18px;color:var(--yellow);margin:20px 0}.revision-loop span{font-size:13px;line-height:1.45;color:var(--muted)}.revision-loop em{font-style:normal;color:var(--purple);font-size:24px}.priority-matrix{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:28px}.priority-matrix>div{padding:20px;background:#171a39;border-left:7px solid}.priority-matrix b{font-size:19px;margin-right:20px}.priority-matrix span{color:var(--muted)}.priority-matrix .yes{border-color:var(--green)}.priority-matrix .yes b{color:var(--green)}.priority-matrix .later{border-color:var(--purple)}.priority-matrix .later b{color:var(--purple)}
+.final-check{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.final-check>div{height:140px;background:#171a39;border:2px solid #3f4587;padding:17px;display:grid;grid-template-columns:35px 1fr;align-content:center}.final-check span{font-size:25px;color:var(--green);grid-row:1/3}.final-check b{font-size:18px;color:#fff}.final-check small{font-size:13px;color:var(--muted);margin-top:8px}.deadline{display:flex;justify-content:space-between;align-items:center;margin-top:22px;border:3px solid var(--yellow);padding:14px 22px}.deadline span{color:var(--yellow)}.deadline b{font-size:24px}.resource-cards{display:grid;grid-template-columns:1fr 1fr;gap:24px}.resource-card{display:flex;flex-direction:column;height:275px;background:#171a39;border:2px solid;padding:26px;text-decoration:none;box-shadow:8px 8px #060713}.resource-card.cyan{border-color:var(--cyan)}.resource-card.purple{border-color:var(--purple)}.resource-card small{color:var(--muted)}.resource-card b{font-size:24px;line-height:1.35;margin:22px 0}.resource-card span{color:var(--muted);font-size:15px;line-height:1.55}.resource-card em{font-style:normal;margin-top:auto;color:var(--yellow)}.source-policy{display:grid;grid-template-columns:200px 1fr 1fr;gap:15px;margin-top:24px;padding:18px;background:#20234b}.source-policy b{color:var(--yellow)}.source-policy span{font-size:13px;line-height:1.5;color:var(--muted)}.end-mark{text-align:center;margin-top:22px;color:var(--green);font-size:14px}
+.notes-panel{position:fixed;z-index:70;right:14px;top:54px;width:420px;max-height:220px;overflow:auto;background:#11142df5;border:2px solid var(--yellow);padding:15px;color:#eee;font-size:14px;line-height:1.6;display:none;box-shadow:10px 10px #0008}.notes-panel.show{display:block}.overview{position:fixed;z-index:80;inset:42px 0 0;background:#070816f5;display:none;overflow:auto;padding:28px}.overview.show{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-content:start}.overview button{font-family:inherit;text-align:left;min-height:95px;background:#171a39;color:#fff;border:2px solid #3d4382;padding:14px;cursor:pointer}.overview button:hover{border-color:var(--cyan)}.overview small{display:block;color:var(--cyan);margin-bottom:8px}.editing{outline:3px dashed var(--yellow);outline-offset:-10px}.single{background:#060713}.single .slide{display:block;position:relative;width:1280px;height:720px}.single .footer{display:flex}
+.cover-grid{transform:none;mask-image:linear-gradient(transparent 0%,#000 35%,#000 100%)}.cover-content h1{font-size:80px;line-height:1;margin:26px 0 18px}.cover-route{margin-top:30px}.shot{flex-direction:column}.shot img{max-height:380px;min-height:0;flex:1}.source{position:static;width:100%;background:#090a1a}.game-flow{gap:8px}.screen{width:145px;padding:12px}.screen small{font-size:10px}.screen b{font-size:16px}.screen em{font-size:10px;padding:5px}.flow-arrow{font-size:24px}.overlay-card{position:relative;left:auto;top:auto;width:155px}.overlay-card span{font-size:10px}.single{width:960px;height:540px}.single .slide{transform:scale(.75);transform-origin:top left}
+</style></head>
+<body><div class="toolbar"><div class="brand">UIUX LESSON 07 · PIXEL DECK</div><button data-action="prev">←</button><button data-action="next">→</button><span class="counter">22 / 22</span><button data-action="overview">总览 O</button><button data-action="notes">讲稿 N</button><button data-action="edit" class="on">编辑 E</button><button data-action="save">保存 Ctrl+S</button><button data-action="download">导出 HTML</button><button data-action="fullscreen">全屏 F</button></div><main class="deck-shell"><div class="stage" style="transform: scale(0.8875);"><section class="slide active" data-index="0" data-title="Final Presentation" data-notes="开场先说清楚：今天不增加新的大型作业。目标只有两个——让原型能顺畅地走完，让设计决定能在十分钟内讲清楚。">
+        <div class="cover-grid"></div>
+        <div class="cover-content">
+          <div class="eyebrow">UIUX LESSON 07&nbsp;</div>
+          <h1>FINAL<br><span>PRESENTATION</span></h1>
+          <div class="cover-cn"><br></div>
+          <div class="cover-route">
+            <span class="tag cyan">FIGMA PROTOTYPE</span><span class="tag yellow">10 MIN STORY</span><span class="tag green">LIVE CRITIQUE</span>
+          </div>
+        </div>
+        <div class="press-start">▶ PRESS → TO START</div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>START</b>　P 01 / 22</span></div></section>
+<section class="slide" data-index="1" data-title="Today · 180 Minutes" data-notes="把投影上的时间表当成课堂合同。五位学生的展示各占二十分钟，超时会挤掉最后的修改时间。">
+        <div class="slide-heading"><div class="eyebrow">TODAY</div><h2>AGENDA</h2><p>接通原型 → 展示完整故事 → 现场改掉一个高优先级问题</p></div>
+        <div class="timeline six">
+          <div class="time-block cyan"><b>00:00–00:10</b><span>SETUP</span><small>打开 Figma、链接与演示页</small></div>
+          <div class="time-block purple"><b>00:10–00:40</b><span>LIVE DEMO</span><small>按钮跳转、返回、弹窗、起点</small></div>
+          <div class="time-block yellow"><b>00:40–00:55</b><span>CONNECT</span><small>学生把自己的主路径接通</small></div>
+          <div class="time-block muted"><b>00:55–01:05</b><span>BREAK</span><small>同时解决链接权限问题</small></div>
+          <div class="time-block pink"><b>01:05–02:45</b><span>5 × 20 MIN</span><small>展示 10 / 反馈 5 / 记录 5</small></div>
+          <div class="time-block green"><b>02:45–03:00</b><span>LIVE FIX</span><small>实施一个修改并写入日志</small></div>
+        </div>
+        <div class="callout"><br></div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>PLAN</b>　P 02 / 22</span></div></section>
+<section class="slide" data-index="2" data-title="Final Gate" data-notes="这不是新增评分项，而是展示前的最低可运行检查。让学生用绿、黄、红快速标注；红色项先修，禁止先抛光装饰。">
+        <div class="slide-heading"><div class="eyebrow">BEFORE PRESENTING</div><h2>作业要求</h2></div>
+        <div class="check-grid">
+          <div class="check">01 <b>5 个主界面</b><span>同一游戏系统，不是五张散图</span></div>
+          <div class="check">02 <b>1 条主任务流</b><span>入口、过程、成功结果都能点到</span></div>
+          <div class="check">03 <b>异常 / 返回路径</b><span>取消、返回或失败至少有一条</span></div>
+          <div class="check">04 <b>思考可以修改的地方</b><span>问题、观察、修改决定可追溯</span></div>
+          <div class="check">05 <b>Case Study 草稿</b><span>问题、过程、结果能独立阅读</span></div>
+          <div class="check">06 <b>链接与权限</b><span>Figma 文件 + Prototype 直接链接</span></div>
+        </div>
+        <div class="status-row"><span class="status green"><br></span><span class="status yellow"><br></span><span class="status pink"><br></span></div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>GATE</b>　P 03 / 22</span></div></section>
+<section class="slide" data-index="3" data-title="The 10-minute Story" data-notes="提醒学生：展示不是从第一页滑到最后一页，而是依次回答六个问题。老师用计时器在每段末尾给手势提示。">
+        <div class="slide-heading"><div class="eyebrow">PRESENTATION MAP</div><h2>十分钟：六段，不跳步骤</h2></div>
+        <div class="steps six-cols">
+          <div class="step cyan"><strong>1:00</strong><b>DEFINE</b><span>谁，在什么情境，遇到什么问题？</span></div>
+          <div class="step purple"><strong>1:00</strong><b>RESEARCH</b><span>参考了什么，提炼出什么原则？</span></div>
+          <div class="step yellow"><strong>1:30</strong><b>STRUCTURE</b><span>五页如何组成一条任务流？</span></div>
+          <div class="step pink"><strong>2:00</strong><b>DESIGN</b><span>视觉系统与关键状态怎样工作？</span></div>
+          <div class="step cyan"><strong>2:00</strong><b>PROTOTYPE</b><span>现场走完主路径与一个返回点</span></div>
+          <div class="step green"><strong>2:30</strong><b>TEST + NEXT</b><span>证据改变了什么？下一步改什么？</span></div>
+        </div>
+        <div class="callout yellow-line">避免：把十分钟全部用来播放最终界面，却没有讲“为什么这样决定”。</div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>PRESENT</b>　P 04 / 22</span></div></section>
+<section class="slide" data-index="4" data-title="Decision Story" data-notes="用右侧范例示范“选择”与“依据”的区别。只有形容词不算证据；说清观察到的行为以及因此做出的改动。">
+        <div class="slide-heading"><div class="eyebrow">DESIGN REASONING</div><h2>每个亮点，都用四句话讲完</h2></div>
+        <div class="two-col wide-left">
+          <div class="formula-stack">
+            <div><i>01</i><b>PROBLEM</b><span>玩家原本卡在哪里？</span></div>
+            <div><i>02</i><b>EVIDENCE</b><span>你看见 / 测到了什么？</span></div>
+            <div><i>03</i><b>DECISION</b><span>所以你具体改了什么？</span></div>
+            <div><i>04</i><b>TRADE-OFF</b><span>这个选择牺牲了什么？</span></div>
+          </div>
+          <div class="example-panel">
+            <div class="mini-label">EXAMPLE · INVENTORY</div>
+            <p>玩家在装备前无法确认属性差异。</p>
+            <p>2 / 2 测试者来回点开两个物品比较。</p>
+            <p>因此把差值放进 Item Detail，并用颜色与 ± 数字同时编码。</p>
+            <p>界面更密，所以次要 lore 默认折叠。</p>
+          </div>
+        </div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>PRESENT</b>　P 05 / 22</span></div></section>
+<section class="slide" data-index="5" data-title="Four Lenses" data-notes="一人展示时，另外四人一人一个观察角色。每轮顺时针换角色，这能避免所有人只说颜色和个人喜好。">
+        <div class="slide-heading"><div class="eyebrow">5 STUDENTS · ROTATING ROLES</div><h2>四位同伴，各看一个层面</h2></div>
+        <div class="cards four">
+          
+  <article class="card cyan">
+    <div class="card-kicker">ROLE A</div>
+    <h3>PLAYER PATH</h3>
+    <div class="card-body">入口是否清楚？我下一步知道点哪里吗？返回与结果成立吗？</div>
+  </article>
+          
+  <article class="card yellow">
+    <div class="card-kicker">ROLE B</div>
+    <h3>HIERARCHY</h3>
+    <div class="card-body">最重要的信息是否先被看到？文字与状态是否可读？</div>
+  </article>
+          
+  <article class="card purple">
+    <div class="card-kicker">ROLE C</div>
+    <h3>SYSTEM</h3>
+    <div class="card-body">组件、间距、颜色和按钮状态是否一致？</div>
+  </article>
+          
+  <article class="card green">
+    <div class="card-kicker">ROLE D</div>
+    <h3>EVIDENCE</h3>
+    <div class="card-body">论点是否被参考、测试或 Before / After 支持？</div>
+  </article>
+        </div>
+        <div class="feedback-sentence"><b>反馈句式</b>　当我＿＿时，我预期＿＿；实际＿＿。建议先验证 / 修改＿＿。</div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>CRITIQUE</b>　P 06 / 22</span></div></section>
+<section class="slide" data-index="6" data-title="Page ≠ Frame" data-notes="现场切到 Figma 左侧栏：Page 是文件中的工作区；Frame 才是可以在 Prototype 中作为 destination 的界面。本课把一条流程的所有顶层 Frame 放在同一个 Page。">
+        <div class="slide-heading"><div class="eyebrow">FIRST DISTINCTION</div><h2>Figma 的跳转</h2></div>
+        <div class="page-frame-demo">
+          <div class="figma-page">
+            <div class="page-label">PAGE · 07_PROTOTYPE</div>
+            <div class="frame-row">
+              <div class="mock-frame"><span>FRAME 01</span><b>MAIN MENU</b></div>
+              <div class="wire">→</div>
+              <div class="mock-frame"><span>FRAME 02</span><b>CHARACTER</b></div>
+              <div class="wire">→</div>
+              <div class="mock-frame"><span>FRAME 03</span><b>INVENTORY</b></div>
+            </div>
+          </div>
+          <div class="definition-list">
+            <div><b>PAGE</b><span>整理文件的工作区 / 分区</span></div>
+            <div><b>TOP-LEVEL FRAME</b><span>一个可被跳转到的完整界面</span></div>
+            <div><b>LAYER / GROUP</b><span>界面内部元素，不是目的地页面</span></div>
+          </div>
+        </div>
+        <div class="callout">本课规则：一条可点击 Flow 放在同一个 Page；每个 destination 都选顶层 Frame。</div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>FIGMA</b>　P 07 / 22</span></div></section>
+<section class="slide" data-index="7" data-title="Prototype Anatomy" data-notes="指着官方图依次讲四个编号。强调触发区域通常是按钮或卡片，蓝色连线把它连接到目标 Frame。">
+        <div class="slide-heading compact"><div class="eyebrow">OFFICIAL FIGMA ANATOMY</div><h2>跳转</h2></div>
+        <div class="shot-layout">
+          <figure class="shot dark"><img src="UIUX_07_Final_Presentation与Figma原型跳转_assets/guide-01.png" alt="Figma prototype connection anatomy from the official guide"><div class="source">图源：<a href="https://help.figma.com/hc/en-us/articles/360040314193-Guide-to-prototyping-in-Figma" target="_blank" rel="noreferrer">Figma Learn · Guide to prototyping</a></div></figure>
+          <div class="anatomy-list">
+            <div><i>1</i><b>HOTSPOT</b><span>玩家点击的对象</span></div>
+            <div><i>2</i><b>CONNECTION</b><span>蓝色连线与节点</span></div>
+            <div><i>3</i><b>DESTINATION</b><span>要到达的顶层 Frame</span></div>
+            <div><i>4</i><b>INTERACTION</b><span>Trigger + Action + Animation</span></div>
+            <div><i>5</i><b>STARTING POINT</b><span>播放时从哪里开始</span></div>
+          </div>
+        </div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>FIGMA</b>　P 08 / 22</span></div></section>
+<section class="slide" data-index="8" data-title="Live Case" data-notes="不要现场从零画视觉稿。复制已经完成的五个界面，只新增连线和一个简单弹窗。每完成一步马上 Preview 一次。">
+        <div class="slide-heading"><div class="eyebrow">LIVE CASE · GAME UI</div><h2>装备武器的跳转逻辑</h2></div>
+        <div class="game-flow">
+          <div class="screen start"><small>01 · START</small><b>MAIN<br>MENU</b><em>View Character</em></div>
+          <div class="flow-arrow">→</div>
+          <div class="screen"><small>02</small><b>CHARACTER</b><em>Open Inventory</em></div>
+          <div class="flow-arrow">→</div>
+          <div class="screen"><small>03</small><b>INVENTORY</b><em>Select Item</em></div>
+          <div class="flow-arrow">→</div>
+          <div class="screen"><small>04</small><b>ITEM DETAIL</b><em>Equip</em></div>
+          <div class="overlay-card"><small>OVERLAY</small><b>EQUIP?</b><span>Cancel / Confirm</span></div>
+          <div class="flow-arrow">→</div>
+          <div class="screen success"><small>05 · RESULT</small><b>CHARACTER<br>EQUIPPED</b><em>Stats updated</em></div>
+        </div>
+        <div class="demo-goals"><span>Navigate to</span><span>Back</span><span>Open overlay</span><span>Flow starting point</span><span>Preview</span></div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>DEMO</b>　P 09 / 22</span></div></section>
+<section class="slide" data-index="9" data-title="Prepare the Canvas" data-notes="让学生跟着做命名。Frame 名称会出现在 destination 下拉菜单里，先命名能减少选错。弹窗也做成一个独立顶层 Frame，放在主流程旁边。">
+        <div class="slide-heading"><div class="eyebrow">STEP 0 · BEFORE CONNECTING</div><h2>先整理，再拖线</h2></div>
+        <div class="two-col">
+          <div class="number-list">
+            <div><i>01</i><span>新建 Page：<b>07_PROTOTYPE</b></span></div>
+            <div><i>02</i><span>把五个界面复制为<b>顶层 Frame</b></span></div>
+            <div><i>03</i><span>统一尺寸，按任务顺序水平排列</span></div>
+            <div><i>04</i><span>给弹窗单独命名：<b>OV_EquipConfirm</b></span></div>
+            <div><i>05</i><span>右侧切换到 <b>Prototype</b> 标签</span></div>
+          </div>
+          <div class="naming-board">
+            <div class="mini-label">FRAME NAMES</div>
+            <code>01_MainMenu</code><code>02_Character</code><code>03_Inventory</code><code>04_ItemDetail</code><code>05_Character_Equipped</code><code class="accent">OV_EquipConfirm</code>
+            <p>名称 = 路径顺序 + 功能；演示时不再猜 “Frame 147”。</p>
+          </div>
+        </div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>DEMO</b>　P 10 / 22</span></div></section>
+<section class="slide" data-index="10" data-title="Add the First Connection" data-notes="实际操作：选中按钮；点击右侧蓝色圆点并拖到目标 Frame；松开后检查 Interaction details。若选中的是文字层而不是整个按钮，点击区域会太小。">
+        <div class="slide-heading compact"><div class="eyebrow">STEP 1 · BUTTON → FRAME</div><h2>选中按钮，从蓝色节点拖到目标界面</h2></div>
+        <div class="shot-layout ratio-60">
+          <figure class="shot"><img src="UIUX_07_Final_Presentation与Figma原型跳转_assets/fd4b-01.png" alt="Figma button selected with prototype connection handle"><div class="source">图源：<a href="https://help.figma.com/hc/en-us/articles/31011968186007-FD4B-Add-prototype-connections" target="_blank" rel="noreferrer">Figma Learn · FD4B Add prototype connections</a></div></figure>
+          <div class="instruction-panel">
+            <div class="click-step"><i>1</i><span>选中完整 Button / Card</span></div>
+            <div class="click-step"><i>2</i><span>找到右侧蓝色 <b>＋</b> 节点</span></div>
+            <div class="click-step"><i>3</i><span>拖到目标顶层 Frame</span></div>
+            <div class="click-step"><i>4</i><span>松开，打开 Interaction details</span></div>
+            <div class="warning">热点太小？检查你是否只选中了文字或图标层。</div>
+          </div>
+        </div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>DEMO</b>　P 11 / 22</span></div></section>
+<section class="slide" data-index="11" data-title="Choose the Interaction" data-notes="在右侧弹窗里依次说出 Trigger、Action、Destination、Animation。第一遍全部用 Instant；只有流程稳定后才讨论动效。">
+        <div class="slide-heading compact"><div class="eyebrow">STEP 2 · INTERACTION DETAILS</div><h2>第一条主路径：On click + Navigate to</h2></div>
+        <div class="shot-layout ratio-55">
+          <figure class="shot"><img src="UIUX_07_Final_Presentation与Figma原型跳转_assets/fd4b-04.png" alt="Official Figma interaction details showing On click and Navigate to"><div class="source">图源：<a href="https://help.figma.com/hc/en-us/articles/31011968186007-FD4B-Add-prototype-connections" target="_blank" rel="noreferrer">Figma Learn · FD4B Add prototype connections</a></div></figure>
+          <div class="setting-stack">
+            <div><small>TRIGGER</small><b>On click / On tap</b><span>玩家什么时候触发？</span></div>
+            <div><small>ACTION</small><b>Navigate to</b><span>跳到哪个界面？</span></div>
+            <div><small>DESTINATION</small><b>02_Character</b><span>必须是正确的顶层 Frame</span></div>
+            <div><small>ANIMATION</small><b>Instant</b><span>先求稳定，不加 Smart Animate</span></div>
+          </div>
+        </div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>DEMO</b>　P 12 / 22</span></div></section>
+<section class="slide" data-index="12" data-title="Back vs Navigate to" data-notes="现场演示两种返回：浏览历史不固定时用 Back；任务明确回到固定首页时用 Navigate to。然后连续点两遍，确认不会掉进错误循环。">
+        <div class="slide-heading"><div class="eyebrow">STEP 3 · RETURN PATH</div><h2>“返回”的两种表达</h2></div>
+        <div class="cards two big">
+          
+  <article class="card cyan">
+    <div class="card-kicker">ACTION · BACK</div>
+    <h3>回到刚才来自的界面</h3>
+    <div class="card-body"><div class="route-mini">A → C ← B</div><p>同一页可能从不同入口进入时，Back 会尊重播放历史。</p><b>例：Item Detail 左上角返回</b></div>
+  </article>
+          
+  <article class="card yellow">
+    <div class="card-kicker">ACTION · NAVIGATE TO</div>
+    <h3>去一个固定目的地</h3>
+    <div class="card-body"><div class="route-mini">ANYWHERE → HOME</div><p>无论从哪里进入，都必须回到指定界面时使用。</p><b>例：完成装备后回 Character Equipped</b></div>
+  </article>
+        </div>
+        <div class="callout">测试动作：从两个不同入口进入同一页，再按 Back。若结果不一致，说明你需要固定 destination。</div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>DEMO</b>　P 13 / 22</span></div></section>
+<section class="slide" data-index="13" data-title="Open an Overlay" data-notes="把确认框做成单独 Frame。Equip 用 Open overlay；Cancel 用 Close overlay；Confirm 用 Navigate to 到结果页。讲清楚 overlay 是临时状态，不应被误算为一个主界面。">
+        <div class="slide-heading"><div class="eyebrow">STEP 4 · CONFIRMATION MODAL</div><h2>弹窗用 Overlay</h2></div>
+        <div class="overlay-demo">
+          <div class="base-screen"><small>04_ITEM DETAIL</small><div class="sword">⚔</div><b>ASHEN BLADE</b><button>EQUIP</button></div>
+          <div class="overlay-arrow">OPEN<br>OVERLAY →</div>
+          <div class="modal-mock"><small>OV_EQUIPCONFIRM</small><b>Equip Ashen Blade?</b><p>ATK +18 · SPD −2</p><div><span>CANCEL</span><strong>CONFIRM</strong></div></div>
+          <div class="overlay-rules">
+            <div><b>EQUIP</b><span>Open overlay</span></div>
+            <div><b>CANCEL</b><span>Close overlay</span></div>
+            <div><b>CONFIRM</b><span>Navigate to 05_Result</span></div>
+          </div>
+        </div>
+        <div class="callout yellow-line">弹窗是状态，不单独计入 Final Challenge 的五个主界面。</div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>DEMO</b>　P 14 / 22</span></div></section>
+<section class="slide" data-index="14" data-title="Set the Starting Point" data-notes="选择主菜单 Frame，在 Prototype 面板创建或移动 Flow starting point。命名为 Equip Weapon Demo。每次重播都应从这个入口开始。">
+        <div class="slide-heading compact"><div class="eyebrow">STEP 5 · FLOW STARTING POINT</div><h2>让每次演示都从正确入口开始</h2></div>
+        <div class="shot-layout ratio-62">
+          <figure class="shot"><img src="UIUX_07_Final_Presentation与Figma原型跳转_assets/fd4b-03.png" alt="Official Figma screenshot showing Flow 1 starting point"><div class="source">图源：<a href="https://help.figma.com/hc/en-us/articles/31011968186007-FD4B-Add-prototype-connections" target="_blank" rel="noreferrer">Figma Learn · FD4B Add prototype connections</a></div></figure>
+          <div class="instruction-panel">
+            <div class="big-number">FLOW 1</div>
+            <p>建立第一条连接时，Figma 会自动创建一个 Flow starting point。</p>
+            <ul><li>把起点放在 <b>01_MainMenu</b></li><li>重命名：<b>Equip Weapon Demo</b></li><li>同一 Page 可有多个 Flow，但展示只开正确那条</li></ul>
+          </div>
+        </div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>DEMO</b>　P 15 / 22</span></div></section>
+<section class="slide" data-index="15" data-title="Preview and Share" data-notes="先自己 Preview 从头走一次，再把链接交给旁边同学走。强调分享文件链接与分享 Prototype flow link 是两件事；本课两者都要交。">
+        <div class="slide-heading compact"><div class="eyebrow">STEP 6 · TEST THE REAL PATH</div><h2>Preview</h2></div>
+        <div class="two-shots">
+          <figure class="shot"><img src="UIUX_07_Final_Presentation与Figma原型跳转_assets/fd4b-08.png" alt="Official Figma Present and Preview menu"><div class="source">图源：<a href="https://help.figma.com/hc/en-us/articles/31011968186007-FD4B-Add-prototype-connections" target="_blank" rel="noreferrer">Figma Learn · FD4B Add prototype connections</a></div></figure>
+          <figure class="shot"><img src="UIUX_07_Final_Presentation与Figma原型跳转_assets/fd4b-06.png" alt="Official Figma flow preview and copy link controls"><div class="source">图源：<a href="https://help.figma.com/hc/en-us/articles/31011968186007-FD4B-Add-prototype-connections" target="_blank" rel="noreferrer">Figma Learn · FD4B Add prototype connections</a></div></figure>
+        </div>
+        <div class="preview-check"><span>① 从起点播放</span><span>② 不看画布走完任务</span><span>③ 测 Back / Cancel</span><span>④ 复制 Flow link</span><span>⑤ 无痕窗口检查权限</span></div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>DEMO</b>　P 16 / 22</span></div></section>
+<section class="slide" data-index="16" data-title="Six Fast Fixes" data-notes="这页作为排错索引。请学生先描述“点了什么、预期去哪里、实际发生什么”，再对照六类原因排查。">
+        <div class="slide-heading"><div class="eyebrow">COMMON FAILURES</div><h2>点不动时，按这个顺序查</h2></div>
+        <div class="troubleshoot-grid">
+          <div><b>01 · 没有蓝色节点</b><span>切到 Prototype；选中真实图层，不是锁定对象。</span></div>
+          <div><b>02 · 点击区域太小</b><span>连接整个 Button / Card，而不是文字或图标。</span></div>
+          <div><b>03 · Destination 找不到</b><span>把目标做成顶层 Frame，并放在同一条 Flow 的 Page。</span></div>
+          <div><b>04 · 一播放就错页</b><span>移动 Flow starting point；重启正确 Flow。</span></div>
+          <div><b>05 · Back 回到奇怪位置</b><span>检查播放历史；必要时改为 Navigate to 固定页。</span></div>
+          <div><b>06 · 别人打不开</b><span>检查访问权限，并复制 Prototype / Flow 直接链接。</span></div>
+        </div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>FIX</b>　P 17 / 22</span></div></section>
+<section class="slide" data-index="17" data-title="15-minute Connect Sprint" data-notes="计时十五分钟。七分钟接线、五分钟互换测试、三分钟修复。教师只处理阻断性问题，不在此时点评视觉。">
+        <div class="slide-heading"><div class="eyebrow">STUDENT PRACTICE</div><h2>练习</h2></div>
+        <div class="sprint-row">
+          <div class="sprint cyan"><strong>7 MIN</strong><b>CONNECT</b><span>接通 4–6 次点击：起点 → 目标 → 结果</span></div>
+          <div class="sprint purple"><strong>5 MIN</strong><b>PAIR TEST</b><span>交换 Prototype link；测试者不看画布</span></div>
+          <div class="sprint green"><strong>3 MIN</strong><b>REPAIR</b><span>只修最先阻断任务的一个问题</span></div>
+        </div>
+        <div class="deliverable-box"><b>完成后举手：</b><span>起点正确</span><span>主路径可走完</span><span>有返回 / 取消</span><span>链接可由同伴打开</span></div>
+        <div class="callout yellow-line"><br></div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>WORK</b>　P 18 / 22</span></div></section>
+<section class="slide" data-index="18" data-title="5 × 20-minute Jury" data-notes="每轮开始前把下一位学生的文件先打开。严格十分钟叫停展示；反馈五分钟；最后五分钟由学生复述决定并写入 Critique Log。">
+        <div class="slide-heading"><div class="eyebrow">01:05–02:45</div><h2>Present</h2></div>
+        <div class="jury-table">
+          <div class="head"><span>ROUND</span><span>TIME</span><span>PRESENT</span><span>FEEDBACK</span><span>DECISION LOG</span></div>
+          <div><span>P1</span><span>01:05–01:25</span><span>10 min</span><span>5 min</span><span>5 min</span></div>
+          <div><span>P2</span><span>01:25–01:45</span><span>10 min</span><span>5 min</span><span>5 min</span></div>
+          <div><span>P3</span><span>01:45–02:05</span><span>10 min</span><span>5 min</span><span>5 min</span></div>
+          <div><span>P4</span><span>02:05–02:25</span><span>10 min</span><span>5 min</span><span>5 min</span></div>
+          <div><span>P5</span><span>02:25–02:45</span><span>10 min</span><span>5 min</span><span>5 min</span></div>
+        </div>
+        <div class="callout"><br></div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>PRESENT</b>　P 19 / 22</span></div></section>
+<section class="slide" data-index="19" data-title="One-fix Rule" data-notes="最后十五分钟不要开启大改版。每人从反馈中选一个影响最大、十五分钟内可验证的改动；保存 Before，完成 After，写一句理由。">
+        <div class="slide-heading"><div class="eyebrow">02:45–03:00 · LIVE REVISION</div><h2><br></h2></div>
+        <div class="revision-loop">
+          <div><i>1</i><b>CHOOSE</b><span>选最先阻断任务的问题</span></div><em>→</em>
+          <div><i>2</i><b>CAPTURE</b><span>保留 Before 截图</span></div><em>→</em>
+          <div><i>3</i><b>CHANGE</b><span>实施一个范围明确的修改</span></div><em>→</em>
+          <div><i>4</i><b>CHECK</b><span>自己或同伴再走一次</span></div><em>→</em>
+          <div><i>5</i><b>LOG</b><span>写下证据与决定</span></div>
+        </div>
+        <div class="priority-matrix">
+          <div class="yes"><b>现在改</b><span>阻断主路径 · 看不清关键状态 · 链接打不开</span></div>
+          <div class="later"><b>以后改</b><span>完整重做风格 · 新增系统 · 复杂动画 · 更多页面</span></div>
+        </div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>REVISE</b>　P 20 / 22</span></div></section>
+<section class="slide" data-index="20" data-title="Final Check" data-notes="让学生逐项勾选并在无痕窗口打开链接。这一步完成后再允许离开。日期沿用第五课已经发布的最终提交时间。">
+        <div class="slide-heading"><div class="eyebrow">BEFORE YOU LEAVE</div><h2>最终提交</h2></div>
+        <div class="final-check">
+          <div><span>□</span><b>Figma 文件链接</b><small>教师可访问，命名清楚</small></div>
+          <div><span>□</span><b>Prototype 直接链接</b><small>Flow starting point 正确</small></div>
+          <div><span>□</span><b>5 个最终主界面</b><small>主路径 + 返回 / 异常成立</small></div>
+          <div><span>□</span><b>测试与点评证据</b><small>Before / After + Critique Log</small></div>
+          <div><span>□</span><b>Case Study 终稿</b><small>问题、决定、结果可独立阅读</small></div>
+          <div><span>□</span><b>无痕窗口检查</b><small>可打开、可播放、可阅读</small></div>
+        </div>
+        <div class="deadline"><span>FINAL SUBMISSION</span><b>AUG 19 · 24:00</b></div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>EXIT</b>　P 21 / 22</span></div></section>
+<section class="slide" data-index="21" data-title="Official Figma References" data-notes="这套中文课件是基于两篇 Figma 官方教程重新组织的课堂版本，不是逐段翻译。需要完整参数或界面更新时，以官方页面为准。">
+        <div class="slide-heading"><div class="eyebrow">SOURCE + CONTINUE LEARNING</div><h2>两篇官方教程</h2></div>
+        <div class="resource-cards">
+          <a class="resource-card cyan" href="https://help.figma.com/hc/en-us/articles/31011968186007-FD4B-Add-prototype-connections" target="_blank" rel="noreferrer"><small>FOLLOW-ALONG EXERCISE</small><b>FD4B · Add prototype connections</b><span>适合课堂跟做：拖线、Interaction details、Flow link、Preview。</span><em>OPEN OFFICIAL GUIDE ↗</em></a>
+          <a class="resource-card purple" href="https://help.figma.com/hc/en-us/articles/360040314193-Guide-to-prototyping-in-Figma" target="_blank" rel="noreferrer"><small>CONCEPT REFERENCE</small><b>Guide to prototyping in Figma</b><span>适合查概念：Flow、Hotspot、Trigger、Action、Destination、Animation。</span><em>OPEN OFFICIAL GUIDE ↗</em></a>
+        </div>
+        <div class="source-policy"><b>本课件的处理方式</b><span>中文重组 + 游戏 UI 现场案例 + 选用官方界面截图并逐页标注图源。</span><span>Figma 产品界面可能更新；操作名称以当时官方界面为准。</span></div>
+        <div class="end-mark">END OF LESSON 07 · BUILD → TEST → EXPLAIN → REVISE</div><div class="footer"><span>UIUX-07 · FINAL PRESENTATION · FIGMA PROTOTYPE</span><span><b>RESOURCE</b>　P 22 / 22</span></div></section></div></main><aside class="notes-panel">这套中文课件是基于两篇 Figma 官方教程重新组织的课堂版本，不是逐段翻译。需要完整参数或界面更新时，以官方页面为准。</aside><nav class="overview"><button data-go="0"><small>P 01</small>Final Presentation</button><button data-go="1"><small>P 02</small>Today · 180 Minutes</button><button data-go="2"><small>P 03</small>Final Gate</button><button data-go="3"><small>P 04</small>The 10-minute Story</button><button data-go="4"><small>P 05</small>Decision Story</button><button data-go="5"><small>P 06</small>Four Lenses</button><button data-go="6"><small>P 07</small>Page ≠ Frame</button><button data-go="7"><small>P 08</small>Prototype Anatomy</button><button data-go="8"><small>P 09</small>Live Case</button><button data-go="9"><small>P 10</small>Prepare the Canvas</button><button data-go="10"><small>P 11</small>Add the First Connection</button><button data-go="11"><small>P 12</small>Choose the Interaction</button><button data-go="12"><small>P 13</small>Back vs Navigate to</button><button data-go="13"><small>P 14</small>Open an Overlay</button><button data-go="14"><small>P 15</small>Set the Starting Point</button><button data-go="15"><small>P 16</small>Preview and Share</button><button data-go="16"><small>P 17</small>Six Fast Fixes</button><button data-go="17"><small>P 18</small>15-minute Connect Sprint</button><button data-go="18"><small>P 19</small>5 × 20-minute Jury</button><button data-go="19"><small>P 20</small>One-fix Rule</button><button data-go="20"><small>P 21</small>Final Check</button><button data-go="21"><small>P 22</small>Official Figma References</button></nav><script>
+(() => {
+  const slides = [...document.querySelectorAll('.slide')];
+  const stage = document.querySelector('.stage');
+  const counter = document.querySelector('.counter');
+  const notes = document.querySelector('.notes-panel');
+  const overview = document.querySelector('.overview');
+  const storageKey = 'UIUX07_FinalPresentation_v1';
+  let index = 0;
+  let editing = false;
+  const clamp = n => Math.max(0, Math.min(slides.length - 1, n));
+  function fit(){ const s=Math.min((innerWidth-18)/1280,(innerHeight-56)/720); stage.style.transform='scale('+s+')'; }
+  function show(n){ index=clamp(n); slides.forEach((s,i)=>s.classList.toggle('active',i===index)); counter.textContent=String(index+1).padStart(2,'0')+' / '+slides.length; notes.textContent=slides[index].dataset.notes||''; location.hash='p'+(index+1); }
+  function toggleEdit(){ editing=!editing; slides[index].contentEditable=editing?'true':'false'; slides[index].classList.toggle('editing',editing); document.querySelector('[data-action="edit"]').classList.toggle('on',editing); if(editing) slides[index].focus(); }
+  function save(){ localStorage.setItem(storageKey, JSON.stringify(slides.map(s=>s.innerHTML))); flash('已保存到浏览器'); }
+  function restore(){ try{ const d=JSON.parse(localStorage.getItem(storageKey)); if(Array.isArray(d)&&d.length===slides.length) d.forEach((h,i)=>slides[i].innerHTML=h); }catch{} }
+  function flash(msg){ const old=counter.textContent; counter.textContent=msg; setTimeout(()=>counter.textContent=old,1100); }
+  function download(){ const clone=document.documentElement.cloneNode(true); clone.querySelectorAll('.slide').forEach((s,i)=>{s.classList.toggle('active',i===0);s.removeAttribute('contenteditable');s.classList.remove('editing')}); const blob=new Blob(['<!doctype html>\n'+clone.outerHTML],{type:'text/html'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='UIUX_07_Final_Presentation与Figma原型跳转_像素课件_edited.html'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); }
+  function buildOverview(){ overview.innerHTML=slides.map((s,i)=>'<button data-go="'+i+'"><small>P '+String(i+1).padStart(2,'0')+'</small>'+s.dataset.title+'</button>').join(''); overview.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(!b)return;overview.classList.remove('show');show(+b.dataset.go)}); }
+  document.querySelector('.toolbar').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return; const a=b.dataset.action; if(a==='prev')show(index-1);if(a==='next')show(index+1);if(a==='overview')overview.classList.toggle('show');if(a==='edit')toggleEdit();if(a==='save')save();if(a==='download')download();if(a==='fullscreen')document.documentElement.requestFullscreen?.();if(a==='notes')notes.classList.toggle('show');});
+  addEventListener('keydown',e=>{if(editing&&e.key!=='Escape')return;if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(index+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(index-1)}if(e.key.toLowerCase()==='o')overview.classList.toggle('show');if(e.key.toLowerCase()==='e')toggleEdit();if(e.key.toLowerCase()==='s'&&(e.ctrlKey||e.metaKey)){e.preventDefault();save()}if(e.key.toLowerCase()==='f')document.documentElement.requestFullscreen?.();if(e.key.toLowerCase()==='n')notes.classList.toggle('show');if(e.key==='Escape'&&editing)toggleEdit();});
+  restore();buildOverview();fit();addEventListener('resize',fit);const h=location.hash.match(/p(\d+)/);show(h?+h[1]-1:0);
+})();</script></body></html>
