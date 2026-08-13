@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>个人作业打样 · 5页设计规范文档示范</title>
+<title>涓汉浣滀笟鎵撴牱 路 5椤佃璁¤鑼冩枃妗ｇず鑼?/title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -186,7 +186,7 @@ ol.numlist li .num{font-family:"Press Start 2P","Zpix",monospace;font-size:10.5p
     <div id="progress"></div>
   </div>
 </div>
-<div id="hint">← → 翻页 · F 全屏</div>
+<div id="hint">鈫?鈫?缈婚〉 路 F 鍏ㄥ睆</div>
 
 <script>
 const stage = document.getElementById("stage");
@@ -239,7 +239,7 @@ const Sound = (function(){
 function frame(hint){
   return `<div class="imgframe">
     <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
-    <div class="cam">🖼️</div><div class="ph">${hint}</div>
+    <div class="cam">馃柤锔?/div><div class="ph">${hint}</div>
     <input type="file" accept="image/*" onchange="loadImg(this)">
   </div>`;
 }
@@ -265,167 +265,163 @@ const PAGES = [
 
 // P1 cover
 {acc:"var(--gold)", cover:true, html:`
-  <div class="badge-top">★ SAMPLE PAGE · 个人作业打样 ★</div>
-  <h1>UI 设计规范文档<br>5 页示范</h1>
-  <div class="sub">像素风桌宠项目 · 个人作业格式参考</div>
-  <div class="warn">⚠ 这是老师的示范页，不是你的作业答案<br>颜色/组件/文字都是示范内容<br>格式和深度参考这几页，内容必须是你自己在项目里做的部分</div>
+  <div class="badge-top">鈽?SAMPLE PAGE 路 涓汉浣滀笟鎵撴牱 鈽?/div>
+  <h1>UI 璁捐瑙勮寖鏂囨。<br>5 椤电ず鑼?/h1>
+  <div class="sub">鍍忕礌椋庢瀹犻」鐩?路 涓汉浣滀笟鏍煎紡鍙傝€?/div>
+  <div class="warn">鈿?杩欐槸鑰佸笀鐨勭ず鑼冮〉锛屼笉鏄綘鐨勪綔涓氱瓟妗?br>棰滆壊/缁勪欢/鏂囧瓧閮芥槸绀鸿寖鍐呭<br>鏍煎紡鍜屾繁搴﹀弬鑰冭繖鍑犻〉锛屽唴瀹瑰繀椤绘槸浣犺嚜宸卞湪椤圭洰閲屽仛鐨勯儴鍒?/div>
 `},
 
-// P2 说明
-{tag:"HOW TO READ", acc:"var(--cyan)", title:["How To Read This Demo","怎么看这份打样"], html:`
+// P2 璇存槑
+{tag:"HOW TO READ", acc:"var(--cyan)", title:["How To Read This Demo","鎬庝箞鐪嬭繖浠芥墦鏍?], html:`
   <div class="body">
     <div class="panel accentbox">
       <ul class="bul">
-        <li>这是 Lesson 02 大纲第 5.9 节讲过的"5 页设计规范文档"模板，用「像素风桌宠项目」项目的示范内容画了一遍</li>
-        <li>你的小组一共 5 个人，<b>每人独立提交一份这样的 5 页文档</b>——内容是你自己在这次里程碑里真正做的组件/画面，不是抄团队共用文件</li>
-        <li>五页固定结构：封面基调 → Design Tokens → 组件总览 → 状态说明 → 设计理由与分析</li>
-        <li>这份文档要用 <b>Figma</b> 做（不是即刻设计）——怎么迁移过去、每一步要做什么，看配套的《Figma 生产流程·目标与检查清单》</li>
+        <li>杩欐槸 Lesson 02 澶х翰绗?5.9 鑺傝杩囩殑"5 椤佃璁¤鑼冩枃妗?妯℃澘锛岀敤銆屽儚绱犻妗屽疇椤圭洰銆嶉」鐩殑绀鸿寖鍐呭鐢讳簡涓€閬?/li>
+        <li>浣犵殑灏忕粍涓€鍏?5 涓汉锛?b>姣忎汉鐙珛鎻愪氦涓€浠借繖鏍风殑 5 椤垫枃妗?/b>鈥斺€斿唴瀹规槸浣犺嚜宸卞湪杩欐閲岀▼纰戦噷鐪熸鍋氱殑缁勪欢/鐢婚潰锛屼笉鏄妱鍥㈤槦鍏辩敤鏂囦欢</li>
+        <li>浜旈〉鍥哄畾缁撴瀯锛氬皝闈㈠熀璋?鈫?Design Tokens 鈫?缁勪欢鎬昏 鈫?鐘舵€佽鏄?鈫?璁捐鐞嗙敱涓庡垎鏋?/li>
+        <li>杩欎唤鏂囨。瑕佺敤 <b>Figma</b> 鍋氾紙涓嶆槸鍗冲埢璁捐锛夆€斺€旀€庝箞杩佺Щ杩囧幓銆佹瘡涓€姝ヨ鍋氫粈涔堬紝鐪嬮厤濂楃殑銆奆igma 鐢熶骇娴佺▼路鐩爣涓庢鏌ユ竻鍗曘€?/li>
       </ul>
     </div>
   </div>
 `},
 
-// P3 封面+项目基调（示范内容）
-{tag:"PAGE 1 OF 5", acc:"var(--gold)", title:["Cover & Tone","封面 + 项目基调"], html:`
+// P3 灏侀潰+椤圭洰鍩鸿皟锛堢ず鑼冨唴瀹癸級
+{tag:"PAGE 1 OF 5", acc:"var(--gold)", title:["Cover & Tone","灏侀潰 + 椤圭洰鍩鸿皟"], html:`
   <div class="body">
     <div class="panel accentbox lead" style="text-align:center">
-      <b>像素风桌宠项目</b> —— 一个桌宠角色在"怪物大学"从入学到毕业，通过问答揭晓 MBTI 人格<br>
-      <span class="small" style="color:var(--dim)">Steam 桌宠 · 像素风 · 32px 基础单位 · 温暖治愈基调</span>
+      <b>鍍忕礌椋庢瀹犻」鐩?/b> 鈥斺€?涓€涓瀹犺鑹插湪"鎬墿澶у"浠庡叆瀛﹀埌姣曚笟锛岄€氳繃闂瓟鎻檽 MBTI 浜烘牸<br>
+      <span class="small" style="color:var(--dim)">Steam 妗屽疇 路 鍍忕礌椋?路 32px 鍩虹鍗曚綅 路 娓╂殩娌绘剤鍩鸿皟</span>
     </div>
     <div class="atomrow" style="display:flex;gap:14px">
-      \${frame("情绪参考图 1")}\${frame("情绪参考图 2")}\${frame("情绪参考图 3")}
+      ${frame("鎯呯华鍙傝€冨浘 1")}${frame("鎯呯华鍙傝€冨浘 2")}${frame("鎯呯华鍙傝€冨浘 3")}
     </div>
-    <div class="anno">这一页只做一件事：让人 5 秒内明白这个项目"是什么、什么调性"——不用写长段落。</div>
+    <div class="anno">杩欎竴椤靛彧鍋氫竴浠朵簨锛氳浜?5 绉掑唴鏄庣櫧杩欎釜椤圭洰"鏄粈涔堛€佷粈涔堣皟鎬?鈥斺€斾笉鐢ㄥ啓闀挎钀姐€?/div>
   </div>
 `},
 
-// P4 Design Tokens（日间+夜间模式）
-{tag:"PAGE 2 OF 5", acc:"var(--gold)", title:["Design Tokens","设计令牌：色彩 · 字体 · 间距"], html:`
+// P4 Design Tokens锛堟棩闂?澶滈棿妯″紡锛?{tag:"PAGE 2 OF 5", acc:"var(--gold)", title:["Design Tokens","璁捐浠ょ墝锛氳壊褰?路 瀛椾綋 路 闂磋窛"], html:`
   <div class="body">
     <div class="modepair">
       <div class="modeblock day">
-        <h4>☀ LIGHT 日间模式</h4>
-        \${tok("Primary","#FFB088")}
-        \${tok("Background","#FFF6EE")}
-        \${tok("Surface","#FFFFFF")}
-        \${tok("Text","#4A3B33")}
-        \${tok("Accent","#7CC7A8")}
-        \${tok("Danger","#D96B5F")}
-        \${tok("Success","#4F9E6D")}
+        <h4>鈽€ LIGHT 鏃ラ棿妯″紡</h4>
+        ${tok("Primary","#FFB088")}
+        ${tok("Background","#FFF6EE")}
+        ${tok("Surface","#FFFFFF")}
+        ${tok("Text","#4A3B33")}
+        ${tok("Accent","#7CC7A8")}
+        ${tok("Danger","#D96B5F")}
+        ${tok("Success","#4F9E6D")}
       </div>
       <div class="modeblock night">
-        <h4>☾ NIGHT 夜间模式</h4>
-        \${tok("Primary","#FF9466")}
-        \${tok("Background","#221A2E")}
-        \${tok("Surface","#2E2440")}
-        \${tok("Text","#F2E9E4")}
-        \${tok("Accent","#8FD6B7")}
-        \${tok("Danger","#FF8A7A")}
-        \${tok("Success","#70C98B")}
+        <h4>鈽?NIGHT 澶滈棿妯″紡</h4>
+        ${tok("Primary","#FF9466")}
+        ${tok("Background","#221A2E")}
+        ${tok("Surface","#2E2440")}
+        ${tok("Text","#F2E9E4")}
+        ${tok("Accent","#8FD6B7")}
+        ${tok("Danger","#FF8A7A")}
+        ${tok("Success","#70C98B")}
       </div>
     </div>
     <div class="scalerow">
-      \${scaleBox(14,"说明小字")}\${scaleBox(18,"正文")}\${scaleBox(24,"副标题")}\${scaleBox(32,"标题")}
+      ${scaleBox(14,"璇存槑灏忓瓧")}${scaleBox(18,"姝ｆ枃")}${scaleBox(24,"鍓爣棰?)}${scaleBox(32,"鏍囬")}
       <span style="width:1px;height:36px;background:var(--line);margin:0 6px"></span>
-      \${scaleBox(8,"8px")}\${scaleBox(16,"16px")}\${scaleBox(32,"32px")}\${scaleBox(48,"64px÷1.3示意")}
+      ${scaleBox(8,"8px")}${scaleBox(16,"16px")}${scaleBox(32,"32px")}${scaleBox(48,"64px梅1.3绀烘剰")}
     </div>
-    <div class="anno">两套模式共用同一套语义命名（Primary/Background/Surface/Text/Accent/Danger/Success），只是取值不同。正文对比度要够，状态区分不能只靠颜色；至少再加描边、图标、透明度或文字标签中的一种。</div>
+    <div class="anno">涓ゅ妯″紡鍏辩敤鍚屼竴濂楄涔夊懡鍚嶏紙Primary/Background/Surface/Text/Accent/Danger/Success锛夛紝鍙槸鍙栧€间笉鍚屻€傛鏂囧姣斿害瑕佸锛岀姸鎬佸尯鍒嗕笉鑳藉彧闈犻鑹诧紱鑷冲皯鍐嶅姞鎻忚竟銆佸浘鏍囥€侀€忔槑搴︽垨鏂囧瓧鏍囩涓殑涓€绉嶃€?/div>
   </div>
 `},
 
-// P5 组件总览
-{tag:"PAGE 3 OF 5", acc:"var(--gold)", title:["Component Overview","组件总览（你负责的部分）"], html:`
+// P5 缁勪欢鎬昏
+{tag:"PAGE 3 OF 5", acc:"var(--gold)", title:["Component Overview","缁勪欢鎬昏锛堜綘璐熻矗鐨勯儴鍒嗭級"], html:`
   <div class="body">
     <div class="compgrid">
-      <div class="compcell"><span class="pix-star" style="position:relative;width:18px;height:18px;display:inline-block"></span><div class="lbl">Atom<br>稀有度色</div></div>
-      <div class="compcell"><div class="chip ask" style="min-width:60px;font-size:9px;padding:6px">Aa</div><div class="lbl">Atom<br>像素字体</div></div>
-      <div class="compcell"><div class="btn-shape" style="width:50px;height:20px;background:var(--purple);border:2px solid #fff"></div><div class="lbl">Atom<br>按钮底色</div></div>
-      <div class="compcell"><div class="chip picked" style="min-width:60px;font-size:9px;padding:6px">春</div><div class="lbl">Atom<br>四季图标</div></div>
-      <div class="compcell" style="grid-column:span 2"><div class="chip ask" style="font-size:10px">问题气泡</div><div class="lbl">Molecule · 对话气泡</div></div>
-      <div class="compcell" style="grid-column:span 2"><div class="chip result" style="font-size:10px">进度条</div><div class="lbl">Molecule · MBTI偏移指示条</div></div>
-      <div class="compcell" style="grid-column:span 4;min-height:60px"><div class="lbl">Organism · 问答面板（气泡+选项+进度条组合）——支撑玩家任务：<b style="color:var(--ink)">回答问题、看到自己的偏移变化</b></div></div>
+      <div class="compcell"><span class="pix-star" style="position:relative;width:18px;height:18px;display:inline-block"></span><div class="lbl">Atom<br>绋€鏈夊害鑹?/div></div>
+      <div class="compcell"><div class="chip ask" style="min-width:60px;font-size:9px;padding:6px">Aa</div><div class="lbl">Atom<br>鍍忕礌瀛椾綋</div></div>
+      <div class="compcell"><div class="btn-shape" style="width:50px;height:20px;background:var(--purple);border:2px solid #fff"></div><div class="lbl">Atom<br>鎸夐挳搴曡壊</div></div>
+      <div class="compcell"><div class="chip picked" style="min-width:60px;font-size:9px;padding:6px">鏄?/div><div class="lbl">Atom<br>鍥涘鍥炬爣</div></div>
+      <div class="compcell" style="grid-column:span 2"><div class="chip ask" style="font-size:10px">闂姘旀场</div><div class="lbl">Molecule 路 瀵硅瘽姘旀场</div></div>
+      <div class="compcell" style="grid-column:span 2"><div class="chip result" style="font-size:10px">杩涘害鏉?/div><div class="lbl">Molecule 路 MBTI鍋忕Щ鎸囩ず鏉?/div></div>
+      <div class="compcell" style="grid-column:span 4;min-height:60px"><div class="lbl">Organism 路 闂瓟闈㈡澘锛堟皵娉?閫夐」+杩涘害鏉＄粍鍚堬級鈥斺€旀敮鎾戠帺瀹朵换鍔★細<b style="color:var(--ink)">鍥炵瓟闂銆佺湅鍒拌嚜宸辩殑鍋忕Щ鍙樺寲</b></div></div>
     </div>
-    <div class="anno">只放你这次里程碑里真正做出来的组件截图，配上命名（如 Molecule/DialogueBubble）——不是把整个团队的组件库都搬过来。</div>
+    <div class="anno">鍙斁浣犺繖娆￠噷绋嬬閲岀湡姝ｅ仛鍑烘潵鐨勭粍浠舵埅鍥撅紝閰嶄笂鍛藉悕锛堝 Molecule/DialogueBubble锛夆€斺€斾笉鏄妸鏁翠釜鍥㈤槦鐨勭粍浠跺簱閮芥惉杩囨潵銆?/div>
   </div>
 `},
 
-// P6 状态说明（对话框 5 状态）
-{tag:"PAGE 4 OF 5", acc:"var(--gold)", title:["State Documentation","状态说明：对话框组件"], html:`
+// P6 鐘舵€佽鏄庯紙瀵硅瘽妗?5 鐘舵€侊級
+{tag:"PAGE 4 OF 5", acc:"var(--gold)", title:["State Documentation","鐘舵€佽鏄庯細瀵硅瘽妗嗙粍浠?], html:`
   <div class="body">
     <div class="panel accentbox" style="flex:1;display:flex;align-items:center;justify-content:center">
       <div class="states-row">
-        <div class="state-item"><div class="chip ask">提问</div><span class="lbl" style="font-size:11px;color:var(--dim)">出现新问题时</span></div>
-        <div class="state-item"><div class="chip wait">等待选择</div><span class="lbl" style="font-size:11px;color:var(--dim)">玩家悬停选项</span></div>
-        <div class="state-item"><div class="chip picked">已选中</div><span class="lbl" style="font-size:11px;color:var(--dim)">点击某个选项后</span></div>
-        <div class="state-item"><div class="chip result">结果展示</div><span class="lbl" style="font-size:11px;color:var(--dim)">MBTI揭晓时</span></div>
-        <div class="state-item"><div class="chip memory">毕业回忆</div><span class="lbl" style="font-size:11px;color:var(--dim)">点击已毕业角色</span></div>
+        <div class="state-item"><div class="chip ask">鎻愰棶</div><span class="lbl" style="font-size:11px;color:var(--dim)">鍑虹幇鏂伴棶棰樻椂</span></div>
+        <div class="state-item"><div class="chip wait">绛夊緟閫夋嫨</div><span class="lbl" style="font-size:11px;color:var(--dim)">鐜╁鎮仠閫夐」</span></div>
+        <div class="state-item"><div class="chip picked">宸查€変腑</div><span class="lbl" style="font-size:11px;color:var(--dim)">鐐瑰嚮鏌愪釜閫夐」鍚?/span></div>
+        <div class="state-item"><div class="chip result">缁撴灉灞曠ず</div><span class="lbl" style="font-size:11px;color:var(--dim)">MBTI鎻檽鏃?/span></div>
+        <div class="state-item"><div class="chip memory">姣曚笟鍥炲繂</div><span class="lbl" style="font-size:11px;color:var(--dim)">鐐瑰嚮宸叉瘯涓氳鑹?/span></div>
       </div>
     </div>
-    <div class="anno">挑 1-2 个你做的关键组件，把它<b>全部 Variants 并排放出来</b>，每个都标注"什么情况下触发这个状态"——这是最容易漏掉、也是评分最看重的一页。</div>
+    <div class="anno">鎸?1-2 涓綘鍋氱殑鍏抽敭缁勪欢锛屾妸瀹?b>鍏ㄩ儴 Variants 骞舵帓鏀惧嚭鏉?/b>锛屾瘡涓兘鏍囨敞"浠€涔堟儏鍐典笅瑙﹀彂杩欎釜鐘舵€?鈥斺€旇繖鏄渶瀹规槗婕忔帀銆佷篃鏄瘎鍒嗘渶鐪嬮噸鐨勪竴椤点€?/div>
   </div>
 `},
 
-// P7 设计理由与分析
-{tag:"PAGE 5 OF 5", acc:"var(--gold)", title:["Design Rationale","设计理由与分析（临摹与原创转化）"], html:`
+// P7 璁捐鐞嗙敱涓庡垎鏋?{tag:"PAGE 5 OF 5", acc:"var(--gold)", title:["Design Rationale","璁捐鐞嗙敱涓庡垎鏋愶紙涓存懝涓庡師鍒涜浆鍖栵級"], html:`
   <div class="body">
     <div class="panel accentbox" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:20px;">
       <div style="border-bottom:2px dashed var(--line);padding-bottom:10px;text-align:left;">
-        <strong style="color:var(--cyan)">💡 临摹转化说明 (组件：对话气泡)</strong><br>
-        <span class="small" style="color:var(--dim)">临摹来源：《星露谷物语》对话框的像素描边与九宫格拉伸方式。</span><br>
-        在本项目中，我将双像素描边规则（外描边: 2px #000, 内描边: 2px #fff）应用到了我们的对话气泡组件上，并适配了 Auto Layout 自动伸缩。这保证了在文本内容变长时，气泡的像素描边边缘不会被拉伸或模糊，同时维持了游戏统一的复古调性。
-      </div>
+        <strong style="color:var(--cyan)">馃挕 涓存懝杞寲璇存槑 (缁勪欢锛氬璇濇皵娉?</strong><br>
+        <span class="small" style="color:var(--dim)">涓存懝鏉ユ簮锛氥€婃槦闇茶胺鐗╄銆嬪璇濇鐨勫儚绱犳弿杈逛笌涔濆鏍兼媺浼告柟寮忋€?/span><br>
+        鍦ㄦ湰椤圭洰涓紝鎴戝皢鍙屽儚绱犳弿杈硅鍒欙紙澶栨弿杈? 2px #000, 鍐呮弿杈? 2px #fff锛夊簲鐢ㄥ埌浜嗘垜浠殑瀵硅瘽姘旀场缁勪欢涓婏紝骞堕€傞厤浜?Auto Layout 鑷姩浼哥缉銆傝繖淇濊瘉浜嗗湪鏂囨湰鍐呭鍙橀暱鏃讹紝姘旀场鐨勫儚绱犳弿杈硅竟缂樹笉浼氳鎷変几鎴栨ā绯婏紝鍚屾椂缁存寔浜嗘父鎴忕粺涓€鐨勫鍙よ皟鎬с€?      </div>
       <div style="padding-top:10px;text-align:left;">
-        <strong style="color:var(--green)">💡 原创设计理由 (组件：偏好偏移量控制板)</strong><br>
-        在进行倾向性控制板设计时，我将对话气泡 and 选项按钮进行了整合，并移除了常驻的数值面板。这是因为在桌宠常驻桌面时，过多的常驻文字会产生严重的视觉噪音。通过将倾向性偏移以进度条的形式隐藏在右键菜单气泡中，用户既能随时查看倾向变化，又不会被无关的UI元素分散注意力。
-      </div>
+        <strong style="color:var(--green)">馃挕 鍘熷垱璁捐鐞嗙敱 (缁勪欢锛氬亸濂藉亸绉婚噺鎺у埗鏉?</strong><br>
+        鍦ㄨ繘琛屽€惧悜鎬ф帶鍒舵澘璁捐鏃讹紝鎴戝皢瀵硅瘽姘旀场 and 閫夐」鎸夐挳杩涜浜嗘暣鍚堬紝骞剁Щ闄や簡甯搁┗鐨勬暟鍊奸潰鏉裤€傝繖鏄洜涓哄湪妗屽疇甯搁┗妗岄潰鏃讹紝杩囧鐨勫父椹绘枃瀛椾細浜х敓涓ラ噸鐨勮瑙夊櫔闊炽€傞€氳繃灏嗗€惧悜鎬у亸绉讳互杩涘害鏉＄殑褰㈠紡闅愯棌鍦ㄥ彸閿彍鍗曟皵娉′腑锛岀敤鎴锋棦鑳介殢鏃舵煡鐪嬪€惧悜鍙樺寲锛屽張涓嶄細琚棤鍏崇殑UI鍏冪礌鍒嗘暎娉ㄦ剰鍔涖€?      </div>
     </div>
-    <div class="anno">第 5 页说明你在这个里程碑里做出的核心设计理由。可以对比临摹案例，并说明你是如何“消化并转化”这些手法的；或者阐述你的原创组件解决了什么用户体验痛点。</div>
+    <div class="anno">绗?5 椤佃鏄庝綘鍦ㄨ繖涓噷绋嬬閲屽仛鍑虹殑鏍稿績璁捐鐞嗙敱銆傚彲浠ュ姣斾复鎽规渚嬶紝骞惰鏄庝綘鏄浣曗€滄秷鍖栧苟杞寲鈥濊繖浜涙墜娉曠殑锛涙垨鑰呴槓杩颁綘鐨勫師鍒涚粍浠惰В鍐充簡浠€涔堢敤鎴蜂綋楠岀棝鐐广€?/div>
   </div>
 `},
 
-// P8 作业说明
-{tag:"YOUR ASSIGNMENT", acc:"var(--red)", title:["Your Assignment","你的个人作业"], html:`
+// P8 浣滀笟璇存槑
+{tag:"YOUR ASSIGNMENT", acc:"var(--red)", title:["Your Assignment","浣犵殑涓汉浣滀笟"], html:`
   <div class="body">
     <div class="panel accentbox">
       <ol class="numlist">
-        <li><span class="num">1</span><span>用 Figma 完成你在本次里程碑里负责的组件/画面（不是即刻设计）</span></li>
-        <li><span class="num">2</span><span>独立整理成这份 5 页文档：封面基调 → Design Tokens → 组件总览 → 状态说明 → 设计理由与分析</span></li>
-        <li><span class="num">3</span><span>Design Tokens 页必须同时包含<b>日间模式和夜间模式</b>两套色板</span></li>
-        <li><span class="num">4</span><span>排版成 16:9，和这份打样一样是可以直接放进作品集的格式</span></li>
-        <li><span class="num">5</span><span>命名要符合大纲 5.2 节的规则（Atom/Molecule/Organism 分层命名），别人一眼要能看懂</span></li>
-        <li><span class="num">6</span><span>如果你选了临摹路径，要写清楚学到的一个手法如何用回自己的项目；如果你直接原创，要写清楚这个原创组件解决了什么具体问题</span></li>
+        <li><span class="num">1</span><span>鐢?Figma 瀹屾垚浣犲湪鏈閲岀▼纰戦噷璐熻矗鐨勭粍浠?鐢婚潰锛堜笉鏄嵆鍒昏璁★級</span></li>
+        <li><span class="num">2</span><span>鐙珛鏁寸悊鎴愯繖浠?5 椤垫枃妗ｏ細灏侀潰鍩鸿皟 鈫?Design Tokens 鈫?缁勪欢鎬昏 鈫?鐘舵€佽鏄?鈫?璁捐鐞嗙敱涓庡垎鏋?/span></li>
+        <li><span class="num">3</span><span>Design Tokens 椤靛繀椤诲悓鏃跺寘鍚?b>鏃ラ棿妯″紡鍜屽闂存ā寮?/b>涓ゅ鑹叉澘</span></li>
+        <li><span class="num">4</span><span>鎺掔増鎴?16:9锛屽拰杩欎唤鎵撴牱涓€鏍锋槸鍙互鐩存帴鏀捐繘浣滃搧闆嗙殑鏍煎紡</span></li>
+        <li><span class="num">5</span><span>鍛藉悕瑕佺鍚堝ぇ绾?5.2 鑺傜殑瑙勫垯锛圓tom/Molecule/Organism 鍒嗗眰鍛藉悕锛夛紝鍒汉涓€鐪艰鑳界湅鎳?/span></li>
+        <li><span class="num">6</span><span>濡傛灉浣犻€変簡涓存懝璺緞锛岃鍐欐竻妤氬鍒扮殑涓€涓墜娉曞浣曠敤鍥炶嚜宸辩殑椤圭洰锛涘鏋滀綘鐩存帴鍘熷垱锛岃鍐欐竻妤氳繖涓師鍒涚粍浠惰В鍐充簡浠€涔堝叿浣撻棶棰?/span></li>
       </ol>
     </div>
-    <div class="disclaimer">从即刻设计迁移到 Figma、每一步具体要做什么，见配套文档：<b>《Figma 生产流程·目标与检查清单》</b>——按那份清单一步步做，做完这一步，第 5 页文档自然就有内容了。</div>
+    <div class="disclaimer">浠庡嵆鍒昏璁¤縼绉诲埌 Figma銆佹瘡涓€姝ュ叿浣撹鍋氫粈涔堬紝瑙侀厤濂楁枃妗ｏ細<b>銆奆igma 鐢熶骇娴佺▼路鐩爣涓庢鏌ユ竻鍗曘€?/b>鈥斺€旀寜閭ｄ唤娓呭崟涓€姝ユ鍋氾紝鍋氬畬杩欎竴姝ワ紝绗?5 椤垫枃妗ｈ嚜鐒跺氨鏈夊唴瀹逛簡銆?/div>
   </div>
 `},
 
-// P9 评分标准
-{tag:"GRADING", acc:"var(--purple)", title:["Grading Rubric","个人作业评分标准"], html:`
+// P9 璇勫垎鏍囧噯
+{tag:"GRADING", acc:"var(--purple)", title:["Grading Rubric","涓汉浣滀笟璇勫垎鏍囧噯"], html:`
   <div class="body">
-    <div class="anno" style="margin-bottom:4px">这是从 Lesson02 开始的第一份正式个人作业，独立打分，不因为团队整体做得好就自动拿高分：</div>
+    <div class="anno" style="margin-bottom:4px">杩欐槸浠?Lesson02 寮€濮嬬殑绗竴浠芥寮忎釜浜轰綔涓氾紝鐙珛鎵撳垎锛屼笉鍥犱负鍥㈤槦鏁翠綋鍋氬緱濂藉氨鑷姩鎷块珮鍒嗭細</div>
     <table class="gradetable">
-      <tr><th>评分项</th><th>分值</th></tr>
-      <tr><td>Design Tokens 完整度（含日间+夜间两套色板，语义命名）</td><td class="pts">3</td></tr>
-      <tr><td>组件总览：确实是你自己做的部分，命名规范</td><td class="pts">3</td></tr>
-      <tr><td>状态说明：至少一个组件的全部 Variants，标注触发条件</td><td class="pts">4</td></tr>
-      <tr><td>设计理由与分析：讲清楚临摹手法转化或原创组件的设计理由（第 5 页）</td><td class="pts">4</td></tr>
-      <tr><td>版面与文件规范：16:9、5 页整、排版干净</td><td class="pts">1</td></tr>
+      <tr><th>璇勫垎椤?/th><th>鍒嗗€?/th></tr>
+      <tr><td>Design Tokens 瀹屾暣搴︼紙鍚棩闂?澶滈棿涓ゅ鑹叉澘锛岃涔夊懡鍚嶏級</td><td class="pts">3</td></tr>
+      <tr><td>缁勪欢鎬昏锛氱‘瀹炴槸浣犺嚜宸卞仛鐨勯儴鍒嗭紝鍛藉悕瑙勮寖</td><td class="pts">3</td></tr>
+      <tr><td>鐘舵€佽鏄庯細鑷冲皯涓€涓粍浠剁殑鍏ㄩ儴 Variants锛屾爣娉ㄨЕ鍙戞潯浠?/td><td class="pts">4</td></tr>
+      <tr><td>璁捐鐞嗙敱涓庡垎鏋愶細璁叉竻妤氫复鎽规墜娉曡浆鍖栨垨鍘熷垱缁勪欢鐨勮璁＄悊鐢憋紙绗?5 椤碉級</td><td class="pts">4</td></tr>
+      <tr><td>鐗堥潰涓庢枃浠惰鑼冿細16:9銆? 椤垫暣銆佹帓鐗堝共鍑€</td><td class="pts">1</td></tr>
     </table>
   </div>
 `},
 
-// P10 结尾
-{tag:"NEXT", acc:"var(--cyan)", title:["What's Next","下一步"], html:`
+// P10 缁撳熬
+{tag:"NEXT", acc:"var(--cyan)", title:["What's Next","涓嬩竴姝?], html:`
   <div class="body">
     <div class="panel accentbox">
       <ul class="bul">
-        <li>先打开配套的《Figma 生产流程·目标与检查清单》，从第一步开始按顺序做</li>
-        <li>做完一步，回来这份文档里能写的内容就多一点——不用等全部做完才开始写</li>
-        <li>5 个人的文档最后会拼成团队共用的设计系统参考——所以命名 and Tokens 尽量提前对齐，别每个人各定一套</li>
+        <li>鍏堟墦寮€閰嶅鐨勩€奆igma 鐢熶骇娴佺▼路鐩爣涓庢鏌ユ竻鍗曘€嬶紝浠庣涓€姝ュ紑濮嬫寜椤哄簭鍋?/li>
+        <li>鍋氬畬涓€姝ワ紝鍥炴潵杩欎唤鏂囨。閲岃兘鍐欑殑鍐呭灏卞涓€鐐光€斺€斾笉鐢ㄧ瓑鍏ㄩ儴鍋氬畬鎵嶅紑濮嬪啓</li>
+        <li>5 涓汉鐨勬枃妗ｆ渶鍚庝細鎷兼垚鍥㈤槦鍏辩敤鐨勮璁＄郴缁熷弬鑰冣€斺€旀墍浠ュ懡鍚?and Tokens 灏介噺鎻愬墠瀵归綈锛屽埆姣忎釜浜哄悇瀹氫竴濂?/li>
       </ul>
     </div>
-    <div class="disclaimer">这份打样示范的是个人作业本身；团队项目只是取材和推进场景，不能替代个人独立提交的 5 页文档。</div>
+    <div class="disclaimer">杩欎唤鎵撴牱绀鸿寖鐨勬槸涓汉浣滀笟鏈韩锛涘洟闃熼」鐩彧鏄彇鏉愬拰鎺ㄨ繘鍦烘櫙锛屼笉鑳芥浛浠ｄ釜浜虹嫭绔嬫彁浜ょ殑 5 椤垫枃妗ｃ€?/div>
   </div>
 `}
 
@@ -451,8 +447,8 @@ PAGES.forEach((p,i)=>{
       <div class="rule"></div>
       ${p.html}
       <div class="foot">
-        <div class="brand">SAMPLE · SLIME MBTI SPEC DOC</div>
-        <div class="help">← → <b>MOVE</b> · F <b>FULLSCREEN</b></div>
+        <div class="brand">SAMPLE 路 SLIME MBTI SPEC DOC</div>
+        <div class="help">鈫?鈫?<b>MOVE</b> 路 F <b>FULLSCREEN</b></div>
       </div>`;
   }
   stage.insertBefore(el, progress);
@@ -494,10 +490,10 @@ stage.addEventListener("click",e=>{
 
 const bar=document.createElement("div");
 bar.id="toolbar";
-bar.innerHTML=`<button id="btnMusic" class="on">♪ 音乐</button>`;
+bar.innerHTML=`<button id="btnMusic" class="on">鈾?闊充箰</button>`;
 document.body.appendChild(bar);
 const bm=document.getElementById("btnMusic");
-bm.onclick=()=>{ Sound.click(); const on=Sound.toggle(); bm.classList.toggle("on",on); bm.textContent=on?"♪ 音乐":"♪ 静音"; };
+bm.onclick=()=>{ Sound.click(); const on=Sound.toggle(); bm.classList.toggle("on",on); bm.textContent=on?"鈾?闊充箰":"鈾?闈欓煶"; };
 ["pointerdown","keydown"].forEach(ev=>document.addEventListener(ev,()=>Sound.kick()));
 
 function fit(){
@@ -509,3 +505,4 @@ fit(); show(0);
 </script>
 </body>
 </html>
+
