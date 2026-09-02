@@ -180,11 +180,11 @@ def build_cv():
         ("G. Tian, <b>Y. Xu*</b>","\u4eff\u897f\u590f\u6587\u6c49\u5b57\u5b57\u4f53\u8bbe\u8ba1\u65b9\u6cd5\u7814\u7a76","AEHSSR, 2022","doi.org/10.56028/aehssr.2.1.270"),
         ("<b>Y. Xu</b>, T.H. Sarker, C. Zhen, O. Nwosisi, A. Rahsaz, M. Thorogood, P. Lasserre, A. Dulic","Beaver World: \u4ee5\u5730\u65b9\u6027\u4e92\u52a8\u4eff\u771f\u63a8\u52a8\u6c14\u5019\u6559\u80b2\u7684\u53bb\u6b96\u6c11\u5316","Proceedings of the ACM SIGGRAPH 2026 Educator's Forum, pp. 1-3, 2026","doi.org/10.1145/3799829.3812512"),
         ("<b>Y. Xu</b> et al.","\u751f\u6001\u5171\u60c5\u6620\u5c04\uff1a3D\u73af\u5883\u6559\u80b2\u6e38\u620f\u4e2d\u73a9\u5bb6\u611f\u77e5\u7684\u8bed\u4e49\u7f51\u7edc\u5206\u6790","HCI International 2026, LNCS 15749, Springer, 2026","doi.org/10.1007/978-3-032-30405-6_16"),
-        ("C. Zhen, <b>Y. Xu</b> et al.","\u52a8\u753b\u8bbe\u8ba1\u54f2\u5b66\u5728 3D \u6559\u80b2\u6e38\u620f\u4e2d\u7684\u5e94\u7528\uff1aBeaver Worlds\u7684\u5f00\u53d1","HCI International 2026 Posters, CCIS, Springer, 2026","doi.org/10.1007/978-3-032-30816-0_41"),
-        ("Z. Sun, <b>Y. Xu</b> et al.","\u6311\u6218\u5373\u5fc3\u6d41\uff1a\u9b42\u7c7b\u6e38\u620f\u7684\u8bbe\u8ba1\u4e0e\u4f53\u9a8c","HCI International 2026, LNCS 15749, Springer, 2026","doi.org/10.1007/978-3-032-30405-6_15"),
-        ("<b>Y. Xu</b> et al.","\u751f\u6001\u6e38\u620f\u4e2d\u7f3a\u5e2d\u7684\u6559\u5e08\uff1a\u6559\u5e08\u6574\u5408\u7684\u7406\u8bba\u6846\u67b6","DiGRA 2026",None),
-        ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","\u4ece\u8d44\u6e90\u5230\u4eb2\u5c5e\uff1aOkanagan\u5730\u533a\u73af\u5883\u97e7\u6027\u8bbe\u8ba1","DiGRA 2026",None),
-        ("Z. Sun, <b>Y. Xu</b> et al.","\u91cd\u65b0\u5ba1\u89c6VR\u6e38\u620f\u8bbe\u8ba1\u4e2d\u7684\u8d85\u5199\u5b9e\u8ffd\u6c42","DiGRA 2026",None),
+        ("C. Zhen, <b>Y. Xu</b> et al.","3D\u6559\u80b2\u6e38\u620f\u4e2d\u7684\u52a8\u753b\u8bbe\u8ba1\u54f2\u5b66\uff1aBeaver World \u7684\u5f00\u53d1","HCI International 2026 Posters, CCIS, Springer, 2026","doi.org/10.1007/978-3-032-30816-0_41"),
+        ("Z. Sun, <b>Y. Xu</b> et al.","\u6323\u624e\u5373\u5fc3\u6d41\uff1a\u7c7b\u9b42\u6e38\u620f\u4e2d\u7684\u6311\u6218\u3001\u8bbe\u8ba1\u4e0e\u4f53\u9a8c","HCI International 2026, LNCS 15749, Springer, 2026","doi.org/10.1007/978-3-032-30405-6_15"),
+        ("<b>Y. Xu</b> et al.","\u751f\u6001\u6e38\u620f\u4e2d\u7f3a\u5e2d\u7684\u6559\u5e08\uff1a\u6559\u5e08\u878d\u5165\u751f\u6001\u6e38\u620f\u7684\u7406\u8bba\u6846\u67b6","DiGRA 2026",None),
+        ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","\u4ece\u8d44\u6e90\u5230\u4eb2\u5c5e\uff1a\u4e3a\u5965\u80af\u7eb3\u6839\u73af\u5883\u97e7\u6027\u800c\u8bbe\u8ba1","DiGRA 2026",None),
+        ("Z. Sun, <b>Y. Xu</b> et al.","\u91cd\u65b0\u5ba1\u89c6 VR \u6e38\u620f\u8bbe\u8ba1\u4e2d\u5bf9\u8d85\u5199\u5b9e\u4e3b\u4e49\u7684\u8ffd\u6c42\uff1a\u6e38\u620f-\u672c\u4f53\u611f\u89c9\u5931\u8c03","DiGRA 2026",None),
     ]: entry("", [pub(a,t,v,d)], sp=3)
 
     subsec("\u5373\u5c06\u53d1\u8868\uff08\u5f55\u7528\uff09")

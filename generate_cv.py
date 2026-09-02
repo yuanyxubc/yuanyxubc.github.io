@@ -184,9 +184,9 @@ def build_cv():
         ("<b>Y. Xu</b>, Z. Sun, C. Zhen, Y.-S. Lin, M. Thorogood, M. Smith, P. Lasserre, A. Dulic","Mapping Ecological Empathy: A Semantic Network Analysis of Player Perceptions in 3D Environmental Education Games","HCI International 2026, LNCS 15749, Springer, 2026","doi.org/10.1007/978-3-032-30405-6_16"),
         ("C. Zhen, <b>Y. Xu</b>, C.S. Souto, Z. Sun, P. Lasserre, A. Dulic, M. Thorogood","Animation Design Philosophy in 3D Educational Games: The Development of Beaver World","HCI International 2026 Posters, CCIS, Springer, 2026","doi.org/10.1007/978-3-032-30816-0_41"),
         ("Z. Sun, <b>Y. Xu</b>, C. Zhen, Y.-S. Lin, M. Thorogood, P. Lasserre, A. Dulic, M. Smith","Struggle as Flow: Challenge, Design, and Experience in Soulslike Games","HCI International 2026, LNCS 15749, Springer, 2026","doi.org/10.1007/978-3-032-30405-6_15"),
-        ("<b>Y. Xu</b>, Z. Sun, Y.-S. Lin, P. Lasserre, A. Dulic","The Absent Teacher in Eco-Games: A Theoretical Framework for Teacher Integration","DiGRA 2026",None),
+        ("<b>Y. Xu</b>, Z. Sun, Y.-S. Lin, P. Lasserre, A. Dulic","The Absent Teacher in Eco-Games: A Theoretical Framework for Teacher Integration in Eco-Games","DiGRA 2026",None),
         ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","From Resource to Kin: Designing for Environmental Resilience in the Okanagan","DiGRA 2026",None),
-        ("Z. Sun, <b>Y. Xu</b>, Y.-S. Lin, P. Lasserre, A. Dulic, M. Smith","Re-evaluating the Pursuit of Hyper-Realism in VR Game Design","DiGRA 2026",None),
+        ("Z. Sun, <b>Y. Xu</b>, Y.-S. Lin, P. Lasserre, A. Dulic, M. Smith","Re-evaluating the Pursuit of Hyper-Realism in VR Game Design Through Ludo-Proprioceptive Dissonance","DiGRA 2026",None),
     ]: entry("", [pub(a,t,v,d)], sp=3)
 
     subsec("Forthcoming (In Press)")
