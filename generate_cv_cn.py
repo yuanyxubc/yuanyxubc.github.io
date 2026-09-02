@@ -178,19 +178,19 @@ def build_cv():
         ("X. Shan, <b>Y. Xu</b>, T. Xia, Y.-S. Lin","\u91cd\u65b0\u601d\u8003\u4e2d\u56fd\u6d88\u8d39\u8005\u7684\u8461\u8404\u9152\u54c1\u5c1d","2025 IEEE International Conference on Content-Based Multimedia Indexing (CBMI), 2025",None),
         ("<b>Y. Xu*</b>, Y.-S. Lin","\u7528\u6237\u611f\u77e5\u4ef7\u503c\u5bf9\u65b0\u80fd\u6e90\u6c7d\u8f66\u4f01\u4e1a\u7684\u5f71\u54cd\u63a2\u7a76","FFIT 2024, Atlantis Press, 2024","doi.org/10.2991/978-94-6463-572-0_2"),
         ("G. Tian, <b>Y. Xu*</b>","\u4eff\u897f\u590f\u6587\u6c49\u5b57\u5b57\u4f53\u8bbe\u8ba1\u65b9\u6cd5\u7814\u7a76","AEHSSR, 2022","doi.org/10.56028/aehssr.2.1.270"),
-        ("<b>Y. Xu</b>, T.H. Sarker, C. Zhen, O. Nwosisi, A. Rahsaz, M. Thorogood, P. Lasserre, A. Dulic","Beaver World: 以地方性互动仿真推动气候教育的去殖民化","Proceedings of the ACM SIGGRAPH 2026 Educator's Forum, pp. 1-3, 2026","doi.org/10.1145/3799829.3812512"),
+        ("<b>Y. Xu</b>, T.H. Sarker, C. Zhen, O. Nwosisi, A. Rahsaz, M. Thorogood, P. Lasserre, A. Dulic","Beaver World: \u4ee5\u5730\u65b9\u6027\u4e92\u52a8\u4eff\u771f\u63a8\u52a8\u6c14\u5019\u6559\u80b2\u7684\u53bb\u6b96\u6c11\u5316","Proceedings of the ACM SIGGRAPH 2026 Educator's Forum, pp. 1-3, 2026","doi.org/10.1145/3799829.3812512"),
+        ("<b>Y. Xu</b> et al.","\u751f\u6001\u5171\u60c5\u6620\u5c04\uff1a3D\u73af\u5883\u6559\u80b2\u6e38\u620f\u4e2d\u73a9\u5bb6\u611f\u77e5\u7684\u8bed\u4e49\u7f51\u7edc\u5206\u6790","HCI International 2026, LNCS 15749, Springer, 2026","doi.org/10.1007/978-3-032-30405-6_16"),
+        ("C. Zhen, <b>Y. Xu</b> et al.","\u52a8\u753b\u8bbe\u8ba1\u54f2\u5b66\u5728 3D \u6559\u80b2\u6e38\u620f\u4e2d\u7684\u5e94\u7528\uff1aBeaver Worlds\u7684\u5f00\u53d1","HCI International 2026 Posters, CCIS, Springer, 2026","doi.org/10.1007/978-3-032-30816-0_41"),
+        ("Z. Sun, <b>Y. Xu</b> et al.","\u6311\u6218\u5373\u5fc3\u6d41\uff1a\u9b42\u7c7b\u6e38\u620f\u7684\u8bbe\u8ba1\u4e0e\u4f53\u9a8c","HCI International 2026, LNCS 15749, Springer, 2026","doi.org/10.1007/978-3-032-30405-6_15"),
+        ("<b>Y. Xu</b> et al.","\u751f\u6001\u6e38\u620f\u4e2d\u7f3a\u5e2d\u7684\u6559\u5e08\uff1a\u6559\u5e08\u6574\u5408\u7684\u7406\u8bba\u6846\u67b6","DiGRA 2026",None),
+        ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","\u4ece\u8d44\u6e90\u5230\u4eb2\u5c5e\uff1aOkanagan\u5730\u533a\u73af\u5883\u97e7\u6027\u8bbe\u8ba1","DiGRA 2026",None),
+        ("Z. Sun, <b>Y. Xu</b> et al.","\u91cd\u65b0\u5ba1\u89c6VR\u6e38\u620f\u8bbe\u8ba1\u4e2d\u7684\u8d85\u5199\u5b9e\u8ffd\u6c42","DiGRA 2026",None),
     ]: entry("", [pub(a,t,v,d)], sp=3)
 
     subsec("\u5373\u5c06\u53d1\u8868\uff08\u5f55\u7528\uff09")
     for a,t,v in [
-        ("<b>Y. Xu</b> et al.","\u751f\u6001\u5171\u60c5\u6620\u5c04\uff1a3D\u73af\u5883\u6559\u80b2\u6e38\u620f\u4e2d\u73a9\u5bb6\u611f\u77e5\u7684\u8bed\u4e49\u7f51\u7edc\u5206\u6790","HCII 2026, LNCS, Springer"),
-        ("C. Zhen, <b>Y. Xu</b> et al.","\u52a8\u753b\u8bbe\u8ba1\u54f2\u5b66\u5728 3D \u6559\u80b2\u6e38\u620f\u4e2d\u7684\u5e94\u7528\uff1aBeaver Worlds\u7684\u5f00\u53d1","HCII 2026, CCIS, Springer"),
-        ("Z. Sun, <b>Y. Xu</b> et al.","\u6311\u6218\u5373\u5fc3\u6d41\uff1a\u9b42\u7c7b\u6e38\u620f\u7684\u8bbe\u8ba1\u4e0e\u4f53\u9a8c","HCII 2026, LNCS, Springer"),
-        ("<b>Y. Xu</b> et al.","生态游戏中缺席的教师：教师整合的理论框架","DiGRA 2026"),
-        ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","从资源到亲属：Okanagan地区环境韧性设计","DiGRA 2026"),
-        ("Z. Sun, <b>Y. Xu</b> et al.","重新审视VR游戏设计中的超写实追求","DiGRA 2026"),
-        ("Z. Sun, <b>Y. Xu</b>, C. Zhen, M. Smith","「你注定无法获胜」：数字游戏中的剧本式失败分类学","ACM CHI PLAY 2026"),
-        ("C. Zhen, <b>Y. Xu</b>, Z. Sun, A. Dulic, M. Thorogood","以声为分：设计作为具身音乐奖励的渐进式音频分层","ACM CHI PLAY 2026"),
+        ("Z. Sun, <b>Y. Xu</b>, C. Zhen, M. Smith","\u300c\u4f60\u6ce8\u5b9a\u65e0\u6cd5\u83b7\u80dc\u300d\uff1a\u6570\u5b57\u6e38\u620f\u4e2d\u7684\u5267\u672c\u5f0f\u5931\u8d25\u5206\u7c7b\u5b66","ACM CHI PLAY 2026"),
+        ("C. Zhen, <b>Y. Xu</b>, Z. Sun, A. Dulic, M. Thorogood","\u4ee5\u58f0\u4e3a\u5206\uff1a\u8bbe\u8ba1\u4f5c\u4e3a\u5177\u8eab\u97f3\u4e50\u5956\u52b1\u7684\u6e10\u8fdb\u5f0f\u97f3\u9891\u5206\u5c42","ACM CHI PLAY 2026"),
     ]: entry("", [pub(a,t,v)], sp=3)
 
     subsec("\u4e13\u5229")
@@ -198,7 +198,7 @@ def build_cv():
 
     # ---- \u5b66\u672f\u62a5\u544a ----
     section("\u5b66\u672f\u62a5\u544a\u4e0e\u53d1\u8868")
-    entry("2026年6月", [P(f'<font name="{B}">Y. Xu</font> 等。三篇论文。国际人机交互大会 (HCII) 2026，蒙特利尔。')])
+    entry("2026\u5e746\u6708", [P(f'<font name="{B}">Y. Xu</font> \u7b49\u3002\u4e09\u7bc7\u8bba\u6587\u3002\u56fd\u9645\u4eba\u673a\u4ea4\u4e92\u5927\u4f1a (HCII) 2026\uff0c\u8499\u7279\u5229\u5c14\u4f1a\u8bae\u4e2d\u5fc3\u3002')])
     entry("2026年6月", [P(f'<font name="{B}">Y. Xu</font> 等。博士生研讨会及教育专题。数字游戏研究协会年会 (DiGRA) 2026，爱尔兰。')])
     entry("2026年7月", [P(f'<font name="{B}">Y. Xu</font> 等。「Beaver World：以地方性互动仿真推动气候教育的去殖民化」 ACM SIGGRAPH 2026 教育者论坛，洛杉矶会议中心 \u2014 20分钟演讲。')])
     entry("2025", [P(f'<font name="{B}">Y. Xu</font>, Y.-S. Lin. 「Situated Bodies, Wandering Minds」 ACM 计算机图形与交互技术会议 (SIGGRAPH) 2025，温哥华 — BOF 专场。')])
@@ -244,15 +244,15 @@ def build_cv():
     # ---- \u5b66\u672f\u670d\u52a1 ----
     section("\u5b66\u672f\u670d\u52a1")
     story.append(P(
-        f'<font name="{B}">ACM 人因与计算系统会议 (CHI)</font> \u2014 杰出审稿人特别认可，两次 (2025)<br/>'
-        f'<font name="{B}">ACM 交互系统设计会议 (DIS)</font> &nbsp;&nbsp; <font name="{B}">ACM 创造力与认知会议 (C&amp;C)</font><br/>'
-        f'<font name="{B}">ACM 用户界面软件与技术研讨会 (UIST)</font> &nbsp;&nbsp; <font name="{B}">ACM 眼动追踪研究与应用研讨会 (ETRA)</font><br/>'
-        f'<font name="{B}">ACM 交互媒体体验国际会议 (IMX)</font> &nbsp;&nbsp; <font name="{B}">ACM 对话用户界面会议 (CUI)</font><br/>'
-        f'<font name="{B}">ACM 汽车用户界面与交互式车载应用会议 (AutoUI)</font><br/>'
-        f'<font name="{B}">IEEE 混合与增强现实国际研讨会 (ISMAR)</font> &nbsp;&nbsp; <font name="{B}">IEEE 虚拟现实与3D用户界面会议 (IEEE VR)</font><br/>'
-        f'<font name="{B}">Eurographics/IEEE 可视化会议 (EuroVis)</font><br/>'
-        f'<font name="{B}">亚洲计算机辅助建筑设计研究协会 (CAADRIA)</font> \u2014 国际审委会委员<br/>'
-        f'<font name="{B}">国际人机交互期刊 (IJHCI)</font> (2026) &nbsp;&nbsp; <font name="{B}">创新技术进展 (ITA)</font>'
+        f'<font name="{B}">ACM \u4eba\u56e0\u4e0e\u8ba1\u7b97\u7cfb\u7edf\u4f1a\u8bae (CHI)</font> \u2014 \u6770\u51fa\u5ba1\u7a3f\u4eba\u7279\u522b\u8ba4\u53ef\uff0c\u56db\u6b21\uff082025\u5e74\u4e09\u6b21\uff0c2026\u5e74\u4e00\u6b21\uff09<br/>'
+        f'<font name="{B}">ACM \u4ea4\u4e92\u7cfb\u7edf\u8bbe\u8ba1\u4f1a\u8bae (DIS)</font> &nbsp;&nbsp; <font name="{B}">ACM \u521b\u9020\u529b\u4e0e\u8ba4\u77e5\u4f1a\u8bae (C&amp;C)</font><br/>'
+        f'<font name="{B}">ACM \u7528\u6237\u754c\u9762\u8f6f\u4ef6\u4e0e\u6280\u672f\u7814\u8ba8\u4f1a (UIST)</font> &nbsp;&nbsp; <font name="{B}">ACM \u773c\u52a8\u8ffd\u8e2a\u7814\u7a76\u4e0e\u5e94\u7528\u7814\u8ba8\u4f1a (ETRA)</font><br/>'
+        f'<font name="{B}">ACM \u4ea4\u4e92\u5a92\u4f53\u4f53\u9a8c\u56fd\u9645\u4f1a\u8bae (IMX)</font> &nbsp;&nbsp; <font name="{B}">ACM \u5bf9\u8bdd\u7528\u6237\u754c\u9762\u4f1a\u8bae (CUI)</font><br/>'
+        f'<font name="{B}">ACM \u6c7d\u8f66\u7528\u6237\u754c\u9762\u4e0e\u4ea4\u4e92\u5f0f\u8f66\u8f7d\u5e94\u7528\u4f1a\u8bae (AutoUI)</font><br/>'
+        f'<font name="{B}">IEEE \u6df7\u5408\u4e0e\u589e\u5f3a\u73b0\u5b9e\u56fd\u9645\u7814\u8ba8\u4f1a (ISMAR)</font> &nbsp;&nbsp; <font name="{B}">IEEE \u865a\u62df\u73b0\u5b9e\u4e0e3D\u7528\u6237\u754c\u9762\u4f1a\u8bae (IEEE VR)</font><br/>'
+        f'<font name="{B}">EuroVis \u53ef\u89c6\u5316\u4f1a\u8bae</font><br/>'
+        f'<font name="{B}">\u4e9a\u6d32\u8ba1\u7b97\u673a\u8f85\u52a9\u5efa\u7b51\u8bbe\u8ba1\u7814\u7a76\u534f\u4f1a (CAADRIA)</font> \u2014 \u56fd\u9645\u5ba1\u59d4\u4f1a\u59d4\u5458<br/>'
+        f'<font name="{B}">\u56fd\u9645\u4eba\u673a\u4ea4\u4e92\u671f\u521a (IJHCI)</font> (2026) &nbsp;&nbsp; <font name="{B}">\u521b\u65b0\u6280\u672f\u8fdb\u5c55 (ITA)</font>'
     ))
     story.append(Spacer(1, 8))
 
@@ -261,7 +261,7 @@ def build_cv():
     for y, d in [
         ("2025","Okanagan\u7814\u7a76\u751f\u5956\u5b66\u91d1 (OGRS) \u2014 \u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66\uff0cCAD $40,000/\u5e74\uff0c4\u5e74\u535a\u58eb\u8d44\u52a9"),
         ("2025","\u56fd\u9645\u535a\u58eb\u90e8\u5206\u5b66\u8d39\u51cf\u514d (IDPT) \u2014 \u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66"),
-        ("2025","杰出审稿人特别认可，两次 \u2014 ACM 人因与计算系统会议 (CHI)"),
+        ("2025\u20132026","\u6770\u51fa\u5ba1\u7a3f\u4eba\u7279\u522b\u8ba4\u53ef\uff0c\u56db\u6b21\uff082025\u5e74\u4e09\u6b21\uff0c2026\u5e74\u4e00\u6b21\uff09 \u2014 ACM \u4eba\u56e0\u4e0e\u8ba1\u7b97\u7cfb\u7edf\u4f1a\u8bae (CHI)"),
         ("2025","Rookie of the Year \u2014 A Ranking (\u6e38\u620f\u7c7b) \u2014 The Rookies Awards"),
         ("2024","Rookie of the Year \u2014 A Ranking (视觉特效及3D动画) \u2014 The Rookies Awards"),
         ("2023","\u6bd5\u4e1a\u5178\u793c\u4ee3\u8868\u53d1\u8a00 \u2014 \u540c\u6d4e\u5927\u5b66"),

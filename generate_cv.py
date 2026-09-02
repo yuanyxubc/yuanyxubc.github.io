@@ -181,16 +181,16 @@ def build_cv():
         ("<b>Y. Xu*</b>, Y.-S. Lin","Exploring the Influence of User-Perceived Value on NEV-Enterprises","FFIT 2024, Atlantis Press, 2024","doi.org/10.2991/978-94-6463-572-0_2"),
         ("G. Tian, <b>Y. Xu*</b>","A Study on the Typeface Design Method of Han Characters Imitated Tangut","AEHSSR, 2022","doi.org/10.56028/aehssr.2.1.270"),
         ("<b>Y. Xu</b>, T.H. Sarker, C. Zhen, O. Nwosisi, A. Rahsaz, M. Thorogood, P. Lasserre, A. Dulic","Beaver World: Decolonizing Climate Education through Place-Based Interactive Simulation","Proceedings of the ACM SIGGRAPH 2026 Educator's Forum, pp. 1-3, 2026","doi.org/10.1145/3799829.3812512"),
+        ("<b>Y. Xu</b>, Z. Sun, C. Zhen, Y.-S. Lin, M. Thorogood, M. Smith, P. Lasserre, A. Dulic","Mapping Ecological Empathy: A Semantic Network Analysis of Player Perceptions in 3D Environmental Education Games","HCI International 2026, LNCS 15749, Springer, 2026","doi.org/10.1007/978-3-032-30405-6_16"),
+        ("C. Zhen, <b>Y. Xu</b>, C.S. Souto, Z. Sun, P. Lasserre, A. Dulic, M. Thorogood","Animation Design Philosophy in 3D Educational Games: The Development of Beaver World","HCI International 2026 Posters, CCIS, Springer, 2026","doi.org/10.1007/978-3-032-30816-0_41"),
+        ("Z. Sun, <b>Y. Xu</b>, C. Zhen, Y.-S. Lin, M. Thorogood, P. Lasserre, A. Dulic, M. Smith","Struggle as Flow: Challenge, Design, and Experience in Soulslike Games","HCI International 2026, LNCS 15749, Springer, 2026","doi.org/10.1007/978-3-032-30405-6_15"),
+        ("<b>Y. Xu</b>, Z. Sun, Y.-S. Lin, P. Lasserre, A. Dulic","The Absent Teacher in Eco-Games: A Theoretical Framework for Teacher Integration","DiGRA 2026",None),
+        ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","From Resource to Kin: Designing for Environmental Resilience in the Okanagan","DiGRA 2026",None),
+        ("Z. Sun, <b>Y. Xu</b>, Y.-S. Lin, P. Lasserre, A. Dulic, M. Smith","Re-evaluating the Pursuit of Hyper-Realism in VR Game Design","DiGRA 2026",None),
     ]: entry("", [pub(a,t,v,d)], sp=3)
 
     subsec("Forthcoming (In Press)")
     for a,t,v in [
-        ("<b>Y. Xu</b>, Z. Sun, C. Zhen, Y.-S. Lin, M. Thorogood, M. Smith, P. Lasserre, A. Dulic","Mapping Ecological Empathy: A Semantic Network Analysis of Player Perceptions in 3D Environmental Education Games","HCII 2026, LNCS, Springer"),
-        ("C. Zhen, <b>Y. Xu</b>, C.S. Souto, Z. Sun, P. Lasserre, A. Dulic, M. Thorogood","Animation Design Philosophy in 3D Educational Games: The Development of Beaver Worlds","HCII 2026, CCIS, Springer"),
-        ("Z. Sun, <b>Y. Xu</b>, C. Zhen, Y.-S. Lin, M. Thorogood, P. Lasserre, A. Dulic, M. Smith","Struggle as Flow: Challenge, Design, and Experience in Soulslike Games","HCII 2026, LNCS, Springer"),
-        ("<b>Y. Xu</b>, Z. Sun, Y.-S. Lin, P. Lasserre, A. Dulic","The Absent Teacher in Eco-Games: A Theoretical Framework for Teacher Integration","DiGRA 2026"),
-        ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","From Resource to Kin: Designing for Environmental Resilience in the Okanagan","DiGRA 2026"),
-        ("Z. Sun, <b>Y. Xu</b>, Y.-S. Lin, P. Lasserre, A. Dulic, M. Smith","Re-evaluating the Pursuit of Hyper-Realism in VR Game Design","DiGRA 2026"),
         ("Z. Sun, <b>Y. Xu</b>, C. Zhen, M. Smith",'"You Were Never Meant to Win": A Taxonomy of Scripted Loss in Digital Games',"ACM CHI PLAY 2026"),
         ("C. Zhen, <b>Y. Xu</b>, Z. Sun, A. Dulic, M. Thorogood","Sound as the Score: Designing Progressive Audio Layering as Embodied Music Reward","ACM CHI PLAY 2026"),
     ]: entry("", [pub(a,t,v)], sp=3)
@@ -200,7 +200,7 @@ def build_cv():
 
     # ---- PRESENTATIONS ----
     section("Presentations")
-    entry("Jun 2026", [P('<b>Y. Xu</b> et al. Three papers. <i>HCI International Conference (HCII) 2026, Montreal.</i>')])
+    entry("Jun 2026", [P('<b>Y. Xu</b> et al. Three papers. <i>HCI International Conference (HCII) 2026, Palais des congr\u00e8s de Montr\u00e9al.</i>')])
     entry("Jun 2026", [P('<b>Y. Xu</b> et al. Doctoral Consortium and Education Session. <i>Digital Games Research Association Conference (DiGRA) 2026, Ireland.</i>')])
     entry("Jul 2026", [P('<b>Y. Xu</b> et al. "Beaver World: Decolonizing Climate Education through Place-Based Interactive Simulation." <i>ACM SIGGRAPH 2026 Educator\'s Forum, Los Angeles Convention Center \u2014 20-minute invited talk.</i>')])
     entry("2025", [P('<b>Y. Xu</b>, Y.-S. Lin. "Situated Bodies, Wandering Minds." <i>ACM SIGGRAPH Conference on Computer Graphics and Interactive Techniques (SIGGRAPH) 2025, Vancouver \u2014 Birds of a Feather (BOF) Session.</i>')])
@@ -246,7 +246,7 @@ def build_cv():
     # ---- ACADEMIC SERVICE ----
     section("Academic Service")
     story.append(P(
-        "<b>ACM Conference on Human Factors in Computing Systems (CHI)</b> \u2014 Special Recognition for Outstanding Reviewing, twice (2025)<br/>"
+        "<b>ACM Conference on Human Factors in Computing Systems (CHI)</b> \u2014 Special Recognition for Outstanding Reviewing, four times (three in 2025, one in 2026)<br/>"
         "<b>ACM Conference on Designing Interactive Systems (DIS)</b> &nbsp;&nbsp; <b>ACM Creativity and Cognition (C&amp;C)</b><br/>"
         "<b>ACM Symposium on User Interface Software and Technology (UIST)</b> &nbsp;&nbsp; <b>ACM Symposium on Eye Tracking Research and Applications (ETRA)</b><br/>"
         "<b>ACM International Conference on Interactive Media Experiences (IMX)</b> &nbsp;&nbsp; <b>ACM Conference on Conversational User Interfaces (CUI)</b><br/>"
@@ -263,7 +263,7 @@ def build_cv():
     for y,d in [
         ("2025","Okanagan Graduate Research Scholarship (OGRS) — University of British Columbia, CAD $40,000/year, 4-year doctoral funding"),
         ("2025","International Doctoral Partial Tuition Award (IDPT) \u2014 University of British Columbia"),
-        ("2025","Special Recognition for Outstanding Reviewing, twice \u2014 ACM Conference on Human Factors in Computing Systems (CHI)"),
+        ("2025\u20132026","Special Recognition for Outstanding Reviewing, four times (three in 2025, one in 2026) \u2014 ACM Conference on Human Factors in Computing Systems (CHI)"),
         ("2025","Rookie of the Year \u2014 A Ranking (Game) \u2014 The Rookies Awards (Exceptional, Industry-Ready Skills)"),
         ("2024","Rookie of the Year \u2014 A Ranking (VFX and 3D Animation) \u2014 The Rookies Awards (Exceptional, Industry-Ready Skills)"),
         ("2023","Graduate Commencement Speaker \u2014 Tongji University"),
