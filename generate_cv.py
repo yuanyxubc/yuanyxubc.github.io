@@ -200,7 +200,7 @@ def build_cv():
 
     # ---- PRESENTATIONS ----
     section("Presentations")
-    entry("Jun 2026", [P('<b>Y. Xu</b> et al. Three papers. <i>HCI International Conference (HCII) 2026, Palais des congr\u00e8s de Montr\u00e9al.</i>')])
+    entry("Jun 2026", [P('<b>Y. Xu</b> et al. "Mapping Ecological Empathy: A Semantic Network Analysis of Player Perceptions in 3D Environmental Education Games." <i>HCI International Conference (HCII) 2026, Palais des congr\u00e8s de Montr\u00e9al.</i>')])
     entry("Jun 2026", [P('<b>Y. Xu</b> et al. Doctoral Consortium and Education Session. <i>Digital Games Research Association Conference (DiGRA) 2026, Ireland.</i>')])
     entry("Jul 2026", [P('<b>Y. Xu</b> et al. "Beaver World: Decolonizing Climate Education through Place-Based Interactive Simulation." <i>ACM SIGGRAPH 2026 Educator\'s Forum, Los Angeles Convention Center \u2014 20-minute invited talk.</i>')])
     entry("2025", [P('<b>Y. Xu</b>, Y.-S. Lin. "Situated Bodies, Wandering Minds." <i>ACM SIGGRAPH Conference on Computer Graphics and Interactive Techniques (SIGGRAPH) 2025, Vancouver \u2014 Birds of a Feather (BOF) Session.</i>')])

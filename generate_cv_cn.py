@@ -198,7 +198,7 @@ def build_cv():
 
     # ---- \u5b66\u672f\u62a5\u544a ----
     section("\u5b66\u672f\u62a5\u544a\u4e0e\u53d1\u8868")
-    entry("2026\u5e746\u6708", [P(f'<font name="{B}">Y. Xu</font> \u7b49\u3002\u4e09\u7bc7\u8bba\u6587\u3002\u56fd\u9645\u4eba\u673a\u4ea4\u4e92\u5927\u4f1a (HCII) 2026\uff0c\u8499\u7279\u5229\u5c14\u4f1a\u8bae\u4e2d\u5fc3\u3002')])
+    entry("2026\u5e746\u6708", [P(f'<font name="{B}">Y. Xu</font> \u7b49\u3002\u300c\u751f\u6001\u5171\u60c5\u6620\u5c04\uff1a3D\u73af\u5883\u6559\u80b2\u6e38\u620f\u4e2d\u73a9\u5bb6\u611f\u77e5\u7684\u8bed\u4e49\u7f51\u7edc\u5206\u6790\u300d \u56fd\u9645\u4eba\u673a\u4ea4\u4e92\u5927\u4f1a (HCII) 2026\uff0c\u8499\u7279\u5229\u5c14\u4f1a\u8bae\u4e2d\u5fc3\u3002')])
     entry("2026年6月", [P(f'<font name="{B}">Y. Xu</font> 等。博士生研讨会及教育专题。数字游戏研究协会年会 (DiGRA) 2026，爱尔兰。')])
     entry("2026年7月", [P(f'<font name="{B}">Y. Xu</font> 等。「Beaver World：以地方性互动仿真推动气候教育的去殖民化」 ACM SIGGRAPH 2026 教育者论坛，洛杉矶会议中心 \u2014 20分钟演讲。')])
     entry("2025", [P(f'<font name="{B}">Y. Xu</font>, Y.-S. Lin. 「Situated Bodies, Wandering Minds」 ACM 计算机图形与交互技术会议 (SIGGRAPH) 2025，温哥华 — BOF 专场。')])
