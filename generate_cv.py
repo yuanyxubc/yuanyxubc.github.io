@@ -246,7 +246,7 @@ def build_cv():
     # ---- ACADEMIC SERVICE ----
     section("Academic Service")
     story.append(P(
-        "<b>ACM Conference on Human Factors in Computing Systems (CHI)</b> \u2014 Special Recognition for Outstanding Reviewing, four times (three in 2025, one in 2026)<br/>"
+        "<b>ACM Conference on Human Factors in Computing Systems (CHI)</b> \u2014 Special Recognition for Outstanding Reviewing, three times (two in 2025, one in 2026)<br/>"
         "<b>ACM Conference on Designing Interactive Systems (DIS)</b> &nbsp;&nbsp; <b>ACM Creativity and Cognition (C&amp;C)</b><br/>"
         "<b>ACM Symposium on User Interface Software and Technology (UIST)</b> &nbsp;&nbsp; <b>ACM Symposium on Eye Tracking Research and Applications (ETRA)</b><br/>"
         "<b>ACM International Conference on Interactive Media Experiences (IMX)</b> &nbsp;&nbsp; <b>ACM Conference on Conversational User Interfaces (CUI)</b><br/>"
@@ -263,7 +263,7 @@ def build_cv():
     for y,d in [
         ("2025","Okanagan Graduate Research Scholarship (OGRS) — University of British Columbia, CAD $40,000/year, 4-year doctoral funding"),
         ("2025","International Doctoral Partial Tuition Award (IDPT) \u2014 University of British Columbia"),
-        ("2025\u20132026","Special Recognition for Outstanding Reviewing, four times (three in 2025, one in 2026) \u2014 ACM Conference on Human Factors in Computing Systems (CHI)"),
+        ("2025\u20132026","Special Recognition for Outstanding Reviewing, three times (two in 2025, one in 2026) \u2014 ACM Conference on Human Factors in Computing Systems (CHI)"),
         ("2025","Rookie of the Year \u2014 A Ranking (Game) \u2014 The Rookies Awards (Exceptional, Industry-Ready Skills)"),
         ("2024","Rookie of the Year \u2014 A Ranking (VFX and 3D Animation) \u2014 The Rookies Awards (Exceptional, Industry-Ready Skills)"),
         ("2023","Graduate Commencement Speaker \u2014 Tongji University"),
