@@ -185,13 +185,9 @@ def build_cv():
         ("<b>Y. Xu</b> et al.","\u751f\u6001\u6e38\u620f\u4e2d\u7f3a\u5e2d\u7684\u6559\u5e08\uff1a\u6559\u5e08\u878d\u5165\u751f\u6001\u6e38\u620f\u7684\u7406\u8bba\u6846\u67b6","DiGRA 2026",None),
         ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","\u4ece\u8d44\u6e90\u5230\u4eb2\u5c5e\uff1a\u4e3a\u5965\u80af\u7eb3\u6839\u73af\u5883\u97e7\u6027\u800c\u8bbe\u8ba1","DiGRA 2026",None),
         ("Z. Sun, <b>Y. Xu</b> et al.","\u91cd\u65b0\u5ba1\u89c6 VR \u6e38\u620f\u8bbe\u8ba1\u4e2d\u5bf9\u8d85\u5199\u5b9e\u4e3b\u4e49\u7684\u8ffd\u6c42\uff1a\u6e38\u620f-\u672c\u4f53\u611f\u89c9\u5931\u8c03","DiGRA 2026",None),
+        ("Z. Sun, <b>Y. Xu</b>, C. Zhen, M. Smith","\u300c\u4f60\u6ce8\u5b9a\u65e0\u6cd5\u83b7\u80dc\u300d\uff1a\u6570\u5b57\u6e38\u620f\u4e2d\u7684\u5267\u672c\u5f0f\u5931\u8d25\u5206\u7c7b\u5b66","Companion Proceedings of the ACM CHI PLAY 2026, pp. 7-13, 2026","doi.org/10.1145/3800965.3834328"),
+        ("C. Zhen, <b>Y. Xu</b>, Z. Sun, A. Dulic, M. Thorogood","\u4ee5\u58f0\u4e3a\u5206\uff1a\u8bbe\u8ba1\u4f5c\u4e3a\u5177\u8eab\u97f3\u4e50\u5956\u52b1\u7684\u6e10\u8fdb\u5f0f\u97f3\u9891\u5206\u5c42","Companion Proceedings of the ACM CHI PLAY 2026, pp. 261-266, 2026","doi.org/10.1145/3800965.3834330"),
     ]: entry("", [pub(a,t,v,d)], sp=3)
-
-    subsec("\u5373\u5c06\u53d1\u8868\uff08\u5f55\u7528\uff09")
-    for a,t,v in [
-        ("Z. Sun, <b>Y. Xu</b>, C. Zhen, M. Smith","\u300c\u4f60\u6ce8\u5b9a\u65e0\u6cd5\u83b7\u80dc\u300d\uff1a\u6570\u5b57\u6e38\u620f\u4e2d\u7684\u5267\u672c\u5f0f\u5931\u8d25\u5206\u7c7b\u5b66","ACM CHI PLAY 2026"),
-        ("C. Zhen, <b>Y. Xu</b>, Z. Sun, A. Dulic, M. Thorogood","\u4ee5\u58f0\u4e3a\u5206\uff1a\u8bbe\u8ba1\u4f5c\u4e3a\u5177\u8eab\u97f3\u4e50\u5956\u52b1\u7684\u6e10\u8fdb\u5f0f\u97f3\u9891\u5206\u5c42","ACM CHI PLAY 2026"),
-    ]: entry("", [pub(a,t,v)], sp=3)
 
     subsec("\u4e13\u5229")
     entry("2023", [P(f'X. Sun \u7b49, <font name="{B}">Y. Xu</font>. <font name="{B}">\u300cFPGA\u89c6\u89c9\u76f2\u4eba\u5bfc\u822a\u65b9\u6cd5\u300d</font> (CN110070514B). \u4e2d\u56fd\u4e13\u5229\u5c40\u3002\u5df2\u6388\u6743\u3002')])
@@ -212,6 +208,16 @@ def build_cv():
         P(f'<font name="{B}">讲师 \u2014 游戏UI/UX设计</font>','entry_title'),
         P('上海大学 \u2014 温哥华电影学院 (VFS)'),
         P('独立设计并讲授游戏UI/UX模块，内容涵盖游戏界面设计基础、像素风格美学、Figma生产流程与UI设计规范文档。')
+    ])
+    entry("2023 \u2013 2027", [
+        P(f'<font name="{B}">学生研究员 \u2014 SSHRC 洞察基金</font>','entry_title'),
+        P('不列颠哥伦比亚大学'),
+        P('Okanagan WaterFutures: Experiential Games for Water Responsibility（资助额 CAD $313,360）。合作研究员 / 项目负责人：Aleksandra Dulic 博士、Miles Thorogood 博士、Patricia Lasserre 博士、Anna Warwick。')
+    ])
+    entry("2021 \u2013 2027", [
+        P(f'<font name="{B}">学生研究员 \u2014 NSERC CREATE 合作研究与培训计划 (CITech)</font>','entry_title'),
+        P('不列颠哥伦比亚大学'),
+        P('沉浸式技术培训计划（Immersive Technologies - CITech，资助额 CAD $4,184,800 · $1.65M NSERC + $1M UBC + $2.4M 行业资助）。项目总监：Abbas Sadeghzadeh Milani 博士等。')
     ])
     entry("2025\u5e749\u6708 \u2013 \u81f3\u4eca", [
         P(f'<font name="{B}">\u7814\u7a76\u52a9\u7406 \u2014 \u6587\u5316\u4e0e\u6280\u672f\u4e2d\u5fc3</font>','entry_title'),
@@ -281,6 +287,14 @@ def build_cv():
     entry("2025", [
         P(f'<font name="{B}">Okanagan\u7814\u7a76\u751f\u5956\u5b66\u91d1 (OGRS) + \u56fd\u9645\u535a\u58eb\u90e8\u5206\u5b66\u8d39\u51cf\u514d (IDPT)</font>','entry_title'),
         P('\u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66\u30024\u5e74\u535a\u58eb\u8d44\u52a9\u3002')
+    ])
+    entry("2023 \u2013 2027", [
+        P(f'<font name="{B}">\u52a0\u62ff\u5927\u793e\u4f1a\u79d1\u5b66\u4e0e\u4eba\u6587\u7814\u7a76\u59d4\u5458\u4f1a (SSHRC) \u6d1e\u5bdf\u57fa\u91d1 \u2014 CAD 313,360</font>','entry_title'),
+        P('\u5b66\u751f\u7814\u7a76\u5458\u3002\u300cOkanagan WaterFutures: Experiential Games for Water Responsibility\u300d')
+    ])
+    entry("2021 \u2013 2027", [
+        P(f'<font name="{B}">\u52a0\u62ff\u5927\u81ea\u7136\u79d1\u5b66\u4e0e\u5de5\u7a0b\u7814\u7a76\u59d4\u5458\u4f1a (NSERC) CREATE \u5408\u4f5c\u7814\u7a76\u4e0e\u57f9\u8bad\u8ba1\u5212 \u2014 CAD 4,184,800 ($1.65M NSERC + $1M UBC + $2.4M 行业资助)</font>','entry_title'),
+        P('\u5b66\u751f\u7814\u7a76\u5458\u3002\u300cImmersive Technologies (CITech)\u300d')
     ])
     entry("2022", [
         P(f'<font name="{B}">\u4e0a\u6d77\u79d1\u6280\u521b\u4e1a\u57fa\u91d1\u4f1a (EFG) \u2014 50\u4e07\u5143</font>','entry_title'),

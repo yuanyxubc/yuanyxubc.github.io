@@ -187,13 +187,9 @@ def build_cv():
         ("<b>Y. Xu</b>, Z. Sun, Y.-S. Lin, P. Lasserre, A. Dulic","The Absent Teacher in Eco-Games: A Theoretical Framework for Teacher Integration in Eco-Games","DiGRA 2026",None),
         ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","From Resource to Kin: Designing for Environmental Resilience in the Okanagan","DiGRA 2026",None),
         ("Z. Sun, <b>Y. Xu</b>, Y.-S. Lin, P. Lasserre, A. Dulic, M. Smith","Re-evaluating the Pursuit of Hyper-Realism in VR Game Design Through Ludo-Proprioceptive Dissonance","DiGRA 2026",None),
+        ("Z. Sun, <b>Y. Xu</b>, C. Zhen, M. Smith",'\u201cYou Were Never Meant to Win\u201d: A Taxonomy of Scripted Loss in Digital Games',"Companion Proceedings of the ACM CHI PLAY 2026, pp. 7-13, 2026","doi.org/10.1145/3800965.3834328"),
+        ("C. Zhen, <b>Y. Xu</b>, Z. Sun, A. Dulic, M. Thorogood","Sound as the Score: Designing Progressive Audio Layering as Embodied Music Reward","Companion Proceedings of the ACM CHI PLAY 2026, pp. 261-266, 2026","doi.org/10.1145/3800965.3834330"),
     ]: entry("", [pub(a,t,v,d)], sp=3)
-
-    subsec("Forthcoming (In Press)")
-    for a,t,v in [
-        ("Z. Sun, <b>Y. Xu</b>, C. Zhen, M. Smith",'"You Were Never Meant to Win": A Taxonomy of Scripted Loss in Digital Games',"ACM CHI PLAY 2026"),
-        ("C. Zhen, <b>Y. Xu</b>, Z. Sun, A. Dulic, M. Thorogood","Sound as the Score: Designing Progressive Audio Layering as Embodied Music Reward","ACM CHI PLAY 2026"),
-    ]: entry("", [pub(a,t,v)], sp=3)
 
     subsec("Patents")
     entry("2023", [P('X. Sun et al., <b>Y. Xu</b>. <b>"FPGA-Based Vision Method for Blind Navigation"</b> (CN110070514B). Chinese Patent Office. <i>Granted.</i>')])
@@ -214,6 +210,16 @@ def build_cv():
         P("<b>Lecturer \u2014 Game UI/UX Design</b>",'entry_title'),
         P("<i>Shanghai University \u2014 Vancouver Film School (VFS)</i>",'entry_italic'),
         P("Designed and delivered a standalone Game UI/UX module covering game interface fundamentals, pixel art aesthetics, Figma production workflow, and UI design specification documents.")
+    ])
+    entry("2023 \u2013 2027", [
+        P("<b>Student Researcher \u2014 SSHRC Insight Grant</b>",'entry_title'),
+        P("<i>University of British Columbia</i>",'entry_italic'),
+        P('Okanagan WaterFutures: Experiential Games for Water Responsibility (CAD $313,360). PIs: Aleksandra Dulic, Miles Thorogood, Patricia Lasserre, Anna Warwick.')
+    ])
+    entry("2021 \u2013 2027", [
+        P("<b>Student Researcher \u2014 NSERC CREATE Program (CITech)</b>",'entry_title'),
+        P("<i>University of British Columbia</i>",'entry_italic'),
+        P('Immersive Technologies (CITech) (CAD $4,184,800; $1.65M NSERC, $1M UBC, $2.4M industry committed funding). Director: Abbas Sadeghzadeh Milani et al.')
     ])
     entry("Sep 2025 \u2013 present", [
         P("<b>Research Assistant \u2014 Center for Culture and Technology</b>",'entry_title'),
@@ -283,6 +289,14 @@ def build_cv():
     entry("2025", [
         P("<b>Okanagan Graduate Research Scholarship (OGRS) + International Doctoral Partial Tuition Award (IDPT)</b>",'entry_title'),
         P('University of British Columbia. 4-year doctoral funding.')
+    ])
+    entry("2023 \u2013 2027", [
+        P("<b>SSHRC Insight Grant \u2014 CAD 313,360</b>",'entry_title'),
+        P('Student Researcher. "Okanagan WaterFutures: Experiential Games for Water Responsibility" (PIs: Aleksandra Dulic, Miles Thorogood, Patricia Lasserre, Anna Warwick)')
+    ])
+    entry("2021 \u2013 2027", [
+        P("<b>NSERC Collaborative Research and Training Experience Program (CREATE) \u2014 CAD 4,184,800 ($1.65M NSERC, $1M UBC, $2.4M Industry)</b>",'entry_title'),
+        P('Student Researcher. "Immersive Technologies (CITech)" (PIs: Abbas Sadeghzadeh Milani, Joan Bottorff, John Braun, Kenneth Chau, Aleksandra Dulic, Fatemeh Fard, Mohammad Khalad Hasan, Zheng Liu, Homayoun Najjaran, Brodie Sakakibara, Patricia Lasserre)')
     ])
     entry("2022", [
         P("<b>Shanghai Technology Entrepreneurship Foundation (EFG) \u2014 RMB 500,000</b>",'entry_title'),
