@@ -173,13 +173,8 @@ def build_cv():
 
     subsec("Conference Papers &amp; Book Chapters")
     for a,t,v,d in [
-        ("<b>Y. Xu*</b>, X. Shan, Y.-S. Lin, J. Wang","AI-Enhanced Tools for Cross-Cultural Game Design","HCII 2024, LNCS 15377, Springer, 2025","doi.org/10.1007/978-3-031-76812-5_29"),
-        ("X. Shan, <b>Y. Xu*</b>, Y. Wang, Y.-S. Lin, Y. Bao","Cross-Cultural Implications of Large Language Models","HCII 2024, LNCS 15375, Springer, 2025","doi.org/10.1007/978-3-031-76806-4_8"),
-        ("T. Xia*, <b>Y. Xu</b>, X. Shan","KOA-Monitor: A Digital Intervention and Functional Assessment System","HCII 2025, LNCS 15810, Springer, 2025","doi.org/10.1007/978-3-031-92710-2_26"),
-        ("X. Shan, <b>Y. Xu*</b>, Y. Wang, T. Xia, Y.-S. Lin","Designing Wine Tasting Experiences for All","HCII 2025, CCIS 2772, Springer, 2026","doi.org/10.1007/978-3-032-12767-9_42"),
-        ("X. Shan, <b>Y. Xu</b>, T. Xia, Y.-S. Lin","Rethinking Wine Tasting for Chinese Consumers","2025 IEEE International Conference on Content-Based Multimedia Indexing (CBMI), 2025",None),
-        ("<b>Y. Xu*</b>, Y.-S. Lin","Exploring the Influence of User-Perceived Value on NEV-Enterprises","FFIT 2024, Atlantis Press, 2024","doi.org/10.2991/978-94-6463-572-0_2"),
-        ("G. Tian, <b>Y. Xu*</b>","A Study on the Typeface Design Method of Han Characters Imitated Tangut","AEHSSR, 2022","doi.org/10.56028/aehssr.2.1.270"),
+        ("Z. Sun, <b>Y. Xu</b>, C. Zhen, M. Smith",'\u201cYou Were Never Meant to Win\u201d: A Taxonomy of Scripted Loss in Digital Games',"Companion Proceedings of the ACM CHI PLAY 2026, pp. 7-13, 2026","doi.org/10.1145/3800965.3834328"),
+        ("C. Zhen, <b>Y. Xu</b>, Z. Sun, A. Dulic, M. Thorogood","Sound as the Score: Designing Progressive Audio Layering as Embodied Music Reward","Companion Proceedings of the ACM CHI PLAY 2026, pp. 261-266, 2026","doi.org/10.1145/3800965.3834330"),
         ("<b>Y. Xu</b>, T.H. Sarker, C. Zhen, O. Nwosisi, A. Rahsaz, M. Thorogood, P. Lasserre, A. Dulic","Beaver World: Decolonizing Climate Education through Place-Based Interactive Simulation","Proceedings of the ACM SIGGRAPH 2026 Educator's Forum, pp. 1-3, 2026","doi.org/10.1145/3799829.3812512"),
         ("<b>Y. Xu</b>, Z. Sun, C. Zhen, Y.-S. Lin, M. Thorogood, M. Smith, P. Lasserre, A. Dulic","Mapping Ecological Empathy: A Semantic Network Analysis of Player Perceptions in 3D Environmental Education Games","HCI International 2026, LNCS 15749, Springer, 2026","doi.org/10.1007/978-3-032-30405-6_16"),
         ("C. Zhen, <b>Y. Xu</b>, C.S. Souto, Z. Sun, P. Lasserre, A. Dulic, M. Thorogood","Animation Design Philosophy in 3D Educational Games: The Development of Beaver World","HCI International 2026 Posters, CCIS, Springer, 2026","doi.org/10.1007/978-3-032-30816-0_41"),
@@ -187,8 +182,13 @@ def build_cv():
         ("<b>Y. Xu</b>, Z. Sun, Y.-S. Lin, P. Lasserre, A. Dulic","The Absent Teacher in Eco-Games: A Theoretical Framework for Teacher Integration in Eco-Games","DiGRA 2026",None),
         ("<b>Y. Xu</b>, P. Lasserre, A. Dulic","From Resource to Kin: Designing for Environmental Resilience in the Okanagan","DiGRA 2026",None),
         ("Z. Sun, <b>Y. Xu</b>, Y.-S. Lin, P. Lasserre, A. Dulic, M. Smith","Re-evaluating the Pursuit of Hyper-Realism in VR Game Design Through Ludo-Proprioceptive Dissonance","DiGRA 2026",None),
-        ("Z. Sun, <b>Y. Xu</b>, C. Zhen, M. Smith",'\u201cYou Were Never Meant to Win\u201d: A Taxonomy of Scripted Loss in Digital Games',"Companion Proceedings of the ACM CHI PLAY 2026, pp. 7-13, 2026","doi.org/10.1145/3800965.3834328"),
-        ("C. Zhen, <b>Y. Xu</b>, Z. Sun, A. Dulic, M. Thorogood","Sound as the Score: Designing Progressive Audio Layering as Embodied Music Reward","Companion Proceedings of the ACM CHI PLAY 2026, pp. 261-266, 2026","doi.org/10.1145/3800965.3834330"),
+        ("X. Shan, <b>Y. Xu*</b>, Y. Wang, T. Xia, Y.-S. Lin","Designing Wine Tasting Experiences for All","HCII 2025, CCIS 2772, Springer, 2026","doi.org/10.1007/978-3-032-12767-9_42"),
+        ("<b>Y. Xu*</b>, X. Shan, Y.-S. Lin, J. Wang","AI-Enhanced Tools for Cross-Cultural Game Design","HCII 2024, LNCS 15377, Springer, 2025","doi.org/10.1007/978-3-031-76812-5_29"),
+        ("X. Shan, <b>Y. Xu*</b>, Y. Wang, Y.-S. Lin, Y. Bao","Cross-Cultural Implications of Large Language Models","HCII 2024, LNCS 15375, Springer, 2025","doi.org/10.1007/978-3-031-76806-4_8"),
+        ("T. Xia*, <b>Y. Xu</b>, X. Shan","KOA-Monitor: A Digital Intervention and Functional Assessment System","HCII 2025, LNCS 15810, Springer, 2025","doi.org/10.1007/978-3-031-92710-2_26"),
+        ("X. Shan, <b>Y. Xu</b>, T. Xia, Y.-S. Lin","Rethinking Wine Tasting for Chinese Consumers","2025 IEEE International Conference on Content-Based Multimedia Indexing (CBMI), 2025",None),
+        ("<b>Y. Xu*</b>, Y.-S. Lin","Exploring the Influence of User-Perceived Value on NEV-Enterprises","FFIT 2024, Atlantis Press, 2024","doi.org/10.2991/978-94-6463-572-0_2"),
+        ("G. Tian, <b>Y. Xu*</b>","A Study on the Typeface Design Method of Han Characters Imitated Tangut","AEHSSR, 2022","doi.org/10.56028/aehssr.2.1.270"),
     ]: entry("", [pub(a,t,v,d)], sp=3)
 
     subsec("Patents")
