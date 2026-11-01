@@ -90,7 +90,7 @@ def build_cv():
     story.append(Spacer(1, 2))
     story.append(HRFlowable(width="100%", thickness=0.8, color=RULE_COLOR, spaceAfter=6))
     story.append(Paragraph(
-        "Ph.D. Student, Interdisciplinary Studies<br/>"
+        "Ph.D. Candidate, Interdisciplinary Studies<br/>"
         "Faculty of Creative &amp; Critical Studies, University of British Columbia",
         styles['contact']))
     story.append(HRFlowable(width="100%", thickness=0.4, color=RULE_COLOR, spaceBefore=2, spaceAfter=8))
@@ -137,9 +137,9 @@ def build_cv():
     # ---- EDUCATION ----
     section("Education")
     entry("2025 \u2013 2029", [
-        P("<b>Ph.D. in Interdisciplinary Studies</b>",'entry_title'),
+        P("<b>Ph.D. Candidate in Interdisciplinary Studies</b>",'entry_title'),
         P("<i>University of British Columbia</i>",'entry_italic'),
-        P("Faculty of Creative &amp; Critical Studies. Co-supervised by Prof. Aleksandra Dulic (Professor, FCCS) and Prof. Patricia Lasserre (Associate Professor, Computer Science). Research: co-designing educational games with Indigenous communities for environmental resilience. Fully funded: OGRS (CAD $40,000/year) and IDPT tuition award.")
+        P("Faculty of Creative &amp; Critical Studies. Co-supervised by Prof. Aleksandra Dulic (Professor, FCCS) and Prof. Patricia Lasserre (Associate Professor, Computer Science). Research: co-designing educational games with Indigenous communities for environmental resilience. Fully funded: OGRS (CAD $40,000/year) and IDPT tuition award. Advanced to Ph.D. candidacy on 30 October 2026.")
     ])
     entry("2020 \u2013 2023", [
         P("<b>M.Eng. in Design</b>",'entry_title'),

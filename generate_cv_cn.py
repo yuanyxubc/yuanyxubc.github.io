@@ -85,7 +85,7 @@ def build_cv():
     story.append(Paragraph("Yuanyuan Xu", styles['en_name']))
     story.append(HRFlowable(width="100%", thickness=0.8, color=RULE_COLOR, spaceAfter=6))
     story.append(Paragraph(
-        "\u535a\u58eb\u7814\u7a76\u751f\uff0c\u8de8\u5b66\u79d1\u7814\u7a76<br/>"
+        "\u535a\u58eb\u5019\u9009\u4eba\uff0c\u8de8\u5b66\u79d1\u7814\u7a76<br/>"
         "\u521b\u610f\u4e0e\u6279\u5224\u7814\u7a76\u5b66\u9662\uff0c\u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66 (UBC)",
         styles['contact']))
     story.append(HRFlowable(width="100%", thickness=0.4, color=RULE_COLOR, spaceBefore=2, spaceAfter=8))
@@ -135,9 +135,9 @@ def build_cv():
     # ---- \u6559\u80b2\u80cc\u666f ----
     section("\u6559\u80b2\u80cc\u666f")
     entry("2025 \u2013 2029", [
-        P(f'<font name="{B}">\u8de8\u5b66\u79d1\u7814\u7a76\u535a\u58eb (Ph.D.)</font>','entry_title'),
+        P(f'<font name="{B}">\u8de8\u5b66\u79d1\u7814\u7a76\u535a\u58eb\u5019\u9009\u4eba (Ph.D. Candidate)</font>','entry_title'),
         P(f'\u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66 (University of British Columbia)'),
-        P(f'创意与批判研究学院。导师：Prof. Aleksandra Dulic（教授，FCCS）和 Prof. Patricia Lasserre（副教授，计算机科学）。研究方向：与原住民社区共同设计教育游戏以促进环境韧性。全额资助：OGRS (CAD $40,000/年) 及 IDPT 学费减免。')
+        P(f'创意与批判研究学院。导师：Prof. Aleksandra Dulic（教授，FCCS）和 Prof. Patricia Lasserre（副教授，计算机科学）。研究方向：与原住民社区共同设计教育游戏以促进环境韧性。全额资助：OGRS (CAD $40,000/年) 及 IDPT 学费减免。2026年10月30日通过博士候选人资格考试。')
     ])
     entry("2020 \u2013 2023", [
         P(f'<font name="{B}">工学硕士 (M.Eng.)</font>','entry_title'),
