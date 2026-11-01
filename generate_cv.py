@@ -211,15 +211,15 @@ def build_cv():
         P("<i>Shanghai University \u2014 Vancouver Film School (VFS)</i>",'entry_italic'),
         P("Designed and delivered a standalone Game UI/UX module covering game interface fundamentals, pixel art aesthetics, Figma production workflow, and UI design specification documents.")
     ])
-    entry("2023 \u2013 2027", [
+    entry("2025 \u2013 2027", [
         P("<b>Student Researcher \u2014 SSHRC Insight Grant</b>",'entry_title'),
         P("<i>University of British Columbia</i>",'entry_italic'),
-        P('Okanagan WaterFutures: Experiential Games for Water Responsibility (CAD $313,360). PIs: Aleksandra Dulic, Miles Thorogood, Patricia Lasserre, Anna Warwick.')
+        P('Okanagan WaterFutures: Experiential Games for Water Responsibility (CAD $313,360; grant period 2023 \u2013 2027). PIs: Aleksandra Dulic, Miles Thorogood, Patricia Lasserre, Anna Warwick.')
     ])
-    entry("2021 \u2013 2027", [
+    entry("2025 \u2013 2027", [
         P("<b>Student Researcher \u2014 NSERC CREATE Program (CITech)</b>",'entry_title'),
         P("<i>University of British Columbia</i>",'entry_italic'),
-        P('Immersive Technologies (CITech) (CAD $4,184,800; $1.65M NSERC, $1M UBC, $2.4M industry committed funding). Director: Abbas Sadeghzadeh Milani et al.')
+        P('Immersive Technologies (CITech) (CAD $4,184,800; $1.65M NSERC, $1M UBC, $2.4M industry committed funding; program period 2021 \u2013 2027). Director: Abbas Sadeghzadeh Milani et al.')
     ])
     entry("Sep 2025 \u2013 present", [
         P("<b>Research Assistant \u2014 Center for Culture and Technology</b>",'entry_title'),
@@ -290,11 +290,11 @@ def build_cv():
         P("<b>Okanagan Graduate Research Scholarship (OGRS) + International Doctoral Partial Tuition Award (IDPT)</b>",'entry_title'),
         P('University of British Columbia. 4-year doctoral funding.')
     ])
-    entry("2023 \u2013 2027", [
+    entry("2025 \u2013 2027", [
         P("<b>SSHRC Insight Grant \u2014 CAD 313,360</b>",'entry_title'),
         P('Student Researcher. "Okanagan WaterFutures: Experiential Games for Water Responsibility" (PIs: Aleksandra Dulic, Miles Thorogood, Patricia Lasserre, Anna Warwick)')
     ])
-    entry("2021 \u2013 2027", [
+    entry("2025 \u2013 2027", [
         P("<b>NSERC Collaborative Research and Training Experience Program (CREATE) \u2014 CAD 4,184,800 ($1.65M NSERC, $1M UBC, $2.4M Industry)</b>",'entry_title'),
         P('Student Researcher. "Immersive Technologies (CITech)" (PIs: Abbas Sadeghzadeh Milani, Joan Bottorff, John Braun, Kenneth Chau, Aleksandra Dulic, Fatemeh Fard, Mohammad Khalad Hasan, Zheng Liu, Homayoun Najjaran, Brodie Sakakibara, Patricia Lasserre)')
     ])

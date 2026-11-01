@@ -209,15 +209,15 @@ def build_cv():
         P('上海大学 \u2014 温哥华电影学院 (VFS)'),
         P('独立设计并讲授游戏UI/UX模块，内容涵盖游戏界面设计基础、像素风格美学、Figma生产流程与UI设计规范文档。')
     ])
-    entry("2023 \u2013 2027", [
+    entry("2025 \u2013 2027", [
         P(f'<font name="{B}">学生研究员 \u2014 SSHRC 洞察基金</font>','entry_title'),
         P('不列颠哥伦比亚大学'),
-        P('Okanagan WaterFutures: Experiential Games for Water Responsibility（资助额 CAD $313,360）。合作研究员 / 项目负责人：Aleksandra Dulic 博士、Miles Thorogood 博士、Patricia Lasserre 博士、Anna Warwick。')
+        P('Okanagan WaterFutures: Experiential Games for Water Responsibility（资助额 CAD $313,360；资助期 2023 \u2013 2027）。合作研究员 / 项目负责人：Aleksandra Dulic 博士、Miles Thorogood 博士、Patricia Lasserre 博士、Anna Warwick。')
     ])
-    entry("2021 \u2013 2027", [
+    entry("2025 \u2013 2027", [
         P(f'<font name="{B}">学生研究员 \u2014 NSERC CREATE 合作研究与培训计划 (CITech)</font>','entry_title'),
         P('不列颠哥伦比亚大学'),
-        P('沉浸式技术培训计划（Immersive Technologies - CITech，资助额 CAD $4,184,800 · $1.65M NSERC + $1M UBC + $2.4M 行业资助）。项目总监：Abbas Sadeghzadeh Milani 博士等。')
+        P('沉浸式技术培训计划（Immersive Technologies - CITech，资助额 CAD $4,184,800 · $1.65M NSERC + $1M UBC + $2.4M 行业资助；项目期 2021 \u2013 2027）。项目总监：Abbas Sadeghzadeh Milani 博士等。')
     ])
     entry("2025\u5e749\u6708 \u2013 \u81f3\u4eca", [
         P(f'<font name="{B}">\u7814\u7a76\u52a9\u7406 \u2014 \u6587\u5316\u4e0e\u6280\u672f\u4e2d\u5fc3</font>','entry_title'),
@@ -288,11 +288,11 @@ def build_cv():
         P(f'<font name="{B}">Okanagan\u7814\u7a76\u751f\u5956\u5b66\u91d1 (OGRS) + \u56fd\u9645\u535a\u58eb\u90e8\u5206\u5b66\u8d39\u51cf\u514d (IDPT)</font>','entry_title'),
         P('\u4e0d\u5217\u98a0\u54e5\u4f26\u6bd4\u4e9a\u5927\u5b66\u30024\u5e74\u535a\u58eb\u8d44\u52a9\u3002')
     ])
-    entry("2023 \u2013 2027", [
+    entry("2025 \u2013 2027", [
         P(f'<font name="{B}">\u52a0\u62ff\u5927\u793e\u4f1a\u79d1\u5b66\u4e0e\u4eba\u6587\u7814\u7a76\u59d4\u5458\u4f1a (SSHRC) \u6d1e\u5bdf\u57fa\u91d1 \u2014 CAD 313,360</font>','entry_title'),
         P('\u5b66\u751f\u7814\u7a76\u5458\u3002\u300cOkanagan WaterFutures: Experiential Games for Water Responsibility\u300d')
     ])
-    entry("2021 \u2013 2027", [
+    entry("2025 \u2013 2027", [
         P(f'<font name="{B}">\u52a0\u62ff\u5927\u81ea\u7136\u79d1\u5b66\u4e0e\u5de5\u7a0b\u7814\u7a76\u59d4\u5458\u4f1a (NSERC) CREATE \u5408\u4f5c\u7814\u7a76\u4e0e\u57f9\u8bad\u8ba1\u5212 \u2014 CAD 4,184,800 ($1.65M NSERC + $1M UBC + $2.4M 行业资助)</font>','entry_title'),
         P('\u5b66\u751f\u7814\u7a76\u5458\u3002\u300cImmersive Technologies (CITech)\u300d')
     ])
